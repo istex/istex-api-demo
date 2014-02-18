@@ -302,3 +302,11 @@ textarea {
         page-break-after: avoid;
     }
 }
+
+.jumbotron.istex-header {
+    background-color: #AADF1F;
+    color : white;
+}
+.jumbotron.istex-header h1 {
+    font-weight: bold;
+}
