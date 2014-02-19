@@ -15,6 +15,7 @@ require(["js/conf","js/vendor/mustache"], function(conf, mustache) {
 
     $("#searchform").submit(function (event) {
         event.preventDefault();
+        currentPage = 1;
         keywords = $("#searchfield").val();
         search();
     });
@@ -59,8 +60,12 @@ require(["js/conf","js/vendor/mustache"], function(conf, mustache) {
         numberOfResults = data.total;
         numberOfPages = Math.ceil(numberOfResults/resultsPerPage);
 
-        var tableLine = "{{#hits}}<tr><td>{{title}}<td><td></td><td></td></tr>{{/hits}}";
-        $("#tableResult").html(mustache.render(tableLine, data));
+        var linksTemplates = {
+            fulltext : "<a href=\""+conf.apiUrl+"/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
+            metadata : "<a href=\""+conf.apiUrl+"/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"};
+
+        var tableLine = "{{#hits}}<tr><td>{{title}}</td><td>{{> fulltext}}</td><td>{{> metadata}}</td></tr>{{/hits}}";
+        $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
     }
 
     function search() {
