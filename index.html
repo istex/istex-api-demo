@@ -33,20 +33,32 @@
         <h1>ISTEX</h1>
     </div>
     <div class="searchform">
-        <form role="form">
+        <form role="form" id="searchform">
             <div class="form-group">
-                <label for="searchfield">Recherche</label>
+                <label for="searchfield"><h3>Recherche</h3></label>
                 <input type="text" class="form-control" id="searchfield" placeholder="Titre ou mot clef">
             </div>
             <button type="submit" class="btn btn-default">Rechercher</button>
         </form>
+    </div>
+    <div id="result">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Fulltext</th>
+                    <th>Metadata</th>
+                </tr>
+            </thead>
+            <tbody id="tableResult"></tbody>
+        </table>
     </div>
 </div>
 
 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+<script src="js/vendor/require.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 </body>
