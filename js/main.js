@@ -74,7 +74,7 @@ require(["js/conf", "js/vendor/mustache"], function (conf, mustache) {
             fulltext: "<a href=\"" + conf.apiUrl + "/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
             metadata: "<a href=\"" + conf.apiUrl + "/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"};
 
-        var tableLine = "{{#hits}}<tr><td>{{title}}</td><td style='text-align: center;'>{{> fulltext}}</td><td style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
+        var tableLine = "{{#hits}}<tr class='row'><td class='truncate col-md-offset-8'>{{title}}</td><td class='col-md-2' style='text-align: center;'>{{> fulltext}}</td><td class='col-md-2' style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
 
         $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
         $("button").button('reset');

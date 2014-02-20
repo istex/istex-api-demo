@@ -52,7 +52,7 @@
                                 <span class="input-group-btn">
                                     <button id="searchButton" type="submit" class="btn"
                                             data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
-                                        Rechercher
+                                        <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
                             </div>
@@ -89,12 +89,12 @@
     </div>
 
     <div id="result">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover" style="table-layout: fixed; word-wrap: break-word;">
             <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Fulltext</th>
-                <th>Metadata</th>
+            <tr class="row">
+                <th class="col-md-8">Titre</th>
+                <th class="col-md-2">Fulltext</th>
+                <th class="col-md-2">Metadata</th>
             </tr>
             </thead>
             <tbody id="tableResult"></tbody>
