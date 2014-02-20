@@ -17,7 +17,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet/less" type="text/css" href="css/main.less">
     <link rel="stylesheet" href="css/bootstrap.css">
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -29,41 +29,82 @@
 <![endif]-->
 
 <div class="container">
-    <div class="istex-header jumbotron">
+    <div id="header" class="istex-header jumbotron">
         <h1>ISTEX</h1>
     </div>
-    <div class="searchform">
-        <form role="form" id="searchform">
-            <div class="form-group">
-                <label for="searchfield"><h3>Recherche</h3></label>
-                <input type="text" class="form-control" id="searchfield" placeholder="Titre ou mot clef">
+
+    <div id="accordion" class="panel-group searchform">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        Recherche
+                    </a>
+                </h4>
             </div>
-            <button type="submit" class="btn btn-default">Rechercher</button>
-        </form>
+            <div id="collapseTwo" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form role="form" class="form-inline" id="searchform">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="searchfield" placeholder="Titre ou mot clef">
+                        </div>
+                        <button id="searchButton" type="submit" class="btn btn-default" data-loading-text="En cours...">
+                            Rechercher
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        Recherche avancée
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form role="form" class="form-inline" id="advancedSearchform">
+                        <div class="form-group">
+                            <label for="titleField"> </label>
+                            <input type="text" class="form-control" id="titleField"
+                                   placeholder="Titre ou mot clef">
+                        </div>
+                        <button id="advancedSearchButton" type="submit" class="btn btn-default"
+                                data-loading-text="En cours...">Rechercher
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div id="result">
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Fulltext</th>
-                    <th>Metadata</th>
-                </tr>
+            <tr>
+                <th>Titre</th>
+                <th>Fulltext</th>
+                <th>Metadata</th>
+            </tr>
             </thead>
             <tbody id="tableResult"></tbody>
         </table>
-        <ul id="pagination" class="pagination">
-            <li id="prev"><a href="#">&#60;</a></li>
-            <li id="first"><a href="#">&laquo;</a></li>
-            <li id="last"><a href="#">&raquo;</a></li>
-            <li id="next"><a href="#">&#62;</a></li>
+        <ul id="pagination" class="pager">
+            <li id="first"><a href="#">&#8676;</a></li>
+            <li id="prev"><a href="#">&#8672;</a></li>
+            <li id="next"><a href="#">&#8674;</a></li>
+            <li id="last"><a href="#">&#8677;</a></li>
         </ul>
+        <div id="pageNumber"><span id=currentPage>*</span>/<span id=totalPages>*</span></div>
     </div>
 </div>
 
-
-
+<script type="text/javascript" src="js/vendor/less-1.6.3.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="js/vendor/require.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>

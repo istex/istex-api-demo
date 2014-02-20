@@ -10,6 +10,9 @@
    Base styles: opinionated defaults
    ========================================================================== */
 
+@darkblue: #184B63;
+@lightblue: lighten(@darkblue, 10%);
+
 html,
 button,
 input,
@@ -288,7 +291,7 @@ textarea {
 }
 
 .jumbotron.istex-header {
-    background-color: #AADF1F;
+    background-color: @lightblue;
     color: white;
 }
 
@@ -302,12 +305,47 @@ textarea {
 }
 
 .searchform {
-    background-color: #184B63;
+    background-color: @darkblue;
+    padding: 30px 0px 30px 0px;
 }
 
 .searchform form {
     width: 400px;
     margin: auto;
-    color: lightgrey;
-    padding: 10px;
+    color: @darkblue;
+
+}
+
+.searchform .panel-heading .panel-title {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+.pager li {
+    font-size: 20px;
+}
+
+#tableResult span.glyphicon {
+    font-size: 20px;
+}
+
+#pageNumber {
+    text-align: center;
+}
+
+#header {
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
+
+#accordion .panel-heading {
+    background-color: @lightblue;
+    border-radius: 0px;
+}
+
+
+#accordion .panel {
+    border-radius: 0px;
+    border: 0px;
 }
