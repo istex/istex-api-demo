@@ -78,12 +78,10 @@ require(["js/conf", "js/vendor/mustache"], function (conf, mustache) {
 
         $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
         $("button").button('reset');
-        $(".loading").hide();
     }
 
     function manageError(err){
         $("button").button('reset');
-        $(".loading").hide();
         alert("Houston ... Problem!");
     }
 
@@ -92,7 +90,6 @@ require(["js/conf", "js/vendor/mustache"], function (conf, mustache) {
         query += "&size=" + resultsPerPage;
         query += "&from=" + resultsPerPage * (currentPage === 0 ? 1 : currentPage - 1);
         $("#searchButton").button('loading');
-        $(".loading").show();
         var request = {
             url: conf.apiUrl + query,
             jsonp: true,
@@ -107,7 +104,6 @@ require(["js/conf", "js/vendor/mustache"], function (conf, mustache) {
     function advancedSearch() {
         var query = "?q=title:" + title;
         $("#advancedSearchButton").button('loading');
-        $(".loading").show();
         var request = {
             url: conf.apiUrl + query,
             jsonp: true,
