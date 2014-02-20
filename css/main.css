@@ -97,22 +97,6 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -225,9 +209,9 @@ textarea {
 }
 
 @media print,
-       (-o-min-device-pixel-ratio: 5/4),
-       (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 120dpi) {
+(-o-min-device-pixel-ratio: 5/4),
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 120dpi) {
     /* Style adjustments for high resolution devices */
 }
 
@@ -305,8 +289,25 @@ textarea {
 
 .jumbotron.istex-header {
     background-color: #AADF1F;
-    color : white;
+    color: white;
 }
+
 .jumbotron.istex-header h1 {
     font-weight: bold;
+    text-align: center;
+}
+
+.container {
+    height: 100%;
+}
+
+.searchform {
+    background-color: #184B63;
+}
+
+.searchform form {
+    width: 400px;
+    margin: auto;
+    color: lightgrey;
+    padding: 10px;
 }
