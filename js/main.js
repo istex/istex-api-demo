@@ -5,6 +5,7 @@ require(["js/conf", "js/vendor/mustache"], function (conf, mustache) {
     var currentPage = 0;
     var keywords = "";
     var title = "";
+    var author = "";
     var numberOfPages = 0;
     var numberOfResults = 0;
 
@@ -24,6 +25,7 @@ require(["js/conf", "js/vendor/mustache"], function (conf, mustache) {
         event.preventDefault();
         currentPage = 1;
         title = $("#titleField").val();
+        author = $("#authorField").val();
         advancedSearch();
     });
 
