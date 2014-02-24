@@ -1,121 +1,51 @@
-require(["js/conf", "js/vendor/mustache"], function (conf, mustache) {
+require(["js/models/searchPage", "js/controllers/searchPageController"], function ( searchPage, searchPageController) {
     "use strict";
 
-    var resultsPerPage = 10;
-    var currentPage = 0;
-    var keywords = "";
-    var title = "";
-    var author = "";
-    var numberOfPages = 0;
-    var numberOfResults = 0;
-
-
-    /******************************************
-     * Gestion des évènements
-     * ******************************************/
 
     $("#searchform").submit(function (event) {
         event.preventDefault();
-        currentPage = 1;
-        keywords = $("#searchfield").val();
-        search();
+        searchPage.currentPage = 1;
+        searchPage.keywords = $("#searchfield").val();
+        searchPageController.search();
     });
 
     $("#advancedSearchform").submit(function (event) {
         event.preventDefault();
-        currentPage = 1;
-        title = $("#titleField").val();
-        author = $("#authorField").val();
-        advancedSearch();
+        searchPage.currentPage = 1;
+        searchPage.title = $("#titleField").val();
+        searchPage.author = $("authorField").val();
+        searchPageController.advancedSearch();
     });
 
     $("#prev").click(function () {
-        if (currentPage <= 1) {
+        if (searchPage.currentPage <= 1) {
             return;
         }
-        currentPage--;
-        search();
+        searchPage.currentPage--;
+        searchPageController.search();
     });
 
     $("#first").click(function () {
-        if (currentPage <= 1) {
+        if (searchPage.currentPage <= 1) {
             return;
         }
-        currentPage = 1;
-        search();
+        searchPage.currentPage = 1;
+        searchPageController.search();
     });
 
     $("#next").click(function () {
-        if (currentPage >= numberOfPages) {
+        if (searchPage.currentPage >= searchPage.numberOfPages) {
             return;
         }
-        currentPage++;
-        search();
+        searchPage.currentPage++;
+        searchPageController.search();
     });
 
     $("#last").click(function () {
-        if (currentPage - 1 >= numberOfPages) {
+        if (searchPage.currentPage - 1 >= searchPage.numberOfPages) {
             return;
         }
-        currentPage = numberOfPages;
-        search();
+        searchPage.currentPage = searchPage.numberOfPages;
+        searchPageController.search();
     });
-
-    /*****************************************
-     * Fonctions de recherche et d'affichage
-     *****************************************/
-
-    function displayResults(data) {
-        numberOfResults = data.total;
-        numberOfPages = numberOfResults === 0 ? 0 : Math.ceil(numberOfResults / resultsPerPage);
-        currentPage = numberOfResults === 0 ? 0 : currentPage;
-        $("#currentPage").text(currentPage === 0 ? "*" : currentPage);
-        $("#totalPages").text(numberOfPages === 0 ? "*" : numberOfPages);
-
-        var linksTemplates = {
-            fulltext: "<a href=\"" + conf.apiUrl + "/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
-            metadata: "<a href=\"" + conf.apiUrl + "/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"};
-
-        var tableLine = "{{#hits}}<tr class='row'><td class='truncate col-md-offset-8'>{{title}}</td><td class='col-md-2' style='text-align: center;'>{{> fulltext}}</td><td class='col-md-2' style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
-
-        $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
-        $("button").button('reset');
-    }
-
-    function manageError(err){
-        $("button").button('reset');
-        alert("Houston ... Problem!");
-    }
-
-    function search() {
-        var query = "?q=" + keywords;
-        query += "&size=" + resultsPerPage;
-        query += "&from=" + resultsPerPage * (currentPage === 0 ? 1 : currentPage - 1);
-        $("#searchButton").button('loading');
-        var request = {
-            url: conf.apiUrl + query,
-            jsonp: true,
-            crossDomain: true,
-            success: displayResults,
-            error : manageError
-        };
-
-        $.ajax(request);
-    }
-
-    function advancedSearch() {
-        var query = "?q=title:" + title;
-        $("#advancedSearchButton").button('loading');
-        var request = {
-            url: conf.apiUrl + query,
-            jsonp: true,
-            crossDomain: true,
-            success: displayResults,
-            error : manageError
-        };
-
-        $.ajax(request);
-
-    }
-
 });
