@@ -6,6 +6,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         event.preventDefault();
         searchPage.currentPage = 1;
         searchPage.keywords = $("#searchfield").val();
+        searchPage.editor = $("#editorForSimpleSearch").val();
         searchPageController.search();
     });
 
@@ -14,6 +15,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPage.currentPage = 1;
         searchPage.title = $("#titleField").val();
         searchPage.author = $("authorField").val();
+        searchPage.editor = $("#editorForSimpleSearch").val();
         searchPageController.advancedSearch();
     });
 

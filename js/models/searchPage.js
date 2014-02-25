@@ -15,5 +15,6 @@ define({
     title : "",
     author : "",
     numberOfPages : 0,
-    numberOfResults : 0
+    numberOfResults : 0,
+    editor: "springer"
 });

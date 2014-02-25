@@ -24,13 +24,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function (sear
 
     searchPageController.manageError = function (err) {
         $("button").button('reset');
-        alert("Houston ... Problem!");
+        $(".alert span").html("Houston ... Problem!"+err.responseText);
+        $(".alert").alert();
     };
 
     searchPageController.search = function () {
         var query = "?q=" + searchPage.keywords;
         query += "&size=" + searchPage.resultsPerPage;
         query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
+        query += "&editor=" + searchPage.editor;
         $("#searchButton").button('loading');
         var request = {
             url: conf.apiUrl + query,

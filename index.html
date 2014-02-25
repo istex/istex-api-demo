@@ -47,7 +47,14 @@
                     <form role="form" class="form-inline" id="searchform">
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" class="span2 form-control" id="searchfield"
+                                <select style="width:110px" id="editorForSimpleSearch" class="form-control input-group-addon">
+                                    <option value="springer">Springer</option>
+                                    <option disabled>ECCO</option>
+                                    <option disabled>EEBO</option>
+                                    <option disabled>Nature</option>
+                                    <option disabled>Brill - HACCO</option>
+                                </select>
+                                <input style="width:249px" type="text" class="span2 form-control" id="searchfield"
                                        placeholder="Titre ou mot clef">
                                 <span class="input-group-btn">
                                     <button id="searchButton" type="submit" class="btn"
@@ -96,6 +103,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="alert alert-warning fade" style="display:none">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span></span>
     </div>
 
     <div id="result">
