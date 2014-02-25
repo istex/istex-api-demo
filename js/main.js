@@ -1,4 +1,4 @@
-require(["js/models/searchPage", "js/controllers/searchPageController"], function ( searchPage, searchPageController) {
+require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
     "use strict";
 
 
@@ -7,16 +7,21 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPage.currentPage = 1;
         searchPage.keywords = $("#searchfield").val();
         searchPage.editor = $("#editorForSimpleSearch").val();
-        searchPageController.search();
+        if (searchPage.keywords !== "") {
+            searchPageController.search();
+        }
     });
 
     $("#advancedSearchform").submit(function (event) {
         event.preventDefault();
         searchPage.currentPage = 1;
         searchPage.title = $("#titleField").val();
-        searchPage.author = $("authorField").val();
-        searchPage.editor = $("#editorForSimpleSearch").val();
-        searchPageController.advancedSearch();
+        searchPage.author = $("#authorField").val();
+        searchPage.keywords = $("#themeField").val();
+        searchPage.editor = $("#editorForAdvancedSearch").val();
+        if (searchPage.title !== "" || searchPage.author !== "" || searchPage.keywords !== "") {
+            searchPageController.advancedSearch();
+        }
     });
 
     $("#prev").click(function () {

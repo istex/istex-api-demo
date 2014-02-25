@@ -46,7 +46,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function (sear
     };
 
     searchPageController.advancedSearch = function () {
-        var query = "?q=title:" + searchPage.title;
+        var query = "?q=";
+        var fields = [];
+        if (searchPage.author !== "" && searchPage.author !== undefined){
+            fields.push("author.personal:"+searchPage.author);
+        }
+        if (searchPage.title !== "" && searchPage.title !== undefined){
+            fields.push("title:"+searchPage.title);
+        }
+        if (searchPage.keywords !== "" && searchPage.keywords !== undefined){
+            fields.push("subject.value:"+searchPage.keywords);
+        }
+        query += fields.join(" AND ");
         $("#advancedSearchButton").button('loading');
         var request = {
             url: conf.apiUrl + query,
