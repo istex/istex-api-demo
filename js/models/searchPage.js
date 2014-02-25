@@ -9,12 +9,13 @@
  * Gestion des évènements
  * ******************************************/
 define({
-    resultsPerPage : 10,
-    currentPage : 0,
-    keywords : "",
-    title : "",
-    author : "",
-    numberOfPages : 0,
-    numberOfResults : 0,
-    editor: "springer"
+    resultsPerPage: 10,
+    currentPage: 0,
+    keywords: "",
+    title: "",
+    author: "",
+    numberOfPages: 0,
+    numberOfResults: 0,
+    editor: "springer",
+    advancedSearch: false
 });

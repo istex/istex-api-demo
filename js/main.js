@@ -4,6 +4,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
 
     $("#searchform").submit(function (event) {
         event.preventDefault();
+        searchPage.advancedSearch = false;
         searchPage.currentPage = 1;
         searchPage.keywords = $("#searchfield").val();
         searchPage.editor = $("#editorForSimpleSearch").val();
@@ -14,13 +15,14 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
 
     $("#advancedSearchform").submit(function (event) {
         event.preventDefault();
+        searchPage.advancedSearch = true;
         searchPage.currentPage = 1;
         searchPage.title = $("#titleField").val();
         searchPage.author = $("#authorField").val();
         searchPage.keywords = $("#themeField").val();
         searchPage.editor = $("#editorForAdvancedSearch").val();
         if (searchPage.title !== "" || searchPage.author !== "" || searchPage.keywords !== "") {
-            searchPageController.advancedSearch();
+            searchPageController.search();
         }
     });
 

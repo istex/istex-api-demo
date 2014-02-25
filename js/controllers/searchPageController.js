@@ -29,6 +29,14 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function (sear
     };
 
     searchPageController.search = function () {
+        if (searchPage.advancedSearch){
+            searchPageController.advancedSearch();
+        } else {
+            searchPageController.simpleSearch();
+        }
+    };
+
+    searchPageController.simpleSearch = function () {
         var query = "?q=" + searchPage.keywords;
         query += "&size=" + searchPage.resultsPerPage;
         query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
@@ -58,6 +66,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function (sear
             fields.push("subject.value:"+searchPage.keywords);
         }
         query += fields.join(" AND ");
+        query += "&editor=" + searchPage.editor;
         $("#advancedSearchButton").button('loading');
         var request = {
             url: conf.apiUrl + query,
