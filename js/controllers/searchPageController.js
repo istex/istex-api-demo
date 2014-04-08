@@ -1,46 +1,66 @@
-define(["../models/searchPage", "../conf", "../vendor/mustache"], function (searchPage, conf, mustache) {
+/*jslint jquery: true */
+/*jslint node: true */
+
+define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searchPage, conf, mustache) {
     "use strict";
     var searchPageController = {};
     /*****************************************
      * Fonctions de recherche et d'affichage
      *****************************************/
+    $.get(conf.apiUrl + "corpus", function(data) {
+        var corpusTemplate = "{{#corpusList}}<option value={{term}}>{{term}}</option>{{/corpusList}}";
+        var corpusList = {
+            corpusList: data
+        };
+        $('#editorForSimpleSearch').append(mustache.to_html(corpusTemplate, corpusList));
+        $('#editorForAdvancedSearch').append(mustache.to_html(corpusTemplate, corpusList));
+    });
 
-    searchPageController.displayResults = function (data) {
-        searchPage.numberOfResults = data.total;
-        searchPage.numberOfPages = searchPage.numberOfResults === 0 ? 0 : Math.ceil(searchPage.numberOfResults / searchPage.resultsPerPage);
-        searchPage.currentPage = searchPage.numberOfResults === 0 ? 0 : searchPage.currentPage;
-        $("#currentPage").text(searchPage.currentPage === 0 ? "*" : searchPage.currentPage);
-        $("#totalPages").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
+    searchPageController.displayResults = function(data) {
+        if (data.total > 0) {
+            searchPage.numberOfResults = data.total;
+            searchPage.numberOfPages = searchPage.numberOfResults === 0 ? 0 : Math.ceil(searchPage.numberOfResults / searchPage.resultsPerPage);
+            searchPage.currentPage = searchPage.numberOfResults === 0 ? 0 : searchPage.currentPage;
+            $("#currentPage").text(searchPage.currentPage === 0 ? "*" : searchPage.currentPage);
+            $("#totalPages").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
 
-        var linksTemplates = {
-            fulltext: "<a href=\"" + conf.apiUrl + "/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
-            metadata: "<a href=\"" + conf.apiUrl + "/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"};
+            var linksTemplates = {
+                fulltext: "<a href=\"" + conf.apiUrl + "/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
+                metadata: "<a href=\"" + conf.apiUrl + "/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"
+            };
 
-        var tableLine = "{{#hits}}<tr class='row'><td class='truncate col-md-8'>{{title}}</td><td class='col-md-2' style='text-align: center;'>{{> fulltext}}</td><td class='col-md-2' style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
+            var tableLine = "{{#hits}}<tr class='row'><td class='truncate col-md-8'>{{title}}</td><td class='col-md-2' style='text-align: center;'>{{> fulltext}}</td><td class='col-md-2' style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
 
-        $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
+            $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
+        }
+        else {
+
+            $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
+        }
         $("button").button('reset');
     };
 
-    searchPageController.manageError = function (err) {
+    searchPageController.manageError = function(err) {
         $("button").button('reset');
-        $(".alert span").html("Houston ... Problem!"+err.responseText);
+        $(".alert span").html("Houston ... Problem!" + err.responseText);
         $(".alert").alert();
     };
 
-    searchPageController.search = function () {
-        if (searchPage.advancedSearch){
+    searchPageController.search = function() {
+        if (searchPage.advancedSearch) {
             searchPageController.advancedSearch();
         } else {
             searchPageController.simpleSearch();
         }
     };
 
-    searchPageController.simpleSearch = function () {
-        var query = "?q=" + searchPage.keywords;
+    searchPageController.simpleSearch = function() {
+        var query = "/document/?q=" + searchPage.keywords;
         query += "&size=" + searchPage.resultsPerPage;
         query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
-        query += "&editor=" + searchPage.editor;
+        if (searchPage.editor !== "-1") {
+            query += "&corpus=" + searchPage.editor;
+        }
         $("#searchButton").button('loading');
         var request = {
             url: conf.apiUrl + query,
@@ -53,22 +73,24 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function (sear
         $.ajax(request);
     };
 
-    searchPageController.advancedSearch = function () {
-        var query = "?q=";
+    searchPageController.advancedSearch = function() {
+        var query = "/document/?q=";
         var fields = [];
-        if (searchPage.author !== "" && searchPage.author !== undefined){
-            fields.push("author.personal:"+searchPage.author);
+        if (searchPage.author !== "" && searchPage.author !== undefined) {
+            fields.push("author.personal:" + searchPage.author);
         }
-        if (searchPage.title !== "" && searchPage.title !== undefined){
-            fields.push("title:"+searchPage.title);
+        if (searchPage.title !== "" && searchPage.title !== undefined) {
+            fields.push("title:" + searchPage.title);
         }
-        if (searchPage.keywords !== "" && searchPage.keywords !== undefined){
-            fields.push("subject.value:"+searchPage.keywords);
+        if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
+            fields.push("subject.value:" + searchPage.keywords);
         }
         query += fields.join(" AND ");
         query += "&size=" + searchPage.resultsPerPage;
         query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
-        query += "&editor=" + searchPage.editor;
+        if (searchPage.editor !== "-1") {
+            query += "&corpus=" + searchPage.editor;
+        }
         $("#advancedSearchButton").button('loading');
         var request = {
             url: conf.apiUrl + query,

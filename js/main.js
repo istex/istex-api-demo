@@ -1,6 +1,7 @@
+/*jslint jquery: true */
+/*jslint node: true */
 require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
     "use strict";
-
 
     $("#searchform").submit(function (event) {
         event.preventDefault();
