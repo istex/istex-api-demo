@@ -1,33 +1,30 @@
 /*jslint jquery: true */
 /*jslint node: true */
-require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
+require(["js/models/searchPage", "js/controllers/searchPageController"], function(searchPage, searchPageController) {
     "use strict";
 
-    $("#searchform").submit(function (event) {
+    $("#searchform").submit(function(event) {
         event.preventDefault();
-        searchPage.advancedSearch = false;
         searchPage.currentPage = 1;
-        searchPage.keywords = $("#searchfield").val();
-        searchPage.editor = $("#editorForSimpleSearch").val();
-        if (searchPage.keywords !== "") {
-            searchPageController.search();
-        }
-    });
-
-    $("#advancedSearchform").submit(function (event) {
-        event.preventDefault();
-        searchPage.advancedSearch = true;
-        searchPage.currentPage = 1;
+        searchPage.searchField = $("#searchField").val();
         searchPage.title = $("#titleField").val();
         searchPage.author = $("#authorField").val();
         searchPage.keywords = $("#themeField").val();
-        searchPage.editor = $("#editorForAdvancedSearch").val();
-        if (searchPage.title !== "" || searchPage.author !== "" || searchPage.keywords !== "") {
-            searchPageController.search();
+        searchPage.editor = [];
+        searchPage.editor.push($("#editorField").val());
+        searchPageController.search();
+    });
+
+    $("#advancedSearchForm input").keypress(function(e) {
+        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+            $('#searchButton').click();
+            return false;
+        } else {
+            return true;
         }
     });
 
-    $("#prev").click(function () {
+    $("#prev").click(function() {
         if (searchPage.currentPage <= 1) {
             return;
         }
@@ -35,7 +32,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPageController.search();
     });
 
-    $("#first").click(function () {
+    $("#first").click(function() {
         if (searchPage.currentPage <= 1) {
             return;
         }
@@ -43,7 +40,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPageController.search();
     });
 
-    $("#next").click(function () {
+    $("#next").click(function() {
         if (searchPage.currentPage >= searchPage.numberOfPages) {
             return;
         }
@@ -51,11 +48,21 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPageController.search();
     });
 
-    $("#last").click(function () {
+    $("#last").click(function() {
         if (searchPage.currentPage - 1 >= searchPage.numberOfPages) {
             return;
         }
         searchPage.currentPage = searchPage.numberOfPages;
+        searchPageController.search();
+    });
+
+    $("#facetCorpus").on("click", "input", function() {
+        if (this.checked) {
+            searchPage.editor.push(this.value);
+        } else {
+            var index = searchPage.editor.indexOf(this.value);
+            searchPage.editor.splice(index,1);
+        }
         searchPageController.search();
     });
 });

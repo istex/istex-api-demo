@@ -12,8 +12,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
         var corpusList = {
             corpusList: data
         };
-        $('#editorForSimpleSearch').append(mustache.to_html(corpusTemplate, corpusList));
-        $('#editorForAdvancedSearch').append(mustache.to_html(corpusTemplate, corpusList));
+        $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
+
+        $('#nbCorpusFacet').text(corpusList.corpusList.length);
+        var corpusFacetTemplate = "{{#corpusList}}<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input value={{term}} type='checkbox'>{{term}}</label><span class='badge pull-right'>{{count}}</span></div></div>{{/corpusList}}";
+        $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, corpusList));
+
     });
 
     searchPageController.displayResults = function(data) {
@@ -25,15 +29,22 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
             $("#totalPages").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
 
             var linksTemplates = {
-                fulltext: "<a href=\"" + conf.apiUrl + "/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
-                metadata: "<a href=\"" + conf.apiUrl + "/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"
+                fulltext: "<a href=\"" + conf.apiUrl + "/document/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
+                metadata: "<a href=\"" + conf.apiUrl + "/document/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"
             };
 
-            var tableLine = "{{#hits}}<tr class='row'><td class='truncate col-md-8'>{{title}}</td><td class='col-md-2' style='text-align: center;'>{{> fulltext}}</td><td class='col-md-2' style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
+            var tableLine = "{{#hits}}<tr class='row'><td class='col-md-8'>{{title}}</td><td class='col-md-2' style='text-align: center;'>{{> fulltext}}</td><td class='col-md-2' style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
 
             $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
-        }
-        else {
+
+            console.log(data);
+
+            var facet = "<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input type='checkbox'>springer</label><span class='badge pull-right'>452</span></div></div>"
+
+            //$("#facetCorpus").
+
+
+        } else {
 
             $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
         }
@@ -47,51 +58,38 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
     };
 
     searchPageController.search = function() {
-        if (searchPage.advancedSearch) {
-            searchPageController.advancedSearch();
-        } else {
-            searchPageController.simpleSearch();
-        }
-    };
-
-    searchPageController.simpleSearch = function() {
-        var query = "/document/?q=" + searchPage.keywords;
-        query += "&size=" + searchPage.resultsPerPage;
-        query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
-        if (searchPage.editor !== "-1") {
-            query += "&corpus=" + searchPage.editor;
-        }
-        $("#searchButton").button('loading');
-        var request = {
-            url: conf.apiUrl + query,
-            jsonp: true,
-            crossDomain: true,
-            success: searchPageController.displayResults,
-            error: searchPageController.manageError
-        };
-
-        $.ajax(request);
-    };
-
-    searchPageController.advancedSearch = function() {
-        var query = "/document/?q=";
+        var query = "document/?q=";
         var fields = [];
-        if (searchPage.author !== "" && searchPage.author !== undefined) {
-            fields.push("author.personal:" + searchPage.author);
+
+        if (searchPage.searchField !== "" && searchPage.searchField !== undefined) {
+            fields.push(searchPage.searchField);
         }
-        if (searchPage.title !== "" && searchPage.title !== undefined) {
-            fields.push("title:" + searchPage.title);
+
+        if ($("#collapse").is(':visible')) {
+
+            if (searchPage.author !== "" && searchPage.author !== undefined) {
+                fields.push("author.personal:" + searchPage.author);
+            }
+            if (searchPage.title !== "" && searchPage.title !== undefined) {
+                fields.push("title:" + searchPage.title);
+            }
+            if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
+                fields.push("subject.value:" + searchPage.keywords);
+            }
         }
-        if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
-            fields.push("subject.value:" + searchPage.keywords);
-        }
+
         query += fields.join(" AND ");
         query += "&size=" + searchPage.resultsPerPage;
         query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
-        if (searchPage.editor !== "-1") {
-            query += "&corpus=" + searchPage.editor;
-        }
-        $("#advancedSearchButton").button('loading');
+        $.each(searchPage.editor, function(index, editor) {
+            if (editor !== "-1") {
+                query += "&corpus=" + editor;
+            }
+        });
+
+
+        $("#searchButton").button('loading');
+
         var request = {
             url: conf.apiUrl + query,
             jsonp: true,
@@ -101,6 +99,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
         };
 
         $.ajax(request);
+
+        $("#result").removeClass('hide');
+        $("#paginRow").removeClass('hide');
+        $("#pageNumber").removeClass('hide');
 
     };
     return searchPageController;

@@ -6,7 +6,9 @@
 <!--[if IE 8]>
 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js"> <!--<![endif]-->
+<html class="no-js">
+<!--<![endif]-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,136 +24,131 @@
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
+
 <body>
-<!--[if lt IE 7]>
+    <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div class="container">
-    <div id="header" class="istex-header jumbotron">
-        <h1>&nbsp;</h1>
-    </div>
-
-    <div id="accordion" class="panel-group searchform">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                        Recherche
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <form role="form" class="form-inline" id="searchform">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <select style="width:110px" id="editorForSimpleSearch"
-                                        class="form-control input-group-addon">         
-                                    <option value="-1">All</option>                               
-                                </select>
-                                <input style="width:249px" type="text" class="span2 form-control" id="searchfield"
-                                       placeholder="Titre ou mot clef">
-                                <span class="input-group-btn">
-                                    <button id="searchButton" type="submit" class="btn"
-                                            data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="container">
+        <div id="header" class="istex-header jumbotron row">
+            <h1>&nbsp;</h1>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div id="searchFieldRow" class="row">
+            <form role="form" class="form-inline" id="searchform">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input style="width:249px" type="text" class="span2 form-control" id="searchField" placeholder="Titre ou mot clef">
+                        <span class="input-group-btn">
+                            <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div id="advancedSearchTitle" class="panel-heading row col-md-6 col-md-offset-3">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse">
                         Recherche avancée
                     </a>
                 </h4>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse">
+        </div>
+
+        <div class="row">
+            <div id="collapse" class="panel-collapse collapse col-md-6 col-md-offset-3">
                 <div class="panel-body">
-                    <form role="form" id="advancedSearchform">
-                        <div class="form-group">
-                            <label for="editorForAdvancedSearch">Editeur :</label>
-                            <select id="editorForAdvancedSearch" class="form-control">
+                    <form role="form" id="advancedSearchForm">
+                        <div class="form-group col-md-6">
+                            <label for="editorField">Editeur :</label>
+                            <select id="editorField" class="form-control">
                                 <option value="-1">All</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
                             <label for="titleField">Titre :</label>
-                            <input type="text" class="form-control" id="titleField"
-                                   placeholder="Titre">
+                            <input type="text" class="form-control" id="titleField" placeholder="Titre">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
                             <label for="authorField">Auteur :</label>
-                            <input type="text" class="form-control" id="authorField"
-                                   placeholder="Auteur">
+                            <input type="text" class="form-control" id="authorField" placeholder="Auteur">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
                             <label for="themeField">Mot-clef :</label>
-                            <input type="text" class="form-control" id="themeField"
-                                   placeholder="Mot clef">
+                            <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
                         </div>
-                        <button id="advancedSearchButton" type="submit" class="btn btn-default"
-                                data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
-                            Rechercher
-                        </button>
                     </form>
                 </div>
             </div>
         </div>
+
+        <div id="result" class="row hide">
+            <div class="col-md-3">
+                <h6>
+                    <span class="glyphicon glyphicon-search"></span>
+                    Affiner les résultats
+                </h6>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#facetCorpus"> Corpus </a>
+                            <span id="nbCorpusFacet" class="badge pull-right"></span>
+                        </h4>
+                    </div>
+                    <div id="facetCorpus" class="panel-collapse collapse show">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <table class="table table-striped table-hover" style="table-layout: fixed; word-wrap: break-word;">
+                    <thead>
+                        <tr class="row">
+                            <th class="col-md-8">Titre</th>
+                            <th class="col-md-2">Fulltext</th>
+                            <th class="col-md-2">Metadata</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableResult"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="paginRow" class="row hide">
+            <ul id="pagination" class="pager">
+                <li id="first"><a href="#">&#8676;</a>
+                </li>
+                <li id="prev"><a href="#">&#8672;</a>
+                </li>
+                <li id="next"><a href="#">&#8674;</a>
+                </li>
+                <li id="last"><a href="#">&#8677;</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="pageNumber" class="row hide">
+            <span id=currentPage>*</span>/
+            <span id=totalPages>*</span>
+        </div>
+
+        <div id="logoIA"><img src="./img/Label-IA-mini.jpg"></div>
+
     </div>
 
-    <div class="alert alert-warning fade" style="display:none">
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
-        <span></span>
-    </div>
-
-    <div id="result">
-        <table class="table table-striped table-hover" style="table-layout: fixed; word-wrap: break-word;">
-            <thead>
-            <tr class="row">
-                <th class="col-md-8">Titre</th>
-                <th class="col-md-2">Fulltext</th>
-                <th class="col-md-2">Metadata</th>
-            </tr>
-            </thead>
-            <tbody id="tableResult"></tbody>
-        </table>
-        <ul id="pagination" class="pager">
-            <li id="first"><a href="#">&#8676;</a></li>
-            <li id="prev"><a href="#">&#8672;</a></li>
-            <li id="next"><a href="#">&#8674;</a></li>
-            <li id="last"><a href="#">&#8677;</a></li>
-        </ul>
-        <div id="pageNumber"><span id=currentPage>*</span>/<span id=totalPages>*</span></div>
-    </div>
-</div>
-
-<div class="modal hide fade" id="modal">
-    <div class="modal-header">
-        <div id="modalHead"></div>
-    </div>
-    <div class="modal-body">
-        <div id="modalBody"></div>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn">Close</a>
-    </div>
-</div>
-
-
-<script type="text/javascript" src="js/vendor/less-1.6.3.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/vendor/require.js"></script>
-<script src="js/plugins.js"></script>
-<script src="js/main.js"></script>
+    <script type="text/javascript" src="js/vendor/less-1.6.3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vendor/require.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
 </body>
+
 </html>
