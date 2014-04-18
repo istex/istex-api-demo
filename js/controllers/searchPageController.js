@@ -13,11 +13,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
             corpusList: data
         };
         $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
-
-        $('#nbCorpusFacet').text(corpusList.corpusList.length);
-        var corpusFacetTemplate = "{{#corpusList}}<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input value={{term}} type='checkbox'>{{term}}</label><span class='badge pull-right'>{{count}}</span></div></div>{{/corpusList}}";
-        $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, corpusList));
-
     });
 
     searchPageController.displayResults = function(data) {
@@ -37,11 +32,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
             $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
 
-            console.log(data);
-
-            var facet = "<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input type='checkbox'>springer</label><span class='badge pull-right'>452</span></div></div>"
-
-            //$("#facetCorpus").
+            var corpusFacetTemplate = "{{#facets.corpusFacet.terms}}<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input value={{term}} type='checkbox'>{{term}}</label><span class='badge pull-right'>{{count}}</span></div></div>{{/facets.corpusFacet.terms}}";
+            $('#nbCorpusFacet').text(data.facets.corpusFacet.terms.length);
+            $('#facetCorpus').empty();
+            $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
 
 
         } else {
@@ -87,6 +81,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
             }
         });
 
+        // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
+        query += "&facet=corpus"
 
         $("#searchButton").button('loading');
 
