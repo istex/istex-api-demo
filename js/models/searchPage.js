@@ -18,5 +18,6 @@ define({
     numberOfPages: 0,
     numberOfResults: 0,
     editor: [],
-    advancedSearch: false
+    advancedSearch: false,
+    reaffine: false
 });

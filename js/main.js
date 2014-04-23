@@ -5,6 +5,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
 
     $("#searchform").submit(function(event) {
         event.preventDefault();
+        searchPage.reaffine = false;
         searchPage.currentPage = 1;
         searchPage.searchField = $("#searchField").val();
         searchPage.title = $("#titleField").val();
@@ -57,11 +58,12 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     });
 
     $("#facetCorpus").on("click", "input", function() {
+        searchPage.reaffine = true;
         if (this.checked) {
             searchPage.editor.push(this.value);
         } else {
             var index = searchPage.editor.indexOf(this.value);
-            searchPage.editor.splice(index,1);
+            searchPage.editor.splice(index, 1);
         }
         searchPageController.search();
     });

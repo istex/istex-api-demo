@@ -32,15 +32,24 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
             $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
 
-            var corpusFacetTemplate = "{{#facets.corpusFacet.terms}}<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input value={{term}} type='checkbox'>{{term}}</label><span class='badge pull-right'>{{count}}</span></div></div>{{/facets.corpusFacet.terms}}";
-            $('#nbCorpusFacet').text(data.facets.corpusFacet.terms.length);
-            $('#facetCorpus').empty();
-            $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
+            if (!searchPage.reaffine) {
+                var corpusFacetTemplate = "{{#facets.corpusFacet.terms}}<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input value={{term}} type='checkbox'>{{term}}</label><span class='badge pull-right'>{{count}}</span></div></div>{{/facets.corpusFacet.terms}}";
+                $('#nbCorpusFacet').text(data.facets.corpusFacet.terms.length);
+                $('#facetCorpus').empty();
+                $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
 
+                if (data.facets.corpusFacet.terms.length == 1) {
+                    facetCorpus.getElementsByTagName('input').item(0).checked = true;
+                    facetCorpus.getElementsByTagName('input').item(0).disabled = true;
+                }
+            }
 
         } else {
 
             $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
+            $('#nbCorpusFacet').text("");
+            $('#facetCorpus').empty();
+
         }
         $("button").button('reset');
     };
