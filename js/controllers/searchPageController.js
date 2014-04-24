@@ -23,14 +23,71 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
             $("#currentPage").text(searchPage.currentPage === 0 ? "*" : searchPage.currentPage);
             $("#totalPages").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
 
-            var linksTemplates = {
-                fulltext: "<a href=\"" + conf.apiUrl + "/document/{{id}}/fulltext/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-file\"></span></a>",
-                metadata: "<a href=\"" + conf.apiUrl + "/document/{{id}}/metadata/original\" target=\"_blank\"><span class=\"glyphicon glyphicon-align-center\"></span></a>"
+            data["abstr"] = function() {
+                return function(text, render) {
+                    if (render(text) == "") return "Pas de résumé pour ce résultat.";
+                    return render(text);
+                }
             };
 
-            var tableLine = "{{#hits}}<tr class='row'><td class='col-md-8'>{{title}}</td><td class='col-md-2' style='text-align: center;'>{{> fulltext}}</td><td class='col-md-2' style='text-align: center;'>{{> metadata}}</td></tr>{{/hits}}";
+            data["ftext"] = function() {
+                return function(text, render) {
+                    console.log(render(text));
+                    var html = "";
+                    var infos = render(text).split(" ");
+                    var i = 0;
+                    while ((i + 1) < infos.length) {
+                        var typeFile;
+                        switch (infos[i]) {
+                            case 'application/zip':
+                                typeFile = 'img/mimetypes/32px/zip.png'
+                                break;
+                            case 'application/pdf':
+                                typeFile = 'img/mimetypes/32px/pdf.png'
+                                break;
+                            case 'image/tiff':
+                                typeFile = 'img/mimetypes/32px/tiff.png'
+                                break;
+                            default:
+                                typeFile = 'img/mimetypes/32px/_blank.png'
+                                break;
+                        }
+                        html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'"+infos[i].split("/")[1]+"\' title=\'"+infos[i].split("/")[1]+"\'></a>"
+                        i = i + 2;
+                    }
+                    return html;
+                }
+            };
 
-            $("#tableResult").html(mustache.to_html(tableLine, data, linksTemplates));
+            data["mdata"] = function() {
+                return function(text, render) {
+                    console.log(render(text));
+                    var html = "";
+                    var infos = render(text).split(" ");
+                    var i = 0;
+                    while ((i + 1) < infos.length) {
+                        var typeFile;
+                        switch (infos[i]) {
+                            case 'application/xml':
+                                typeFile = 'img/mimetypes/32px/xml.png'
+                                break;
+                            case 'application/mods+xml':
+                                typeFile = 'img/mimetypes/32px/mods.png'
+                                break;
+                            default:
+                                typeFile = 'img/mimetypes/32px/_blank.png'
+                                break;
+                        }
+                        html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'"+infos[i].split("/")[1]+"\' title=\'"+infos[i].split("/")[1]+"\'></a>"
+                        i = i + 2;
+                    }
+                    return html;
+                }
+            };
+
+            var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{title}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#ftext}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/ftext}}{{#mdata}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/mdata}}</div></tr>{{/hits}}";
+
+            $("#tableResult").html(mustache.to_html(tableLine, data));
 
             if (!searchPage.reaffine) {
                 var corpusFacetTemplate = "{{#facets.corpusFacet.terms}}<div class='col-sm-offset-2 col-sm-10'><div class='checkbox'><label><input value={{term}} type='checkbox'>{{term}}</label><span class='badge pull-right'>{{count}}</span></div></div>{{/facets.corpusFacet.terms}}";
@@ -91,7 +148,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
         });
 
         // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-        query += "&facet=corpus"
+        query += "&facet=corpus";
+
+        query += "&output=*";
 
         $("#searchButton").button('loading');
 
