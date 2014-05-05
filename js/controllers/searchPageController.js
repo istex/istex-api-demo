@@ -32,7 +32,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
             data["ftext"] = function() {
                 return function(text, render) {
-                    console.log(render(text));
                     var html = "";
                     var infos = render(text).split(" ");
                     var i = 0;
@@ -61,7 +60,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
             data["mdata"] = function() {
                 return function(text, render) {
-                    console.log(render(text));
                     var html = "";
                     var infos = render(text).split(" ");
                     var i = 0;

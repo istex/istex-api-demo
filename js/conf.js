@@ -5,5 +5,5 @@
  * Time: 16:11.
  */
 define({
-    apiUrl: "http://caron.ads.intra.inist.fr:53332/"
+    apiUrl: "http://api.istex.fr/"
 });
