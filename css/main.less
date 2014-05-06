@@ -233,16 +233,13 @@ html {
     background-size: 20% 50%;
     background-repeat: no-repeat;
     background-position: center;
-    background-position-x: -100px;
-    background-position-y: 0px;
 }
 .jumbotron.istex-header h1 {
     font-weight: bold;
     text-align: center;
 }
-
 #logoIA {
-    text-align: center;    
+    text-align: center;
 }
 .container {
     height: 100%;
@@ -252,7 +249,7 @@ html {
     padding: 30px 0px 30px 0px;
 }
 .searchform form {
-    width: 400px;
+    max-width: 250px;
     margin: auto;
     color: @darkblue;
 }
@@ -261,13 +258,19 @@ html {
     font-weight: bold;
     text-align: center;
 }
+.form-group {
+    max-width: 250px; 
+}
 .pager li {
     font-size: 20px;
 }
 #searchFieldRow {
     text-align: center;
 }
-#advancedSearchTitle{
+#searchField {
+    max-width: 250px;
+}
+#advancedSearchTitle {
     text-align:center;
 }
 #tableResult span.glyphicon {
@@ -302,5 +305,8 @@ html {
     white-space: normal;
 }
 #result th {
+    text-align: center;
+}
+#footer{
     text-align: center;
 }
