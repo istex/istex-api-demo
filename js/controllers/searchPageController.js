@@ -51,7 +51,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                                 typeFile = 'img/mimetypes/32px/_blank.png'
                                 break;
                         }
-                        html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'"+infos[i].split("/")[1]+"\' title=\'"+infos[i].split("/")[1]+"\'></a>"
+                        html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'" + infos[i].split("/")[1] + "\' title=\'" + infos[i].split("/")[1] + "\'></a>"
                         i = i + 2;
                     }
                     return html;
@@ -76,14 +76,28 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                                 typeFile = 'img/mimetypes/32px/_blank.png'
                                 break;
                         }
-                        html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'"+infos[i].split("/")[1]+"\' title=\'"+infos[i].split("/")[1]+"\'></a>"
+                        html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'" + infos[i].split("/")[1] + "\' title=\'" + infos[i].split("/")[1] + "\'></a>"
                         i = i + 2;
                     }
                     return html;
                 }
             };
 
-            var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{title}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#ftext}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/ftext}}{{#mdata}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/mdata}}</div></tr>{{/hits}}";
+            data["titleClic"] = function() {
+                return function(text, render) {
+                    var res = render(text);
+                    var infos = res.split(" ");
+                    var index = infos.indexOf("application/pdf");
+                    var title = res.slice(res.indexOf(" ", res.indexOf(" ") + 1), res.size);
+                    if (index != -1) {
+                        return "<a href=\"" + infos[index+1] + "\" target=\"_blank\">"+title+"</a>"
+                    } else {
+                        return title
+                    }
+                }
+            }
+
+            var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}}{{/fulltext}} {{title}}{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#ftext}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/ftext}}{{#mdata}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/mdata}}</div></tr>{{/hits}}";
 
             $("#tableResult").html(mustache.to_html(tableLine, data));
 
