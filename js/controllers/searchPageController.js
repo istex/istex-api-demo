@@ -90,7 +90,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                     var index = infos.indexOf("application/pdf");
                     var title = res.slice(res.indexOf(" ", res.indexOf(" ") + 1), res.size);
                     if (index != -1) {
-                        return "<a href=\"" + infos[index+1] + "\" target=\"_blank\">"+title+"</a>"
+                        return "<a href=\"" + infos[index + 1] + "\" target=\"_blank\">" + title + "</a>"
                     } else {
                         return title
                     }
@@ -121,6 +121,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
         }
         $("button").button('reset');
+        $("#result").css("opacity", 1);
     };
 
     searchPageController.manageError = function(err) {
@@ -165,6 +166,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
         query += "&output=*";
 
         $("#searchButton").button('loading');
+        $("#result").css("opacity", 0.4);
 
         var request = {
             url: conf.apiUrl + query,
