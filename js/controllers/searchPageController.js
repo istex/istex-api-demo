@@ -118,7 +118,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
             $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
             $('#nbCorpusFacet').text("");
             $('#facetCorpus').empty();
-
+            $("#currentPage").text("*");
+            $("#totalPages").text("*");
         }
         $("button").button('reset');
         $("#result").css("opacity", 1);
