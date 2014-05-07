@@ -23,13 +23,15 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="js/vendor/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 </head>
 
-<body>
+<body ng-app="istexApp" ng-controller="istexAppCtrl">
     <!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
-<![endif]-->
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+            your browser</a> to improve your experience.</p>
+    <![endif]-->
 
     <div class="container">
         <div id="header" class="istex-header jumbotron row">
@@ -40,7 +42,7 @@
             <form role="form" class="form-inline" id="searchform">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef">
+                        <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
                         <span class="input-group-btn">
                             <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
                                 <span class="glyphicon glyphicon-search"></span>
