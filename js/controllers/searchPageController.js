@@ -30,7 +30,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                 }
             };
 
-            data["ftext"] = function() {
+            data["linksIcon"] = function() {
                 return function(text, render) {
                     var html = "";
                     var infos = render(text).split(" ");
@@ -47,25 +47,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                             case 'image/tiff':
                                 typeFile = 'img/mimetypes/32px/tiff.png'
                                 break;
-                            default:
-                                typeFile = 'img/mimetypes/32px/_blank.png'
-                                break;
-                        }
-                        html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'" + infos[i].split("/")[1] + "\' title=\'" + infos[i].split("/")[1] + "\'></a>"
-                        i = i + 2;
-                    }
-                    return html;
-                }
-            };
-
-            data["mdata"] = function() {
-                return function(text, render) {
-                    var html = "";
-                    var infos = render(text).split(" ");
-                    var i = 0;
-                    while ((i + 1) < infos.length) {
-                        var typeFile;
-                        switch (infos[i]) {
                             case 'application/xml':
                                 typeFile = 'img/mimetypes/32px/xml.png'
                                 break;
@@ -97,7 +78,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                 }
             }
 
-            var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}}{{/fulltext}} {{title}}{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#ftext}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/ftext}}{{#mdata}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/mdata}}</div></tr>{{/hits}}";
+            var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}}{{/fulltext}} {{title}}{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#linksIcon}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}{{#linksIcon}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}</div></tr>{{/hits}}";
 
             $("#tableResult").html(mustache.to_html(tableLine, data));
 
