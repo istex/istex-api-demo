@@ -9,8 +9,9 @@
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
- @darkblue: #184B63;
- @lightblue: lighten(@darkblue, 10%);
+
+@darkblue: #184B63;
+@lightblue: lighten(@darkblue, 10%);
  html, button, input, select, textarea {
     color: #222;
 }
@@ -21,19 +22,20 @@ html {
 /*
  * Allow only vertical resizing of textareas.
  */
- textarea {
+
+textarea {
     resize: vertical;
 }
 /* ==========================================================================
    Browse Happy prompt
    ========================================================================== */
- .browsehappy {
+
+.browsehappy {
     margin: 0.2em 0;
     background: #ccc;
     color: #000;
     padding: 0.2em 0;
 }
-
 .jumbotron.istex-header {
     padding-bottom: 0;
     padding-top: 1px;
@@ -55,7 +57,7 @@ html {
     height: 100%;
 }
 .form-group {
-    max-width: 250px; 
+    max-width: 250px;
 }
 .pager li {
     font-size: 20px;
@@ -67,7 +69,7 @@ html {
     max-width: 250px;
 }
 #advancedSearchTitle {
-    text-align:center;
+    text-align: center;
 }
 #tableResult span.glyphicon {
     font-size: 20px;
@@ -81,7 +83,8 @@ html {
 }
 #accordion .panel-heading {
     background-color: @lightblue;
-    border-radius: 0px;
+
+border-radius: 0px;
 }
 #accordion .panel {
     border-radius: 0px;
@@ -103,6 +106,12 @@ html {
 #result th {
     text-align: center;
 }
-#footer{
+#footer {
     text-align: center;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid gray;
+}
+.ui-slider .ui-slider-range {
+    background: none repeat scroll 0 0 gray;
 }
