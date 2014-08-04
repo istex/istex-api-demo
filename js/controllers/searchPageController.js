@@ -100,9 +100,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                 }
 
                 // CopyrightDateFacet
-                var minDate = 1880;
-                var maxDate = 2014;
-                var nbResults = 250000;
+                var minDate = data.facets.CopyrightDateFacet.buckets[0].from_as_string;
+                var maxDate = data.facets.CopyrightDateFacet.buckets[0].to_as_string;
+                var nbResults = data.facets.CopyrightDateFacet.buckets[0].doc_count;
 
                 $("#slider-range-copyright").slider({
                     range: true,
@@ -115,9 +115,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                 $("#totalCopyrightDate").val(nbResults);
 
                 // PubDateFacet
-                minDate = 1880;
-                maxDate = 2014;
-                nbResults = 250000;
+                minDate = data.facets.PubDateFacet.buckets[0].from_as_string;
+                maxDate = data.facets.PubDateFacet.buckets[0].to_as_string;
+                nbResults = data.facets.PubDateFacet.buckets[0].doc_count;
 
                 $("#slider-range-pubdate").slider({
                     range: true,
