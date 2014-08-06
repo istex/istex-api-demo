@@ -87,7 +87,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         $("#amountCopyrightDate").val("De " + ui.values[0] + " à " + ui.values[1]);
     });
 
-    $("#slider-range-copyright").on("slidechange", function(event, ui) {
+    $("#slider-range-copyright").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.copyrightdate = [];
         searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
@@ -98,7 +98,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         $("#amountPubDate").val("De " + ui.values[0] + " à " + ui.values[1]);
     });
 
-    $("#slider-range-pubdate").on("slidechange", function(event, ui) {
+    $("#slider-range-pubdate").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.pubdate = [];
         searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
