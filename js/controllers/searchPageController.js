@@ -17,6 +17,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
     searchPageController.displayResults = function(data) {
         if (data.total > 0) {
+
+            $('#accordeon').show();         
+            $('#first').show();
+            $('#prev').show();
+            $('#next').show();
+            $('#last').show();
+
             searchPage.numberOfResults = data.total;
             searchPage.numberOfPages = searchPage.numberOfResults === 0 ? 0 : Math.ceil(searchPage.numberOfResults / searchPage.resultsPerPage);
             searchPage.currentPage = searchPage.numberOfResults === 0 ? 0 : searchPage.currentPage;
@@ -134,11 +141,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
         } else {
 
+            $("#totalResults").val(0);
             $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
-            $('#nbCorpusFacet').text("");
-            $('#facetCorpus').empty();
-            $('#facetCopyrightDate').empty();
-            $('#facetPubDate').empty();
+            $('#accordeon').hide();         
+            $('#first').hide();
+            $('#prev').hide();
+            $('#next').hide();
+            $('#last').hide();
             $("#currentPage").text("*");
             $("#totalPages").text("*");
         }
