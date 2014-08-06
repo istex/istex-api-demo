@@ -92,9 +92,6 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPage.copyrightdate = [];
         searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
-
-        $("#totalCopyrightDate").val(10);
-
     });
 
     $("#slider-range-pubdate").on("slide", function(event, ui) {
@@ -106,7 +103,5 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPage.pubdate = [];
         searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
-
-        $("#totalPubDate").val(10);
     });
 });

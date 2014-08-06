@@ -8,7 +8,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
      * Fonctions de recherche et d'affichage
      *****************************************/
     $.get(conf.apiUrl + "corpus", function(data) {
-        var corpusTemplate = "{{#corpusList}}<option value={{term}}>{{term}}</option>{{/corpusList}}";
+        var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
         var corpusList = {
             corpusList: data
         };
@@ -22,6 +22,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
             searchPage.currentPage = searchPage.numberOfResults === 0 ? 0 : searchPage.currentPage;
             $("#currentPage").text(searchPage.currentPage === 0 ? "*" : searchPage.currentPage);
             $("#totalPages").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
+
+            $("#totalResults").val(data.total);
 
             data["abstr"] = function() {
                 return function(text, render) {
@@ -90,19 +92,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                 $('#facetPubDate').empty();
 
                 // CorpusFacet
-                var corpusFacetTemplate = "{{#facets.corpusFacet.buckets}}<div class='col-xs-offset-1 col-xs-10'><div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label><span class='badge pull-right'>{{doc_count}}</span></div></div>{{/facets.corpusFacet.buckets}}";
-                $('#nbCorpusFacet').text(data.facets.corpusFacet.buckets.length);
+                var corpusFacetTemplate = "{{#aggregations.corpusFacet.buckets}}<div class='col-xs-offset-1 col-xs-10'><div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label><span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpusFacet.buckets}}";
+                $('#nbCorpusFacet').text(data.aggregations.corpusFacet.buckets.length);
                 $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
 
-                if (data.facets.corpusFacet.terms.length == 1) {
+                if (data.aggregations.corpusFacet.buckets.length == 1) {
                     facetCorpus.getElementsByTagName('input').item(0).checked = true;
                     facetCorpus.getElementsByTagName('input').item(0).disabled = true;
                 }
 
                 // CopyrightDateFacet
-                var minDate = data.facets.CopyrightDateFacet.buckets[0].from_as_string;
-                var maxDate = data.facets.CopyrightDateFacet.buckets[0].to_as_string;
-                var nbResults = data.facets.CopyrightDateFacet.buckets[0].doc_count;
+                var minDate = parseInt(data.aggregations.copyrightDateFacet.buckets[0].from_as_string);
+                var maxDate = parseInt(data.aggregations.copyrightDateFacet.buckets[0].to_as_string);
 
                 $("#slider-range-copyright").slider({
                     range: true,
@@ -112,12 +113,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                 });
                 $("#amountCopyrightDate").val("De " + $("#slider-range-copyright").slider("values", 0) +
                     " à " + $("#slider-range-copyright").slider("values", 1));
-                $("#totalCopyrightDate").val(nbResults);
 
                 // PubDateFacet
-                minDate = data.facets.PubDateFacet.buckets[0].from_as_string;
-                maxDate = data.facets.PubDateFacet.buckets[0].to_as_string;
-                nbResults = data.facets.PubDateFacet.buckets[0].doc_count;
+                minDate = parseInt(data.aggregations.pubdateFacet.buckets[0].from_as_string);
+                maxDate = parseInt(data.aggregations.pubdateFacet.buckets[0].to_as_string);
 
                 $("#slider-range-pubdate").slider({
                     range: true,
@@ -127,8 +126,11 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
                 });
                 $("#amountPubDate").val("De " + $("#slider-range-pubdate").slider("values", 0) +
                     " à " + $("#slider-range-pubdate").slider("values", 1));
-                $("#totalPubDate").val(nbResults);
             }
+
+            $("#totalCopyrightDate").val(data.aggregations.copyrightDateFacet.buckets[0].doc_count);
+            $("#totalPubDate").val(data.aggregations.pubdateFacet.buckets[0].doc_count);
+
 
         } else {
 
@@ -171,6 +173,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
             }
         }
 
+        if (searchPage.copyrightdate != undefined) {
+            fields.push("copyrightdate:" + searchPage.copyrightdate);
+        }
+        if (searchPage.pubdate != undefined) {
+            fields.push("pubdate:" + searchPage.pubdate);
+        }
+
         query += fields.join(" AND ");
         query += "&size=" + searchPage.resultsPerPage;
         query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
@@ -183,16 +192,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
         // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
         query += "&facet=corpus";
 
-        if ($(result).is(":visible")) {
+        if ($("result").is(":visible")) {
             var minCopyright = $("#slider-range-copyright").slider("values", 0);
             var maxCopyright = $("#slider-range-copyright").slider("values", 1);
             var minPubdate = $("#slider-range-pubdate").slider("values", 0);
             var maxPubdate = $("#slider-range-pubdate").slider("values", 1);
             query += "&facet=copyrightdate[" + minCopyright + "," + maxCopyright + "]";
-            query += "&facet=pubdate[" + minCopyright + "," + maxCopyright + "]";
+            query += "&facet=pubdate[" + minPubdate + "," + maxPubdate + "]";
         } else {
-            query += "&facet=copyrightdate[min,max]";
-            query += "&facet=pubdate[min,max]";
+            // query += "&facet=copyrightdate[min,max]";
+            // query += "&facet=pubdate[min,max]";
+            query += "&facet=copyrightdate[1700,2014]";
+            query += "&facet=pubdate[1700,2014]";
         }
 
         query += "&output=*";
