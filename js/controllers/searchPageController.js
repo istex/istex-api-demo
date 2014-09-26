@@ -93,7 +93,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
         }
       }
 
-      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} {{title}}{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#linksIcon}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}{{#linksIcon}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}</div></tr>{{/hits}}";
+      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#linksIcon}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}{{#linksIcon}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}</div></tr>{{/hits}}";
 
       $("#tableResult").html(mustache.to_html(tableLine, data));
 
