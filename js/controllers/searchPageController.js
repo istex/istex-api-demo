@@ -84,7 +84,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
           var res = render(text);
           var infos = res.split(" ");
           var index = infos.indexOf("application/pdf");
-          var title = res.slice(res.indexOf(" ", res.indexOf(" ") + 1), res.size);
+          var title = res.slice(res.indexOf("\"") + 1, res.length - 1);
           if (index != -1) {
             return "<a href=\"" + infos[index + 1] + "\" target=\"_blank\">" + title + "</a>"
           } else {
@@ -93,7 +93,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
         }
       }
 
-      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}}{{/fulltext}} {{title}}{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#linksIcon}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}{{#linksIcon}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}</div></tr>{{/hits}}";
+      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} {{title}}{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#linksIcon}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}{{#linksIcon}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}</div></tr>{{/hits}}";
 
       $("#tableResult").html(mustache.to_html(tableLine, data));
 
@@ -214,13 +214,11 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
       var maxPubdate = $("#slider-range-pubdate").slider("values", 1);
       query += "&facet=copyrightdate[" + minCopyright + "," + maxCopyright + "]";
       query += "&facet=pubdate[" + minPubdate + "," + maxPubdate + "]";
-      console.log('là');
     } else {
       // query += "&facet=copyrightdate[min,max]";
       // query += "&facet=pubdate[min,max]";
       query += "&facet=copyrightdate[1900,2014]";
       query += "&facet=pubdate[1900,2014]";
-      console.log('ici');
     }
 
     query += "&output=*";
