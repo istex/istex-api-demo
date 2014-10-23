@@ -5,5 +5,5 @@
  * Time: 16:11.
  */
 define({
-    apiUrl: "http://api.istex.fr/"
+    apiUrl: "https://api.istex.fr/"
 });
