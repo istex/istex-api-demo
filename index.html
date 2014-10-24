@@ -35,65 +35,148 @@
     <![endif]-->
 
     <div class="container">
+
         <div id="header" class="istex-header jumbotron row">
             <h1>&nbsp;</h1>
         </div>
 
-        <div id="searchFieldRow" class="row">
-            <form role="form" class="form-inline" id="searchform">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
-                        <span class="input-group-btn">
-                            <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
+        <div id="searchHeader" class="col-md-12">
+            <div class="col-md-4">
+
+                <button class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#helpMenu">
+                    Aide
+                </button>
+
+                <!-- Modal aide -->
+                <div class="modal fade" id="helpMenu" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                    <span class="sr-only">Fermer</span>
+                                </button>
+                                <h4 class="modal-title text-center">
+                                    <strong>Bienvenue</strong> sur le démonstrateur de l'API
+                                    <strong>ISTEX</strong> !</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-justify">Avant toute chose, ce site ne constitue pas une portail sur l'API. Il s'agit ici de montrer les différents aspects de l'API ISTEX. Le corps du site peut cependant être matière de base à la construction d'un portail. Le code sera bientôt disponible publiquement.</p>
+                                <br>
+                                <u>Pour effectuer une recherche :</u>
+                                <br>
+                                <br>
+                                <img src="img/help/help1.png" class="img-responsive center-block" />
+                                <p class="text-justify">Entrer votre requête simplement dans le champs "Titre ou mot clef". La recherche se lance dès que ce champ est renseigné. Vous pouvez également sélectionner "Recherche avancée" pour mieux préciser votre recherche. Il est dans ce cas nécessaire de cliquer sur l'icone en forme de loupe pour démarrer la recherche.</p>
+                                <br>
+                                <u>Pour comprendre comment ces résultats sont obtenus :</u>
+                                <br>
+                                <br>
+                                <img src="img/help/help2.png" class="img-responsive center-block" />
+                                <p class="text-justify">Une fois la requête effectuée, il est possible de consulter la réponse brute fournie par l'API en cliquant sur le bouton correspondant. La requête envoyée est également visible à gauche du bouton précédent.</p>
+                                <br>
+                                <p class="text-justify">Pour toute aide supplémentaire ou suggestion, vous pouvez nous écrire à istex@inist.fr (lien disponible en bas de page).</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
-
-        <div class="row">
-            <div id="advancedSearchTitle" class="panel-heading row col-md-6 col-md-offset-3">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse">
-                        Recherche avancée
-                    </a>
-                </h4>
             </div>
-        </div>
 
-        <div class="row">
-            <div id="collapse" class="panel-collapse collapse col-md-6 col-md-offset-3">
-                <div class="panel-body">
-                    <form role="form" id="advancedSearchForm">
-                        <div class="form-group col-md-6">
-                            <label for="editorField">Editeur :</label>
-                            <select id="editorField" class="form-control">
-                                <option value="-1">All</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="titleField">Titre :</label>
-                            <input type="text" class="form-control" id="titleField" placeholder="Titre">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="authorField">Auteur :</label>
-                            <input type="text" class="form-control" id="authorField" placeholder="Auteur">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="themeField">Mot-clef :</label>
-                            <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
+            <div class="col-md-4">
+                <div id="searchFieldRow" class="row">
+                    <form role="form" class="form-inline" id="searchform">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
+                                <span class="input-group-btn">
+                                    <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </form>
                 </div>
+
+                <div class="row">
+                    <div id="advancedSearchTitle" class="panel-heading row col-md-6 col-md-offset-3">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse">
+                        Recherche avancée
+                    </a>
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="collapse" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form role="form" id="advancedSearchForm">
+                                <div class="form-group col-md-6">
+                                    <label for="editorField">Editeur :</label>
+                                    <select id="editorField" class="form-control">
+                                        <option value="-1">All</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="titleField">Titre :</label>
+                                    <input type="text" class="form-control" id="titleField" placeholder="Titre">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="authorField">Auteur :</label>
+                                    <input type="text" class="form-control" id="authorField" placeholder="Auteur">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="themeField">Mot-clef :</label>
+                                    <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <hr>
+        <div class="col-md-12">
+            <hr>
+        </div>
 
-        <div id="result" class="row hide">
+        <div id="result" class="row hide col-md-12">
+
+            <div class="input-group">
+                <span class="input-group-addon">Requête</span>
+                <input id="reqForApi" class="form-control" type="text" placeholder="Requete">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" data-toggle="modal" data-target="#completeResponse">
+                        Réponse brute complète
+                    </button>
+                </span>
+            </div>
+
+            <!-- Modal réponse complète -->
+            <div class="modal fade" id="completeResponse" tabindex="-1" role="dialog" aria-labelledby="responseLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Fermer</span>
+                            </button>
+                            <h4 class="modal-title" id="responseLabel">Réponse brute complète de l'API</h4>
+                        </div>
+                        <div class="modal-body">
+                            <pre id="jsonFromApi"></pre>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-md-3">
                 <h6>
                     <span class="glyphicon glyphicon-search"></span>
@@ -196,7 +279,9 @@
             <span id=totalPages>*</span>
         </div>
 
-        <hr>
+        <div class="col-md-12">
+            <hr>
+        </div>
 
         <div id="footer">
             <div class="col-md-5">Site officiel du projet :
@@ -208,7 +293,8 @@
             <div class="col-md-5">Pour toute suggestion, vous pouvez nous
                 <a target="_blank" href="mailto:istex@inist.fr">écrire ici</a>
             </div>
-            <div>Icône fait par <a href="http://www.freepik.com" title="Freepik">Freepik</a> sous licence <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+            <div>Icône faite par <a href="http://www.freepik.com" title="Freepik">Freepik</a> sous licence <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+            </div>
         </div>
     </div>
 

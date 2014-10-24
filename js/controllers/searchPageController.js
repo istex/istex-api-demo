@@ -16,6 +16,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
   });
 
   searchPageController.displayResults = function(data) {
+
+    $("#jsonFromApi").text(JSON.stringify(data, undefined, 2));
+
     if (data.total > 0) {
 
       $('#accordeon').show();
@@ -225,6 +228,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
+    $("#reqForApi").val(conf.apiUrl + query);
 
     var request = {
       url: conf.apiUrl + query,
