@@ -201,11 +201,16 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
     query += fields.join(" AND ");
     query += "&size=" + searchPage.resultsPerPage;
     query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
+    var corpusQuery = '';
     $.each(searchPage.editor, function(index, editor) {
       if (editor !== "-1") {
-        query += "&corpus=" + editor;
+        corpusQuery += editor +',';
       }
     });
+
+    if (corpusQuery != '') {
+      query += "&corpus=" + corpusQuery.slice(0,-1);
+    };
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += "&facet=corpus";
@@ -215,13 +220,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
       var maxPubdate = $("#slider-range-pubdate").slider("values", 1);
-      query += "&facet=copyrightdate[" + minCopyright + "," + maxCopyright + "]";
-      query += "&facet=pubdate[" + minPubdate + "," + maxPubdate + "]";
+      query += ",copyrightdate[" + minCopyright + "," + maxCopyright + "]";
+      query += ",pubdate[" + minPubdate + "," + maxPubdate + "]";
     } else {
       // query += "&facet=copyrightdate[min,max]";
       // query += "&facet=pubdate[min,max]";
-      query += "&facet=copyrightdate[1900,2014]";
-      query += "&facet=pubdate[1900,2014]";
+      query += ",copyrightdate[1900,2014]";
+      query += ",pubdate[1900,2014]";
     }
 
     query += "&output=*";
