@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
+    <link rel="stylesheet" href="js/vendor/jsonview/jquery.jsonview.css"> 
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
@@ -168,7 +168,7 @@
                             <h4 class="modal-title" id="responseLabel">Réponse brute complète de l'API</h4>
                         </div>
                         <div class="modal-body">
-                            <pre id="jsonFromApi"></pre>
+                            <div id="jsonFromApi"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -302,6 +302,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
     <script src="js/vendor/require.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>

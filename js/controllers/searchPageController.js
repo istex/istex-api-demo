@@ -1,7 +1,7 @@
 /*jslint jquery: true */
 /*jslint node: true */
 
-define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searchPage, conf, mustache) {
+define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
   "use strict";
   var searchPageController = {};
   /*****************************************
@@ -17,7 +17,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache"], function(searc
 
   searchPageController.displayResults = function(data) {
 
-    $("#jsonFromApi").text(JSON.stringify(data, undefined, 2));
+    $("#jsonFromApi").JSONView(data);
 
     if (data.total > 0) {
 
