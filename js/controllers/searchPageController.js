@@ -7,12 +7,16 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
   /*****************************************
    * Fonctions de recherche et d'affichage
    *****************************************/
-  $.get(conf.apiUrl + "corpus", function(data) {
-    var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-    var corpusList = {
-      corpusList: data
-    };
-    $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
+  $.ajax({
+    url:conf.apiUrl + "corpus",
+    dataType:"jsonp",
+    success:function(data) {
+      var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
+      var corpusList = {
+        corpusList: data
+      };
+      $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
+    }
   });
 
   searchPageController.displayResults = function(data) {
@@ -220,13 +224,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
       var maxPubdate = $("#slider-range-pubdate").slider("values", 1);
-      query += ",copyrightdate[" + minCopyright + "," + maxCopyright + "]";
-      query += ",pubdate[" + minPubdate + "," + maxPubdate + "]";
+      query += "&facet=copyrightdate[" + minCopyright + "," + maxCopyright + "]";
+      query += "&facet=pubdate[" + minPubdate + "," + maxPubdate + "]";
     } else {
-      // query += "&facet=copyrightdate[min,max]";
-      // query += "&facet=pubdate[min,max]";
-      query += ",copyrightdate[1900,2014]";
-      query += ",pubdate[1900,2014]";
+      // query += "&,copyrightdate";
+      // query += ",pubdate";
+      query += "&facet=copyrightdate[1900,2014]";
+      query += "&facet=pubdate[1900,2014]";
     }
 
     query += "&output=*";
@@ -237,7 +241,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     var request = {
       url: conf.apiUrl + query,
-      jsonp: true,
+      dataType:"jsonp",
       crossDomain: true,
       success: searchPageController.displayResults,
       error: searchPageController.manageError
