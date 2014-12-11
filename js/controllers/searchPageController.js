@@ -7,17 +7,130 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
   /*****************************************
    * Fonctions de recherche et d'affichage
    *****************************************/
-  $.ajax({
-    url:conf.apiUrl + "corpus",
-    dataType:"jsonp",
-    success:function(data) {
-      var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-      var corpusList = {
-        corpusList: data
-      };
-      $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
-    }
-  });
+
+  // Au démarrage, on teste la connexion à l'API
+  // $.ajax({
+  //   url: conf.apiUrl,
+
+  //   success: function(data) {
+  //     var n = noty({
+  //       layout: 'center',
+  //       type: 'success',
+  //       text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
+  //     });
+  //   },
+  //   error: function(xhr, status, err) {
+  //     console.log(xhr, status, err);
+  //     if (xhr.status == 401) {
+  //       var n = noty({
+  //         layout: 'center',
+  //         type: 'error',
+  //         text: 'L\'authentification a échoué. Veuillez rééssayer.'
+  //       });
+  //       // $.ajax({
+  //       //   url: conf.apiUrl + "corpus",
+  //       //   success: function(data) {
+  //       //     var n = noty({
+  //       //       layout: 'center',
+  //       //       type: 'success',
+  //       //       text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
+  //       //     });
+  //       //   },
+  //       //   error: function(xhr, status, err) {
+  //       //     console.log(xhr);
+  //       //     console.log(status);
+  //       //     console.log(err);
+  //       //     var n = noty({
+  //       //       layout: 'center',
+  //       //       type: 'error',
+  //       //       text: 'L\'authentification a échoué. Veuillez rééssayer.'
+  //       //     });
+  //       //   }
+  //       // })
+  //     }
+
+  //     if (xhr.status == 503) {
+  //       var n = noty({
+  //         layout: 'center',
+  //         type: 'error',
+  //         text: 'L\'API n\'est pas disponible pour le moment. Veuillez rééssayer ultérieurement.'
+  //       });
+  //     }
+  //   }
+  // });
+
+  // $.ajax({
+  //   url: conf.apiUrl,
+  //   crossDomain: true,
+  //   xhrFields: {
+  //       withCredentials: true
+  //   },
+  //   // success: function(data) {
+  //   //   var n = noty({
+  //   //     layout: 'center',
+  //   //     type: 'success',
+  //   //     modal: true,
+  //   //     text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
+  //   //   });
+  //   // },
+  //   error: function(xhr, status, err) {
+  //     console.log(xhr, status, err);
+  //     // if (xhr.status == 401) {
+  //     //   var n = noty({
+  //     //     layout: 'center',
+  //     //     type: 'error',
+  //     //     modal: true,
+  //     //     text: 'L\'authentification a échoué. Veuillez réessayer.'
+  //     //   });
+  //     // }
+
+  //     if (xhr.status == 503) {
+  //       var n = noty({
+  //         layout: 'center',
+  //         type: 'error',
+  //         modal: true,
+  //         text: 'L\'API n\'est pas disponible pour le moment. Veuillez rééssayer ultérieurement.'
+  //       });
+  //     }
+  //   }
+  // });
+
+  (function() {
+    window.setTimeout(function() {
+      console.log(err);
+    }, 60000);
+    var err = $.ajax({
+      url: conf.apiUrl + "corpus",
+      dataType: "jsonp",
+      success: function(data, status, xhr) {
+        var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
+        var corpusList = {
+          corpusList: data
+        };
+        $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
+      }
+    });
+  })();
+
+  // $(document).ajaxStop(function() {
+  //   console.log(err);
+  // });
+
+  // $.jsonp({
+  //   url: conf.apiUrl + "corpus",
+  //   timeout: 60000,
+  //   success: function(data, status, xhr) {
+  //     console.log(xhr, status, data);
+  //     var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
+  //     var corpusList = {
+  //       corpusList: data
+  //     };
+  //     $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
+  //   },
+  //   complete: function(xOptions, status){
+  //     console.log(xOptions, status);
+  //   }
+  // });
 
   searchPageController.displayResults = function(data) {
 
@@ -174,12 +287,16 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $(".alert").alert();
   };
 
+  var ajaxInWork = null;
+
   searchPageController.search = function() {
     var query = "document/?q=";
     var fields = [];
 
     if (searchPage.searchField !== "" && searchPage.searchField !== undefined) {
       fields.push(searchPage.searchField);
+    } else {
+      fields.push('*');
     }
 
     if ($("#collapse").is(':visible')) {
@@ -208,18 +325,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     var corpusQuery = '';
     $.each(searchPage.editor, function(index, editor) {
       if (editor !== "-1") {
-        corpusQuery += editor +',';
+        corpusQuery += editor + ',';
       }
     });
 
     if (corpusQuery != '') {
-      query += "&corpus=" + corpusQuery.slice(0,-1);
+      query += "&corpus=" + corpusQuery.slice(0, -1);
     };
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += "&facet=corpus";
 
-    if ($("#result").is(":visible")) {
+    if ($("#result").is(":visible") && ($("#slider-range-copyright").slider( "instance" ) != undefined )) {
       var minCopyright = $("#slider-range-copyright").slider("values", 0);
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
@@ -241,13 +358,14 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     var request = {
       url: conf.apiUrl + query,
-      dataType:"jsonp",
+      dataType: "jsonp",
       crossDomain: true,
       success: searchPageController.displayResults,
       error: searchPageController.manageError
     };
 
-    $.ajax(request);
+    if (ajaxInWork) ajaxInWork.abort();
+    ajaxInWork = $.ajax(request);
 
     $("#result").removeClass('hide');
     $("#paginRow").removeClass('hide');
