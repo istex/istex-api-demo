@@ -161,9 +161,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       data["linksIcon"] = function() {
         return function(text, render) {
-          var html = "";
           var infos = render(text).split(" ");
-          var i = 0;
+          var html = (infos.length == 2) ? "" : "<div class='label label-default' style='text-align:center'>"+infos[0]+"</div>";
+          var i = 1;
           while ((i + 1) < infos.length) {
             var typeFile;
             switch (infos[i]) {
@@ -187,6 +187,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
                 break;
               case 'text/plain':
                 typeFile = 'img/mimetypes/32px/txt.png'
+                break;
+              case 'image/jpeg':
+                typeFile = 'img/mimetypes/32px/jpg.png'
+                break;
+              case 'image/gif':
+                typeFile = 'img/mimetypes/32px/gif.png'
+                break;
+              case 'application/vnd.ms-powerpoint':
+                typeFile = 'img/mimetypes/32px/ppt.png'
+                break;
+              case 'application/msword':
+                typeFile = 'img/mimetypes/32px/doc.png'
                 break;
               default:
                 typeFile = 'img/mimetypes/32px/_blank.png'
@@ -213,7 +225,17 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         }
       }
 
-      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#linksIcon}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}{{#linksIcon}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}</div></tr>{{/hits}}";
+      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>" +
+        "{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}" +
+        "</b></h4><p class='col-md-12' style='font-size:X-small;'>" +
+        "{{#abstr}}{{abstract}}{{/abstr}}" +
+        "</p><div class='label label-default' style='text-align:left;'><b>" +
+        "{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>" +
+        "{{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}} " +
+        "{{#linksIcon}}Metadata {{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}} " +
+        "{{#linksIcon}}Annexes {{#annexes}}{{{mimetype}}} {{{uri}}} {{/annexes}}{{/linksIcon}} " +
+        "{{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}" +
+        "</div></tr>{{/hits}}";
 
       $("#tableResult").html(mustache.to_html(tableLine, data));
 
@@ -225,7 +247,11 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#facetPubDate').empty();
 
         // CorpusFacet
-        var corpusFacetTemplate = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'><div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label><span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpus.buckets}}";
+        var corpusFacetTemplate = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
+          "<span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpus.buckets}}";
+
+
         $('#nbCorpusFacet').text(data.aggregations.corpus.buckets.length);
         $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
 
@@ -336,7 +362,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += "&facet=corpus";
 
-    if ($("#result").is(":visible") && ($("#slider-range-copyright").slider( "instance" ) != undefined )) {
+    if ($("#result").is(":visible") && ($("#slider-range-copyright").slider("instance") != undefined)) {
       var minCopyright = $("#slider-range-copyright").slider("values", 0);
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
