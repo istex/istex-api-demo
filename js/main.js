@@ -84,7 +84,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     });
 
     $("#slider-range-copyright").on("slide", function(event, ui) {
-        $("#amountCopyrightDate").val("De " + ui.values[0] + " à " + ui.values[1]);
+        $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
     });
 
     $("#slider-range-copyright").on("slidestop", function(event, ui) {
@@ -95,7 +95,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     });
 
     $("#slider-range-pubdate").on("slide", function(event, ui) {
-        $("#amountPubDate").val("De " + ui.values[0] + " à " + ui.values[1]);
+        $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
     });
 
     $("#slider-range-pubdate").on("slidestop", function(event, ui) {

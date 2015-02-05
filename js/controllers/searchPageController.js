@@ -270,7 +270,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           max: maxDate,
           values: [minDate, maxDate]
         });
-        $("#amountCopyrightDate").val("De " + $("#slider-range-copyright").slider("values", 0) +
+        $("#amountCopyrightDate").val($("#slider-range-copyright").slider("values", 0) +
           " à " + $("#slider-range-copyright").slider("values", 1));
 
         // PubDateFacet
@@ -283,13 +283,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           max: maxDate,
           values: [minDate, maxDate]
         });
-        $("#amountPubDate").val("De " + $("#slider-range-pubdate").slider("values", 0) +
+        $("#amountPubDate").val($("#slider-range-pubdate").slider("values", 0) +
           " à " + $("#slider-range-pubdate").slider("values", 1));
       }
-
-      $("#totalCopyrightDate").val(data.aggregations.copyrightdate.buckets[0].doc_count);
-      $("#totalPubDate").val(data.aggregations.pubdate.buckets[0].doc_count);
-
 
     } else {
 
@@ -372,8 +368,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     } else {
       // query += "&,copyrightdate";
       // query += ",pubdate";
-      query += "&facet=copyrightdate[1900,2014]";
-      query += "&facet=pubdate[1900,2014]";
+      query += "&facet=copyrightdate";
+      query += "&facet=pubdate";
     }
 
     query += "&output=*";
