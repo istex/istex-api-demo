@@ -225,18 +225,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#facetPubDate').empty();
 
         // CorpusFacet
-        var corpusFacetTemplate = "{{#aggregations.corpusFacet.buckets}}<div class='col-xs-offset-1 col-xs-10'><div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label><span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpusFacet.buckets}}";
-        $('#nbCorpusFacet').text(data.aggregations.corpusFacet.buckets.length);
+        var corpusFacetTemplate = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'><div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label><span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpus.buckets}}";
+        $('#nbCorpusFacet').text(data.aggregations.corpus.buckets.length);
         $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
 
-        if (data.aggregations.corpusFacet.buckets.length == 1) {
+        if (data.aggregations.corpus.buckets.length == 1) {
           facetCorpus.getElementsByTagName('input').item(0).checked = true;
           facetCorpus.getElementsByTagName('input').item(0).disabled = true;
         }
 
         // CopyrightDateFacet
-        var minDate = parseInt(data.aggregations.copyrightDateFacet.buckets[0].from_as_string);
-        var maxDate = parseInt(data.aggregations.copyrightDateFacet.buckets[0].to_as_string);
+        var minDate = parseInt(data.aggregations.copyrightdate.buckets[0].from_as_string);
+        var maxDate = parseInt(data.aggregations.copyrightdate.buckets[0].to_as_string);
 
         $("#slider-range-copyright").slider({
           range: true,
@@ -248,8 +248,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           " à " + $("#slider-range-copyright").slider("values", 1));
 
         // PubDateFacet
-        minDate = parseInt(data.aggregations.pubdateFacet.buckets[0].from_as_string);
-        maxDate = parseInt(data.aggregations.pubdateFacet.buckets[0].to_as_string);
+        minDate = parseInt(data.aggregations.pubdate.buckets[0].from_as_string);
+        maxDate = parseInt(data.aggregations.pubdate.buckets[0].to_as_string);
 
         $("#slider-range-pubdate").slider({
           range: true,
@@ -261,8 +261,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           " à " + $("#slider-range-pubdate").slider("values", 1));
       }
 
-      $("#totalCopyrightDate").val(data.aggregations.copyrightDateFacet.buckets[0].doc_count);
-      $("#totalPubDate").val(data.aggregations.pubdateFacet.buckets[0].doc_count);
+      $("#totalCopyrightDate").val(data.aggregations.copyrightdate.buckets[0].doc_count);
+      $("#totalPubDate").val(data.aggregations.pubdate.buckets[0].doc_count);
 
 
     } else {
