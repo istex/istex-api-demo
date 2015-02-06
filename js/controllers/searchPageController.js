@@ -162,7 +162,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       data["linksIcon"] = function() {
         return function(text, render) {
           var infos = render(text).split(" ");
-          var html = (infos.length == 2) ? "" : "<div class='label label-default' style='text-align:center'>"+infos[0]+"</div>";
+          var html = (infos.length == 2) ? "" : "<table><th>"+infos[0]+"</th><tr><td>";
           var i = 1;
           while ((i + 1) < infos.length) {
             var typeFile;
@@ -207,6 +207,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
             html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'" + infos[i].split("/")[1] + "\' title=\'" + infos[i].split("/")[1] + "\'></a>"
             i = i + 2;
           }
+
+          html += (infos.length == 2) ? "" : "</td></tr></table>";
           return html;
         }
       };
@@ -231,11 +233,16 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "{{#abstr}}{{abstract}}{{/abstr}}" +
         "</p><div class='label label-default' style='text-align:left;'><b>" +
         "{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>" +
+        "<div class='col-md-12'>" + 
+        "<div class='col-md-4'>" +
         "{{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}} " +
+        "</div><div class='col-md-3'>" +
         "{{#linksIcon}}Metadata {{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}} " +
+        "</div><div class='col-md-3'>" +
         "{{#linksIcon}}Annexes {{#annexes}}{{{mimetype}}} {{{uri}}} {{/annexes}}{{/linksIcon}} " +
+        "</div><div class='col-md-2'>" +
         "{{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}" +
-        "</div></tr>{{/hits}}";
+        "</div></div></tr>{{/hits}}";
 
       $("#tableResult").html(mustache.to_html(tableLine, data));
 
