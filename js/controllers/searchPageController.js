@@ -363,8 +363,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
       var maxPubdate = $("#slider-range-pubdate").slider("values", 1);
-      query += "&facet=copyrightdate[" + minCopyright + "," + maxCopyright + "]";
-      query += "&facet=pubdate[" + minPubdate + "," + maxPubdate + "]";
+      query += "&facet=copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
+      query += "&facet=pubdate[" + minPubdate + "-" + maxPubdate + "]";
     } else {
       // query += "&,copyrightdate";
       // query += ",pubdate";
