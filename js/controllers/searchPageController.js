@@ -136,7 +136,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     $("#jsonFromApi").JSONView(data);
 
-    if (data.total > 0) {
+    if(data.total > 0) {
 
       $('#accordeon').show();
       $('#first').show();
@@ -154,7 +154,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       data["abstr"] = function() {
         return function(text, render) {
-          if (render(text) == "") return "Pas de résumé pour ce résultat.";
+          if(render(text) == "")
+            return "Pas de résumé pour ce résultat.";
           return render(text);
         }
       };
@@ -164,9 +165,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           var html = "";
           var infos = render(text).split(" ");
           var i = 0;
-          while ((i + 1) < infos.length) {
+          while((i + 1) < infos.length) {
             var typeFile;
-            switch (infos[i]) {
+            switch(infos[i]) {
               case 'application/zip':
                 typeFile = 'img/mimetypes/32px/zip.png'
                 break;
@@ -205,7 +206,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           var infos = res.split(" ");
           var index = infos.indexOf("application/pdf");
           var title = res.slice(res.indexOf("\"") + 1, res.length - 1);
-          if (index != -1) {
+          if(index != -1) {
             return "<a href=\"" + infos[index + 1] + "\" target=\"_blank\">" + title + "</a>"
           } else {
             return title
@@ -217,7 +218,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       $("#tableResult").html(mustache.to_html(tableLine, data));
 
-      if (!searchPage.reaffine) {
+      if(!searchPage.reaffine) {
 
         // Vidage des facets avant remplissage
         $('#facetCorpus').empty();
@@ -229,7 +230,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#nbCorpusFacet').text(data.aggregations.corpus.buckets.length);
         $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
 
-        if (data.aggregations.corpus.buckets.length == 1) {
+        if(data.aggregations.corpus.buckets.length == 1) {
           facetCorpus.getElementsByTagName('input').item(0).checked = true;
           facetCorpus.getElementsByTagName('input').item(0).disabled = true;
         }
@@ -245,7 +246,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           values: [minDate, maxDate]
         });
         $("#amountCopyrightDate").val("De " + $("#slider-range-copyright").slider("values", 0) +
-          " à " + $("#slider-range-copyright").slider("values", 1));
+                " à " + $("#slider-range-copyright").slider("values", 1));
 
         // PubDateFacet
         minDate = parseInt(data.aggregations.pubdate.buckets[0].from_as_string);
@@ -258,7 +259,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           values: [minDate, maxDate]
         });
         $("#amountPubDate").val("De " + $("#slider-range-pubdate").slider("values", 0) +
-          " à " + $("#slider-range-pubdate").slider("values", 1));
+                " à " + $("#slider-range-pubdate").slider("values", 1));
       }
 
       $("#totalCopyrightDate").val(data.aggregations.copyrightdate.buckets[0].doc_count);
@@ -290,32 +291,39 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
   var ajaxInWork = null;
 
   searchPageController.search = function() {
-    var query = "document/?q=";
-    var fields = [];
+    var
+            query = "document/?q=",
+            fields = [],
+            ctrlScope = {};
 
-    if (searchPage.searchField !== "" && searchPage.searchField !== undefined) {
+    // On récupére le scope du controleur Angular
+    if(angular) {
+      ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
+    }
+
+    if(searchPage.searchField !== "" && searchPage.searchField !== undefined) {
       fields.push(searchPage.searchField);
     } else {
       fields.push('*');
     }
 
-    if ($("#collapse").is(':visible')) {
+    if($("#collapse").is(':visible')) {
 
-      if (searchPage.author !== "" && searchPage.author !== undefined) {
+      if(searchPage.author !== "" && searchPage.author !== undefined) {
         fields.push("author.personal:" + searchPage.author);
       }
-      if (searchPage.title !== "" && searchPage.title !== undefined) {
+      if(searchPage.title !== "" && searchPage.title !== undefined) {
         fields.push("title:" + searchPage.title);
       }
-      if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
+      if(searchPage.keywords !== "" && searchPage.keywords !== undefined) {
         fields.push("subject.value:" + searchPage.keywords);
       }
     }
 
-    if (searchPage.copyrightdate != undefined) {
+    if(searchPage.copyrightdate != undefined) {
       fields.push("copyrightdate:" + searchPage.copyrightdate);
     }
-    if (searchPage.pubdate != undefined) {
+    if(searchPage.pubdate != undefined) {
       fields.push("pubdate:" + searchPage.pubdate);
     }
 
@@ -324,19 +332,23 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
     var corpusQuery = '';
     $.each(searchPage.editor, function(index, editor) {
-      if (editor !== "-1") {
+      if(editor !== "-1") {
         corpusQuery += editor + ',';
       }
     });
 
-    if (corpusQuery != '') {
-      query += "&corpus=" + corpusQuery.slice(0, -1);
-    };
+
+
+    if(corpusQuery != '') {
+      query += ctrlScope.helper.corpus = "&corpus=" + corpusQuery.slice(0, -1);
+    }
+    ;
+    ctrlScope.$apply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += "&facet=corpus";
 
-    if ($("#result").is(":visible") && ($("#slider-range-copyright").slider( "instance" ) != undefined )) {
+    if($("#result").is(":visible") && ($("#slider-range-copyright").slider("instance") != undefined)) {
       var minCopyright = $("#slider-range-copyright").slider("values", 0);
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
@@ -355,7 +367,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
     $("#reqForApi").val(conf.apiUrl + query);
-
     var request = {
       url: conf.apiUrl + query,
       dataType: "jsonp",
@@ -364,7 +375,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       error: searchPageController.manageError
     };
 
-    if (ajaxInWork) ajaxInWork.abort();
+    if(ajaxInWork)
+      ajaxInWork.abort();
     ajaxInWork = $.ajax(request);
 
     $("#result").removeClass('hide');
