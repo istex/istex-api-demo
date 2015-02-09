@@ -162,7 +162,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       data["linksIcon"] = function() {
         return function(text, render) {
           var infos = render(text).split(" ");
-          var html = (infos.length == 2) ? "" : "<table><th>"+infos[0]+"</th><tr><td>";
+          var html = (infos.length == 2) ? "" : "<table><th>" + infos[0] + "</th><tr><td>";
           var i = 1;
           while ((i + 1) < infos.length) {
             var typeFile;
@@ -200,6 +200,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
               case 'application/msword':
                 typeFile = 'img/mimetypes/32px/doc.png'
                 break;
+              case 'video/quicktime':
+                typeFile = 'img/mimetypes/32px/qt.png'
+                break;
+              case 'application/rtf':
+                typeFile = 'img/mimetypes/32px/rtf.png'
+                break;
+              case 'application/vnd.ms-excel':
+                typeFile = 'img/mimetypes/32px/xls.png'
+                break;
               default:
                 typeFile = 'img/mimetypes/32px/_blank.png'
                 break;
@@ -233,7 +242,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "{{#abstr}}{{abstract}}{{/abstr}}" +
         "</p><div class='label label-default' style='text-align:left;'><b>" +
         "{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>" +
-        "<div class='col-md-12'>" + 
+        "<div class='col-md-12'>" +
         "<div class='col-md-4'>" +
         "{{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}} " +
         "</div><div class='col-md-3'>" +
