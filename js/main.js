@@ -90,7 +90,6 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     $("#slider-range-copyright").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.copyrightdate = [];
-        searchPage.pubdate = undefined;
         searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
     });
@@ -102,7 +101,6 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     $("#slider-range-pubdate").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.pubdate = [];
-        searchPage.copyrightdate = undefined;
         searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
     });

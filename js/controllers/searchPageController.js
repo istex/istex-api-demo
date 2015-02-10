@@ -4,96 +4,6 @@
 define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
   "use strict";
   var searchPageController = {};
-  /*****************************************
-   * Fonctions de recherche et d'affichage
-   *****************************************/
-
-  // Au démarrage, on teste la connexion à l'API
-  // $.ajax({
-  //   url: conf.apiUrl,
-
-  //   success: function(data) {
-  //     var n = noty({
-  //       layout: 'center',
-  //       type: 'success',
-  //       text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
-  //     });
-  //   },
-  //   error: function(xhr, status, err) {
-  //     console.log(xhr, status, err);
-  //     if (xhr.status == 401) {
-  //       var n = noty({
-  //         layout: 'center',
-  //         type: 'error',
-  //         text: 'L\'authentification a échoué. Veuillez rééssayer.'
-  //       });
-  //       // $.ajax({
-  //       //   url: conf.apiUrl + "corpus",
-  //       //   success: function(data) {
-  //       //     var n = noty({
-  //       //       layout: 'center',
-  //       //       type: 'success',
-  //       //       text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
-  //       //     });
-  //       //   },
-  //       //   error: function(xhr, status, err) {
-  //       //     console.log(xhr);
-  //       //     console.log(status);
-  //       //     console.log(err);
-  //       //     var n = noty({
-  //       //       layout: 'center',
-  //       //       type: 'error',
-  //       //       text: 'L\'authentification a échoué. Veuillez rééssayer.'
-  //       //     });
-  //       //   }
-  //       // })
-  //     }
-
-  //     if (xhr.status == 503) {
-  //       var n = noty({
-  //         layout: 'center',
-  //         type: 'error',
-  //         text: 'L\'API n\'est pas disponible pour le moment. Veuillez rééssayer ultérieurement.'
-  //       });
-  //     }
-  //   }
-  // });
-
-  // $.ajax({
-  //   url: conf.apiUrl,
-  //   crossDomain: true,
-  //   xhrFields: {
-  //       withCredentials: true
-  //   },
-  //   // success: function(data) {
-  //   //   var n = noty({
-  //   //     layout: 'center',
-  //   //     type: 'success',
-  //   //     modal: true,
-  //   //     text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
-  //   //   });
-  //   // },
-  //   error: function(xhr, status, err) {
-  //     console.log(xhr, status, err);
-  //     // if (xhr.status == 401) {
-  //     //   var n = noty({
-  //     //     layout: 'center',
-  //     //     type: 'error',
-  //     //     modal: true,
-  //     //     text: 'L\'authentification a échoué. Veuillez réessayer.'
-  //     //   });
-  //     // }
-
-  //     if (xhr.status == 503) {
-  //       var n = noty({
-  //         layout: 'center',
-  //         type: 'error',
-  //         modal: true,
-  //         text: 'L\'API n\'est pas disponible pour le moment. Veuillez rééssayer ultérieurement.'
-  //       });
-  //     }
-  //   }
-  // });
 
   (function() {
     window.setTimeout(function() {
@@ -111,26 +21,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       }
     });
   })();
-
-  // $(document).ajaxStop(function() {
-  //   console.log(err);
-  // });
-
-  // $.jsonp({
-  //   url: conf.apiUrl + "corpus",
-  //   timeout: 60000,
-  //   success: function(data, status, xhr) {
-  //     console.log(xhr, status, data);
-  //     var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-  //     var corpusList = {
-  //       corpusList: data
-  //     };
-  //     $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
-  //   },
-  //   complete: function(xOptions, status){
-  //     console.log(xOptions, status);
-  //   }
-  // });
 
   searchPageController.displayResults = function(data) {
 
@@ -298,13 +188,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       $("#totalResults").val(0);
       $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
-      $('#accordeon').hide();
       $('#first').hide();
       $('#prev').hide();
       $('#next').hide();
       $('#last').hide();
       $("#currentPage").text("*");
       $("#totalPages").text("*");
+
+      if(!searchPage.reaffine) $('#accordeon').hide();
+
     }
     $("button").button('reset');
     $("#result").css("opacity", 1);
