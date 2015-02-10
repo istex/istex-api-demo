@@ -271,11 +271,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
       var maxPubdate = $("#slider-range-pubdate").slider("values", 1);
-      query += "&facet=copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
-      query += "&facet=pubdate[" + minPubdate + "-" + maxPubdate + "]";
+      query += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
+      query += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
     } else {
-      //query += "&,copyrightdate,pubdate";
-      query += "&facet=copyrightdate&facet=pubdate";
+      query += ",copyrightdate,pubdate";
     }
 
     query += "&output=*";
