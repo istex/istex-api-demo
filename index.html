@@ -178,10 +178,13 @@
       </div>
 
       <div class="col-md-3">
-        <h6>
-                    <span class="glyphicon glyphicon-search"></span>
-                    Affiner les résultats
-                </h6>
+
+        <div class="col-md-12">
+          <div class="col-md-10">
+            <h6><span class="glyphicon glyphicon-search"></span>Affiner les résultats</h6>
+          </div>
+          <button class="glyphicon glyphicon-refresh" type="button" id="razFacet"></button>
+        </div>
 
         <div class="panel-group" id="accordeon">
 
@@ -203,7 +206,8 @@
           <div class="panel panel-primary">
             <div class="panel-heading">
               <h4 class="panel-title">
-                                Date de copyright
+                                Copyright
+                                <span id="nbCopyrightFacet" class="badge pull-right"></span>
                             </h4>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse in">
@@ -220,7 +224,8 @@
           <div class="panel panel-primary">
             <div class="panel-heading">
               <h4 class="panel-title">
-                                Date de publication
+                                Publication
+                                <span id="nbPublicationFacet" class="badge pull-right"></span>
                             </h4>
             </div>
             <div id="collapseThree" class="panel-collapse collapse in">

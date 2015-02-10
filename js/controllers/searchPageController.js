@@ -169,6 +169,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         // CopyrightDateFacet
         var minDate = parseInt(data.aggregations.copyrightdate.buckets[0].from_as_string);
         var maxDate = parseInt(data.aggregations.copyrightdate.buckets[0].to_as_string);
+        $('#nbCopyrightFacet').text(data.aggregations.copyrightdate.buckets[0].doc_count);
 
         $("#slider-range-copyright").slider({
           range: true,
@@ -182,6 +183,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         // PubDateFacet
         minDate = parseInt(data.aggregations.pubdate.buckets[0].from_as_string);
         maxDate = parseInt(data.aggregations.pubdate.buckets[0].to_as_string);
+        $('#nbPublicationFacet').text(data.aggregations.pubdate.buckets[0].doc_count);
 
         $("#slider-range-pubdate").slider({
           range: true,

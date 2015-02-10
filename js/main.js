@@ -106,4 +106,9 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
         searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
     });
+
+    $("#razFacet").on("click", function(event, ui) {
+        search(searchPage, searchPageController);
+    });
+
 });
