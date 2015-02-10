@@ -279,7 +279,30 @@
         <div class="col-md-12">Site officiel du projet :
           <a target="_blank" href="http://www.istex.fr">www.istex.fr</a>
         </div>
+        <button class="col-md-6" data-toggle="modal" data-target="#politicMenu" style="float: initial;">Politique de confidentialité</button>
       </div>
+
+      <!-- Modal politique -->
+      <div class="modal fade" id="politicMenu" tabindex="-1" role="dialog" aria-labelledby="politicLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Fermer</span>
+              </button>
+              <h4 class="modal-title text-center"><strong>Politique de confidentialité</strong></h4>
+            </div>
+            <div class="modal-body">
+              <iframe frameborder="no" width="500px" height="200px" src="http://piwik.inist.fr/index.php?module=CoreAdminHome&action=optOut&language=fr"></iframe>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <div class="col-md-2" id="logoIA">
         <img src="./img/Label-IA-mini.jpg">
@@ -302,6 +325,46 @@
     <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push([function() {
+      var self = this;
+
+      function getOriginalVisitorCookieTimeout() {
+        var now = new Date(),
+          nowTs = Math.round(now.getTime() / 1000),
+          visitorInfo = self.getVisitorInfo();
+        var createTs = parseInt(visitorInfo[2]);
+        var cookieTimeout = 33696000;
+        var originalTimeout = createTs + cookieTimeout - nowTs;
+        return originalTimeout;
+      }
+      getOriginalVisitorCookieTimeout();
+      this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
+    }]);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u = (("https:" == document.location.protocol) ? "https" : "http") + "://piwik.inist.fr/";
+      _paq.push(['setTrackerUrl', u + 'piwik.php']);
+      _paq.push(['setSiteId', 118]);
+      var d = document,
+        g = d.createElement('script'),
+        s = d.getElementsByTagName('script')[0];
+      g.type = 'text/javascript';
+      g.defer = true;
+      g.async = true;
+      g.src = u + 'piwik.js';
+      s[removed].insertBefore(g, s);
+    })();
+    </script>
+    <noscript>
+      <p><img src="http://piwik.inist.fr/piwik.php?idsite=118" style="border:0" alt="" />
+      </p>
+    </noscript>
+    <!-- End Piwik Code -->
 
 </body>
 
