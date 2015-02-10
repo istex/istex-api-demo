@@ -19,6 +19,8 @@ var search = function(searchPage, searchPageController) {
     searchPage.keywords = $("#themeField").val();
     searchPage.editor = [];
     searchPage.editor.push($("#editorField").val());
+    searchPage.pubdate = undefined;
+    searchPage.copyrightdate = undefined;
     searchPageController.search();
 };
 
