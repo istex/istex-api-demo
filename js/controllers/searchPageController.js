@@ -266,7 +266,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += "&facet=corpus";
 
-    if ($("#result").is(":visible") && ($("#slider-range-copyright").slider("instance") != undefined)) {
+    if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") != undefined)) {
       var minCopyright = $("#slider-range-copyright").slider("values", 0);
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
@@ -274,10 +274,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       query += "&facet=copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
       query += "&facet=pubdate[" + minPubdate + "-" + maxPubdate + "]";
     } else {
-      // query += "&,copyrightdate";
-      // query += ",pubdate";
-      query += "&facet=copyrightdate";
-      query += "&facet=pubdate";
+      //query += "&,copyrightdate,pubdate";
+      query += "&facet=copyrightdate&facet=pubdate";
     }
 
     query += "&output=*";
