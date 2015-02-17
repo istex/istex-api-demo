@@ -33,15 +33,17 @@ $(document).ready(function() {
 });
 
 var search = function(searchPage, searchPageController) {
-  searchPage.reaffine = false;
-  searchPage.currentPage = 1;
-  searchPage.searchField = $("#searchField").val();
-  searchPage.title = $("#titleField").val();
-  searchPage.author = $("#authorField").val();
-  searchPage.keywords = $("#themeField").val();
-  searchPage.editor = [];
-  searchPage.editor.push($("#editorField").val());
-  searchPageController.search();
+    searchPage.reaffine = false;
+    searchPage.currentPage = 1;
+    searchPage.searchField = $("#searchField").val();
+    searchPage.title = $("#titleField").val();
+    searchPage.author = $("#authorField").val();
+    searchPage.keywords = $("#themeField").val();
+    searchPage.editor = [];
+    searchPage.editor.push($("#editorField").val());
+    searchPage.pubdate = undefined;
+    searchPage.copyrightdate = undefined;
+    searchPageController.search();
 };
 
 require(["js/models/searchPage", "js/controllers/searchPageController"], function(searchPage, searchPageController) {
@@ -105,9 +107,9 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("#slider-range-copyright").on("slide", function(event, ui) {
-    $("#amountCopyrightDate").val("De " + ui.values[0] + " à " + ui.values[1]);
-  });
+    $("#slider-range-copyright").on("slide", function(event, ui) {
+        $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
+    });
 
   $("#slider-range-copyright").on("slidestop", function(event, ui) {
     searchPage.reaffine = true;
@@ -116,14 +118,17 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("#slider-range-pubdate").on("slide", function(event, ui) {
-    $("#amountPubDate").val("De " + ui.values[0] + " à " + ui.values[1]);
-  });
+    $("#slider-range-pubdate").on("slide", function(event, ui) {
+        $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
+    });
 
-  $("#slider-range-pubdate").on("slidestop", function(event, ui) {
-    searchPage.reaffine = true;
-    searchPage.pubdate = [];
-    searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
-    searchPageController.search();
-  });
+    $("#slider-range-pubdate").on("slidestop", function(event, ui) {
+        searchPage.reaffine = true;
+        searchPage.pubdate = [];
+        searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+        searchPageController.search();
+    });
+    $("#razFacet").on("click", function(event, ui) {
+        search(searchPage, searchPageController);
+    });
 });

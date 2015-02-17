@@ -4,96 +4,6 @@
 define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
   "use strict";
   var searchPageController = {};
-  /*****************************************
-   * Fonctions de recherche et d'affichage
-   *****************************************/
-
-  // Au démarrage, on teste la connexion à l'API
-  // $.ajax({
-  //   url: conf.apiUrl,
-
-  //   success: function(data) {
-  //     var n = noty({
-  //       layout: 'center',
-  //       type: 'success',
-  //       text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
-  //     });
-  //   },
-  //   error: function(xhr, status, err) {
-  //     console.log(xhr, status, err);
-  //     if (xhr.status == 401) {
-  //       var n = noty({
-  //         layout: 'center',
-  //         type: 'error',
-  //         text: 'L\'authentification a échoué. Veuillez rééssayer.'
-  //       });
-  //       // $.ajax({
-  //       //   url: conf.apiUrl + "corpus",
-  //       //   success: function(data) {
-  //       //     var n = noty({
-  //       //       layout: 'center',
-  //       //       type: 'success',
-  //       //       text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
-  //       //     });
-  //       //   },
-  //       //   error: function(xhr, status, err) {
-  //       //     console.log(xhr);
-  //       //     console.log(status);
-  //       //     console.log(err);
-  //       //     var n = noty({
-  //       //       layout: 'center',
-  //       //       type: 'error',
-  //       //       text: 'L\'authentification a échoué. Veuillez rééssayer.'
-  //       //     });
-  //       //   }
-  //       // })
-  //     }
-
-  //     if (xhr.status == 503) {
-  //       var n = noty({
-  //         layout: 'center',
-  //         type: 'error',
-  //         text: 'L\'API n\'est pas disponible pour le moment. Veuillez rééssayer ultérieurement.'
-  //       });
-  //     }
-  //   }
-  // });
-
-  // $.ajax({
-  //   url: conf.apiUrl,
-  //   crossDomain: true,
-  //   xhrFields: {
-  //       withCredentials: true
-  //   },
-  //   // success: function(data) {
-  //   //   var n = noty({
-  //   //     layout: 'center',
-  //   //     type: 'success',
-  //   //     modal: true,
-  //   //     text: 'Bienvenue sur le démonstrateur de l\'API ISTEX !'
-  //   //   });
-  //   // },
-  //   error: function(xhr, status, err) {
-  //     console.log(xhr, status, err);
-  //     // if (xhr.status == 401) {
-  //     //   var n = noty({
-  //     //     layout: 'center',
-  //     //     type: 'error',
-  //     //     modal: true,
-  //     //     text: 'L\'authentification a échoué. Veuillez réessayer.'
-  //     //   });
-  //     // }
-
-  //     if (xhr.status == 503) {
-  //       var n = noty({
-  //         layout: 'center',
-  //         type: 'error',
-  //         modal: true,
-  //         text: 'L\'API n\'est pas disponible pour le moment. Veuillez rééssayer ultérieurement.'
-  //       });
-  //     }
-  //   }
-  // });
 
   (function() {
     window.setTimeout(function() {
@@ -111,26 +21,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       }
     });
   })();
-
-  // $(document).ajaxStop(function() {
-  //   console.log(err);
-  // });
-
-  // $.jsonp({
-  //   url: conf.apiUrl + "corpus",
-  //   timeout: 60000,
-  //   success: function(data, status, xhr) {
-  //     console.log(xhr, status, data);
-  //     var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-  //     var corpusList = {
-  //       corpusList: data
-  //     };
-  //     $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
-  //   },
-  //   complete: function(xOptions, status){
-  //     console.log(xOptions, status);
-  //   }
-  // });
 
   searchPageController.displayResults = function(data) {
 
@@ -162,10 +52,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       data["linksIcon"] = function() {
         return function(text, render) {
-          var html = "";
           var infos = render(text).split(" ");
-          var i = 0;
-          while((i + 1) < infos.length) {
+          var html = (infos.length == 2) ? "" : "<table><th>" + infos[0] + "</th><tr><td>";
+          var i = 1;
+          while ((i + 1) < infos.length) {
             var typeFile;
             switch(infos[i]) {
               case 'application/zip':
@@ -189,6 +79,27 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
               case 'text/plain':
                 typeFile = 'img/mimetypes/32px/txt.png'
                 break;
+              case 'image/jpeg':
+                typeFile = 'img/mimetypes/32px/jpg.png'
+                break;
+              case 'image/gif':
+                typeFile = 'img/mimetypes/32px/gif.png'
+                break;
+              case 'application/vnd.ms-powerpoint':
+                typeFile = 'img/mimetypes/32px/ppt.png'
+                break;
+              case 'application/msword':
+                typeFile = 'img/mimetypes/32px/doc.png'
+                break;
+              case 'video/quicktime':
+                typeFile = 'img/mimetypes/32px/qt.png'
+                break;
+              case 'application/rtf':
+                typeFile = 'img/mimetypes/32px/rtf.png'
+                break;
+              case 'application/vnd.ms-excel':
+                typeFile = 'img/mimetypes/32px/xls.png'
+                break;
               default:
                 typeFile = 'img/mimetypes/32px/_blank.png'
                 break;
@@ -196,6 +107,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
             html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'" + infos[i].split("/")[1] + "\' title=\'" + infos[i].split("/")[1] + "\'></a>"
             i = i + 2;
           }
+
+          html += (infos.length == 2) ? "" : "</td></tr></table>";
           return html;
         }
       };
@@ -214,7 +127,22 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         }
       }
 
-      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}</b></h4><p class='col-md-12' style='font-size:X-small;'>{{#abstr}}{{abstract}}{{/abstr}}</p><div class='label label-default' style='text-align:left;'><b>{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>{{#linksIcon}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}{{#linksIcon}}{{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}</div></tr>{{/hits}}";
+      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>" +
+        "{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}" +
+        "</b></h4><p class='col-md-12' style='font-size:X-small;'>" +
+        "{{#abstr}}{{abstract}}{{/abstr}}" +
+        "</p><div class='label label-default' style='text-align:left;'><b>" +
+        "{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>" +
+        "<div class='col-md-12'>" +
+        "<div class='col-md-4'>" +
+        "{{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}} " +
+        "</div><div class='col-md-3'>" +
+        "{{#linksIcon}}Metadata {{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}} " +
+        "</div><div class='col-md-3'>" +
+        "{{#linksIcon}}Annexes {{#annexes}}{{{mimetype}}} {{{uri}}} {{/annexes}}{{/linksIcon}} " +
+        "</div><div class='col-md-2'>" +
+        "{{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}" +
+        "</div></div></tr>{{/hits}}";
 
       $("#tableResult").html(mustache.to_html(tableLine, data));
 
@@ -226,7 +154,11 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#facetPubDate').empty();
 
         // CorpusFacet
-        var corpusFacetTemplate = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'><div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label><span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpus.buckets}}";
+        var corpusFacetTemplate = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
+          "<span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpus.buckets}}";
+
+
         $('#nbCorpusFacet').text(data.aggregations.corpus.buckets.length);
         $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
 
@@ -238,6 +170,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         // CopyrightDateFacet
         var minDate = parseInt(data.aggregations.copyrightdate.buckets[0].from_as_string);
         var maxDate = parseInt(data.aggregations.copyrightdate.buckets[0].to_as_string);
+        $('#nbCopyrightFacet').text(data.aggregations.copyrightdate.buckets[0].doc_count);
 
         $("#slider-range-copyright").slider({
           range: true,
@@ -245,12 +178,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           max: maxDate,
           values: [minDate, maxDate]
         });
-        $("#amountCopyrightDate").val("De " + $("#slider-range-copyright").slider("values", 0) +
-                " à " + $("#slider-range-copyright").slider("values", 1));
+
+        $("#amountCopyrightDate").val($("#slider-range-copyright").slider("values", 0) +
+          " à " + $("#slider-range-copyright").slider("values", 1));
+
 
         // PubDateFacet
         minDate = parseInt(data.aggregations.pubdate.buckets[0].from_as_string);
         maxDate = parseInt(data.aggregations.pubdate.buckets[0].to_as_string);
+        $('#nbPublicationFacet').text(data.aggregations.pubdate.buckets[0].doc_count);
 
         $("#slider-range-pubdate").slider({
           range: true,
@@ -258,25 +194,24 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           max: maxDate,
           values: [minDate, maxDate]
         });
-        $("#amountPubDate").val("De " + $("#slider-range-pubdate").slider("values", 0) +
-                " à " + $("#slider-range-pubdate").slider("values", 1));
+
+        $("#amountPubDate").val($("#slider-range-pubdate").slider("values", 0) +
+          " à " + $("#slider-range-pubdate").slider("values", 1));
       }
-
-      $("#totalCopyrightDate").val(data.aggregations.copyrightdate.buckets[0].doc_count);
-      $("#totalPubDate").val(data.aggregations.pubdate.buckets[0].doc_count);
-
 
     } else {
 
       $("#totalResults").val(0);
       $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
-      $('#accordeon').hide();
       $('#first').hide();
       $('#prev').hide();
       $('#next').hide();
       $('#last').hide();
       $("#currentPage").text("*");
       $("#totalPages").text("*");
+
+      if(!searchPage.reaffine) $('#accordeon').hide();
+
     }
     $("button").button('reset');
     $("#result").css("opacity", 1);
@@ -348,18 +283,17 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += "&facet=corpus";
 
-    if($("#result").is(":visible") && ($("#slider-range-copyright").slider("instance") != undefined)) {
+
+    if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") != undefined)) {
+
       var minCopyright = $("#slider-range-copyright").slider("values", 0);
       var maxCopyright = $("#slider-range-copyright").slider("values", 1);
       var minPubdate = $("#slider-range-pubdate").slider("values", 0);
       var maxPubdate = $("#slider-range-pubdate").slider("values", 1);
-      query += "&facet=copyrightdate[" + minCopyright + "," + maxCopyright + "]";
-      query += "&facet=pubdate[" + minPubdate + "," + maxPubdate + "]";
+      query += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
+      query += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
     } else {
-      // query += "&,copyrightdate";
-      // query += ",pubdate";
-      query += "&facet=copyrightdate[1900,2014]";
-      query += "&facet=pubdate[1900,2014]";
+      query += ",copyrightdate,pubdate";
     }
 
     query += "&output=*";

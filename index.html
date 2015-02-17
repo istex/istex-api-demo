@@ -9,6 +9,7 @@
 <html class="no-js">
   <!--<![endif]-->
 
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet/less" type="text/css" href="css/main.less">
+
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/vendor/angular.js"></script>
@@ -31,15 +33,17 @@
 
   <body ng-app="istexApp" ng-controller="istexAppCtrl">
     <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-            your browser</a> to improve your experience.</p>
-    <![endif]-->
+          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+              your browser</a> to improve your experience.</p>
+      <![endif]-->
 
     <div class="container">
-      <div id="header" class="istex-header jumbotron row" >
+
+      <div id="header" class="istex-header jumbotron row">
+        <h1>&nbsp;</h1>
         <h1 data-toggle="qtip-tooltip">&nbsp;</h1>
         <div class="qtip-tooltip">
-          {{ helper.corpus }}
+          {{ helper.corpus}}
         </div>
       </div>
 
@@ -181,23 +185,22 @@
         </div>
 
         <div class="col-md-3">
-          <h6>
-            <span class="glyphicon glyphicon-search"></span>
-            Affiner les résultats
-          </h6>
+
+          <div class="col-md-12">
+            <div class="col-md-10">
+              <h6><span class="glyphicon glyphicon-search"></span>Affiner les résultats</h6>
+            </div>
+            <button class="glyphicon glyphicon-refresh" type="button" id="razFacet"></button>
+          </div>
 
           <div class="panel-group" id="accordeon">
 
             <div class="panel panel-primary">
-              <div class="panel-heading clearfix">
-                <h4 class="panel-title " >
+              <div class="panel-heading">
+                <h4 class="panel-title">
                   Corpus
                   <span id="nbCorpusFacet" class="badge pull-right"></span>
                 </h4>
-                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#corpusQueryHelperModal">
-                  <span class="glyphicon glyphicon-info-sign text-info" aria-hidden="true"></span>
-                </button>
-
               </div>
               <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
@@ -210,21 +213,17 @@
             <div class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  Date de copyright
+                  Copyright
+                  <span id="nbCopyrightFacet" class="badge pull-right"></span>
                 </h4>
               </div>
               <div id="collapseTwo" class="panel-collapse collapse in">
                 <div class="panel-body">
-                  <p>
-                    <label for="amountCopyrightDate">Entre :</label>
-                    <input type="text" id="amountCopyrightDate" readonly style="border:0;">
-                  </p>
-                  <div id="slider-range-copyright" class="panel-collapse collapse in"></div>
-                  <div>
-                    <p>
-                      <input type="text" id="totalCopyrightDate" readonly style="border:0; text-align: right;" class="col-md-6">
-                    <p class="col-md-6" style="padding-left: 0;">document(s)</p>
+                  <div class="col-md-12">
+                    <label for="amountCopyrightDate" class="col-md-5">Entre :</label>
+                    <input type="text" id="amountCopyrightDate" readonly style="border:0;" class="col-md-7">
                   </div>
+                  <div id="slider-range-copyright" class="panel-collapse collapse in col-md-12"></div>
                 </div>
               </div>
             </div>
@@ -232,21 +231,17 @@
             <div class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  Date de publication
+                  Publication
+                  <span id="nbPublicationFacet" class="badge pull-right"></span>
                 </h4>
               </div>
               <div id="collapseThree" class="panel-collapse collapse in">
                 <div class="panel-body">
-                  <p>
-                    <label for="amountPubDate">Entre :</label>
-                    <input type="text" id="amountPubDate" readonly style="border:0;">
-                  </p>
-                  <div id="slider-range-pubdate" class="panel-collapse collapse in"></div>
-                  <div>
-                    <p>
-                      <input type="text" id="totalPubDate" readonly style="border:0; text-align: right;" class="col-md-6">
-                    <p class="col-md-6" style="padding-left: 0;">document(s)</p>
+                  <div class="col-md-12">
+                    <label for="amountPubDate" class="col-md-5">Entre :</label>
+                    <input type="text" id="amountPubDate" readonly style="border:0;" class="col-md-7">
                   </div>
+                  <div id="slider-range-pubdate" class="panel-collapse collapse in col-md-12"></div>
                 </div>
               </div>
             </div>
@@ -291,9 +286,36 @@
       </div>
 
       <div id="footer">
-        <div class="col-md-5">Site officiel du projet :
-          <a target="_blank" href="http://www.istex.fr">www.istex.fr</a>
+
+        <div class="col-md-5">
+          <div class="col-md-12">Site officiel du projet :
+            <a target="_blank" href="http://www.istex.fr">www.istex.fr</a>
+          </div>
+          <button class="col-md-6" data-toggle="modal" data-target="#politicMenu" style="float: initial;">Politique de confidentialité</button>
         </div>
+
+        <!-- Modal politique -->
+        <div class="modal fade" id="politicMenu" tabindex="-1" role="dialog" aria-labelledby="politicLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Fermer</span>
+                </button>
+                <h4 class="modal-title text-center"><strong>Politique de confidentialité</strong></h4>
+              </div>
+              <div class="modal-body">
+                <iframe frameborder="no" width="500" height="200" src="http://piwik.inist.fr/index.php?module=CoreAdminHome&action=optOut&language=fr"></iframe>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <div class="col-md-2" id="logoIA">
           <img src="./img/Label-IA-mini.jpg">
         </div>
@@ -302,19 +324,60 @@
         </div>
         <div style="font-size:10px">Favicon réalisé par <a href="http://www.freepik.com" title="Freepik">Freepik</a> sous licence <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
         </div>
-      </div>
-    </div>
 
-    <script src="http://cdn.jsdelivr.net/qtip2/2.2.1/basic/jquery.qtip.min.js"></script>
-    <script type="text/javascript" src="js/vendor/less-1.6.3.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
-    <script type="text/javascript" src="js/vendor/noty/packaged/jquery.noty.packaged.min.js"></script>
-    <script src="js/vendor/require.js"></script>
-    <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/main.js"></script>
+      </div>
+
+      <script src="http://cdn.jsdelivr.net/qtip2/2.2.1/basic/jquery.qtip.min.js"></script>
+      <script type="text/javascript" src="js/vendor/less-1.6.3.min.js"></script>
+      <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
+      <script type="text/javascript" src="js/vendor/noty/packaged/jquery.noty.packaged.min.js"></script>
+      <script src="js/vendor/require.js"></script>
+      <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
+      <script src="js/plugins.js"></script>
+      <script src="js/main.js"></script>
+
+      <!-- Piwik -->
+      <script type="text/javascript">
+                        var _paq = _paq || [];
+                        _paq.push([function() {
+                            var self = this;
+
+                            function getOriginalVisitorCookieTimeout() {
+                              var now = new Date(),
+                                      nowTs = Math.round(now.getTime() / 1000),
+                                      visitorInfo = self.getVisitorInfo();
+                              var createTs = parseInt(visitorInfo[2]);
+                              var cookieTimeout = 33696000;
+                              var originalTimeout = createTs + cookieTimeout - nowTs;
+                              return originalTimeout;
+                            }
+                            getOriginalVisitorCookieTimeout();
+                            this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
+                          }]);
+                        _paq.push(['trackPageView']);
+                        _paq.push(['enableLinkTracking']);
+                        (function() {
+                          var u = (("https:" == document.location.protocol) ? "https" : "http") + "://piwik.inist.fr//";
+                          _paq.push(['setTrackerUrl', u + 'piwik.php']);
+                          _paq.push(['setSiteId', 118]);
+                          var d = document,
+                                  g = d.createElement('script'),
+                                  s = d.getElementsByTagName('script')[0];
+                          g.type = 'text/javascript';
+                          g.defer = true;
+                          g.async = true;
+                          g.src = u + 'piwik.js';
+                          s.parentNode.insertBefore(g, s);
+                        })();
+      </script>
+      <noscript>
+      <p><img src="http://piwik.inist.fr/piwik.php?idsite=118" style="border:0" alt="" />
+      </p>
+      </noscript>
+      <!-- End Piwik Code -->
+    </div>
   </body>
 
 </html>
