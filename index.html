@@ -18,11 +18,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/qtip2/2.2.1/basic/jquery.qtip.min.css">
     <link rel="stylesheet" href="js/vendor/jsonview/jquery.jsonview.css">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/qtip2/2.2.1/basic/jquery.qtip.min.css">
     <link rel="stylesheet/less" type="text/css" href="css/main.less">
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -40,10 +40,13 @@
     <div class="container">
 
       <div id="header" class="istex-header jumbotron row">
-        <h1>&nbsp;</h1>
         <h1 data-toggle="qtip-tooltip">&nbsp;</h1>
         <div class="qtip-tooltip">
-          {{ helper.corpus}}
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              {{ helper.corpus}}
+            </div>
+          </div>
         </div>
       </div>
 

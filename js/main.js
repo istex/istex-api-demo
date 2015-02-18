@@ -1,104 +1,108 @@
-/*jslint jquery: true */
-/*jslint node: true */
-var globalSearchPage = {};
-var globalSearchPageController = {};
-var phonecatApp = angular.module('istexApp', [])
-        .controller('istexAppCtrl', function($scope) {
-          var queryHelpMessage = "Aide sur construction de la requête";
-          $scope.helper = {
-            query: queryHelpMessage,
-            corpus: queryHelpMessage
-          };
-          globalSearchPageController.a = 3;
-          $scope.search = function($scope) {
-            search(globalSearchPage, globalSearchPageController);
-          };
-        });
-$(document).ready(function() {
+/*global jquery: true, angular: true, $: true */
+/*jslint node: true, browser: true, unparam: true */
+/*jslint indent: 2 */
+"use strict";
+var globalSearchPage = {},
+  globalSearchPageController = {};
 
-  // Apply tooltip on all <a/> elements with title attributes. Mousing over
-  // these elements will the show tooltip as expected, but mousing onto the
-  // tooltip is now possible for interaction with it's contents.
-  $("[data-toggle='qtip-tooltip']").each(function() {
+var search = function (searchPage, searchPageController) {
+  searchPage.reaffine = false;
+  searchPage.currentPage = 1;
+  searchPage.searchField = $("#searchField").val();
+  searchPage.title = $("#titleField").val();
+  searchPage.author = $("#authorField").val();
+  searchPage.keywords = $("#themeField").val();
+  searchPage.editor = [];
+  searchPage.editor.push($("#editorField").val());
+  searchPage.pubdate = undefined;
+  searchPage.copyrightdate = undefined;
+  searchPageController.search();
+};
+
+var phonecatApp = angular
+  .module('istexApp', [])
+  .controller('istexAppCtrl', function ($scope) {
+    var queryHelpMessage = "Aide sur construction de la requête";
+    $scope.helper = {
+      query: queryHelpMessage,
+      corpus: queryHelpMessage
+    };
+    globalSearchPageController.a = 3;
+    $scope.search = function () {
+      search(globalSearchPage, globalSearchPageController);
+    };
+  });
+
+$(document).ready(function () {
+
+
+  $("[data-toggle='qtip-tooltip']").each(function () {
     $(this).qtip({
       content: $(this).next('.qtip-tooltip'),
       hide: {
         fixed: true,
         delay: 300
       },
-      style: {classes : 'text-primary'}
+      style: {classes: 'text-primary'}
     });
   });
-
 });
 
-var search = function(searchPage, searchPageController) {
-    searchPage.reaffine = false;
-    searchPage.currentPage = 1;
-    searchPage.searchField = $("#searchField").val();
-    searchPage.title = $("#titleField").val();
-    searchPage.author = $("#authorField").val();
-    searchPage.keywords = $("#themeField").val();
-    searchPage.editor = [];
-    searchPage.editor.push($("#editorField").val());
-    searchPage.pubdate = undefined;
-    searchPage.copyrightdate = undefined;
-    searchPageController.search();
-};
 
-require(["js/models/searchPage", "js/controllers/searchPageController"], function(searchPage, searchPageController) {
-  "use strict";
+
+require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
   globalSearchPage = searchPage;
   globalSearchPageController = searchPageController;
-  $("#searchform").submit(function(event) {
+
+  $("#searchform").submit(function (event) {
     event.preventDefault();
     search(searchPage, searchPageController);
   });
 
-  $("#advancedSearchForm input").keypress(function(e) {
-    if((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+  $("#advancedSearchForm input").keypress(function (e) {
+    if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
       $('#searchButton').click();
       return false;
-    } else {
-      return true;
     }
+
+    return true;
   });
 
-  $("#prev").click(function() {
-    if(searchPage.currentPage <= 1) {
+  $("#prev").click(function () {
+    if (searchPage.currentPage <= 1) {
       return;
     }
-    searchPage.currentPage--;
+    searchPage.currentPage = searchPage.currentPage - 1;
     searchPageController.search();
   });
 
-  $("#first").click(function() {
-    if(searchPage.currentPage <= 1) {
+  $("#first").click(function () {
+    if (searchPage.currentPage <= 1) {
       return;
     }
     searchPage.currentPage = 1;
     searchPageController.search();
   });
 
-  $("#next").click(function() {
-    if(searchPage.currentPage >= searchPage.numberOfPages) {
+  $("#next").click(function () {
+    if (searchPage.currentPage >= searchPage.numberOfPages) {
       return;
     }
-    searchPage.currentPage++;
+    searchPage.currentPage += 1;
     searchPageController.search();
   });
 
-  $("#last").click(function() {
-    if(searchPage.currentPage - 1 >= searchPage.numberOfPages) {
+  $("#last").click(function () {
+    if (searchPage.currentPage - 1 >= searchPage.numberOfPages) {
       return;
     }
     searchPage.currentPage = searchPage.numberOfPages;
     searchPageController.search();
   });
 
-  $("#facetCorpus").on("click", "input", function() {
+  $("#facetCorpus").on("click", "input", function () {
     searchPage.reaffine = true;
-    if(this.checked) {
+    if (this.checked) {
       searchPage.editor.push(this.value);
     } else {
       var index = searchPage.editor.indexOf(this.value);
@@ -107,28 +111,29 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-    $("#slider-range-copyright").on("slide", function(event, ui) {
-        $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
-    });
+  $("#slider-range-copyright").on("slide", function (event, ui) {
+    $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
+  });
 
-  $("#slider-range-copyright").on("slidestop", function(event, ui) {
+  $("#slider-range-copyright").on("slidestop", function (event, ui) {
     searchPage.reaffine = true;
     searchPage.copyrightdate = [];
     searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
     searchPageController.search();
   });
 
-    $("#slider-range-pubdate").on("slide", function(event, ui) {
-        $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
-    });
+  $("#slider-range-pubdate").on("slide", function (event, ui) {
+    $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
+  });
 
-    $("#slider-range-pubdate").on("slidestop", function(event, ui) {
-        searchPage.reaffine = true;
-        searchPage.pubdate = [];
-        searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
-        searchPageController.search();
-    });
-    $("#razFacet").on("click", function(event, ui) {
-        search(searchPage, searchPageController);
-    });
+  $("#slider-range-pubdate").on("slidestop", function (event, ui) {
+    searchPage.reaffine = true;
+    searchPage.pubdate = [];
+    searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+    searchPageController.search();
+  });
+
+  $("#razFacet").on("click", function (event, ui) {
+    search(searchPage, searchPageController);
+  });
 });
