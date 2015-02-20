@@ -23,10 +23,14 @@ var phonecatApp = angular
   .module('istexApp', [])
   .controller('istexAppCtrl', function ($scope) {
     var queryHelpMessage = "Aide sur construction de la requête";
+
     $scope.helper = {
       query: queryHelpMessage,
-      corpus: queryHelpMessage
+      corpus: {
+        query: queryHelpMessage
+      }
     };
+
     globalSearchPageController.a = 3;
     $scope.search = function () {
       search(globalSearchPage, globalSearchPageController);
@@ -36,14 +40,27 @@ var phonecatApp = angular
 $(document).ready(function () {
 
 
-  $("[data-toggle='qtip-tooltip']").each(function () {
+  $("[data-toggle='istex-tooltip']").each(function () {
     $(this).qtip({
-      content: $(this).next('.qtip-tooltip'),
+      content:
+        {
+          text: function (event, api) {
+
+            return $(this).next('.istex-tooltip');
+          }
+        },
       hide: {
+        event: false,
         fixed: true,
-        delay: 300
+        delay: 382
       },
-      style: {classes: 'text-primary'}
+      position: {
+        my: 'left top',
+        at: 'right top'
+      },
+      style: {
+        def: false
+      }
     });
   });
 });

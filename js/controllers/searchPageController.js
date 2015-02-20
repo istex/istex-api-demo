@@ -293,7 +293,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
 
     if (corpusQuery !== '') {
-      query += ctrlScope.helper.corpus = "&corpus=" + corpusQuery.slice(0, -1);
+      query += ctrlScope.helper.corpus.query = "&corpus=" + corpusQuery.slice(0, -1);
+    } else {
+      ctrlScope.helper.corpus.query = '';
     }
 
     ctrlScope.$apply();

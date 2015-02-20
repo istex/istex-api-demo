@@ -19,9 +19,8 @@
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="js/vendor/jsonview/jquery.jsonview.css">
-    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="css/main.css">
 
@@ -206,8 +205,9 @@
             </div>
             <div class="istex-tooltip">
               <h5>Corpus</h5>
-              <p>Cette facette permet de préciser le </p>
-              <b data-ng-bind="helper.corpus.query"></b>
+              <p>Cette facette permet de préciser le <b class="text-primary">corpus éditeur</b> sur lequel porte la requête.</p>
+              <hr>
+              <p>...<mark class="query-chunk" data-ng-bind="helper.corpus.query"></mark>...</p>
             </div>
 
             <div class="panel panel-primary">

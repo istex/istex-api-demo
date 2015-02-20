@@ -124,15 +124,39 @@ textarea {
 /* ==========================================================================
    Tooltip
    ========================================================================== */
-
-
+@import (reference, less) "../../css/bootstrap.min.css";
+@import (reference)  "../vendor/bootstrap-3.1.0/less/variables.less";
 .istex-tooltip {
   display: none; // Start hidden
+  
+  /* Reset de qtip */
+  font-size: @font-size-base;
+  line-height: @line-height-computed;
+  
+  & > h5 {
+    display: inline-block;
+    .h4;
+    .bg-primary;
+  }
+  & > p {
+    font-size: @font-size-small;
+  }
+  & > hr {
+    margin-top: @line-height-computed / 2;
+    margin-bottom: @line-height-computed / 2;
+    border-top-color: @gray-dark;
+  }
+  .query-chunk {
+    font-size: @font-size-large;
+    .bg-info;
+  }
 }
 .qtip-content {
   padding: 0;
+
 }
 .qtip{
-  border: 1px solid red;
-  background-color: #fff;
-}  
+  .well; .well-sm;
+  border-radius: @border-radius-large;
+  border: 2px solid @brand-primary;
+}
