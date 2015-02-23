@@ -22,15 +22,22 @@ var search = function (searchPage, searchPageController) {
 var phonecatApp = angular
   .module('istexApp', [])
   .controller('istexAppCtrl', function ($scope) {
-    var queryHelpMessage = "Aide sur construction de la requête";
-
     $scope.helper = {
-      query: queryHelpMessage,
-      corpus: {
-        query: queryHelpMessage
+      corpus: {},
+      copyrightDate: {},
+      publicationDate: {}
+
+    };
+    $scope.safeApply = function (fn) {
+      var phase = this.$root.$$phase;
+      if (phase === '$apply' || phase === '$digest') {
+        if (fn && (typeof fn === 'function')) {
+          fn();
+        }
+      } else {
+        this.$apply(fn);
       }
     };
-
     globalSearchPageController.a = 3;
     $scope.search = function () {
       search(globalSearchPage, globalSearchPageController);
@@ -44,13 +51,10 @@ $(document).ready(function () {
     $(this).qtip({
       content:
         {
-          text: function (event, api) {
-
-            return $(this).next('.istex-tooltip');
-          }
+          text: $(this).next('.istex-tooltip')
         },
       hide: {
-        event: false,
+//        event: false,
         fixed: true,
         delay: 382
       },

@@ -241,7 +241,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     var
       query = "document/?q=",
       fields = [],
-      ctrlScope = {},
+      ctrlScope,
       minCopyright,
       maxCopyright,
       minPubdate,
@@ -273,7 +273,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       }
     }
 
-    if (searchPage.copyrightdate !== undefined) {
+    if (searchPage.copyrightdate) {
+      ctrlScope.helper.copyrightDate.query = "AND copyrightdate:" + searchPage.copyrightdate;
       fields.push("copyrightdate:" + searchPage.copyrightdate);
     }
     if (searchPage.pubdate !== undefined) {
@@ -295,10 +296,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     if (corpusQuery !== '') {
       query += ctrlScope.helper.corpus.query = "&corpus=" + corpusQuery.slice(0, -1);
     } else {
-      ctrlScope.helper.corpus.query = '';
+      ctrlScope.helper.corpus.query = null;
     }
 
-    ctrlScope.$apply();
+    ctrlScope.safeApply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += "&facet=corpus";

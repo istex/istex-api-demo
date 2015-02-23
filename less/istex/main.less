@@ -126,13 +126,25 @@ textarea {
    ========================================================================== */
 @import (reference, less) "../../css/bootstrap.min.css";
 @import (reference)  "../vendor/bootstrap-3.1.0/less/variables.less";
+
+.qtip{
+  .well; .well-sm;
+  max-width: @font-size-base * 25;
+  border-radius: @border-radius-large;
+  border: 2px solid @brand-primary;
+  background-color: #EDEDED;
+}
+.qtip-content {
+  padding: 0;
+
+}
 .istex-tooltip {
   display: none; // Start hidden
-  
+
   /* Reset de qtip */
   font-size: @font-size-base;
   line-height: @line-height-computed;
-  
+
   & > h5 {
     display: inline-block;
     .h4;
@@ -141,22 +153,24 @@ textarea {
   & > p {
     font-size: @font-size-small;
   }
-  & > hr {
+  hr {
     margin-top: @line-height-computed / 2;
     margin-bottom: @line-height-computed / 2;
-    border-top-color: @gray-dark;
+    border-top-color: @gray;
   }
   .query-chunk {
+    &:before,&:after
+      {
+      content: "...";
+    }
     font-size: @font-size-large;
-    .bg-info;
+    & > mark{
+      &[data-ng-bind*="corpus"]{
+        .bg-info;
+      }
+      &[data-ng-bind*="copyrightDate"]{
+        .bg-success;
+      }
+    }
   }
-}
-.qtip-content {
-  padding: 0;
-
-}
-.qtip{
-  .well; .well-sm;
-  border-radius: @border-radius-large;
-  border: 2px solid @brand-primary;
 }

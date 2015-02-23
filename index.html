@@ -206,11 +206,14 @@
             <div class="istex-tooltip">
               <h5>Corpus</h5>
               <p>Cette facette permet de préciser le <b class="text-primary">corpus éditeur</b> sur lequel porte la requête.</p>
-              <hr>
-              <p>...<mark class="query-chunk" data-ng-bind="helper.corpus.query"></mark>...</p>
+              <div data-ng-if="helper.corpus.query">
+                <hr>
+                <p>Morceau de la requête généré par la facette: </p>
+                <p class="query-chunk"><mark data-ng-bind="helper.corpus.query"></mark></p>
+              </div>
             </div>
 
-            <div class="panel panel-primary">
+            <div data-toggle="istex-tooltip" class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
                   Copyright
@@ -227,7 +230,16 @@
                 </div>
               </div>
             </div>
-
+            <div class="istex-tooltip">
+              <h5>Copyright</h5>
+              <p>Cette facette permet de préciser la <b class="text-primary">période de copyright</b> sur laquelle porte la requête.</p>
+              <div data-ng-if="helper.copyrightDate.query">
+                <hr>
+                <p>Morceau de la requête généré par la facette: </p>
+                <p class="query-chunk"><mark data-ng-bind="helper.copyrightDate.query"></mark></p>
+              </div>
+            </div>
+            
             <div class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
