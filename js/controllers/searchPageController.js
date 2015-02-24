@@ -278,6 +278,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       fields.push("copyrightdate:" + searchPage.copyrightdate);
     }
     if (searchPage.pubdate !== undefined) {
+      ctrlScope.helper.pubDate.query = "AND pubdate:" + searchPage.pubdate;
       fields.push("pubdate:" + searchPage.pubdate);
     }
 

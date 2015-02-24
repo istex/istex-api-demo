@@ -119,8 +119,16 @@ textarea {
   margin-top: 5px;
   float:right;
 }
+/* ==========================================================================
+   Helpers
+   ========================================================================== */
+.vertical-middle{
+  vertical-align: middle;
+}
 
-
+.label-istex-documentation{
+  background-color: #f1c40f; color: #333;
+}
 /* ==========================================================================
    Tooltip
    ========================================================================== */
@@ -170,6 +178,9 @@ textarea {
       }
       &[data-ng-bind*="copyrightDate"]{
         .bg-success;
+      }
+      &[data-ng-bind*="pubDate"]{
+        .bg-warning;
       }
     }
   }

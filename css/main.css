@@ -118,6 +118,16 @@ textarea {
   float: right;
 }
 /* ==========================================================================
+   Helpers
+   ========================================================================== */
+.vertical-middle {
+  vertical-align: middle;
+}
+.label-istex-documentation {
+  background-color: #f1c40f;
+  color: #333;
+}
+/* ==========================================================================
    Tooltip
    ========================================================================== */
 .qtip {
@@ -177,5 +187,8 @@ textarea {
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="copyrightDate"] {
   background-color: #dff0d8;
+}
+.istex-tooltip .query-chunk > mark[data-ng-bind*="pubDate"] {
+  background-color: #fcf8e3;
 }
 /*# sourceMappingURL=main.css.map */

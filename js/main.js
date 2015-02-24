@@ -19,33 +19,39 @@ var search = function (searchPage, searchPageController) {
   searchPageController.search();
 };
 
-var phonecatApp = angular
-  .module('istexApp', [])
-  .controller('istexAppCtrl', function ($scope) {
-    $scope.helper = {
-      corpus: {},
-      copyrightDate: {},
-      publicationDate: {}
+var istexApp = angular.module('istexApp', []);
 
-    };
-    $scope.safeApply = function (fn) {
-      var phase = this.$root.$$phase;
-      if (phase === '$apply' || phase === '$digest') {
-        if (fn && (typeof fn === 'function')) {
-          fn();
-        }
-      } else {
-        this.$apply(fn);
+istexApp.controller('istexAppCtrl', function ($scope) {
+
+  $scope.helper = {
+    corpus: {},
+    copyrightDate: {},
+    pubDate: {}
+  };
+
+  /**
+   * Permet d'exécuter <b>de facon sûre<b> une expression dans Angular 
+   * depuis l'exterieur du Framework.
+   * @param Function fn
+   * @returns null
+   */
+  $scope.safeApply = function (fn) {
+    var phase = this.$root.$$phase;
+    if (phase === '$apply' || phase === '$digest') {
+      if (fn && (typeof fn === 'function')) {
+        fn();
       }
-    };
-    globalSearchPageController.a = 3;
-    $scope.search = function () {
-      search(globalSearchPage, globalSearchPageController);
-    };
-  });
+    } else {
+      this.$apply(fn);
+    }
+  };
+  globalSearchPageController.a = 3;
+  $scope.search = function () {
+    search(globalSearchPage, globalSearchPageController);
+  };
+});
 
 $(document).ready(function () {
-
 
   $("[data-toggle='istex-tooltip']").each(function () {
     $(this).qtip({
@@ -53,8 +59,11 @@ $(document).ready(function () {
         {
           text: $(this).next('.istex-tooltip')
         },
+      show: {
+        solo: true
+      },
       hide: {
-//        event: false,
+        event: false,
         fixed: true,
         delay: 382
       },

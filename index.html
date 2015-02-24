@@ -89,8 +89,8 @@
 
         <div class="col-md-4">
           <div id="searchFieldRow" class="row">
-            <form role="form" class="form-inline" id="searchform">
-              <div class="form-group">
+            <form  role="form" class="form-inline" id="searchform">
+              <div data-toggle="istex-tooltip" class="form-group">
                 <div class="input-group">
                   <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
                   <span class="input-group-btn">
@@ -100,8 +100,19 @@
                   </span>
                 </div>
               </div>
+              <div class="istex-tooltip">
+                <h5>Mot clef</h5>
+                <p>Ce champs permet la recherche d'un ou plusieurs mot(s) clef(s). Cette recherche peut être affinée grâce aux options de recherche avancées et aux facettes.</p>
+                <p><span class="label label-istex-documentation">ISTEX API Documentation:</span><a class="link-external vertical-middle" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-recherche">Recherche de documents</a>
+                <div data-ng-if="helper.pubDate.query">
+                  <hr>
+                  <p>Morceau de la requête généré par la facette: </p>
+                  <p class="query-chunk"><mark data-ng-bind="helper.pubDate.query"></mark></p>
+                </div>
+              </div>
             </form>
           </div>
+
 
           <div class="row">
             <div id="advancedSearchTitle" class="panel-heading row col-md-6 col-md-offset-3">
@@ -239,8 +250,8 @@
                 <p class="query-chunk"><mark data-ng-bind="helper.copyrightDate.query"></mark></p>
               </div>
             </div>
-            
-            <div class="panel panel-primary">
+
+            <div data-toggle="istex-tooltip" class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
                   Publication
@@ -255,6 +266,15 @@
                   </div>
                   <div id="slider-range-pubdate" class="panel-collapse collapse in col-md-12"></div>
                 </div>
+              </div>
+            </div>
+            <div class="istex-tooltip">
+              <h5>Publication</h5>
+              <p>Cette facette permet de préciser la <b class="text-primary">période de publication</b> sur laquelle porte la requête.</p>
+              <div data-ng-if="helper.pubDate.query">
+                <hr>
+                <p>Morceau de la requête généré par la facette: </p>
+                <p class="query-chunk"><mark data-ng-bind="helper.pubDate.query"></mark></p>
               </div>
             </div>
 
