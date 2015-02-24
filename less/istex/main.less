@@ -98,7 +98,7 @@ textarea {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-} 
+}
 .truncate:hover {
   overflow: visible;
   white-space: normal;
@@ -122,12 +122,33 @@ textarea {
 /* ==========================================================================
    Helpers
    ========================================================================== */
-.vertical-middle{
+.vertical-middle {
   vertical-align: middle;
 }
 
-.label-istex-documentation{
-  background-color: #f1c40f; color: #333;
+.generate-inline-push-left(@n, @i: 1) when (@i <= @n){
+  .inline-push-left-@{i}{
+    margin-left: unit(@i, em);
+  }
+
+  .generate-inline-push-left(@n, @i + 1);
+}
+
+.generate-inline-push-left(4);
+
+
+.link-external {
+  &:after {
+    .small;
+    .glyphicon;
+     content: "\e164";
+  }
+}
+.label-istex-documentation {
+  background-color: #f1c40f;
+  background: linear-gradient(135deg, #EAA800 0%,#F1C40F 100%);
+  color: #333;
+  text-shadow: #AAA 1px 1px 2px;
 }
 /* ==========================================================================
    Tooltip
@@ -135,7 +156,7 @@ textarea {
 @import (reference, less) "../../css/bootstrap.min.css";
 @import (reference)  "../vendor/bootstrap-3.1.0/less/variables.less";
 
-.qtip{
+.qtip {
   .well; .well-sm;
   max-width: @font-size-base * 25;
   border-radius: @border-radius-large;
@@ -167,19 +188,18 @@ textarea {
     border-top-color: @gray;
   }
   .query-chunk {
-    &:before,&:after
-      {
+    font-size: @font-size-large;
+    &:before,&:after {
       content: "...";
     }
-    font-size: @font-size-large;
     & > mark{
-      &[data-ng-bind*="corpus"]{
+      &[data-ng-bind*="corpus"] {
         .bg-info;
       }
-      &[data-ng-bind*="copyrightDate"]{
+      &[data-ng-bind*="copyrightDate"] {
         .bg-success;
       }
-      &[data-ng-bind*="pubDate"]{
+      &[data-ng-bind*="pubDate"] {
         .bg-warning;
       }
     }

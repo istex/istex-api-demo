@@ -30,7 +30,7 @@ istexApp.controller('istexAppCtrl', function ($scope) {
   };
 
   /**
-   * Permet d'exécuter <b>de facon sûre<b> une expression dans Angular 
+   * Permet d'exécuter <b>de facon sûre</b> une expression dans Angular
    * depuis l'exterieur du Framework.
    * @param Function fn
    * @returns null
@@ -77,8 +77,6 @@ $(document).ready(function () {
     });
   });
 });
-
-
 
 require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
   globalSearchPage = searchPage;

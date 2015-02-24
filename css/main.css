@@ -123,9 +123,36 @@ textarea {
 .vertical-middle {
   vertical-align: middle;
 }
+.inline-push-left-1 {
+  margin-left: 1em;
+}
+.inline-push-left-2 {
+  margin-left: 2em;
+}
+.inline-push-left-3 {
+  margin-left: 3em;
+}
+.inline-push-left-4 {
+  margin-left: 4em;
+}
+.link-external:after {
+  font-size: 85%;
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e164";
+}
 .label-istex-documentation {
   background-color: #f1c40f;
+  background: linear-gradient(135deg, #eaa800 0%, #f1c40f 100%);
   color: #333;
+  text-shadow: #AAA 1px 1px 2px;
 }
 /* ==========================================================================
    Tooltip

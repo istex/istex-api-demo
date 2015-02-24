@@ -54,7 +54,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">
+                  <button class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Fermer</span>
                   </button>
@@ -68,13 +68,13 @@
                   <u>Pour effectuer une recherche :</u>
                   <br>
                   <br>
-                  <img src="img/help/help1.png" class="img-responsive center-block" />
+                  <img src="img/help/help1.png" class="img-responsive center-block" alt="">
                   <p class="text-justify">Entrer votre requête simplement dans le champs "Titre ou mot clef". La recherche se lance dès que ce champ est renseigné. Vous pouvez également sélectionner "Recherche avancée" pour mieux préciser votre recherche. Il est dans ce cas nécessaire de cliquer sur l'icone en forme de loupe pour démarrer la recherche.</p>
                   <br>
                   <u>Pour comprendre comment ces résultats sont obtenus :</u>
                   <br>
                   <br>
-                  <img src="img/help/help2.png" class="img-responsive center-block" />
+                  <img src="img/help/help2.png" class="img-responsive center-block" alt="">
                   <p class="text-justify">Une fois la requête effectuée, il est possible de consulter la réponse brute fournie par l'API en cliquant sur le bouton correspondant. La requête envoyée est également visible à gauche du bouton précédent.</p>
                   <br>
                   <p class="text-justify">Pour toute aide supplémentaire ou suggestion, vous pouvez nous écrire à istex@inist.fr (lien disponible en bas de page).</p>
@@ -103,7 +103,13 @@
               <div class="istex-tooltip">
                 <h5>Mot clef</h5>
                 <p>Ce champs permet la recherche d'un ou plusieurs mot(s) clef(s). Cette recherche peut être affinée grâce aux options de recherche avancées et aux facettes.</p>
-                <p><span class="label label-istex-documentation">ISTEX API Documentation:</span><a class="link-external vertical-middle" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-recherche">Recherche de documents</a>
+                <p>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span><br>
+                  <i class="glyphicon glyphicon-arrow-right inline-push-left-1"></i>
+                  <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-recherche">
+                    Recherche de documents
+                  </a>
+                </p>
                 <div data-ng-if="helper.pubDate.query">
                   <hr>
                   <p>Morceau de la requête généré par la facette: </p>
@@ -217,6 +223,13 @@
             <div class="istex-tooltip">
               <h5>Corpus</h5>
               <p>Cette facette permet de préciser le <b class="text-primary">corpus éditeur</b> sur lequel porte la requête.</p>
+              <p>
+                <span class="label label-istex-documentation">ISTEX API Documentation:</span><br>
+                <i class="glyphicon glyphicon-arrow-right inline-push-left-1"></i>
+                <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-corpus">
+                  Recherche par corpus
+                </a>
+              </p>
               <div data-ng-if="helper.corpus.query">
                 <hr>
                 <p>Morceau de la requête généré par la facette: </p>
@@ -349,7 +362,7 @@
 
 
         <div class="col-md-2" id="logoIA">
-          <img src="./img/Label-IA-mini.jpg">
+          <img src="./img/Label-IA-mini.jpg" alt="">
         </div>
         <div class="col-md-5">Pour toute suggestion, vous pouvez nous
           <a target="_blank" href="mailto:istex@inist.fr">écrire ici</a>
@@ -375,10 +388,10 @@
                       _paq.push([function () {
                           var self = this;
 
-                          function getOriginalVisitorCookieTimeout () {
+                          function getOriginalVisitorCookieTimeout() {
                             var now = new Date(),
-                              nowTs = Math.round(now.getTime() / 1000),
-                              visitorInfo = self.getVisitorInfo();
+                                    nowTs = Math.round(now.getTime() / 1000),
+                                    visitorInfo = self.getVisitorInfo();
                             var createTs = parseInt(visitorInfo[2]);
                             var cookieTimeout = 33696000;
                             var originalTimeout = createTs + cookieTimeout - nowTs;
@@ -394,8 +407,8 @@
                         _paq.push(['setTrackerUrl', u + 'piwik.php']);
                         _paq.push(['setSiteId', 118]);
                         var d = document,
-                          g = d.createElement('script'),
-                          s = d.getElementsByTagName('script')[0];
+                                g = d.createElement('script'),
+                                s = d.getElementsByTagName('script')[0];
                         g.type = 'text/javascript';
                         g.defer = true;
                         g.async = true;
