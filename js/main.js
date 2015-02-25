@@ -19,9 +19,9 @@ var search = function (searchPage, searchPageController) {
   searchPageController.search();
 };
 
-var istexApp = angular.module('istexApp', []);
+var istexApp = angular.module("istexApp", []);
 
-istexApp.controller('istexAppCtrl', function ($scope) {
+istexApp.controller("istexAppCtrl", function ($scope) {
 
   $scope.helper = {
     corpus: {},
@@ -38,8 +38,8 @@ istexApp.controller('istexAppCtrl', function ($scope) {
    */
   $scope.safeApply = function (fn) {
     var phase = this.$root.$$phase;
-    if (phase === '$apply' || phase === '$digest') {
-      if (fn && (typeof fn === 'function')) {
+    if (phase === "$apply" || phase === "$digest") {
+      if (fn && (typeof fn === "function")) {
         fn();
       }
     } else {
@@ -55,22 +55,28 @@ istexApp.controller('istexAppCtrl', function ($scope) {
 $(document).ready(function () {
 
   $("[data-toggle='istex-tooltip']").each(function () {
+    var $qtipContent = $(this).next(".istex-tooltip"),
+      position = {
+        my: $qtipContent.data("my-position") || "left top",
+        at: $qtipContent.data("at-position") || "right top"
+      };
+
     $(this).qtip({
       content:
         {
-          text: $(this).next('.istex-tooltip')
+          text: $qtipContent
         },
       show: {
         solo: true
       },
       hide: {
-        event: false,
+//        event: false,
         fixed: true,
-        delay: 382
+        delay: 236
       },
       position: {
-        my: 'left top',
-        at: 'right top'
+        my: position.my,
+        at: position.at
       },
       style: {
         def: false
@@ -90,7 +96,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
 
   $("#advancedSearchForm input").keypress(function (e) {
     if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
-      $('#searchButton').click();
+      $("#searchButton").click();
       return false;
     }
 

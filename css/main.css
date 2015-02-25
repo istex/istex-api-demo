@@ -220,9 +220,12 @@ textarea {
   background-color: #b3d4df;
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="copyrightDate"] {
-  background-color: #edf3c0;
+  background-color: #dde888;
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="pubDate"] {
   background-color: #ffe9a7;
+}
+.istex-tooltip .query-chunk > mark[data-ng-bind*="searchKeys"] {
+  background-color: #a1a0d6;
 }
 /*# sourceMappingURL=main.css.map */

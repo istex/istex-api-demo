@@ -201,7 +201,7 @@ textarea {
     &  > h6 {
       margin-bottom: @line-height-computed / 4;
     }
-  } 
+  }
   hr {
     margin-top: @line-height-computed / 2;
     margin-bottom: @line-height-computed / 2;
@@ -214,13 +214,16 @@ textarea {
     }
     & > mark{
       &[data-ng-bind*="corpus"] {
-        background-color: lighten(@brand-istex-blue, 33,5%); 
+        background-color: lighten(@brand-istex-blue, 33,5%);
       }
       &[data-ng-bind*="copyrightDate"] {
-         background-color: lighten(@brand-istex-green, 33,5%);
+        background-color: lighten(@brand-istex-green, 20%);
       }
       &[data-ng-bind*="pubDate"] {
         background-color: lighten(@brand-istex-yellow, 13,5%);;
+      }
+      &[data-ng-bind*="searchKeys"] {
+        background-color: lighten(@brand-istex-violet, 20%);;
       }
     }
   }

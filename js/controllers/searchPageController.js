@@ -150,7 +150,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "{{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}" +
         "</div></div></tr>{{/hits}}",
         corpusFacetTemplate,
-        facetCorpus,
+        $facetCorpus,
         minDate,
         maxDate;
 
@@ -167,15 +167,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         corpusFacetTemplate = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpus.buckets}}";
-        facetCorpus = $('#facetCorpus');
+        $facetCorpus = $('#facetCorpus');
 
 
         $('#nbCorpusFacet').text(data.aggregations.corpus.buckets.length);
-        facetCorpus.append(mustache.to_html(corpusFacetTemplate, data));
+        $facetCorpus.append(mustache.to_html(corpusFacetTemplate, data));
 
         if (data.aggregations.corpus.buckets.length === 1) {
-          facetCorpus.getElementsByTagName('input').item(0).checked = true;
-          facetCorpus.getElementsByTagName('input').item(0).disabled = true;
+          $facetCorpus.get(0).getElementsByTagName('input').item(0).checked = true;
+          $facetCorpus.get(0).getElementsByTagName('input').item(0).disabled = true;
         }
 
         // CopyrightDateFacet

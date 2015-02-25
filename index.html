@@ -102,7 +102,7 @@
               </div>
               <div class="istex-tooltip">
                 <h5>Mot clef</h5>
-                <p>Ce champs permet la recherche d'un ou plusieurs mot(s) clef(s). Cette recherche peut être affinée grâce aux options de recherche avancées et aux facettes.</p>
+                <p>Ce champ permet la recherche d'un ou plusieurs mot(s) clef(s). Cette recherche peut être affinée grâce aux options de recherche avancées et aux facettes.</p>
                 <div class="references">
                   <h6>
                     <span class="label label-istex-documentation">ISTEX API Documentation:</span>
@@ -144,11 +144,37 @@
             <div id="collapse" class="panel-collapse collapse">
               <div class="panel-body">
                 <form role="form" id="advancedSearchForm">
-                  <div class="form-group col-md-6">
-                    <label for="editorField">Editeur :</label>
+                  <div data-toggle="istex-tooltip" class="form-group col-md-6">
+                    <label for="editorField">Éditeur :</label>
                     <select id="editorField" class="form-control">
                       <option value="-1">All</option>
                     </select>
+                  </div>
+                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle" >
+                    <h5>Éditeur</h5>
+                    <p>Cette facette permet de préciser <strong>un unique</strong> <b class="text-primary">corpus éditeur</b> sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-corpus">
+                            Recherche par corpus
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                            Facettes
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.corpus.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                      <p class="query-chunk"><mark data-ng-bind="helper.corpus.query"></mark></p>
+                    </div>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="titleField">Titre :</label>
@@ -249,7 +275,7 @@
                     </a>
                   </li>
                 </ul>
-              </div>              
+              </div>
               <div data-ng-if="helper.corpus.query">
                 <hr>
                 <h6 class="h5">Morceau de la requête généré par la facette: </h6>
@@ -432,10 +458,10 @@
                       _paq.push([function () {
                           var self = this;
 
-                          function getOriginalVisitorCookieTimeout () {
+                          function getOriginalVisitorCookieTimeout() {
                             var now = new Date(),
-                              nowTs = Math.round(now.getTime() / 1000),
-                              visitorInfo = self.getVisitorInfo();
+                                    nowTs = Math.round(now.getTime() / 1000),
+                                    visitorInfo = self.getVisitorInfo();
                             var createTs = parseInt(visitorInfo[2]);
                             var cookieTimeout = 33696000;
                             var originalTimeout = createTs + cookieTimeout - nowTs;
@@ -451,8 +477,8 @@
                         _paq.push(['setTrackerUrl', u + 'piwik.php']);
                         _paq.push(['setSiteId', 118]);
                         var d = document,
-                          g = d.createElement('script'),
-                          s = d.getElementsByTagName('script')[0];
+                                g = d.createElement('script'),
+                                s = d.getElementsByTagName('script')[0];
                         g.type = 'text/javascript';
                         g.defer = true;
                         g.async = true;
