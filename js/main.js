@@ -24,6 +24,12 @@ var search = function(searchPage, searchPageController) {
     searchPageController.search();
 };
 
+require.config({
+  paths: {
+    'piwik': '//piwik.inist.fr/piwik'
+  }
+});
+
 require(["js/models/searchPage", "js/controllers/searchPageController"], function(searchPage, searchPageController) {
     "use strict";
     globalSearchPage = searchPage;

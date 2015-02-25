@@ -332,6 +332,7 @@
     <script src="js/main.js"></script>
 
     <!-- Piwik -->
+
     <script type="text/javascript">
     var _paq = _paq || [];
     _paq.push([function() {
@@ -352,7 +353,7 @@
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {
-      var u = (("https:" == document.location.protocol) ? "https" : "http") + "://piwik.inist.fr//";
+      var u = (("https:" == document.location.protocol) ? "https" : "http") + "://piwik.inist.fr/";
       _paq.push(['setTrackerUrl', u + 'piwik.php']);
       _paq.push(['setSiteId', 118]);
       var d = document,
@@ -363,6 +364,7 @@
       g.async = true;
       g.src = u + 'piwik.js';
       s.parentNode.insertBefore(g, s);
+      require(['piwik']);
     })();
     </script>
     <noscript>
