@@ -26,7 +26,8 @@ istexApp.controller('istexAppCtrl', function ($scope) {
   $scope.helper = {
     corpus: {},
     copyrightDate: {},
-    pubDate: {}
+    pubDate: {},
+    searchKeys: {}
   };
 
   /**

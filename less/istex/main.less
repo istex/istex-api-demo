@@ -119,6 +119,21 @@ textarea {
   margin-top: 5px;
   float:right;
 }
+//
+// Variables
+// --------------------------------------------------
+
+
+//== New colors
+//
+
+@brand-istex-blue:          #458CA5;
+@brand-istex-green:         #C4D733;
+@brand-istex-orange:        #FFB465;
+@brand-istex-violet:        #5B59B7;
+@brand-istex-yellow:        #FFD965;
+
+
 /* ==========================================================================
    Helpers
    ========================================================================== */
@@ -141,7 +156,7 @@ textarea {
   &:after {
     .small;
     .glyphicon;
-     content: "\e164";
+    content: "\e164";
   }
 }
 .label-istex-documentation {
@@ -164,8 +179,7 @@ textarea {
   background-color: #EDEDED;
 }
 .qtip-content {
-  padding: 0;
-
+  padding: 0; /* Surcharge padding de base */
 }
 .istex-tooltip {
   display: none; // Start hidden
@@ -182,10 +196,16 @@ textarea {
   & > p {
     font-size: @font-size-small;
   }
+  & > .references{
+    .small;
+    &  > h6 {
+      margin-bottom: @line-height-computed / 4;
+    }
+  } 
   hr {
     margin-top: @line-height-computed / 2;
     margin-bottom: @line-height-computed / 2;
-    border-top-color: @gray;
+    border-top-color: @gray-light;
   }
   .query-chunk {
     font-size: @font-size-large;
@@ -194,13 +214,13 @@ textarea {
     }
     & > mark{
       &[data-ng-bind*="corpus"] {
-        .bg-info;
+        background-color: lighten(@brand-istex-blue, 33,5%); 
       }
       &[data-ng-bind*="copyrightDate"] {
-        .bg-success;
+         background-color: lighten(@brand-istex-green, 33,5%);
       }
       &[data-ng-bind*="pubDate"] {
-        .bg-warning;
+        background-color: lighten(@brand-istex-yellow, 13,5%);;
       }
     }
   }

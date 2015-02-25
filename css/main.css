@@ -175,6 +175,7 @@ textarea {
 }
 .qtip-content {
   padding: 0;
+  /* Surcharge padding de base */
 }
 .istex-tooltip {
   display: none;
@@ -197,10 +198,16 @@ textarea {
 .istex-tooltip > p {
   font-size: 12px;
 }
+.istex-tooltip > .references {
+  font-size: 85%;
+}
+.istex-tooltip > .references > h6 {
+  margin-bottom: 5px;
+}
 .istex-tooltip hr {
   margin-top: 10px;
   margin-bottom: 10px;
-  border-top-color: #555555;
+  border-top-color: #999999;
 }
 .istex-tooltip .query-chunk {
   font-size: 18px;
@@ -210,12 +217,12 @@ textarea {
   content: "...";
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="corpus"] {
-  background-color: #d9edf7;
+  background-color: #b3d4df;
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="copyrightDate"] {
-  background-color: #dff0d8;
+  background-color: #edf3c0;
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="pubDate"] {
-  background-color: #fcf8e3;
+  background-color: #ffe9a7;
 }
 /*# sourceMappingURL=main.css.map */

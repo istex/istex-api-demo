@@ -103,17 +103,27 @@
               <div class="istex-tooltip">
                 <h5>Mot clef</h5>
                 <p>Ce champs permet la recherche d'un ou plusieurs mot(s) clef(s). Cette recherche peut être affinée grâce aux options de recherche avancées et aux facettes.</p>
-                <p>
-                  <span class="label label-istex-documentation">ISTEX API Documentation:</span><br>
-                  <i class="glyphicon glyphicon-arrow-right inline-push-left-1"></i>
-                  <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-recherche">
-                    Recherche de documents
-                  </a>
-                </p>
-                <div data-ng-if="helper.pubDate.query">
+                <div class="references">
+                  <h6>
+                    <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                  </h6>
+                  <ul>
+                    <li>
+                      <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-des-requ-tes">
+                        Syntaxe des requêtes
+                      </a>
+                    </li>
+                    <li>
+                      <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-de-documents">
+                        Recherche de documents
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div data-ng-if="helper.searchKeys.query">
                   <hr>
                   <p>Morceau de la requête généré par la facette: </p>
-                  <p class="query-chunk"><mark data-ng-bind="helper.pubDate.query"></mark></p>
+                  <p class="query-chunk"><mark data-ng-bind="helper.searchKeys.query"></mark></p>
                 </div>
               </div>
             </form>
@@ -223,16 +233,26 @@
             <div class="istex-tooltip">
               <h5>Corpus</h5>
               <p>Cette facette permet de préciser le <b class="text-primary">corpus éditeur</b> sur lequel porte la requête.</p>
-              <p>
-                <span class="label label-istex-documentation">ISTEX API Documentation:</span><br>
-                <i class="glyphicon glyphicon-arrow-right inline-push-left-1"></i>
-                <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-corpus">
-                  Recherche par corpus
-                </a>
-              </p>
+              <div class="references">
+                <h6>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                </h6>
+                <ul>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-corpus">
+                      Recherche par corpus
+                    </a>
+                  </li>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                      Facettes
+                    </a>
+                  </li>
+                </ul>
+              </div>              
               <div data-ng-if="helper.corpus.query">
                 <hr>
-                <p>Morceau de la requête généré par la facette: </p>
+                <h6 class="h5">Morceau de la requête généré par la facette: </h6>
                 <p class="query-chunk"><mark data-ng-bind="helper.corpus.query"></mark></p>
               </div>
             </div>
@@ -257,9 +277,21 @@
             <div class="istex-tooltip">
               <h5>Copyright</h5>
               <p>Cette facette permet de préciser la <b class="text-primary">période de copyright</b> sur laquelle porte la requête.</p>
+              <div class="references">
+                <h6>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                </h6>
+                <ul>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                      Facettes
+                    </a>
+                  </li>
+                </ul>
+              </div>
               <div data-ng-if="helper.copyrightDate.query">
                 <hr>
-                <p>Morceau de la requête généré par la facette: </p>
+                <h6 class="h5">Morceau de la requête généré par la facette: </h6>
                 <p class="query-chunk"><mark data-ng-bind="helper.copyrightDate.query"></mark></p>
               </div>
             </div>
@@ -284,9 +316,21 @@
             <div class="istex-tooltip">
               <h5>Publication</h5>
               <p>Cette facette permet de préciser la <b class="text-primary">période de publication</b> sur laquelle porte la requête.</p>
+              <div class="references">
+                <h6>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                </h6>
+                <ul>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                      Facettes
+                    </a>
+                  </li>
+                </ul>
+              </div>
               <div data-ng-if="helper.pubDate.query">
                 <hr>
-                <p>Morceau de la requête généré par la facette: </p>
+                <h6 class="h5">Morceau de la requête généré par la facette: </h6>
                 <p class="query-chunk"><mark data-ng-bind="helper.pubDate.query"></mark></p>
               </div>
             </div>
@@ -388,10 +432,10 @@
                       _paq.push([function () {
                           var self = this;
 
-                          function getOriginalVisitorCookieTimeout() {
+                          function getOriginalVisitorCookieTimeout () {
                             var now = new Date(),
-                                    nowTs = Math.round(now.getTime() / 1000),
-                                    visitorInfo = self.getVisitorInfo();
+                              nowTs = Math.round(now.getTime() / 1000),
+                              visitorInfo = self.getVisitorInfo();
                             var createTs = parseInt(visitorInfo[2]);
                             var cookieTimeout = 33696000;
                             var originalTimeout = createTs + cookieTimeout - nowTs;
@@ -407,8 +451,8 @@
                         _paq.push(['setTrackerUrl', u + 'piwik.php']);
                         _paq.push(['setSiteId', 118]);
                         var d = document,
-                                g = d.createElement('script'),
-                                s = d.getElementsByTagName('script')[0];
+                          g = d.createElement('script'),
+                          s = d.getElementsByTagName('script')[0];
                         g.type = 'text/javascript';
                         g.defer = true;
                         g.async = true;

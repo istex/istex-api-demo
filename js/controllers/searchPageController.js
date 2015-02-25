@@ -255,8 +255,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }
 
     if (searchPage.searchField !== "" && searchPage.searchField !== undefined) {
+      ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
       fields.push(searchPage.searchField);
     } else {
+      ctrlScope.helper.searchKeys.query = "q=*";
       fields.push('*');
     }
 
