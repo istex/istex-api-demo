@@ -122,7 +122,7 @@
                 </div>
                 <div data-ng-if="helper.searchKeys.query">
                   <hr>
-                  <p>Morceau de la requête généré par la facette: </p>
+                  <p>Morceau de la requête généré par le champ: </p>
                   <p class="query-chunk"><mark data-ng-bind="helper.searchKeys.query"></mark></p>
                 </div>
               </div>
@@ -168,6 +168,11 @@
                             Facettes
                           </a>
                         </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/corpus/">
+                            Liste des éditeurs disponible via l'API
+                          </a>
+                        </li>
                       </ul>
                     </div>
                     <div data-ng-if="helper.corpus.query">
@@ -176,17 +181,85 @@
                       <p class="query-chunk"><mark data-ng-bind="helper.corpus.query"></mark></p>
                     </div>
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-6" data-toggle="istex-tooltip">
                     <label for="titleField">Titre :</label>
                     <input type="text" class="form-control" id="titleField" placeholder="Titre">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle">
+                    <h5>Titre</h5>
+                    <p>Ce champ permet la recherche sur le titre.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-des-requ-tes">
+                            Syntaxe des requêtes
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-de-documents">
+                            Recherche de documents
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.title.query">
+                      <hr>
+                      <p>Morceau de la requête généré par le champ: </p>
+                      <p class="query-chunk"><mark data-ng-bind="helper.title.query"></mark></p>
+                    </div>
+                  </div>
+                  <div data-toggle="istex-tooltip" class="form-group col-md-6">
                     <label for="authorField">Auteur :</label>
                     <input type="text" class="form-control" id="authorField" placeholder="Auteur">
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="themeField">Mot-clef :</label>
+                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle" >
+                    <h5>Éditeur</h5>
+                    <p>Cette facette permet de préciser un auteur sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-auteur">
+                            Recherche par auteur
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.author.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
+                      <p class="query-chunk"><mark data-ng-bind="helper.author.query"></mark></p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6" data-toggle="istex-tooltip">
+                    <label for="themeField">Mot clef :</label>
                     <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
+                  </div>
+                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle" >
+                    <h5>Mot clef/sujet</h5>
+                    <p>Ce champ permet de préciser un sujet sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-sujet">
+                            Recherche par sujet
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.subject.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
+                      <p class="query-chunk"><mark data-ng-bind="helper.subject.query"></mark></p>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -203,7 +276,11 @@
 
         <div class="input-group">
           <span class="input-group-addon">Requête</span>
-          <input id="reqForApi" class="form-control" type="text" placeholder="Requete">
+          <input id="reqForApi" class="form-control" data-toggle="istex-tooltip" type="text" placeholder="Requete">
+          <div id="request-tooltip" class="istex-tooltip" data-my-position="bottom left" data-at-position="top left">
+            <h5>Requête</h5>       
+            <div id="request-tooltip-content"></div>
+          </div>
           <span class="input-group-btn">
             <button class="btn btn-info" data-toggle="modal" data-target="#completeResponse">
               Réponse brute complète
@@ -259,6 +336,7 @@
             <div class="istex-tooltip">
               <h5>Corpus</h5>
               <p>Cette facette permet de préciser le <b class="text-primary">corpus éditeur</b> sur lequel porte la requête.</p>
+              <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
               <div class="references">
                 <h6>
                   <span class="label label-istex-documentation">ISTEX API Documentation:</span>
@@ -272,6 +350,11 @@
                   <li>
                     <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
                       Facettes
+                    </a>
+                  </li>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/corpus/">
+                      Liste des éditeurs disponible via l'API
                     </a>
                   </li>
                 </ul>
@@ -303,6 +386,7 @@
             <div class="istex-tooltip">
               <h5>Copyright</h5>
               <p>Cette facette permet de préciser la <b class="text-primary">période de copyright</b> sur laquelle porte la requête.</p>
+              <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
               <div class="references">
                 <h6>
                   <span class="label label-istex-documentation">ISTEX API Documentation:</span>
@@ -342,6 +426,7 @@
             <div class="istex-tooltip">
               <h5>Publication</h5>
               <p>Cette facette permet de préciser la <b class="text-primary">période de publication</b> sur laquelle porte la requête.</p>
+              <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
               <div class="references">
                 <h6>
                   <span class="label label-istex-documentation">ISTEX API Documentation:</span>
@@ -458,10 +543,10 @@
                       _paq.push([function () {
                           var self = this;
 
-                          function getOriginalVisitorCookieTimeout() {
+                          function getOriginalVisitorCookieTimeout () {
                             var now = new Date(),
-                                    nowTs = Math.round(now.getTime() / 1000),
-                                    visitorInfo = self.getVisitorInfo();
+                              nowTs = Math.round(now.getTime() / 1000),
+                              visitorInfo = self.getVisitorInfo();
                             var createTs = parseInt(visitorInfo[2]);
                             var cookieTimeout = 33696000;
                             var originalTimeout = createTs + cookieTimeout - nowTs;
@@ -477,8 +562,8 @@
                         _paq.push(['setTrackerUrl', u + 'piwik.php']);
                         _paq.push(['setSiteId', 118]);
                         var d = document,
-                                g = d.createElement('script'),
-                                s = d.getElementsByTagName('script')[0];
+                          g = d.createElement('script'),
+                          s = d.getElementsByTagName('script')[0];
                         g.type = 'text/javascript';
                         g.defer = true;
                         g.async = true;

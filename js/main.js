@@ -24,10 +24,14 @@ var istexApp = angular.module("istexApp", []);
 istexApp.controller("istexAppCtrl", function ($scope) {
 
   $scope.helper = {
+    request: {},
     corpus: {},
     copyrightDate: {},
     pubDate: {},
-    searchKeys: {}
+    searchKeys: {},
+    title: {},
+    subject: {},
+    author: {}
   };
 
   /**

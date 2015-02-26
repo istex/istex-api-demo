@@ -247,7 +247,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       minPubdate,
       maxPubdate,
       corpusQuery,
-      request;
+      request,
+      queryFrom,
+      facetQuery;
 
     // On récupére le scope du controleur Angular
     if (angular) {
@@ -265,12 +267,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     if ($("#collapse").is(':visible')) {
 
       if (searchPage.author !== "" && searchPage.author !== undefined) {
+        ctrlScope.helper.author.query = "AND author.personal:" + searchPage.author;
         fields.push("author.personal:" + searchPage.author);
       }
       if (searchPage.title !== "" && searchPage.title !== undefined) {
+        ctrlScope.helper.title.query = "AND title:" + searchPage.title;
         fields.push("title:" + searchPage.title);
       }
       if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
+        ctrlScope.helper.subject.query = "AND subject.value:" + searchPage.subject;
         fields.push("subject.value:" + searchPage.keywords);
       }
     }
@@ -286,7 +291,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     query += fields.join(" AND ");
     query += "&size=" + searchPage.resultsPerPage;
-    query += "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
+    query += queryFrom = "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
     corpusQuery = '';
     $.each(searchPage.editor, function (index, editor) {
       if (editor !== "-1") {
@@ -305,7 +310,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     ctrlScope.safeApply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-    query += "&facet=corpus";
+    query += facetQuery = "&facet=corpus";
 
 
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
@@ -313,9 +318,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       maxCopyright = $("#slider-range-copyright").slider("values", 1);
       minPubdate = $("#slider-range-pubdate").slider("values", 0);
       maxPubdate = $("#slider-range-pubdate").slider("values", 1);
+      facetQuery += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
       query += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
+      facetQuery += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
       query += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
     } else {
+      facetQuery += ",copyrightdate,pubdate";
       query += ",copyrightdate,pubdate";
     }
 
@@ -324,6 +332,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
     $("#reqForApi").val(conf.apiUrl + query);
+    $("#request-tooltip-content")
+      .html("<div class=''><p class='h4'>document/?"
+        + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>"
+        + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>"
+        + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>"
+        + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>"
+        + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>"
+        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>"
+        + "&size=" + searchPage.resultsPerPage
+        + queryFrom
+        + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>"
+        + facetQuery + "&output=*</p></div>");
 
     request = {
       url: conf.apiUrl + query,

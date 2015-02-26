@@ -119,8 +119,12 @@ textarea {
   margin-top: 5px;
   float:right;
 }
+
+@import (reference, less) "../../css/bootstrap.min.css";
+@import (reference)  "../vendor/bootstrap-3.1.0/less/variables.less";
+@import (reference)  "../vendor/bootstrap-3.1.0/less/mixins.less";
 //
-// Variables
+// Variables 
 // --------------------------------------------------
 
 
@@ -133,6 +137,26 @@ textarea {
 @brand-istex-violet:        #5B59B7;
 @brand-istex-yellow:        #FFD965;
 
+/* New colors */
+.text-istex-blue{
+  .text-emphasis-variant(@brand-istex-blue);
+}
+.text-istex-green{
+  .text-emphasis-variant(@brand-istex-green);
+}
+.text-istex-orange{
+  .text-emphasis-variant(@brand-istex-orange);
+}
+.text-istex-violet{
+  .text-emphasis-variant(@brand-istex-violet);
+}
+.text-istex-yellow{
+  .text-emphasis-variant(@brand-istex-yellow);
+}
+
+.bg-istex-blue{
+  .bg-variant(@brand-istex-blue);
+}
 
 /* ==========================================================================
    Helpers
@@ -168,20 +192,21 @@ textarea {
 /* ==========================================================================
    Tooltip
    ========================================================================== */
-@import (reference, less) "../../css/bootstrap.min.css";
-@import (reference)  "../vendor/bootstrap-3.1.0/less/variables.less";
-
 .qtip {
   .well; .well-sm;
-  max-width: @font-size-base * 25;
+  max-width: none;
   border-radius: @border-radius-large;
   border: 2px solid @brand-primary;
   background-color: #EDEDED;
+}
+#request-tooltip{
+  max-width: none;
 }
 .qtip-content {
   padding: 0; /* Surcharge padding de base */
 }
 .istex-tooltip {
+  max-width: @font-size-base * 25;
   display: none; // Start hidden
 
   /* Reset de qtip */
@@ -213,18 +238,48 @@ textarea {
       content: "...";
     }
     & > mark{
-      &[data-ng-bind*="corpus"] {
-        background-color: lighten(@brand-istex-blue, 33,5%);
+      &[data-ng-bind*="corpus"],bg-corpus {
+        .bg-corpus;
       }
       &[data-ng-bind*="copyrightDate"] {
-        background-color: lighten(@brand-istex-green, 20%);
+        .bg-copyrightDate;
       }
       &[data-ng-bind*="pubDate"] {
-        background-color: lighten(@brand-istex-yellow, 13,5%);;
+        .bg-pubDate;
       }
       &[data-ng-bind*="searchKeys"] {
-        background-color: lighten(@brand-istex-violet, 20%);;
+        .bg-searchKeys;
+      }
+      &[data-ng-bind*="title"] {
+        .bg-title;
+      }
+      &[data-ng-bind*="author"] {
+        .bg-author;
+      }
+      &[data-ng-bind*="subject"] {
+        .bg-subject;
       }
     }
   }
+}
+.bg-corpus{
+  background-color: lighten(@brand-istex-blue, 33,5%);
+} 
+.bg-copyrightDate{
+  background-color: lighten(@brand-istex-green, 13,5%);
+}
+.bg-pubDate{
+  background-color: lighten(@brand-istex-yellow, 13,5%);
+}
+.bg-searchKeys{
+  background-color: lighten(@brand-istex-violet, 20%);
+}
+.bg-title{
+  background-color: lighten(@brand-istex-orange, 20%);
+}
+.bg-author{
+  background-color: lighten(@brand-primary, 20%);
+}
+.bg-subject{
+  background-color: lighten(@brand-success, 20%);
 }

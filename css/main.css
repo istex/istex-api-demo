@@ -117,6 +117,43 @@ textarea {
   margin-top: 5px;
   float: right;
 }
+/* New colors */
+.text-istex-blue {
+  color: #458ca5;
+}
+a.text-istex-blue:hover {
+  color: #366d81;
+}
+.text-istex-green {
+  color: #c4d733;
+}
+a.text-istex-green:hover {
+  color: #a3b423;
+}
+.text-istex-orange {
+  color: #ffb465;
+}
+a.text-istex-orange:hover {
+  color: #ff9b32;
+}
+.text-istex-violet {
+  color: #5b59b7;
+}
+a.text-istex-violet:hover {
+  color: #45439a;
+}
+.text-istex-yellow {
+  color: #ffd965;
+}
+a.text-istex-yellow:hover {
+  color: #ffcc32;
+}
+.bg-istex-blue {
+  background-color: #458ca5;
+}
+a.bg-istex-blue:hover {
+  background-color: #366d81;
+}
 /* ==========================================================================
    Helpers
    ========================================================================== */
@@ -168,16 +205,20 @@ textarea {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   padding: 9px;
   border-radius: 3px;
-  max-width: 350px;
+  max-width: none;
   border-radius: 6px;
   border: 2px solid #428bca;
   background-color: #EDEDED;
+}
+#request-tooltip {
+  max-width: none;
 }
 .qtip-content {
   padding: 0;
   /* Surcharge padding de base */
 }
 .istex-tooltip {
+  max-width: 350px;
   display: none;
   /* Reset de qtip */
   font-size: 14px;
@@ -216,16 +257,47 @@ textarea {
 .istex-tooltip .query-chunk:after {
   content: "...";
 }
-.istex-tooltip .query-chunk > mark[data-ng-bind*="corpus"] {
+.istex-tooltip .query-chunk > mark[data-ng-bind*="corpus"],
+.istex-tooltip .query-chunk > mark bg-corpus {
   background-color: #b3d4df;
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="copyrightDate"] {
-  background-color: #dde888;
+  background-color: #d4e26a;
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="pubDate"] {
   background-color: #ffe9a7;
 }
 .istex-tooltip .query-chunk > mark[data-ng-bind*="searchKeys"] {
   background-color: #a1a0d6;
+}
+.istex-tooltip .query-chunk > mark[data-ng-bind*="title"] {
+  background-color: #ffe6cb;
+}
+.istex-tooltip .query-chunk > mark[data-ng-bind*="author"] {
+  background-color: #92bce0;
+}
+.istex-tooltip .query-chunk > mark[data-ng-bind*="subject"] {
+  background-color: #a3d7a3;
+}
+.bg-corpus {
+  background-color: #b3d4df;
+}
+.bg-copyrightDate {
+  background-color: #d4e26a;
+}
+.bg-pubDate {
+  background-color: #ffe9a7;
+}
+.bg-searchKeys {
+  background-color: #a1a0d6;
+}
+.bg-title {
+  background-color: #ffe6cb;
+}
+.bg-author {
+  background-color: #92bce0;
+}
+.bg-subject {
+  background-color: #a3d7a3;
 }
 /*# sourceMappingURL=main.css.map */
