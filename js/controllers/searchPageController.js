@@ -206,7 +206,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       $("#currentPage").text("*");
       $("#totalPages").text("*");
 
-      if(!searchPage.reaffine) $('#accordeon').hide();
+      if (!searchPage.reaffine) $('#accordeon').hide();
 
     }
     $("button").button('reset');
@@ -219,7 +219,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $(".alert").alert();
   };
 
-  var ajaxInWork = null;
+  var timeStamp = null;
 
   searchPageController.search = function() {
     var query = "document/?q=";
@@ -290,16 +290,22 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       dataType: "jsonp",
       crossDomain: true,
       success: searchPageController.displayResults,
-      error: searchPageController.manageError
+      error: searchPageController.manageError,
+      timeout: 10000
     };
 
-    if (ajaxInWork) ajaxInWork.abort();
-    ajaxInWork = $.ajax(request);
-
-    $("#result").removeClass('hide');
-    $("#paginRow").removeClass('hide');
-    $("#pageNumber").removeClass('hide');
-
+    //Attente de 987ms (Fibo 16)
+    //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
+    var timeStampLocal = (new Date).getTime();
+    timeStamp = timeStampLocal;
+    setTimeout(function() {
+      if (timeStamp == timeStampLocal) {
+        $.ajax(request);
+        $("#result").removeClass('hide');
+        $("#paginRow").removeClass('hide');
+        $("#pageNumber").removeClass('hide');
+      }
+    }, 987);
   };
   return searchPageController;
 });
