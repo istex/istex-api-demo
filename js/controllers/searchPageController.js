@@ -330,22 +330,22 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }
 
     query += "&output=*";
-
+    var softHyphen = "&shy;";
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
     $("#reqForApi").val(conf.apiUrl + query);
     $("#request-tooltip-content")
-      .html("<div class=''><p class='h4'>document/?"
-        + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>"
-        + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>"
-        + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>"
-        + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>"
-        + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>"
-        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>"
-        + "&size=" + searchPage.resultsPerPage
-        + queryFrom
-        + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>"
-        + facetQuery + "&output=*</p></div>");
+      .html("<p class='h4'>document/?" + softHyphen
+        + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>"+ softHyphen
+        + "&size=" + searchPage.resultsPerPage + softHyphen
+        + queryFrom + softHyphen
+        + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen
+        + facetQuery + "&output=*</p>");
 
     request = {
       url: conf.apiUrl + query,
