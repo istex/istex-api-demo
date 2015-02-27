@@ -7,75 +7,307 @@
 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-<!--<![endif]-->
+  <!--<![endif]-->
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ISTEX - Demonstrateur</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <link rel="stylesheet" href="js/vendor/jsonview/jquery.jsonview.css">
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet/less" type="text/css" href="css/main.less">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ISTEX - Demonstrateur</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-  <script src="js/vendor/angular.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-</head>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="js/vendor/jsonview/jquery.jsonview.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/main.css">
 
-<body ng-app="istexApp" ng-controller="istexAppCtrl">
-  <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-            your browser</a> to improve your experience.</p>
-    <![endif]-->
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="js/vendor/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+  </head>
 
-  <div class="container">
+  <body ng-app="istexApp" ng-controller="istexAppCtrl">
+    <!--[if lt IE 7]>
+          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+              your browser</a> to improve your experience.</p>
+      <![endif]-->
 
-    <div id="header" class="istex-header jumbotron row">
-      <h1>&nbsp;</h1>
-    </div>
+    <div class="container">
 
-    <div id="searchHeader" class="col-md-12">
-      <div class="col-md-4">
+      <div id="header" class="istex-header jumbotron row">
+        <h1>&nbsp;</h1>
+      </div>
 
-        <button class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#helpMenu">
-          Aide
-        </button>
+      <div id="searchHeader" class="col-md-12">
+        <div class="col-md-4">
 
-        <!-- Modal aide -->
-        <div class="modal fade" id="helpMenu" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
-          <div class="modal-dialog">
+          <button class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#helpMenu">
+            Aide
+          </button>
+
+          <!-- Modal aide -->
+          <div class="modal fade" id="helpMenu" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Fermer</span>
+                  </button>
+                  <h4 class="modal-title text-center">
+                    <strong>Bienvenue</strong> sur le démonstrateur de l'API
+                    <strong>ISTEX</strong>!</h4>
+                </div>
+                <div class="modal-body">
+                  <p class="text-justify">Avant toute chose, ce site ne constitue pas une portail sur l'API. Il s'agit ici de montrer les différents aspects de l'API ISTEX. Le corps du site peut cependant être matière de base à la construction d'un portail. Le code sera bientôt disponible publiquement.</p>
+                  <br>
+                  <u>Pour effectuer une recherche :</u>
+                  <br>
+                  <br>
+                  <img src="img/help/help1.png" class="img-responsive center-block" alt="">
+                  <p class="text-justify">Entrer votre requête simplement dans le champs "Titre ou mot clef". La recherche se lance dès que ce champ est renseigné. Vous pouvez également sélectionner "Recherche avancée" pour mieux préciser votre recherche. Il est dans ce cas nécessaire de cliquer sur l'icone en forme de loupe pour démarrer la recherche.</p>
+                  <br>
+                  <u>Pour comprendre comment ces résultats sont obtenus :</u>
+                  <br>
+                  <br>
+                  <img src="img/help/help2.png" class="img-responsive center-block" alt="">
+                  <p class="text-justify">Une fois la requête effectuée, il est possible de consulter la réponse brute fournie par l'API en cliquant sur le bouton correspondant. La requête envoyée est également visible à gauche du bouton précédent.</p>
+                  <br>
+                  <p class="text-justify">Pour toute aide supplémentaire ou suggestion, vous pouvez nous écrire à istex@inist.fr (lien disponible en bas de page).</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div id="searchFieldRow" class="row">
+            <form  role="form" class="form-inline" id="searchform">
+              <div data-toggle="istex-tooltip" class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
+                  <span class="input-group-btn">
+                    <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
+                      <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="istex-tooltip">
+                <h5>Mot clef</h5>
+                <p>Ce champ permet la recherche d'un ou plusieurs mot(s) clef(s). Cette recherche peut être affinée grâce aux options de recherche avancées et aux facettes.</p>
+                <div class="references">
+                  <h6>
+                    <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                  </h6>
+                  <ul>
+                    <li>
+                      <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-des-requ-tes">
+                        Syntaxe des requêtes
+                      </a>
+                    </li>
+                    <li>
+                      <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-de-documents">
+                        Recherche de documents
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div data-ng-if="helper.searchKeys.query">
+                  <hr>
+                  <p>Morceau de la requête généré par le champ: </p>
+                  <p class="query-chunk"><mark data-ng-bind="helper.searchKeys.query"></mark></p>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+          <div class="row">
+            <div id="advancedSearchTitle" class="panel-heading row col-md-6 col-md-offset-3">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse">
+                  Recherche avancée
+                </a>
+              </h4>
+            </div>
+          </div>
+
+          <div class="row">
+            <div id="collapse" class="panel-collapse collapse">
+              <div class="panel-body">
+                <form role="form" id="advancedSearchForm">
+                  <div data-toggle="istex-tooltip" class="form-group col-md-6">
+                    <label for="editorField">Éditeur :</label>
+                    <select id="editorField" class="form-control">
+                      <option value="-1">All</option>
+                    </select>
+                  </div>
+                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle" >
+                    <h5>Éditeur</h5>
+                    <p>Cette facette permet de préciser <strong>un unique</strong> <b class="text-primary">corpus éditeur</b> sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-corpus">
+                            Recherche par corpus
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                            Facettes
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/corpus/">
+                            Liste des éditeurs disponible via l'API
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.corpus.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                      <p class="query-chunk"><mark data-ng-bind="helper.corpus.query"></mark></p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6" data-toggle="istex-tooltip">
+                    <label for="titleField">Titre :</label>
+                    <input type="text" class="form-control" id="titleField" placeholder="Titre">
+                  </div>
+                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle">
+                    <h5>Titre</h5>
+                    <p>Ce champ permet la recherche sur le titre.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#syntaxe-des-requ-tes">
+                            Syntaxe des requêtes
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-de-documents">
+                            Recherche de documents
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.title.query">
+                      <hr>
+                      <p>Morceau de la requête généré par le champ: </p>
+                      <p class="query-chunk"><mark data-ng-bind="helper.title.query"></mark></p>
+                    </div>
+                  </div>
+                  <div data-toggle="istex-tooltip" class="form-group col-md-6">
+                    <label for="authorField">Auteur :</label>
+                    <input type="text" class="form-control" id="authorField" placeholder="Auteur">
+                  </div>
+                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle" >
+                    <h5>Éditeur</h5>
+                    <p>Cette facette permet de préciser un auteur sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-auteur">
+                            Recherche par auteur
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.author.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
+                      <p class="query-chunk"><mark data-ng-bind="helper.author.query"></mark></p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6" data-toggle="istex-tooltip">
+                    <label for="themeField">Mot clef :</label>
+                    <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
+                  </div>
+                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle" >
+                    <h5>Mot clef/sujet</h5>
+                    <p>Ce champ permet de préciser un sujet sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-sujet">
+                            Recherche par sujet
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.subject.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
+                      <p class="query-chunk"><mark data-ng-bind="helper.subject.query"></mark></p>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <hr>
+      </div>
+
+      <div id="result" class="row hide col-md-12">
+
+
+        <div class="row">
+          <div class="col-md-10">
+            <h6><span class="glyphicon glyphicon-search"></span>Affiner les résultats</h6>
+
+            <div class="input-group">
+              <span class="input-group-addon">Requête</span>
+              <input id="reqForApi" class="form-control" data-toggle="istex-tooltip" type="text" placeholder="Requete">
+              <div id="request-tooltip" class="istex-tooltip" data-my-position="bottom left" data-at-position="top left">
+                <h5>Requête</h5>       
+                <div id="request-tooltip-content"></div>
+
+              </div>
+              <span class="input-group-btn">
+                <button class="btn btn-info" data-toggle="modal" data-target="#completeResponse">
+                  Réponse brute complète
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Modal réponse complète -->
+        <div class="modal fade" id="completeResponse" tabindex="-1" role="dialog" aria-labelledby="responseLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
                   <span aria-hidden="true">&times;</span>
                   <span class="sr-only">Fermer</span>
                 </button>
-                <h4 class="modal-title text-center">
-                                    <strong>Bienvenue</strong> sur le démonstrateur de l'API
-                                    <strong>ISTEX</strong>!</h4>
+                <h4 class="modal-title" id="responseLabel">Réponse brute complète de l'API</h4>
               </div>
               <div class="modal-body">
-                <p class="text-justify">Avant toute chose, ce site ne constitue pas une portail sur l'API. Il s'agit ici de montrer les différents aspects de l'API ISTEX. Le corps du site peut cependant être matière de base à la construction d'un portail. Le code sera bientôt disponible publiquement.</p>
-                <br>
-                <u>Pour effectuer une recherche :</u>
-                <br>
-                <br>
-                <img src="img/help/help1.png" class="img-responsive center-block" />
-                <p class="text-justify">Entrer votre requête simplement dans le champs "Titre ou mot clef". La recherche se lance dès que ce champ est renseigné. Vous pouvez également sélectionner "Recherche avancée" pour mieux préciser votre recherche. Il est dans ce cas nécessaire de cliquer sur l'icone en forme de loupe pour démarrer la recherche.</p>
-                <br>
-                <u>Pour comprendre comment ces résultats sont obtenus :</u>
-                <br>
-                <br>
-                <img src="img/help/help2.png" class="img-responsive center-block" />
-                <p class="text-justify">Une fois la requête effectuée, il est possible de consulter la réponse brute fournie par l'API en cliquant sur le bouton correspondant. La requête envoyée est également visible à gauche du bouton précédent.</p>
-                <br>
-                <p class="text-justify">Pour toute aide supplémentaire ou suggestion, vous pouvez nous écrire à istex@inist.fr (lien disponible en bas de page).</p>
+                <div id="jsonFromApi"></div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -83,296 +315,275 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-md-4">
-        <div id="searchFieldRow" class="row">
-          <form role="form" class="form-inline" id="searchform">
-            <div class="form-group">
-              <div class="input-group">
-                <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
-                <span class="input-group-btn">
-                                    <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
-                                        <span class="glyphicon glyphicon-search"></span>
-                </button>
-                </span>
+        <div class="col-md-3">
+          <div class="col-md-12">
+            <div class="col-md-10">
+              <h6><span class="glyphicon glyphicon-search"></span>Affiner les résultats</h6>
+            </div>
+            <button class="glyphicon glyphicon-refresh" type="button" id="razFacet"></button>
+          </div>
+
+          <div class="panel-group" id="accordeon">
+
+            <div data-toggle="istex-tooltip" class="panel panel-primary">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  Corpus
+                  <span id="nbCorpusFacet" class="badge pull-right"></span>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <div id="facetCorpus">
+                  </div>
+                </div>
               </div>
             </div>
-          </form>
-        </div>
-
-        <div class="row">
-          <div id="advancedSearchTitle" class="panel-heading row col-md-6 col-md-offset-3">
-            <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse">
-                        Recherche avancée
+            <div class="istex-tooltip">
+              <h5>Corpus</h5>
+              <p>Cette facette permet de préciser le <b class="text-primary">corpus éditeur</b> sur lequel porte la requête.</p>
+              <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
+              <div class="references">
+                <h6>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                </h6>
+                <ul>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#recherche-par-corpus">
+                      Recherche par corpus
                     </a>
-                        </h4>
-          </div>
-        </div>
-
-        <div class="row">
-          <div id="collapse" class="panel-collapse collapse">
-            <div class="panel-body">
-              <form role="form" id="advancedSearchForm">
-                <div class="form-group col-md-6">
-                  <label for="editorField">Editeur :</label>
-                  <select id="editorField" class="form-control">
-                    <option value="-1">All</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="titleField">Titre :</label>
-                  <input type="text" class="form-control" id="titleField" placeholder="Titre">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="authorField">Auteur :</label>
-                  <input type="text" class="form-control" id="authorField" placeholder="Auteur">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="themeField">Mot-clef :</label>
-                  <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
-                </div>
-              </form>
+                  </li>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                      Facettes
+                    </a>
+                  </li>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/corpus/">
+                      Liste des éditeurs disponible via l'API
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div data-ng-if="helper.corpus.query">
+                <hr>
+                <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                <p class="query-chunk"><mark data-ng-bind="helper.corpus.query"></mark></p>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="col-md-12">
-      <hr>
-    </div>
-
-    <div id="result" class="row hide col-md-12">
-
-      <div class="input-group">
-        <span class="input-group-addon">Requête</span>
-        <input id="reqForApi" class="form-control" type="text" placeholder="Requete">
-        <span class="input-group-btn">
-                    <button class="btn btn-info" data-toggle="modal" data-target="#completeResponse">
-                        Réponse brute complète
-                    </button>
-                </span>
-      </div>
-
-      <!-- Modal réponse complète -->
-      <div class="modal fade" id="completeResponse" tabindex="-1" role="dialog" aria-labelledby="responseLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Fermer</span>
-              </button>
-              <h4 class="modal-title" id="responseLabel">Réponse brute complète de l'API</h4>
-            </div>
-            <div class="modal-body">
-              <div id="jsonFromApi"></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-
-        <div class="row">
-          <div class="col-md-10">
-            <h6><span class="glyphicon glyphicon-search"></span>Affiner les résultats</h6>
-          </div>
-          <button class="glyphicon glyphicon-refresh" type="button" id="razFacet"></button>
-        </div>
-
-        <div class="panel-group" id="accordeon">
-
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                                Corpus
-                                <span id="nbCorpusFacet" class="badge pull-right"></span>
-                            </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <div id="facetCorpus">
+            <div data-toggle="istex-tooltip" class="panel panel-primary">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  Copyright
+                  <span id="nbCopyrightFacet" class="badge pull-right"></span>
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <div class="col-md-12">
+                    <label for="amountCopyrightDate" class="col-md-5">Entre :</label>
+                    <input type="text" id="amountCopyrightDate" readonly style="border:0;" class="col-md-7">
+                  </div>
+                  <div id="slider-range-copyright" class="panel-collapse collapse in col-md-12"></div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                                Copyright
-                                <span id="nbCopyrightFacet" class="badge pull-right"></span>
-                            </h4>
+            <div class="istex-tooltip">
+              <h5>Copyright</h5>
+              <p>Cette facette permet de préciser la <b class="text-primary">période de copyright</b> sur laquelle porte la requête.</p>
+              <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
+              <div class="references">
+                <h6>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                </h6>
+                <ul>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                      Facettes
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div data-ng-if="helper.copyrightDate.query">
+                <hr>
+                <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                <p class="query-chunk"><mark data-ng-bind="helper.copyrightDate.query"></mark></p>
+              </div>
             </div>
-            <div id="collapseTwo" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <div class="col-md-12">
-                  <label for="amountCopyrightDate" class="col-md-5">Entre :</label>
-                  <input type="text" id="amountCopyrightDate" readonly style="border:0;" class="col-md-7">
+
+            <div data-toggle="istex-tooltip" class="panel panel-primary">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  Publication
+                  <span id="nbPublicationFacet" class="badge pull-right"></span>
+                </h4>
+              </div>
+              <div id="collapseThree" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <div class="col-md-12">
+                    <label for="amountPubDate" class="col-md-5">Entre :</label>
+                    <input type="text" id="amountPubDate" readonly style="border:0;" class="col-md-7">
+                  </div>
+                  <div id="slider-range-pubdate" class="panel-collapse collapse in col-md-12"></div>
                 </div>
-                <div id="slider-range-copyright" class="panel-collapse collapse in col-md-12"></div>
+              </div>
+            </div>
+            <div class="istex-tooltip">
+              <h5>Publication</h5>
+              <p>Cette facette permet de préciser la <b class="text-primary">période de publication</b> sur laquelle porte la requête.</p>
+              <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
+              <div class="references">
+                <h6>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                </h6>
+                <ul>
+                  <li>
+                    <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                      Facettes
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div data-ng-if="helper.pubDate.query">
+                <hr>
+                <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                <p class="query-chunk"><mark data-ng-bind="helper.pubDate.query"></mark></p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <table class="table table-striped table-hover" style="table-layout: fixed; word-wrap: break-word;">
+            <thead>
+              <tr class="row">
+                <th class="col-md-12" style='text-align:left;'>Résultats obtenus :
+                  <input type="text" id="totalResults" readonly style="border:0; text-align: left;">
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tableResult"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="paginRow" class="row hide">
+        <ul id="pagination" class="pager">
+          <li id="first"><a href="#">&#8676;</a>
+          </li>
+          <li id="prev"><a href="#">&#8672;</a>
+          </li>
+          <li id="next"><a href="#">&#8674;</a>
+          </li>
+          <li id="last"><a href="#">&#8677;</a>
+          </li>
+        </ul>
+      </div>
+
+      <div id="pageNumber" class="row hide">
+        <span id=currentPage>*</span>/
+        <span id=totalPages>*</span>
+      </div>
+
+      <div class="col-md-12">
+        <hr>
+      </div>
+
+      <div id="footer">
+
+        <div class="col-md-5">
+          <div class="col-md-12">Site officiel du projet :
+            <a target="_blank" href="http://www.istex.fr">www.istex.fr</a>
+          </div>
+          <button class="col-md-6" data-toggle="modal" data-target="#politicMenu" style="float: initial;">Politique de confidentialité</button>
+        </div>
+
+        <!-- Modal politique -->
+        <div class="modal fade" id="politicMenu" tabindex="-1" role="dialog" aria-labelledby="politicLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Fermer</span>
+                </button>
+                <h4 class="modal-title text-center"><strong>Politique de confidentialité</strong></h4>
+              </div>
+              <div class="modal-body">
+                <iframe frameborder="no" width="500" height="200" src="http://piwik.inist.fr/index.php?module=CoreAdminHome&action=optOut&language=fr"></iframe>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
               </div>
             </div>
           </div>
-
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                                Publication
-                                <span id="nbPublicationFacet" class="badge pull-right"></span>
-                            </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <div class="col-md-12">
-                  <label for="amountPubDate" class="col-md-5">Entre :</label>
-                  <input type="text" id="amountPubDate" readonly style="border:0;" class="col-md-7">
-                </div>
-                <div id="slider-range-pubdate" class="panel-collapse collapse in col-md-12"></div>
-              </div>
-            </div>
-          </div>
-
         </div>
-      </div>
 
-      <div class="col-md-9">
-        <table class="table table-striped table-hover" style="table-layout: fixed; word-wrap: break-word;">
-          <thead>
-            <tr class="row">
-              <th class="col-md-12" style='text-align:left;'>Résultats obtenus :
-                <input type="text" id="totalResults" readonly style="border:0; text-align: left;">
-              </th>
-            </tr>
-          </thead>
-          <tbody id="tableResult"></tbody>
-        </table>
-      </div>
-    </div>
 
-    <div id="paginRow" class="row hide">
-      <ul id="pagination" class="pager">
-        <li id="first"><a href="#">&#8676;</a>
-        </li>
-        <li id="prev"><a href="#">&#8672;</a>
-        </li>
-        <li id="next"><a href="#">&#8674;</a>
-        </li>
-        <li id="last"><a href="#">&#8677;</a>
-        </li>
-      </ul>
-    </div>
-
-    <div id="pageNumber" class="row hide">
-      <span id=currentPage>*</span>/
-      <span id=totalPages>*</span>
-    </div>
-
-    <div class="col-md-12">
-      <hr>
-    </div>
-
-    <div id="footer">
-
-      <div class="col-md-5">
-        <div class="col-md-12">Site officiel du projet :
-          <a target="_blank" href="http://www.istex.fr">www.istex.fr</a>
+        <div class="col-md-2" id="logoIA">
+          <img src="./img/Label-IA-mini.jpg" alt="">
         </div>
-        <button class="col-md-6" data-toggle="modal" data-target="#politicMenu" style="float: initial;">Politique de confidentialité</button>
-      </div>
-
-      <!-- Modal politique -->
-      <div class="modal fade" id="politicMenu" tabindex="-1" role="dialog" aria-labelledby="politicLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Fermer</span>
-              </button>
-              <h4 class="modal-title text-center"><strong>Politique de confidentialité</strong></h4>
-            </div>
-            <div class="modal-body">
-              <iframe frameborder="no" width="500px" height="200px" src="http://piwik.inist.fr/index.php?module=CoreAdminHome&action=optOut&language=fr"></iframe>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-            </div>
-          </div>
+        <div class="col-md-5">Pour toute suggestion, vous pouvez nous
+          <a target="_blank" href="mailto:istex@inist.fr">écrire ici</a>
         </div>
+        <div style="font-size:10px">Favicon réalisé par <a href="http://www.freepik.com" title="Freepik">Freepik</a> sous licence <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+        </div>
+
       </div>
+      <script src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
+      <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
+      <script type="text/javascript" src="js/vendor/noty/packaged/jquery.noty.packaged.min.js"></script>
+      <script src="js/vendor/require.js"></script>
+      <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
+      <script src="js/plugins.js"></script>
+      <script src="js/main.js"></script>
 
+      <!-- Piwik -->
+<!--      <script type="text/javascript">
+                      var _paq = _paq || [];
+                      _paq.push([function () {
+                          var self = this;
 
-      <div class="col-md-2" id="logoIA">
-        <img src="./img/Label-IA-mini.jpg">
-      </div>
-      <div class="col-md-5">Pour toute suggestion, vous pouvez nous
-        <a target="_blank" href="mailto:istex@inist.fr">écrire ici</a>
-      </div>
-      <div style="font-size:10px">Favicon réalisé par <a href="http://www.freepik.com" title="Freepik">Freepik</a> sous licence <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
-      </div>
-
-    </div>
-
-    <script type="text/javascript" src="js/vendor/less-1.6.3.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
-    <script type="text/javascript" src="js/vendor/noty/packaged/jquery.noty.packaged.min.js"></script>
-    <script src="js/vendor/require.js"></script>
-    <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/main.js"></script>
-
-    <!-- Piwik -->
-
-    <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push([function() {
-      var self = this;
-
-      function getOriginalVisitorCookieTimeout() {
-        var now = new Date(),
-          nowTs = Math.round(now.getTime() / 1000),
-          visitorInfo = self.getVisitorInfo();
-        var createTs = parseInt(visitorInfo[2]);
-        var cookieTimeout = 33696000;
-        var originalTimeout = createTs + cookieTimeout - nowTs;
-        return originalTimeout;
-      }
-      getOriginalVisitorCookieTimeout();
-      this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
-    }]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u = (("https:" == document.location.protocol) ? "https" : "http") + "://piwik.inist.fr/";
-      _paq.push(['setTrackerUrl', u + 'piwik.php']);
-      _paq.push(['setSiteId', 118]);
-      var d = document,
-        g = d.createElement('script'),
-        s = d.getElementsByTagName('script')[0];
-      g.type = 'text/javascript';
-      g.defer = true;
-      g.async = true;
-      g.src = u + 'piwik.js';
-      s.parentNode.insertBefore(g, s);
-      require(['piwik']);
-    })();
-    </script>
-    <noscript>
+                          function getOriginalVisitorCookieTimeout () {
+                            var now = new Date(),
+                              nowTs = Math.round(now.getTime() / 1000),
+                              visitorInfo = self.getVisitorInfo();
+                            var createTs = parseInt(visitorInfo[2]);
+                            var cookieTimeout = 33696000;
+                            var originalTimeout = createTs + cookieTimeout - nowTs;
+                            return originalTimeout;
+                          }
+                          getOriginalVisitorCookieTimeout();
+                          this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
+                        }]);
+                      _paq.push(['trackPageView']);
+                      _paq.push(['enableLinkTracking']);
+                      (function () {
+                        var u = (("https:" == document.location.protocol) ? "https" : "http") + "://piwik.inist.fr//";
+                        _paq.push(['setTrackerUrl', u + 'piwik.php']);
+                        _paq.push(['setSiteId', 118]);
+                        var d = document,
+                          g = d.createElement('script'),
+                          s = d.getElementsByTagName('script')[0];
+                        g.type = 'text/javascript';
+                        g.defer = true;
+                        g.async = false;
+                        g.src = u + 'piwik.js';
+                        s.parentNode.insertBefore(g, s);
+                        require(['piwik']);
+                      })();
+      </script>-->
+      <noscript>
       <p><img src="http://piwik.inist.fr/piwik.php?idsite=118" style="border:0" alt="" />
       </p>
-    </noscript>
-    <!-- End Piwik Code -->
-
-</body>
+      </noscript>
+      <!-- End Piwik Code -->
+    </div>
+  </body>
 
 </html>

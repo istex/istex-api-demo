@@ -1,0 +1,285 @@
+/*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
+
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+@darkblue: #184B63;
+@lightblue: lighten(@darkblue, 10%);
+html, button, input, select, textarea {
+  color: #222;
+}
+html {
+  font-size: 1em;
+  line-height: 1.4;
+}
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+  resize: vertical;
+}
+/* ==========================================================================
+   Browse Happy prompt
+   ========================================================================== */
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+.jumbotron.istex-header {
+  padding-bottom: 0;
+  padding-top: 1px;
+  background-color: white;
+  color: white;
+  background-image: url(../img/istex-logo.svg);
+  background-size: 20% 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.jumbotron.istex-header h1 {
+  font-weight: bold;
+  text-align: center;
+}
+#logoIA {
+  text-align: center;
+}
+.container {
+  height: 100%;
+}
+.form-group {
+  max-width: 250px;
+}
+.pager li {
+  font-size: 20px;
+}
+#searchFieldRow {
+  text-align: center;
+}
+#searchField {
+  max-width: 250px;
+}
+#advancedSearchTitle {
+  text-align: center;
+}
+#tableResult span.glyphicon {
+  font-size: 20px;
+}
+#pageNumber {
+  text-align: center;
+}
+#header {
+  border-radius: 0px;
+  margin-bottom: 0px;
+}
+#accordion .panel-heading {
+  background-color: @lightblue;
+
+  border-radius: 0px;
+}
+#accordion .panel {
+  border-radius: 0px;
+  border: 0px;
+}
+.loading {
+  height: 16px;
+}
+.truncate {
+  width: 42px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.truncate:hover {
+  overflow: visible;
+  white-space: normal;
+}
+#result th {
+  text-align: center;
+}
+#footer {
+  text-align: center;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  border: 1px solid gray;
+}
+.ui-slider .ui-slider-range {
+  background: none repeat scroll 0 0 gray;
+}
+#razFacet {
+  margin-top: 5px;
+  float:right;
+}
+
+@import (reference, less) "../../css/bootstrap.min.css";
+@import (reference)  "../vendor/bootstrap-3.1.0/less/variables.less";
+@import (reference)  "../vendor/bootstrap-3.1.0/less/mixins.less";
+//
+// Variables 
+// --------------------------------------------------
+
+
+//== New colors
+//
+
+@brand-istex-blue:          #458CA5;
+@brand-istex-green:         #C4D733;
+@brand-istex-orange:        #FFB465;
+@brand-istex-violet:        #5B59B7;
+@brand-istex-yellow:        #FFD965;
+
+/* New colors */
+.text-istex-blue{
+  .text-emphasis-variant(@brand-istex-blue);
+}
+.text-istex-green{
+  .text-emphasis-variant(@brand-istex-green);
+}
+.text-istex-orange{
+  .text-emphasis-variant(@brand-istex-orange);
+}
+.text-istex-violet{
+  .text-emphasis-variant(@brand-istex-violet);
+}
+.text-istex-yellow{
+  .text-emphasis-variant(@brand-istex-yellow);
+}
+
+.bg-istex-blue{
+  .bg-variant(@brand-istex-blue);
+}
+
+/* ==========================================================================
+   Helpers
+   ========================================================================== */
+.vertical-middle {
+  vertical-align: middle;
+}
+
+.generate-inline-push-left(@n, @i: 1) when (@i <= @n){
+  .inline-push-left-@{i}{
+    margin-left: unit(@i, em);
+  }
+
+  .generate-inline-push-left(@n, @i + 1);
+}
+
+.generate-inline-push-left(4);
+
+
+.link-external {
+  &:after {
+    .small;
+    .glyphicon;
+    content: "\e164";
+  }
+}
+.label-istex-documentation {
+  background-color: #f1c40f;
+  background: linear-gradient(135deg, #EAA800 0%,#F1C40F 100%);
+  color: #333;
+  text-shadow: #AAA 1px 1px 2px;
+}
+/* ==========================================================================
+   Tooltip
+   ========================================================================== */
+.qtip {
+  .well; .well-sm;
+  max-width: none;
+  border-radius: @border-radius-large;
+  border: 2px solid @brand-primary;
+  background-color: #EDEDED;
+}
+#request-tooltip{
+  max-width: none;
+}
+.qtip-content {
+  padding: 0; /* Surcharge padding de base */
+}
+.istex-tooltip {
+  max-width: @font-size-base * 25;
+  display: none; // Start hidden
+
+  /* Reset de qtip */
+  font-size: @font-size-base;
+  line-height: @line-height-computed;
+
+  & > h5 {
+    display: inline-block;
+    .h4;
+    .bg-primary;
+  }
+  & > p {
+    font-size: @font-size-small;
+  }
+  & > .references{
+    .small;
+    &  > h6 {
+      margin-bottom: @line-height-computed / 4;
+    }
+  }
+  hr {
+    margin-top: @line-height-computed / 2;
+    margin-bottom: @line-height-computed / 2;
+    border-top-color: @gray-light;
+  }
+  .query-chunk {
+    font-size: @font-size-large;
+    &:before,&:after {
+      content: "...";
+    }
+    & > mark{
+      &[data-ng-bind*="corpus"],bg-corpus {
+        .bg-corpus;
+      }
+      &[data-ng-bind*="copyrightDate"] {
+        .bg-copyrightDate;
+      }
+      &[data-ng-bind*="pubDate"] {
+        .bg-pubDate;
+      }
+      &[data-ng-bind*="searchKeys"] {
+        .bg-searchKeys;
+      }
+      &[data-ng-bind*="title"] {
+        .bg-title;
+      }
+      &[data-ng-bind*="author"] {
+        .bg-author;
+      }
+      &[data-ng-bind*="subject"] {
+        .bg-subject;
+      }
+    }
+  }
+}
+.bg-corpus{
+  background-color: lighten(@brand-istex-blue, 33,5%);
+} 
+.bg-copyrightDate{
+  background-color: lighten(@brand-istex-green, 13,5%);
+}
+.bg-pubDate{
+  background-color: lighten(@brand-istex-yellow, 13,5%);
+}
+.bg-searchKeys{
+  background-color: lighten(@brand-istex-violet, 20%);
+}
+.bg-title{
+  background-color: lighten(@brand-istex-orange, 20%);
+}
+.bg-author{
+  background-color: lighten(@brand-primary, 20%);
+}
+.bg-subject{
+  background-color: lighten(@brand-success, 20%);
+}
