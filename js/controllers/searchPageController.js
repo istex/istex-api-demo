@@ -250,7 +250,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       corpusQuery,
       request,
       queryFrom,
-      facetQuery;
+      facetQuery,
+      softHyphen;
 
     // On récupére le scope du controleur Angular
     if (angular) {
@@ -330,7 +331,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }
 
     query += "&output=*";
-    var softHyphen = "&shy;";
+    softHyphen = "<wbr>";
+
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
     $("#reqForApi").val(conf.apiUrl + query);
@@ -341,11 +343,11 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen
         + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen
         + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>"+ softHyphen
-        + "&size=" + searchPage.resultsPerPage + softHyphen
-        + queryFrom + softHyphen
+        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen
+        + "&size=" + (searchPage.resultsPerPage || '') + softHyphen
+        + (queryFrom || '') + softHyphen
         + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen
-        + facetQuery + "&output=*</p>");
+        + (facetQuery || '').replace(/,/g, ",<wbr>") + "&output=*</p>");
 
     request = {
       url: conf.apiUrl + query,
@@ -362,7 +364,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     var timeStampLocal = (new Date()).getTime();
     timeStamp = timeStampLocal;
     setTimeout(function () {
-      if (timeStamp == timeStampLocal) {
+      if (timeStamp === timeStampLocal) {
         $.ajax(request);
         $("#result").removeClass('hide');
         $("#paginRow").removeClass('hide');

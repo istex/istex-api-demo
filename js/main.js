@@ -57,9 +57,16 @@ istexApp.controller("istexAppCtrl", function ($scope) {
 });
 
 $(document).ready(function () {
-
-  $("[data-toggle='istex-tooltip']").each(function () {
-    var $qtipContent = $(this).next(".istex-tooltip"),
+  /**
+   * Istex tooltip
+   * Pour déclencher le tooltip: data-toggle='istex-tooltip'
+   * Par défaut le tooltip doit étre le premier element frère  'div.istex-tooltip'
+   * sauf si l'attribut 'data-content-text' est précisé avec un selecteur.
+   */
+  $("div[data-toggle='istex-tooltip']").each(function () {
+    var $this = $(this),
+      contentText = $this.data("content-text"),
+      $qtipContent = contentText ? $this.children(contentText) : $this.next("div.istex-tooltip"),
       position = {
         my: $qtipContent.data("my-position") || "left top",
         at: $qtipContent.data("at-position") || "right top"
@@ -181,7 +188,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("#razFacet").on("click", function (event, ui) {
+  $("button.js-resetFacet").on("click", function (event, ui) {
     search(searchPage, searchPageController);
   });
 });

@@ -113,10 +113,6 @@ textarea {
 .ui-slider .ui-slider-range {
   background: none repeat scroll 0 0 gray;
 }
-#razFacet {
-  margin-top: 5px;
-  float: right;
-}
 /* New colors */
 .text-istex-blue {
   color: #458ca5;
@@ -159,6 +155,9 @@ a.bg-istex-blue:hover {
    ========================================================================== */
 .vertical-middle {
   vertical-align: middle;
+}
+.inline-block {
+  display: inline-block;
 }
 .inline-push-left-1 {
   margin-left: 1em;
@@ -210,19 +209,34 @@ a.bg-istex-blue:hover {
   border: 2px solid #428bca;
   background-color: #EDEDED;
 }
-#request-tooltip {
-  max-width: none;
+@media (min-width: 768px) {
+  #request-tooltip {
+    max-width: 698px;
+  }
+}
+@media (min-width: 992px) {
+  #request-tooltip {
+    max-width: 918px;
+  }
+}
+@media (min-width: 1200px) {
+  #request-tooltip {
+    max-width: 1118px;
+  }
 }
 #request-tooltip-content {
   font-family: "Lucida Console", Monaco, monospace;
+}
+#request-tooltip-content > p > mark {
+  white-space: nowrap;
 }
 .qtip-content {
   padding: 0;
   /* Surcharge padding de base */
 }
 .istex-tooltip {
-  max-width: 350px;
   display: none;
+  max-width: 350px;
   /* Reset de qtip */
   font-size: 14px;
   line-height: 20px;

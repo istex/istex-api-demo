@@ -115,10 +115,6 @@ textarea {
 .ui-slider .ui-slider-range {
   background: none repeat scroll 0 0 gray;
 }
-#razFacet {
-  margin-top: 5px;
-  float:right;
-}
 
 @import (reference, less) "../../css/bootstrap.min.css";
 @import (reference)  "../vendor/bootstrap-3.1.0/less/variables.less";
@@ -164,7 +160,9 @@ textarea {
 .vertical-middle {
   vertical-align: middle;
 }
-
+.inline-block{
+  display: inline-block;
+}
 .generate-inline-push-left(@n, @i: 1) when (@i <= @n){
   .inline-push-left-@{i}{
     margin-left: unit(@i, em);
@@ -200,17 +198,28 @@ textarea {
   background-color: #EDEDED;
 }
 #request-tooltip{
-  max-width: none;
+  @media (min-width: @screen-sm-min) {
+    max-width: @container-sm - (@grid-gutter-width + 22px);
+  }
+  @media (min-width: @screen-md-min) {
+    max-width: @container-md - (@grid-gutter-width + 22px);
+  }
+  @media (min-width: @screen-lg-min) {
+    max-width: @container-lg - (@grid-gutter-width + 22px);
+  }
 }
 #request-tooltip-content{
   font-family: "Lucida Console", Monaco, monospace;
+  & > p > mark {
+    white-space: nowrap;
+  }
 }
 .qtip-content {
   padding: 0; /* Surcharge padding de base */
 }
 .istex-tooltip {
-  max-width: @font-size-base * 25;
   display: none; // Start hidden
+  max-width: @font-size-base * 25;
 
   /* Reset de qtip */
   font-size: @font-size-base;
