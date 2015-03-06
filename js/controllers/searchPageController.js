@@ -132,22 +132,21 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      var tableLine = "{{#hits}}<tr class='row'><td><h4 class='alert-success col-md-12'><b>" +
+      var tableLine = "{{#hits}}<tr class='row'><td class='col-xs-12'><h4 class='alert-success'><b>" +
         "{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}" +
-        "</b></h4><p class='col-md-12' style='font-size:X-small;'>" +
+        "</b></h4><p class='small'>" +
         "{{#abstr}}{{abstract}}{{/abstr}}" +
-        "</p><div class='label label-default' style='text-align:left;'><b>" +
-        "{{corpusName}}</b></div><div class='col-md-10' style='text-align:center;'>" +
-        "<div class='col-md-12'>" +
-        "<div class='col-md-4'>" +
+        "</p><div class='text-right'><b class='label label-primary'>" +
+        "{{corpusName}}</b></div><div class='row' style='text-align:center;'>" +
+        "<div class='col-xs-4'>" +
         "{{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}} " +
-        "</div><div class='col-md-3'>" +
+        "</div><div class='col-xs-3'>" +
         "{{#linksIcon}}Metadata {{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}} " +
-        "</div><div class='col-md-3'>" +
+        "</div><div class='col-xs-3'>" +
         "{{#linksIcon}}Annexes {{#annexes}}{{{mimetype}}} {{{uri}}} {{/annexes}}{{/linksIcon}} " +
-        "</div><div class='col-md-2'>" +
+        "</div><div class='col-xs-2'>" +
         "{{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}" +
-        "</div></div></tr>{{/hits}}",
+        "</div></td></tr>{{/hits}}",
         corpusFacetTemplate,
         $facetCorpus,
         minDate,
@@ -212,7 +211,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     } else {
 
       $("#totalResults").val(0);
-      $("#tableResult").html("<tr class='row'><td class='truncate col-md-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
+      $("#tableResult").html("<tr class='row'><td class='truncate col-xs-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
       $('#first').hide();
       $('#prev').hide();
       $('#next').hide();

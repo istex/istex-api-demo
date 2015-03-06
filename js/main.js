@@ -78,7 +78,8 @@ $(document).ready(function () {
           text: $qtipContent
         },
       show: {
-        solo: true
+        solo: true,
+        delay: 382
       },
       hide: {
 //        event: false,

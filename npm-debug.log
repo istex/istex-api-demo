@@ -8,7 +8,7 @@
 5 error package.json ENOENT, open '/home/parentin/workspace/istex-api-demo/package.json'
 5 error package.json This is most likely not a problem with npm itself.
 5 error package.json npm can't find a package.json file in your current directory.
-6 error System Linux 3.13.0-44-generic
+6 error System Linux 3.13.0-45-generic
 7 error command "/home/parentin/.nvm/v0.10.33/bin/node" "/home/parentin/.nvm/v0.10.33/bin/npm" "install"
 8 error cwd /home/parentin/workspace/istex-api-demo
 9 error node -v v0.10.33

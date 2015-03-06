@@ -1,0 +1,25 @@
+{
+  "name": "istex-api-demo",
+  "version": "1.0.0",
+  "description": "Démonstrateur Istex",
+  "main": "index.html",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "less": "^2.4.0",
+    "less-plugin-clean-css": "^1.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://parentin@vsistex.intra.inist.fr:22222/istex/istex-api-demo.git"
+  },
+  "keywords": [
+    "Istex",
+    "API"
+  ],
+  "author": "Istex team",
+  "license": "ISC"
+}
