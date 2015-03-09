@@ -65,14 +65,14 @@ $(document).ready(function () {
    */
   $("div[data-toggle='istex-tooltip']").each(function () {
     var $this = $(this),
-      contentText = $this.data("content-text"),
-      $qtipContent = contentText ? $this.children(contentText) : $this.next("div.istex-tooltip"),
+      dataContentText = $this.data("content-text"),
+      $qtipContent = dataContentText ? $this.children(dataContentText) : $this.next("div.istex-tooltip"),
       position = {
         my: $qtipContent.data("my-position") || "left top",
         at: $qtipContent.data("at-position") || "right top"
       };
 
-    $(this).qtip({
+    $this.qtip({
       content:
         {
           text: $qtipContent
@@ -95,6 +95,40 @@ $(document).ready(function () {
       }
     });
   });
+
+  /**
+   * Toolip pour les icons des fichiers
+   */
+  $(document).on("resultsLoaded", function (e) {
+
+    $(".downloadFilesTable").find('a').each(function () {
+      var $this = $(this),
+        $thisImg = $this.children("img"),
+        mimetype = $thisImg.attr("title");
+
+      $thisImg.removeAttr("title");
+      $this.qtip({
+        content:
+          {
+            text: $("<h5>" + mimetype + "</h5>" + "<p>" + $this.attr("href") + "</p>")
+          },
+        show: {
+          solo: true,
+          delay: 382
+        },
+        hide: {
+//        event: false,
+          fixed: true,
+          delay: 236
+        },
+        style: {
+          def: false
+        }
+      });
+    });
+  });
+
+
 });
 
 

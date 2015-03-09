@@ -55,7 +55,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
         return function (text, render) {
           var infos = render(text).split(" "),
-            html = (infos.length === 2) ? "" : "<table><th>" + infos[0] + "</th><tr><td>",
+            html = (infos.length === 2) ? "" : "<table class='downloadFilesTable'><th>" + infos[0] + "</th><tr><td>",
             i = 1,
             typeFile;
           while ((i + 1) < infos.length) {
@@ -354,7 +354,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       crossDomain: true,
       success: searchPageController.displayResults,
       error: searchPageController.manageError,
-      timeout: 10000
+      timeout: 10000,
+      complete: function () {
+        $(document).trigger("resultsLoaded");
+      }
     };
 
 
