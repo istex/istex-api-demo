@@ -40,6 +40,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       $("#totalPages").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
 
       $("#totalResults").val(data.total);
+      $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-rp'].took + data.stats['istex-data'].took);
 
       data.abstr = function () {
         return function (text, render) {
@@ -329,7 +330,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       query += ",copyrightdate,pubdate";
     }
 
-    query += "&output=*";
+    query += "&output=*&stats";
     softHyphen = "<wbr>";
 
     $("#searchButton").button('loading');
