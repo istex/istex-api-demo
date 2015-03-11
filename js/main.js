@@ -106,25 +106,29 @@ $(document).ready(function () {
         $thisImg = $this.children("img"),
         mimetype = $thisImg.attr("title");
 
-      $thisImg.removeAttr("title");
-      $this.qtip({
-        content:
-          {
-            text: $("<h5>" + mimetype + "</h5>" + "<p>" + $this.attr("href") + "</p>")
+      $thisImg.removeAttr("title")
+        .qtip({
+          content:
+            {
+              text: $("<h5><span class='label label-primary'>" + mimetype + " <span class='glyphicon glyphicon-file'></span></span></h5>" + "<p><b>" + $this.attr("href") + "</b></p>")
+            },
+          show: {
+            solo: true,
+            delay: 382
           },
-        show: {
-          solo: true,
-          delay: 382
-        },
-        hide: {
-//        event: false,
-          fixed: true,
-          delay: 236
-        },
-        style: {
-          def: false
-        }
-      });
+          hide: {
+//            event: false,
+            fixed: true,
+            delay: 146
+          },
+          position: {
+            my: "top left",
+            at: "bottom center"
+          },
+          style: {
+            def: false
+          }
+        });
     });
   });
 
