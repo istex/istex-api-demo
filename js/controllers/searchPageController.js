@@ -329,7 +329,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       facetQuery += ",copyrightdate,pubdate";
       query += ",copyrightdate,pubdate";
     }
-
+    facetQuery += "&output=*&stats";
     query += "&output=*&stats";
     softHyphen = "<wbr>";
 
@@ -337,7 +337,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#result").css("opacity", 0.4);
     $("#reqForApi").val(conf.apiUrl + query);
     $("#request-tooltip-content")
-      .html("<p class='h4'>document/?" + softHyphen
+      .html("<p class='h4'>https://api.istex.fr/document/?" + softHyphen
         + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen
         + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen
         + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen
@@ -347,7 +347,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         + "&size=" + (searchPage.resultsPerPage || '') + softHyphen
         + (queryFrom || '') + softHyphen
         + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen
-        + (facetQuery || '').replace(/,/g, ",<wbr>") + "&output=*</p>");
+        + (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>")
+        + "</p>");
 
     request = {
       url: conf.apiUrl + query,

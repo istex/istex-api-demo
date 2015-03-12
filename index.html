@@ -467,17 +467,33 @@
           </div><!--.col-xs-3-->
 
           <div class="col-xs-9">
-            <table class="table table-striped table-hover" style="table-layout: fixed; word-wrap: break-word;">
+            <table class="table table-striped table-hover"
+                   data-toggle="istex-tooltip"
+                   data-tooltip-target=".requestTimeDisplay"
+                   style="table-layout: fixed; word-wrap: break-word;"
+                   >
               <thead>
                 <tr class="row">
-                  <th class="col-xs-12" style='text-align:left;'>Résultats obtenus :
-                    <input type="text" id="totalResults" readonly style="border:0; text-align: center; width: 80px"><i>en 
-                    <input type="text" id="totalms" readonly style="border:0; text-align: center; width: 40px"> ms
+                  <th class="col-xs-12"  style='text-align:left;'>
+                    <span class="requestTimeDisplay">
+                      Résultats obtenus :
+                      <input type="text" id="totalResults" readonly style="border:0; text-align: center; width: 80px"><i>en</i>
+                      <input type="text" id="totalms" readonly style="border:0; text-align: center; width: 40px"> ms
+                    </span>
                   </th>
                 </tr>
               </thead>
               <tbody id="tableResult"></tbody>
             </table>
+            <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+              <h5>Stats</h5>
+              <p>Des <b class="text-primary">statistiques</b> sur le resultat de la requête à l'API Istex peuvent êtres obtenus.</p>
+              <div>
+                <hr>
+                <h6 class="h5">Morceau de la requête: </h6>
+                <p class="query-chunk"><mark class="bg-stats">&amp;stats</mark></p>
+              </div>
+            </div>
           </div>
         </div>
 

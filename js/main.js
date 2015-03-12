@@ -63,8 +63,10 @@ $(document).ready(function () {
    * Par défaut le tooltip doit étre le premier element frère  'div.istex-tooltip'
    * sauf si l'attribut 'data-content-text' est précisé avec un selecteur.
    */
-  $("div[data-toggle='istex-tooltip']").each(function () {
+  $("[data-toggle='istex-tooltip']").each(function () {
     var $this = $(this),
+      dataTooltipTarget = $this.data("tooltip-target"),
+      $targetElement = dataTooltipTarget ? $this.find(dataTooltipTarget) : $this,
       dataContentText = $this.data("content-text"),
       $qtipContent = dataContentText ? $this.children(dataContentText) : $this.next("div.istex-tooltip"),
       position = {
@@ -72,7 +74,7 @@ $(document).ready(function () {
         at: $qtipContent.data("at-position") || "right top"
       };
 
-    $this.qtip({
+    $targetElement.qtip({
       content:
         {
           text: $qtipContent
