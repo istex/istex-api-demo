@@ -4,6 +4,7 @@
 define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function (searchPage, conf, mustache) {
   "use strict";
   var searchPageController = {};
+  var timeStamp = null;
 
   (function () {
     var err = $.ajax({
@@ -235,9 +236,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $(".alert").alert();
   };
 
-
-  var timeStamp = null;
-
   searchPageController.search = function () {
     var
       query = "document/?q=",
@@ -257,7 +255,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     if (angular) {
       ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
     }
-
 
     if (searchPage.searchField !== "" && searchPage.searchField !== undefined) {
       ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
@@ -302,8 +299,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       }
     });
 
-
-
     if (corpusQuery !== '') {
       query += ctrlScope.helper.corpus.query = "&corpus=" + corpusQuery.slice(0, -1);
     } else {
@@ -314,7 +309,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     query += facetQuery = "&facet=corpus";
-
 
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
       minCopyright = $("#slider-range-copyright").slider("values", 0);
@@ -350,6 +344,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         + (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>")
         + "</p>");
 
+    var timeStampLocal = (new Date()).getTime();
+    timeStamp = timeStampLocal;
+
     request = {
       url: conf.apiUrl + query,
       dataType: "jsonp",
@@ -358,23 +355,17 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       error: searchPageController.manageError,
       timeout: 10000,
       complete: function () {
-        $(document).trigger("resultsLoaded");
+        //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
+        if (timeStamp === timeStampLocal){
+          $(document).trigger("resultsLoaded");
+        }
       }
     };
 
-
-    //Attente de 987ms (Fibo 16)
-    //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
-    var timeStampLocal = (new Date()).getTime();
-    timeStamp = timeStampLocal;
-    setTimeout(function () {
-      if (timeStamp === timeStampLocal) {
-        $.ajax(request);
-        $("#result").removeClass('hide');
-        $("#paginRow").removeClass('hide');
-        $("#pageNumber").removeClass('hide');
-      }
-    }, 987);
+    $.ajax(request);
+    $("#result").removeClass('hide');
+    $("#paginRow").removeClass('hide');
+    $("#pageNumber").removeClass('hide');
 
   };
 
