@@ -267,8 +267,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     if ($("#collapse").is(':visible')) {
 
       if (searchPage.author !== "" && searchPage.author !== undefined) {
-        ctrlScope.helper.author.query = "AND author.personal:" + searchPage.author;
-        fields.push("author.personal:" + searchPage.author);
+        ctrlScope.helper.author.query = "AND author.name:" + searchPage.author;
+        fields.push("author.name:" + searchPage.author);
       }
       if (searchPage.title !== "" && searchPage.title !== undefined) {
         ctrlScope.helper.title.query = "AND title:" + searchPage.title;
