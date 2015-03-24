@@ -351,8 +351,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       url: conf.apiUrl + query,
       dataType: "jsonp",
       crossDomain: true,
-      success: searchPageController.displayResults,
-      error: searchPageController.manageError,
+      success: function (data) {
+        //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
+        if (timeStamp === timeStampLocal){
+        searchPageController.displayResults(data);
+        }
+      },
+      error: function (err) {
+        //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
+        if (timeStamp === timeStampLocal){
+        searchPageController.manageError(err);
+        }
+      },
       timeout: 10000,
       complete: function () {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
