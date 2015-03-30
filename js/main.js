@@ -137,14 +137,11 @@ $(document).ready(function () {
 
 });
 
-
-
 //require.config({
 //  paths: {
 //    'piwik': '//piwik.inist.fr/piwik'
 //  }
 //});
-
 
 require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
   globalSearchPage = searchPage;
@@ -165,35 +162,19 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
   });
 
   $("#prev").click(function () {
-    if (searchPage.currentPage <= 1) {
-      return;
-    }
-    searchPage.currentPage = searchPage.currentPage - 1;
-    searchPageController.search();
+    searchPageController.request($("#prev").attr("href"));
   });
 
   $("#first").click(function () {
-    if (searchPage.currentPage <= 1) {
-      return;
-    }
-    searchPage.currentPage = 1;
-    searchPageController.search();
+    searchPageController.request($("#first").attr("href"));
   });
 
   $("#next").click(function () {
-    if (searchPage.currentPage >= searchPage.numberOfPages) {
-      return;
-    }
-    searchPage.currentPage += 1;
-    searchPageController.search();
+    searchPageController.request($("#next").attr("href"));
   });
 
   $("#last").click(function () {
-    if (searchPage.currentPage - 1 >= searchPage.numberOfPages) {
-      return;
-    }
-    searchPage.currentPage = searchPage.numberOfPages;
-    searchPageController.search();
+    searchPageController.request($("#last").attr("href"));
   });
 
   $("#facetCorpus").on("click", "input", function () {

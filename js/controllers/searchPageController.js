@@ -1,16 +1,16 @@
 /*global jquery: true, angular: true, $: true, define: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function (searchPage, conf, mustache) {
+define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
   "use strict";
   var searchPageController = {};
   var timeStamp = null;
 
-  (function () {
+  (function() {
     var err = $.ajax({
       url: conf.apiUrl + "corpus",
       dataType: "jsonp",
-      success: function (data, status, xhr) {
+      success: function(data, status, xhr) {
         var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}",
           corpusList = {
             corpusList: data
@@ -18,21 +18,36 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
       }
     });
-    window.setTimeout(function () {
+    window.setTimeout(function() {
       console.log(err);
     }, 60000);
   }());
 
-  searchPageController.displayResults = function (data) {
+  searchPageController.displayResults = function(data) {
     $("#jsonFromApi").JSONView(data);
 
     if (data.total > 0) {
 
       $('#accordeon').show();
+
+      $('#first').attr("href", data.firstPageURI);
       $('#first').show();
-      $('#prev').show();
-      $('#next').show();
+      $('#last').attr("href", data.lastPageURI);
       $('#last').show();
+
+      // Selon les réponses, il peut ne pas y avoir de prevPageURI ou de nextPageURI
+      $('#prev').attr("href", data.prevPageURI);
+      if (data.prevPageURI) {
+        $('#prev').show();
+      } else {
+        $('#prev').hide(); // Assurance si une recherche a déjà été effectué en amont
+      }
+      $('#next').attr("href", data.nextPageURI);
+      if (data.nextPageURI) {
+        $('#next').show();
+      } else {
+        $('#next').hide(); // Assurance si une recherche a déjà été effectué en amont
+      }
 
       searchPage.numberOfResults = data.total;
       searchPage.numberOfPages = searchPage.numberOfResults === 0 ? 0 : Math.ceil(searchPage.numberOfResults / searchPage.resultsPerPage);
@@ -43,8 +58,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       $("#totalResults").val(data.total);
       $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-rp'].took);
 
-      data.abstr = function () {
-        return function (text, render) {
+      data.abstr = function() {
+        return function(text, render) {
           if (render(text) === "") {
             return "Pas de résumé pour ce résultat.";
           }
@@ -53,9 +68,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.linksIcon = function () {
+      data.linksIcon = function() {
 
-        return function (text, render) {
+        return function(text, render) {
           var infos = render(text).split(" "),
             html = (infos.length === 2) ? "" : "<table class='downloadFilesTable'><th>" + infos[0] + "</th><tr><td>",
             i = 1,
@@ -119,8 +134,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.titleClic = function () {
-        return function (text, render) {
+      data.titleClic = function() {
+        return function(text, render) {
           var res = render(text),
             infos = res.split(" "),
             index = infos.indexOf("application/pdf"),
@@ -230,13 +245,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#result").css("opacity", 1);
   };
 
-  searchPageController.manageError = function (err) {
+  searchPageController.manageError = function(err) {
     $("button").button('reset');
     $(".alert span").html("Houston ... Problem!" + err.responseText);
     $(".alert").alert();
   };
 
-  searchPageController.search = function () {
+  searchPageController.search = function() {
     var
       query = "document/?q=",
       fields = [],
@@ -246,7 +261,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       minPubdate,
       maxPubdate,
       corpusQuery,
-      request,
       queryFrom,
       facetQuery,
       softHyphen;
@@ -293,7 +307,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     query += "&size=" + searchPage.resultsPerPage;
     query += queryFrom = "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
     corpusQuery = '';
-    $.each(searchPage.editor, function (index, editor) {
+    $.each(searchPage.editor, function(index, editor) {
       if (editor !== "-1") {
         corpusQuery += editor + ',';
       }
@@ -308,7 +322,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     ctrlScope.safeApply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-    query += facetQuery = "&facet=corpus";
+    facetQuery = "&facet=corpus";
 
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
       minCopyright = $("#slider-range-copyright").slider("values", 0);
@@ -316,57 +330,49 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       minPubdate = $("#slider-range-pubdate").slider("values", 0);
       maxPubdate = $("#slider-range-pubdate").slider("values", 1);
       facetQuery += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
-      query += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
       facetQuery += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
-      query += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
     } else {
       facetQuery += ",copyrightdate,pubdate";
-      query += ",copyrightdate,pubdate";
     }
     facetQuery += "&output=*&stats";
-    query += "&output=*&stats";
+    query += facetQuery;
     softHyphen = "<wbr>";
+
+    $("#request-tooltip-content")
+      .html("<p class='h4'>https://api.istex.fr/document/?" + softHyphen + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen + "&size=" + (searchPage.resultsPerPage || '') + softHyphen + (queryFrom || '') + softHyphen + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen + (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>") + "</p>");
+
+    searchPageController.request(conf.apiUrl + query);
+  };
+
+  searchPageController.request = function(url) {
 
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
-    $("#reqForApi").val(conf.apiUrl + query);
-    $("#request-tooltip-content")
-      .html("<p class='h4'>https://api.istex.fr/document/?" + softHyphen
-        + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen
-        + "&size=" + (searchPage.resultsPerPage || '') + softHyphen
-        + (queryFrom || '') + softHyphen
-        + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen
-        + (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>")
-        + "</p>");
+    $("#reqForApi").val(url);
 
     var timeStampLocal = (new Date()).getTime();
     timeStamp = timeStampLocal;
 
-    request = {
-      url: conf.apiUrl + query,
+    var request = {
+      url: url,
       dataType: "jsonp",
       crossDomain: true,
-      success: function (data) {
+      success: function(data) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
-        if (timeStamp === timeStampLocal){
-        searchPageController.displayResults(data);
+        if (timeStamp === timeStampLocal) {
+          searchPageController.displayResults(data);
         }
       },
-      error: function (err) {
+      error: function(err) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
-        if (timeStamp === timeStampLocal){
-        searchPageController.manageError(err);
+        if (timeStamp === timeStampLocal) {
+          searchPageController.manageError(err);
         }
       },
       timeout: 10000,
-      complete: function () {
+      complete: function() {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
-        if (timeStamp === timeStampLocal){
+        if (timeStamp === timeStampLocal) {
           $(document).trigger("resultsLoaded");
         }
       }
@@ -376,8 +382,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#result").removeClass('hide');
     $("#paginRow").removeClass('hide');
     $("#pageNumber").removeClass('hide');
-
-  };
+  }
 
   return searchPageController;
 });
