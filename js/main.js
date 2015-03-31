@@ -163,21 +163,25 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
 
   $("#prev").click(function (e) {
     e.preventDefault();
+    searchPage.currentPage = searchPage.currentPage - 1;
     searchPageController.request($("#prev").attr("href"));
   });
 
   $("#first").click(function (e) {
     e.preventDefault();
+    searchPage.currentPage = 1;
     searchPageController.request($("#first").attr("href"));
   });
 
   $("#next").click(function (e) {
     e.preventDefault();
+    searchPage.currentPage = searchPage.currentPage + 1;
     searchPageController.request($("#next").attr("href"));
   });
 
   $("#last").click(function (e) {
     e.preventDefault();
+    searchPage.currentPage = searchPage.numberOfPages;
     searchPageController.request($("#last").attr("href"));
   });
 
