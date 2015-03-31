@@ -30,19 +30,25 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       $('#accordeon').show();
 
-      $('#first').attr("href", data.firstPageURI);
+      $('#first').attr("href", data.firstPageURI);      
+      $('#js-firstPageURI').html(data.firstPageURI);
       $('#first').show();
+
       $('#last').attr("href", data.lastPageURI);
+      $('#js-lastPageURI').html(data.lastPageURI);
       $('#last').show();
 
       // Selon les réponses, il peut ne pas y avoir de prevPageURI ou de nextPageURI
       $('#prev').attr("href", data.prevPageURI);
+      $('#js-prevPageURI').html(data.prevPageURI);
       if (data.prevPageURI) {
         $('#prev').show();
       } else {
         $('#prev').hide(); // Assurance si une recherche a déjà été effectué en amont
       }
+
       $('#next').attr("href", data.nextPageURI);
+      $('#js-nextPageURI').html(data.nextPageURI);
       if (data.nextPageURI) {
         $('#next').show();
       } else {

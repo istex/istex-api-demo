@@ -161,19 +161,23 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     return true;
   });
 
-  $("#prev").click(function () {
+  $("#prev").click(function (e) {
+    e.preventDefault();
     searchPageController.request($("#prev").attr("href"));
   });
 
-  $("#first").click(function () {
+  $("#first").click(function (e) {
+    e.preventDefault();
     searchPageController.request($("#first").attr("href"));
   });
 
-  $("#next").click(function () {
+  $("#next").click(function (e) {
+    e.preventDefault();
     searchPageController.request($("#next").attr("href"));
   });
 
-  $("#last").click(function () {
+  $("#last").click(function (e) {
+    e.preventDefault();
     searchPageController.request($("#last").attr("href"));
   });
 
