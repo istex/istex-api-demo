@@ -30,7 +30,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       $('#accordeon').show();
 
-      $('#first').attr("href", data.firstPageURI);      
+      $('#first').attr("href", data.firstPageURI);
       $('#js-firstPageURI').html(data.firstPageURI);
       $('#first').show();
 
@@ -157,10 +157,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       var tableLine = "{{#hits}}<tr class='row'><td class='col-xs-12'><h4 class='alert-success'><b>" +
         "{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}" +
-        "</b></h4><p class='small'>" +
+        "</b></h4>" +
+        "<div class='col-xs-10'><p class='small'>" +
         "{{#abstr}}{{abstract}}{{/abstr}}" +
-        "</p><div class='text-right'><b class='label label-primary'>" +
-        "{{corpusName}}</b></div><div class='row' style='text-align:center;'>" +
+        "</p><div class='row' style='text-align:center;'>" +
         "<div class='col-xs-4'>" +
         "{{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}} " +
         "</div><div class='col-xs-3'>" +
@@ -169,6 +169,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "{{#linksIcon}}Annexes {{#annexes}}{{{mimetype}}} {{{uri}}} {{/annexes}}{{/linksIcon}} " +
         "</div><div class='col-xs-2'>" +
         "{{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}" +
+        "</div></div></div>" +
+        "<div class='col-xs-2'><div class='text-right'>" +
+        "<b class='label label-primary'>Corpus : {{corpusName}}</b>" +
+        "</div><div class='text-right'><b class='label label-info'>Version PDF : {{qualityIndicator.pdfVersion}}</b>" +
+        "</div><div class='text-right'><b class='label label-info'>Mots : {{qualityIndicator.pdfWordCount}}</b>" +
+        "</div><div class='text-right'><b class='label label-info'>Caractères : {{qualityIndicator.pdfCharCount}}</b>" +
         "</div></td></tr>{{/hits}}",
         corpusFacetTemplate,
         $facetCorpus,
