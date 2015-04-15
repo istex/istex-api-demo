@@ -481,6 +481,59 @@
               </div>
             </div>
 
+            <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                    Qualité
+                  </h4>
+              </div>
+              <div id="collapseFour" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <div class="col-xs-12">
+                    <h4><span class="label label-default">Nombre de mots</span></h4>
+                    <label for="amountPDFWordCount" class="col-xs-5">Entre :</label>
+                    <input type="text" id="amountPDFWordCount" readonly style="border:0;" class="col-xs-7">
+                  </div>
+                  <div id="slider-range-PDFWordCount" class="panel-collapse collapse in col-xs-12"></div>
+                  <div class="col-xs-12">
+                    <h4><span class="label label-default">Nombre de caractères :</span></h4>
+                    <label for="amountPDFCharCount" class="col-xs-5">Entre :</label>
+                    <input type="text" id="amountPDFCharCount" readonly style="border:0;" class="col-xs-7">
+                  </div>
+                  <div id="slider-range-PDFCharCount" class="panel-collapse collapse in col-xs-12"></div>
+                  <div class="col-xs-12">
+                    <h4><span class="label label-default">Version du PDF :</span></h4>
+                    <div id="facetPDFVersion">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="istex-tooltip">
+                <h5>Qualité</h5>
+                <p>Cet ensemble de facettes permet de préciser la <b class="text-primary">qualité du document</b> souhaitée sur laquelle porte la requête. La qualité porte sur le nombre de mots et de caractères dans le texte, ou sur la version du PDF proposé par l'éditeur.</p>
+                <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
+                <div class="references">
+                  <h6>
+                      <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                    </h6>
+                  <ul>
+                    <li>
+                      <a class="link-external" target="_blank" href="https://api.istex.fr/documentation/300-search.html#facettes">
+                          Facettes
+                        </a>
+                    </li>
+                  </ul>
+                </div>
+                <div data-ng-if="helper.copyrightDate.query">
+                  <hr>
+                  <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                  <p class="query-chunk">
+                    <mark data-ng-bind="helper.copyrightDate.query"></mark>
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
           <!--.panel-group-->
         </div>
@@ -619,40 +672,6 @@
     <script src="js/main.js"></script>
 
     <!-- Piwik -->
-    <!--      <script type="text/javascript">
-                            var _paq = _paq || [];
-                            _paq.push([function () {
-                                var self = this;
-
-                                function getOriginalVisitorCookieTimeout () {
-                                  var now = new Date(),
-                                    nowTs = Math.round(now.getTime() / 1000),
-                                    visitorInfo = self.getVisitorInfo();
-                                  var createTs = parseInt(visitorInfo[2]);
-                                  var cookieTimeout = 33696000;
-                                  var originalTimeout = createTs + cookieTimeout - nowTs;
-                                  return originalTimeout;
-                                }
-                                getOriginalVisitorCookieTimeout();
-                                this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
-                              }]);
-                            _paq.push(['trackPageView']);
-                            _paq.push(['enableLinkTracking']);
-                            (function () {
-                              var u = (("https:" == document.location.protocol) ? "https" : "http") + "://piwik.inist.fr//";
-                              _paq.push(['setTrackerUrl', u + 'piwik.php']);
-                              _paq.push(['setSiteId', 118]);
-                              var d = document,
-                                g = d.createElement('script'),
-                                s = d.getElementsByTagName('script')[0];
-                              g.type = 'text/javascript';
-                              g.defer = true;
-                              g.async = false;
-                              g.src = u + 'piwik.js';
-                              s.parentNode.insertBefore(g, s);
-                              require(['piwik']);
-                            })();
-            </script>-->
     <!--       <noscript>
       <p><img src="http://piwik.inist.fr/piwik.php?idsite=118" style="border:0" alt="" />
       </p>
