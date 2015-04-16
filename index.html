@@ -407,7 +407,7 @@
                 <div class="panel-body">
                   <div class="col-xs-12">
                     <label for="amountCopyrightDate" class="col-xs-5">Entre :</label>
-                    <input type="text" id="amountCopyrightDate" readonly style="border:0;" class="col-xs-7">
+                    <input type="text" id="amountCopyrightDate" readonly class="col-xs-7 amount">
                   </div>
                   <div id="slider-range-copyright" class="panel-collapse collapse in col-xs-12"></div>
                 </div>
@@ -450,7 +450,7 @@
                 <div class="panel-body">
                   <div class="col-xs-12">
                     <label for="amountPubDate" class="col-xs-5">Entre :</label>
-                    <input type="text" id="amountPubDate" readonly style="border:0;" class="col-xs-7">
+                    <input type="text" id="amountPubDate" readonly class="col-xs-7 amount">
                   </div>
                   <div id="slider-range-pubdate" class="panel-collapse collapse in col-xs-12"></div>
                 </div>
@@ -489,21 +489,29 @@
               </div>
               <div id="collapseFour" class="panel-collapse collapse in">
                 <div class="panel-body">
-                  <div class="col-xs-12">
-                    <h4><span class="label label-default">Nombre de mots</span></h4>
-                    <label for="amountPDFWordCount" class="col-xs-5">Entre :</label>
-                    <input type="text" id="amountPDFWordCount" readonly style="border:0;" class="col-xs-7">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">Nombre de mots</div>
+                    <div class="panel-body">
+                      <label for="amountPDFWordCount" class="col-xs-5">Entre :</label>
+                      <input type="text" id="amountPDFWordCount" readonly class="col-xs-7 amount">
+                      <div id="slider-range-PDFWordCount" class="panel-collapse collapse in col-xs-12"></div>
+                    </div>
                   </div>
-                  <div id="slider-range-PDFWordCount" class="panel-collapse collapse in col-xs-12"></div>
-                  <div class="col-xs-12">
-                    <h4><span class="label label-default">Nombre de caractères :</span></h4>
-                    <label for="amountPDFCharCount" class="col-xs-5">Entre :</label>
-                    <input type="text" id="amountPDFCharCount" readonly style="border:0;" class="col-xs-7">
+                  
+                  <div class="panel panel-info">
+                    <div class="panel-heading">Nombre de caractères :</div>
+                    <div class="panel-body">
+                      <label for="amountPDFCharCount" class="col-xs-5">Entre :</label>
+                      <input type="text" id="amountPDFCharCount" readonly class="col-xs-7 amount">
+                      <div id="slider-range-PDFCharCount" class="panel-collapse collapse in col-xs-12"></div>
+                    </div>
                   </div>
-                  <div id="slider-range-PDFCharCount" class="panel-collapse collapse in col-xs-12"></div>
-                  <div class="col-xs-12">
-                    <h4><span class="label label-default">Version du PDF :</span></h4>
-                    <div id="facetPDFVersion">
+                  
+                  <div class="panel panel-info">
+                    <div class="panel-heading">Version du PDF :</div>
+                    <div class="panel-body">
+                      <div id="facetPDFVersion">
+                      </div>
                     </div>
                   </div>
                 </div>

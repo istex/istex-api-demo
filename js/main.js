@@ -18,6 +18,9 @@ var search = function (searchPage, searchPageController) {
   searchPage.editor.push($("#editorField").val());
   searchPage.pubdate = undefined;
   searchPage.copyrightdate = undefined;
+  searchPage.PDFWordCount = undefined;
+  searchPage.PDFCharCount = undefined;
+  searchPage.PDFVersion = [];
   searchPageController.search();
 };
 
@@ -31,7 +34,10 @@ istexApp.controller("istexAppCtrl", function ($scope) {
     searchKeys: {},
     title: {},
     subject: {},
-    author: {}
+    author: {},
+    PDFWordCount: {},
+    PDFCharCount: {},
+    PDFVersion: {}
   };
 
   /**
@@ -215,6 +221,39 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPage.reaffine = true;
     searchPage.pubdate = [];
     searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+    searchPageController.search();
+  });
+
+    $("#slider-range-PDFWordCount").on("slide", function (event, ui) {
+    $("#amountPDFWordCount").val(ui.values[0] + " à " + ui.values[1]);
+  });
+
+  $("#slider-range-PDFWordCount").on("slidestop", function (event, ui) {
+    searchPage.reaffine = true;
+    searchPage.PDFWordCount = [];
+    searchPage.PDFWordCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+    searchPageController.search();
+  });
+
+    $("#slider-range-PDFCharCount").on("slide", function (event, ui) {
+    $("#amountPDFCharCount").val(ui.values[0] + " à " + ui.values[1]);
+  });
+
+  $("#slider-range-PDFCharCount").on("slidestop", function (event, ui) {
+    searchPage.reaffine = true;
+    searchPage.PDFCharCount = [];
+    searchPage.PDFCharCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+    searchPageController.search();
+  });
+
+  $("#facetPDFVersion").on("click", "input", function () {
+    searchPage.reaffine = true;
+    if (this.checked) {
+      searchPage.PDFVersion.push(this.value);
+    } else {
+      var index = searchPage.PDFVersion.indexOf(this.value);
+      searchPage.PDFVersion.splice(index, 1);
+    }
     searchPageController.search();
   });
 
