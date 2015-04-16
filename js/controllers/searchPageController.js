@@ -85,7 +85,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           if (render(text) === "") {
             return "Pas de résumé pour ce résultat.";
           }
-
           return render(text);
         };
       };
@@ -171,6 +170,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
+      data.quality = function() {
+        return function(text, render) {
+          if (render(text) === "") {
+            return "?";
+          }
+          return render(text);
+        };
+      };
+
       var tableLine = "{{#hits}}<tr class='row'><td class='col-xs-12'><h4 class='alert-success'><b>" +
         "{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}" +
         "</b></h4>" +
@@ -188,9 +196,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "</div></div></div>" +
         "<div class='col-xs-2'><div class='text-right'>" +
         "<b class='label label-primary'>Corpus : {{corpusName}}</b>" +
-        "</div><div class='text-right'><b class='label label-info'>Version PDF : {{qualityIndicators.pdfVersion}}</b>" +
-        "</div><div class='text-right'><b class='label label-info'>Mots : {{qualityIndicators.pdfWordCount}}</b>" +
-        "</div><div class='text-right'><b class='label label-info'>Caractères : {{qualityIndicators.pdfCharCount}}</b>" +
+        "</div><div class='text-right'><b class='label label-info'>Version PDF : {{#quality}}{{qualityIndicators.pdfVersion}}{{/quality}}</b>" +
+        "</div><div class='text-right'><b class='label label-info'>Mots : {{#quality}}{{qualityIndicators.pdfWordCount}}{{/quality}}</b>" +
+        "</div><div class='text-right'><b class='label label-info'>Caractères : {{#quality}}{{qualityIndicators.pdfCharCount}}{{/quality}}</b>" +
         "</div></td></tr>{{/hits}}",
         corpusFacetTemplate,
         pdfVersionFacetTemplate;
