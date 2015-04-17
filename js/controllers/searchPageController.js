@@ -172,10 +172,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
       data.quality = function() {
         return function(text, render) {
-          if (render(text) === "") {
-            return "?";
+          if (render(text).split(':')[1] === " ") {
+            return "";
           }
-          return render(text);
+          return "<div class='text-right'><b class='label label-info'>" + render(text) + "</b>";
         };
       };
 
@@ -196,9 +196,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "</div></div></div>" +
         "<div class='col-xs-2'><div class='text-right'>" +
         "<b class='label label-primary'>Corpus : {{corpusName}}</b>" +
-        "</div><div class='text-right'><b class='label label-info'>Version PDF : {{#quality}}{{qualityIndicators.pdfVersion}}{{/quality}}</b>" +
-        "</div><div class='text-right'><b class='label label-info'>Mots : {{#quality}}{{qualityIndicators.pdfWordCount}}{{/quality}}</b>" +
-        "</div><div class='text-right'><b class='label label-info'>Caractères : {{#quality}}{{qualityIndicators.pdfCharCount}}{{/quality}}</b>" +
+        "</div>{{#quality}}Version PDF : {{qualityIndicators.pdfVersion}}{{/quality}}" +
+        "</div>{{#quality}}Mots : {{qualityIndicators.pdfWordCount}}{{/quality}}" +
+        "</div>{{#quality}}Caractères : {{qualityIndicators.pdfCharCount}}{{/quality}}" +
         "</div></td></tr>{{/hits}}",
         corpusFacetTemplate,
         pdfVersionFacetTemplate;
