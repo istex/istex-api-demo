@@ -196,9 +196,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "</div></div></div>" +
         "<div class='col-xs-2'><div class='text-right'>" +
         "<b class='label label-primary'>Corpus : {{corpusName}}</b>" +
-        "</div>{{#quality}}Version PDF : {{qualityIndicators.pdfVersion}}{{/quality}}" +
+        "</div>{{#quality}}Score : {{qualityIndicators.score}}{{/quality}}" +
         "</div>{{#quality}}Mots : {{qualityIndicators.pdfWordCount}}{{/quality}}" +
-        "</div>{{#quality}}Caractères : {{qualityIndicators.pdfCharCount}}{{/quality}}" +
         "</div></td></tr>{{/hits}}",
         corpusFacetTemplate,
         pdfVersionFacetTemplate;
