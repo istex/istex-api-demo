@@ -35,9 +35,11 @@ istexApp.controller("istexAppCtrl", function ($scope) {
     title: {},
     subject: {},
     author: {},
+    score:{},
     PDFWordCount: {},
     PDFCharCount: {},
-    PDFVersion: {}
+    PDFVersion: {},
+    refBibsNative: {}
   };
 
   /**
@@ -246,6 +248,17 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
+    $("#slider-range-score").on("slide", function (event, ui) {
+    $("#amountScore").val(ui.values[0] + " à " + ui.values[1]);
+  });
+
+  $("#slider-range-score").on("slidestop", function (event, ui) {
+    searchPage.reaffine = true;
+    searchPage.score = [];
+    searchPage.score.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+    searchPageController.search();
+  });
+
   $("#facetPDFVersion").on("click", "input", function () {
     searchPage.reaffine = true;
     if (this.checked) {
@@ -253,6 +266,17 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     } else {
       var index = searchPage.PDFVersion.indexOf(this.value);
       searchPage.PDFVersion.splice(index, 1);
+    }
+    searchPageController.search();
+  });
+
+  $("#facetRefBibsNative").on("click", "input", function () {
+    searchPage.reaffine = true;
+    if (this.checked) {
+      searchPage.refBibsNative.push(this.value);
+    } else {
+      var index = searchPage.refBibsNative.indexOf(this.value);
+      searchPage.refBibsNative.splice(index, 1);
     }
     searchPageController.search();
   });

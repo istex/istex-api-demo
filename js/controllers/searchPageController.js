@@ -23,9 +23,17 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }, 60000);
   }());
 
-  searchPageController.displayRanges = function(data, field, slider, amount, nb) {
-    var minDate = parseInt(data.aggregations[field].buckets[0].from_as_string, 10);
-    var maxDate = parseInt(data.aggregations[field].buckets[0].to_as_string, 10);
+  searchPageController.displayRanges = function(data, field, slider, amount, nb, type) {
+
+    var minDate, maxDate;
+    if (type === 'integer') {
+      minDate = parseInt(data.aggregations[field].buckets[0].from_as_string, 10);
+      maxDate = parseInt(data.aggregations[field].buckets[0].to_as_string, 10);
+    } else if (type === 'float') {
+      minDate = parseFloat(data.aggregations[field].buckets[0].from_as_string);
+      maxDate = parseFloat(data.aggregations[field].buckets[0].to_as_string);
+    }
+
     if (nb !== '') $(nb).text(data.aggregations[field].buckets[0].doc_count);
 
     $(slider).slider({
@@ -196,11 +204,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         "</div></div></div>" +
         "<div class='col-xs-2'><div class='text-right'>" +
         "<b class='label label-primary'>Corpus : {{corpusName}}</b>" +
-        "</div>{{#quality}}Score : {{qualityIndicators.score}}{{/quality}}" +
-        "</div>{{#quality}}Mots : {{qualityIndicators.pdfWordCount}}{{/quality}}" +
+        "</div>{{#quality}}Score : {{quality_indicators.score}}{{/quality}}" +
+        "</div>{{#quality}}Mots : {{quality_indicators.pdf_word_count}}{{/quality}}" +
         "</div></td></tr>{{/hits}}",
-        corpusFacetTemplate,
-        pdfVersionFacetTemplate;
+        template;
 
       $("#tableResult").html(mustache.to_html(tableLine, data));
 
@@ -211,12 +218,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#facetPDFVersion').empty();
 
         // CorpusFacet
-        corpusFacetTemplate = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+        template = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.corpus.buckets}}";
 
         $('#nbCorpusFacet').text(data.aggregations.corpus.buckets.length);
-        $('#facetCorpus').append(mustache.to_html(corpusFacetTemplate, data));
+        $('#facetCorpus').append(mustache.to_html(template, data));
 
         if (data.aggregations.corpus.buckets.length === 1) {
           $('#facetCorpus').get(0).getElementsByTagName('input').item(0).checked = true;
@@ -224,25 +231,40 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         }
 
         // PDFVersionFacet
-        pdfVersionFacetTemplate = "{{#aggregations.pdfVersion.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+        template = "{{#aggregations.pdf_version.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
-          "<span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.pdfVersion.buckets}}";
+          "<span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.pdf_version.buckets}}";
 
-        $('#facetPDFVersion').append(mustache.to_html(pdfVersionFacetTemplate, data));
+        $('#facetPDFVersion').append(mustache.to_html(template, data));
 
-        if (data.aggregations.pdfVersion.buckets.length === 1) {
+        if (data.aggregations.pdf_version.buckets.length === 1) {
           $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).disabled = true;
         }
 
+        // RefBibsNativeFacet
+        template = "{{#aggregations.ref_bibs_native.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
+          "<span class='badge pull-right'>{{doc_count}}</span></div></div>{{/aggregations.ref_bibs_native.buckets}}";
+
+        $('#facetRefBibsNative').append(mustache.to_html(template, data));
+
+        if (data.aggregations.ref_bibs_native.buckets.length === 1) {
+          $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).disabled = true;
+        }
+
+        // ScoreFacet
+        searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
+
         // CopyrightDateFacet
-        searchPageController.displayRanges(data, "copyrightdate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet');
+        searchPageController.displayRanges(data, "copyrightdate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'integer');
         // PubDateFacet
-        searchPageController.displayRanges(data, "pubdate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet');
+        searchPageController.displayRanges(data, "pubdate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'integer');
         // PdfWordCountFacet
-        searchPageController.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", '');
+        searchPageController.displayRanges(data, "pdf_word_count", "#slider-range-PDFWordCount", "#amountPDFWordCount", '', 'integer');
         // PdfCharCountFacet
-        searchPageController.displayRanges(data, "pdfCharCount", "#slider-range-PDFCharCount", "#amountPDFCharCount", '');
+        searchPageController.displayRanges(data, "pdf_char_count", "#slider-range-PDFCharCount", "#amountPDFCharCount", '', 'integer');
       }
 
     } else {
@@ -284,6 +306,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       maxWordCount,
       minCharCount,
       maxCharCount,
+      minScore,
+      maxScore,
       corpusQuery,
       queryFrom,
       facetQuery,
@@ -328,13 +352,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }
 
     if (searchPage.PDFWordCount !== undefined) {
-      ctrlScope.helper.PDFWordCount.query = "AND qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount;
-      fields.push("qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount);
+      ctrlScope.helper.PDFWordCount.query = "AND quality_indicators.pdf_word_count:" + searchPage.PDFWordCount;
+      fields.push("quality_indicators.pdf_word_count:" + searchPage.PDFWordCount);
     }
 
     if (searchPage.PDFCharCount !== undefined) {
-      ctrlScope.helper.pubDate.query = "AND qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount;
-      fields.push("qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount);
+      ctrlScope.helper.pubDate.query = "AND quality_indicators.pdf_char_count:" + searchPage.PDFCharCount;
+      fields.push("quality_indicators.pdf_char_count:" + searchPage.PDFCharCount);
+    }
+
+    if (searchPage.score !== undefined) {
+      ctrlScope.helper.score.query = "AND quality_indicators.score:" + searchPage.score;
+      fields.push("quality_indicators.score:" + searchPage.score);
     }
 
     if (searchPage.PDFVersion) {
@@ -345,9 +374,23 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         }
       });
       if (PDFVersionQuery !== '') {
-        query += ctrlScope.helper.PDFVersion.query = "qualityIndicators.pdfVersion:" + PDFVersionQuery.slice(0, -1);
+        query += ctrlScope.helper.PDFVersion.query = "quality_indicators.pdf_version:" + PDFVersionQuery.slice(0, -1);
       } else {
         ctrlScope.helper.PDFVersion.query = null;
+      }
+    }
+
+    if (searchPage.refBibsNative) {
+      var refBibsNativeQuery = '';
+      $.each(searchPage.refBibsNative, function(index, bool) {
+        if (bool !== "-1") {
+          refBibsNativeQuery += bool + ',';
+        }
+      });
+      if (refBibsNativeQuery !== '') {
+        query += ctrlScope.helper.refBibsNative.query = "quality_indicators.ref_bibs_native:" + refBibsNativeQuery.slice(0, -1);
+      } else {
+        ctrlScope.helper.refBibsNative.query = null;
       }
     }
 
@@ -370,7 +413,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     ctrlScope.safeApply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-    facetQuery = "&facet=corpus,pdfVersion";
+    facetQuery = "&facet=corpus,pdf_version,ref_bibs_native";
 
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
       minCopyright = $("#slider-range-copyright").slider("values", 0);
@@ -381,12 +424,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       maxWordCount = $("#slider-range-PDFWordCount").slider("values", 1);
       minCharCount = $("#slider-range-PDFCharCount").slider("values", 0);
       maxCharCount = $("#slider-range-PDFCharCount").slider("values", 1);
+      minScore = $("#slider-range-score").slider("values", 0);
+      maxScore = $("#slider-range-score").slider("values", 1);
       facetQuery += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
       facetQuery += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
-      facetQuery += ",pdfWordCount[" + minWordCount + "-" + maxWordCount + "]";
-      facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
+      facetQuery += ",pdf_word_count[" + minWordCount + "-" + maxWordCount + "]";
+      facetQuery += ",pdf_char_count[" + minCharCount + "-" + maxCharCount + "]";
+      facetQuery += ",score[" + minScore + "-" + maxScore + "]";
     } else {
-      facetQuery += ",copyrightdate,pubdate,pdfWordCount,pdfCharCount";
+      facetQuery += ",copyrightdate,pubdate,pdf_word_count,pdf_char_count,score";
     }
     facetQuery += "&output=*&stats";
     query += facetQuery;
