@@ -7,7 +7,7 @@ var globalSearchPage = {},
 
 var istexApp = angular.module("istexApp", []);
 
-var search = function (searchPage, searchPageController) {
+var search = function(searchPage, searchPageController) {
   searchPage.reaffine = false;
   searchPage.currentPage = 1;
   searchPage.searchField = $("#searchField").val();
@@ -24,7 +24,7 @@ var search = function (searchPage, searchPageController) {
   searchPageController.search();
 };
 
-istexApp.controller("istexAppCtrl", function ($scope) {
+istexApp.controller("istexAppCtrl", function($scope) {
 
   $scope.helper = {
     request: {},
@@ -35,7 +35,7 @@ istexApp.controller("istexAppCtrl", function ($scope) {
     title: {},
     subject: {},
     author: {},
-    score:{},
+    score: {},
     PDFWordCount: {},
     PDFCharCount: {},
     PDFVersion: {},
@@ -48,7 +48,7 @@ istexApp.controller("istexAppCtrl", function ($scope) {
    * @param Function fn
    * @returns null
    */
-  $scope.safeApply = function (fn) {
+  $scope.safeApply = function(fn) {
     var phase = this.$root.$$phase;
     if (phase === "$apply" || phase === "$digest") {
       if (fn && (typeof fn === "function")) {
@@ -59,19 +59,19 @@ istexApp.controller("istexAppCtrl", function ($scope) {
     }
   };
   globalSearchPageController.a = 3;
-  $scope.search = function () {
+  $scope.search = function() {
     search(globalSearchPage, globalSearchPageController);
   };
 });
 
-$(document).ready(function () {
+$(document).ready(function() {
   /**
    * Istex tooltip
    * Pour déclencher le tooltip: data-toggle='istex-tooltip'
    * Par défaut le tooltip doit étre le premier element frère  'div.istex-tooltip'
    * sauf si l'attribut 'data-content-text' est précisé avec un selecteur.
    */
-  $("[data-toggle='istex-tooltip']").each(function () {
+  $("[data-toggle='istex-tooltip']").each(function() {
     var $this = $(this),
       dataTooltipTarget = $this.data("tooltip-target"),
       $targetElement = dataTooltipTarget ? $this.find(dataTooltipTarget) : $this,
@@ -83,16 +83,15 @@ $(document).ready(function () {
       };
 
     $targetElement.qtip({
-      content:
-        {
-          text: $qtipContent
-        },
+      content: {
+        text: $qtipContent
+      },
       show: {
         solo: true,
         delay: 382
       },
       hide: {
-//        event: false,
+        //        event: false,
         fixed: true,
         delay: 236
       },
@@ -109,25 +108,24 @@ $(document).ready(function () {
   /**
    * Toolip pour les icons des fichiers
    */
-  $(document).on("resultsLoaded", function (e) {
+  $(document).on("resultsLoaded", function(e) {
 
-    $(".downloadFilesTable").find('a').each(function () {
+    $(".downloadFilesTable").find('a').each(function() {
       var $this = $(this),
         $thisImg = $this.children("img"),
         mimetype = $thisImg.attr("title");
 
       $thisImg.removeAttr("title")
         .qtip({
-          content:
-            {
-              text: $("<h5><span class='label label-primary'>" + mimetype + " <span class='glyphicon glyphicon-file'></span></span></h5>" + "<p><b>" + $this.attr("href") + "</b></p>")
-            },
+          content: {
+            text: $("<h5><span class='label label-primary'>" + mimetype + " <span class='glyphicon glyphicon-file'></span></span></h5>" + "<p><b>" + $this.attr("href") + "</b></p>")
+          },
           show: {
             solo: true,
             delay: 382
           },
           hide: {
-//            event: false,
+            //            event: false,
             fixed: true,
             delay: 146
           },
@@ -151,16 +149,16 @@ $(document).ready(function () {
 //  }
 //});
 
-require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
+require(["js/models/searchPage", "js/controllers/searchPageController"], function(searchPage, searchPageController) {
   globalSearchPage = searchPage;
   globalSearchPageController = searchPageController;
 
-  $("#searchform").submit(function (event) {
+  $("#searchform").submit(function(event) {
     event.preventDefault();
     search(searchPage, searchPageController);
   });
 
-  $("#advancedSearchForm input").keypress(function (e) {
+  $("#advancedSearchForm input").keypress(function(e) {
     if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
       $("#searchButton").click();
       return false;
@@ -169,31 +167,31 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     return true;
   });
 
-  $("#prev").click(function (e) {
+  $("#prev").click(function(e) {
     e.preventDefault();
     searchPage.currentPage = searchPage.currentPage - 1;
     searchPageController.request($("#prev").attr("href"));
   });
 
-  $("#first").click(function (e) {
+  $("#first").click(function(e) {
     e.preventDefault();
     searchPage.currentPage = 1;
     searchPageController.request($("#first").attr("href"));
   });
 
-  $("#next").click(function (e) {
+  $("#next").click(function(e) {
     e.preventDefault();
     searchPage.currentPage = searchPage.currentPage + 1;
     searchPageController.request($("#next").attr("href"));
   });
 
-  $("#last").click(function (e) {
+  $("#last").click(function(e) {
     e.preventDefault();
     searchPage.currentPage = searchPage.numberOfPages;
     searchPageController.request($("#last").attr("href"));
   });
 
-  $("#facetCorpus").on("click", "input", function () {
+  $("#facetCorpus").on("click", "input", function() {
     searchPage.reaffine = true;
     if (this.checked) {
       searchPage.editor.push(this.value);
@@ -204,62 +202,66 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("#slider-range-copyright").on("slide", function (event, ui) {
+  $("#slider-range-copyright").on("slide", function(event, ui) {
     $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
   });
 
-  $("#slider-range-copyright").on("slidestop", function (event, ui) {
+  $("#slider-range-copyright").on("slidestop", function(event, ui) {
     searchPage.reaffine = true;
     searchPage.copyrightdate = [];
     searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
     searchPageController.search();
   });
 
-  $("#slider-range-pubdate").on("slide", function (event, ui) {
+  $("#slider-range-pubdate").on("slide", function(event, ui) {
     $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
   });
 
-  $("#slider-range-pubdate").on("slidestop", function (event, ui) {
+  $("#slider-range-pubdate").on("slidestop", function(event, ui) {
     searchPage.reaffine = true;
     searchPage.pubdate = [];
     searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
     searchPageController.search();
   });
 
-    $("#slider-range-PDFWordCount").on("slide", function (event, ui) {
+  $("#slider-range-PDFWordCount").on("slide", function(event, ui) {
     $("#amountPDFWordCount").val(ui.values[0] + " à " + ui.values[1]);
   });
 
-  $("#slider-range-PDFWordCount").on("slidestop", function (event, ui) {
+  $("#slider-range-PDFWordCount").on("slidestop", function(event, ui) {
     searchPage.reaffine = true;
     searchPage.PDFWordCount = [];
     searchPage.PDFWordCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
     searchPageController.search();
   });
 
-    $("#slider-range-PDFCharCount").on("slide", function (event, ui) {
+  $("#slider-range-PDFCharCount").on("slide", function(event, ui) {
     $("#amountPDFCharCount").val(ui.values[0] + " à " + ui.values[1]);
   });
 
-  $("#slider-range-PDFCharCount").on("slidestop", function (event, ui) {
+  $("#slider-range-PDFCharCount").on("slidestop", function(event, ui) {
     searchPage.reaffine = true;
     searchPage.PDFCharCount = [];
     searchPage.PDFCharCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
     searchPageController.search();
   });
 
-    $("#slider-range-score").on("slide", function (event, ui) {
+  $("#slider-range-score").slider({
+    step: 0.3
+  });
+
+  $("#slider-range-score").on("slide", function(event, ui) {
     $("#amountScore").val(ui.values[0] + " à " + ui.values[1]);
   });
 
-  $("#slider-range-score").on("slidestop", function (event, ui) {
+  $("#slider-range-score").on("slidestop", function(event, ui) {
     searchPage.reaffine = true;
     searchPage.score = [];
     searchPage.score.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
     searchPageController.search();
   });
 
-  $("#facetPDFVersion").on("click", "input", function () {
+  $("#facetPDFVersion").on("click", "input", function() {
     searchPage.reaffine = true;
     if (this.checked) {
       searchPage.PDFVersion.push(this.value);
@@ -270,7 +272,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("#facetRefBibsNative").on("click", "input", function () {
+  $("#facetRefBibsNative").on("click", "input", function() {
     searchPage.reaffine = true;
     if (this.checked) {
       searchPage.refBibsNative.push(this.value);
@@ -281,7 +283,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("button.js-resetFacet").on("click", function (event, ui) {
+  $("button.js-resetFacet").on("click", function(event, ui) {
     search(searchPage, searchPageController);
   });
 });
