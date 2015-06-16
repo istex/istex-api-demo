@@ -1,16 +1,16 @@
 /*global jquery: true, angular: true, $: true, define: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
+define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function (searchPage, conf, mustache) {
   "use strict";
   var searchPageController = {};
   var timeStamp = null;
 
-  (function() {
+  (function () {
     var err = $.ajax({
       url: conf.apiUrl + "corpus",
       dataType: "jsonp",
-      success: function(data, status, xhr) {
+      success: function (data, status, xhr) {
         var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}",
           corpusList = {
             corpusList: data
@@ -18,12 +18,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
       }
     });
-    window.setTimeout(function() {
+    window.setTimeout(function () {
       console.log(err);
     }, 60000);
   }());
 
-  searchPageController.displayRanges = function(data, field, slider, amount, nb, type) {
+  searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
 
     var minDate, maxDate;
     if (type === 'integer') {
@@ -45,9 +45,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     $(amount).val($(slider).slider("values", 0) +
       " à " + $(slider).slider("values", 1));
-  }
+  };
 
-  searchPageController.displayResults = function(data) {
+  searchPageController.displayResults = function (data) {
     $("#jsonFromApi").JSONView(data);
 
     if (data.total > 0) {
@@ -88,8 +88,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       $("#totalResults").val(data.total);
       $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-api'].took);
 
-      data.abstr = function() {
-        return function(text, render) {
+      data.abstr = function () {
+        return function (text, render) {
           if (render(text) === "") {
             return "Pas de résumé pour ce résultat.";
           }
@@ -97,9 +97,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.linksIcon = function() {
+      data.linksIcon = function () {
 
-        return function(text, render) {
+        return function (text, render) {
           var infos = render(text).split(" "),
             html = (infos.length === 2) ? "" : "<table class='downloadFilesTable'><th>" + infos[0] + "</th><tr><td>",
             i = 1,
@@ -163,8 +163,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.titleClic = function() {
-        return function(text, render) {
+      data.titleClic = function () {
+        return function (text, render) {
           var res = render(text),
             infos = res.split(" "),
             index = infos.indexOf("application/pdf"),
@@ -178,8 +178,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.quality = function() {
-        return function(text, render) {
+      data.quality = function () {
+        return function (text, render) {
           if (render(text).split(':')[1] === " ") {
             return "";
           }
@@ -187,15 +187,16 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.presence = function() {
-        return function(text, render) {
+      data.presence = function () {
+        return function (text, render) {
           var res = render(text);
           console.log(res);
           if (res === "true") {
-            return "Présente(s)"
+            return "Présente(s)";
           } else {
-            return "Absente(s)"
-          };
+            return "Absente(s)";
+          }
+          ;
         };
       };
 
@@ -299,13 +300,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#result").css("opacity", 1);
   };
 
-  searchPageController.manageError = function(err) {
+  searchPageController.manageError = function (err) {
     $("button").button('reset');
     $(".alert span").html("Houston ... Problem!" + err.responseText);
     $(".alert").alert();
   };
 
-  searchPageController.search = function() {
+  searchPageController.search = function () {
     var
       query = "document/?q=",
       fields = [],
@@ -330,13 +331,28 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
     }
 
-    if (searchPage.searchField !== "" && searchPage.searchField !== undefined) {
+    if (searchPage.searchField) {
       ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
       fields.push(searchPage.searchField);
     } else {
       ctrlScope.helper.searchKeys.query = "q=*";
       fields.push('*');
     }
+
+    corpusQuery = '';
+    $.each(searchPage.editor, function (index, editor) {
+      if (editor !== "-1") {
+        corpusQuery += editor + ',';
+      }
+    });
+
+    if (corpusQuery) {
+      ctrlScope.helper.corpus.query = "AND corpusName:" + corpusQuery.slice(0, -1);
+      fields.push(" corpusName:" + corpusQuery.slice(0, -1));
+    } else {
+      ctrlScope.helper.corpus.query = null;
+    }
+
 
     if ($("#collapse").is(':visible')) {
 
@@ -349,7 +365,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         fields.push("title:" + searchPage.title);
       }
       if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
-        ctrlScope.helper.subject.query = "AND subject.value:" + searchPage.subject;
+        ctrlScope.helper.subject.query = "AND subject.value:" + searchPage.keywords;
         fields.push("subject.value:" + searchPage.keywords);
       }
     }
@@ -380,7 +396,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     if (searchPage.PDFVersion) {
       var PDFVersionQuery = '';
-      $.each(searchPage.PDFVersion, function(index, version) {
+      $.each(searchPage.PDFVersion, function (index, version) {
         if (version !== "-1") {
           PDFVersionQuery += version + ',';
         }
@@ -394,7 +410,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     if (searchPage.refBibsNative) {
       var refBibsNativeQuery = '';
-      $.each(searchPage.refBibsNative, function(index, bool) {
+      $.each(searchPage.refBibsNative, function (index, bool) {
         if (bool !== "-1") {
           refBibsNativeQuery += bool + ',';
         }
@@ -409,18 +425,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     query += fields.join(" AND ");
     query += "&size=" + searchPage.resultsPerPage;
     query += queryFrom = "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
-    corpusQuery = '';
-    $.each(searchPage.editor, function(index, editor) {
-      if (editor !== "-1") {
-        corpusQuery += editor + ',';
-      }
-    });
 
-    if (corpusQuery !== '') {
-      query += ctrlScope.helper.corpus.query = "&corpus=" + corpusQuery.slice(0, -1);
-    } else {
-      ctrlScope.helper.corpus.query = null;
-    }
+
 
     ctrlScope.safeApply();
 
@@ -451,12 +457,24 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     softHyphen = "<wbr>";
 
     $("#request-tooltip-content")
-      .html("<p class='h4'>https://api.istex.fr/document/?" + softHyphen + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen + "&size=" + (searchPage.resultsPerPage || '') + softHyphen + (queryFrom || '') + softHyphen + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen + (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>") + "</p>");
-
+      .html("<p class='h4'>https://api.istex.fr/document/?" + softHyphen
+        + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen
+        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen
+        + "<mark class=''>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen
+        + "&size=" + (searchPage.resultsPerPage || '') + softHyphen +
+        (queryFrom || '') + softHyphen
+        + (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>")
+        + "</p>");
+    console.log(queryFrom)
     searchPageController.request(conf.apiUrl + query);
   };
 
-  searchPageController.request = function(url) {
+  searchPageController.request = function (url) {
 
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
@@ -469,20 +487,20 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       url: url,
       dataType: "jsonp",
       crossDomain: true,
-      success: function(data) {
+      success: function (data) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.displayResults(data);
         }
       },
-      error: function(err) {
+      error: function (err) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.manageError(err);
         }
       },
       timeout: 10000,
-      complete: function() {
+      complete: function () {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           $(document).trigger("resultsLoaded");
@@ -494,7 +512,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#result").removeClass('hide');
     $("#paginRow").removeClass('hide');
     $("#pageNumber").removeClass('hide');
-  }
+  };
 
   return searchPageController;
 });
