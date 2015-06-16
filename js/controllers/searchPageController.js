@@ -230,14 +230,14 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#facetPDFVersion').empty();
 
         // CorpusFacet
-        template = "{{#aggregations.corpus.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+        template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
-          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.corpus.buckets}}";
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.corpusName.buckets}}";
 
-        $('#nbCorpusFacet').text(data.aggregations.corpus.buckets.length);
+        $('#nbCorpusFacet').text(data.aggregations.corpusName.buckets.length);
         $('#facetCorpus').append(mustache.to_html(template, data));
 
-        if (data.aggregations.corpus.buckets.length === 1) {
+        if (data.aggregations.corpusName.buckets.length === 1) {
           $('#facetCorpus').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetCorpus').get(0).getElementsByTagName('input').item(0).disabled = true;
         }
@@ -270,9 +270,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
 
         // CopyrightDateFacet
-        searchPageController.displayRanges(data, "copyrightdate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'integer');
+        searchPageController.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'integer');
         // PubDateFacet
-        searchPageController.displayRanges(data, "pubdate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'integer');
+        searchPageController.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'integer');
         // PdfWordCountFacet
         searchPageController.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", '', 'integer');
         // PdfCharCountFacet
@@ -359,7 +359,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       fields.push("copyrightDate:" + searchPage.copyrightdate);
     }
     if (searchPage.pubdate !== undefined) {
-      ctrlScope.helper.pubDate.query = "AND publicationData:" + searchPage.pubdate;
+      ctrlScope.helper.pubDate.query = "AND publicationDate:" + searchPage.pubdate;
       fields.push("publicationDate:" + searchPage.pubdate);
     }
 
@@ -425,7 +425,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     ctrlScope.safeApply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-    facetQuery = "&facet=corpus,pdfVersion,refBibsNative";
+    facetQuery = "&facet=corpusName,pdfVersion,refBibsNative";
 
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
       minCopyright = $("#slider-range-copyright").slider("values", 0);
