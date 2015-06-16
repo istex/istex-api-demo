@@ -355,12 +355,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }
 
     if (searchPage.copyrightdate) {
-      ctrlScope.helper.copyrightDate.query = "AND copyrightdate:" + searchPage.copyrightdate;
-      fields.push("copyrightdate:" + searchPage.copyrightdate);
+      ctrlScope.helper.copyrightDate.query = "AND copyrightDate:" + searchPage.copyrightdate;
+      fields.push("copyrightDate:" + searchPage.copyrightdate);
     }
     if (searchPage.pubdate !== undefined) {
-      ctrlScope.helper.pubDate.query = "AND pubdate:" + searchPage.pubdate;
-      fields.push("pubdate:" + searchPage.pubdate);
+      ctrlScope.helper.pubDate.query = "AND publicationData:" + searchPage.pubdate;
+      fields.push("publicationDate:" + searchPage.pubdate);
     }
 
     if (searchPage.PDFWordCount !== undefined) {
@@ -438,13 +438,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       maxCharCount = $("#slider-range-PDFCharCount").slider("values", 1);
       minScore = $("#slider-range-score").slider("values", 0);
       maxScore = $("#slider-range-score").slider("values", 1);
-      facetQuery += ",copyrightdate[" + minCopyright + "-" + maxCopyright + "]";
-      facetQuery += ",pubdate[" + minPubdate + "-" + maxPubdate + "]";
+      facetQuery += ",copyrightDate[" + minCopyright + "-" + maxCopyright + "]";
+      facetQuery += ",publicationDate[" + minPubdate + "-" + maxPubdate + "]";
       facetQuery += ",pdfWordCount[" + minWordCount + "-" + maxWordCount + "]";
       facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
       facetQuery += ",score[" + minScore + "-" + maxScore + "]";
     } else {
-      facetQuery += ",copyrightdate,pubdate,pdfWordCount,pdfCharCount,score";
+      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score";
     }
     facetQuery += "&output=*&stats";
     query += facetQuery;
