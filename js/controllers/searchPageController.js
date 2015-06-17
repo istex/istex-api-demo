@@ -228,6 +228,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#facetCorpus').empty();
         $('#facetPDFVersion').empty();
         $('#facetRefBibsNative').empty();
+        $('#facetWos').empty();
 
         // CorpusFacet
         template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
@@ -264,6 +265,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         if (data.aggregations.refBibsNative.buckets.length === 1) {
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).disabled = true;
+        }
+
+        // WosFacet
+        template = "{{#aggregations.WOS.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{key}}</label>" +
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.WOS.buckets}}";
+
+        $('#facetWos').append(mustache.to_html(template, data));
+
+        if (data.aggregations.WOS.buckets.length === 1) {
+          $('#facetWos').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetWos').get(0).getElementsByTagName('input').item(0).disabled = true;
         }
 
         // ScoreFacet
@@ -400,6 +413,14 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       ctrlScope.helper.PDFVersion.query = null;
     }
 
+    if (searchPage.WOS.length > 0) {
+      var wosQuery = '(' + searchPage.WOS.join(" OR ") + ')';
+      ctrlScope.helper.WOS.query = "categories.WOS:" + wosQuery;
+      fields.push("categories.WOS:" + wosQuery);
+    } else {
+      ctrlScope.helper.WOS.query = null;
+    }
+
     if (searchPage.refBibsNative) {
       if (searchPage.refBibsNative.length === 1) {
         ctrlScope.helper.refBibsNative.query = "qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
@@ -435,24 +456,25 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
       facetQuery += ",score[" + minScore + "-" + maxScore + "]";
     } else {
-      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score";
+      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score,WOS";
     }
     facetQuery += "&output=*&stats";
     query += facetQuery;
     softHyphen = "<wbr>";
 
     // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
-    var tooltipsContent = "<p class='h4'>https://api.istex.fr/document/?" + softHyphen;
-    tooltipsContent += "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "<mark class=''>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen;
-    tooltipsContent += "&size=" + (searchPage.resultsPerPage || '') + softHyphen + (queryFrom || '') + softHyphen;
-    tooltipsContent += (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>") + "</p>";
+    var tooltipsContent = "<p class='h4'>https://api.istex.fr/document/?" + softHyphen; +
+    "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
+      "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen +
+      "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen +
+      "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen +
+      "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen +
+      "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen +
+      "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen +
+      "<mark class=''>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen +
+      "&size=" + (searchPage.resultsPerPage || '') + softHyphen + (queryFrom || '') + softHyphen +
+      (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>") + "</p>";
+
     $("#request-tooltip-content").html(tooltipsContent);
 
     searchPageController.request(conf.apiUrl + query);

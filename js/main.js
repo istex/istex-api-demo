@@ -22,6 +22,7 @@ var search = function(searchPage, searchPageController) {
   searchPage.PDFCharCount = undefined;
   searchPage.PDFVersion = [];
   searchPage.refBibsNative = [];
+  searchPage.WOS = [];
   searchPageController.search();
 };
 
@@ -40,7 +41,8 @@ istexApp.controller("istexAppCtrl", function($scope) {
     PDFWordCount: {},
     PDFCharCount: {},
     PDFVersion: {},
-    refBibsNative: {}
+    refBibsNative: {},
+    WOS: {}
   };
 
   /**
@@ -269,6 +271,18 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     } else {
       var index = searchPage.PDFVersion.indexOf(this.value);
       searchPage.PDFVersion.splice(index, 1);
+    }
+    searchPageController.search();
+  });
+
+  $("#facetWos").on("click", "input", function() {
+    searchPage.reaffine = true;
+    var valueHTML = "\"" + this.value.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20') + "\"";
+    if (this.checked) {
+      searchPage.WOS.push(valueHTML);
+    } else {
+      var index = searchPage.WOS.indexOf(valueHTML);
+      searchPage.WOS.splice(index, 1);
     }
     searchPageController.search();
   });
