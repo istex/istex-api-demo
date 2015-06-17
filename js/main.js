@@ -21,6 +21,7 @@ var search = function(searchPage, searchPageController) {
   searchPage.PDFWordCount = undefined;
   searchPage.PDFCharCount = undefined;
   searchPage.PDFVersion = [];
+  searchPage.refBibsNative = [];
   searchPageController.search();
 };
 
@@ -274,10 +275,11 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
 
   $("#facetRefBibsNative").on("click", "input", function() {
     searchPage.reaffine = true;
+    var bool = (this.value === 'T');
     if (this.checked) {
-      searchPage.refBibsNative.push(this.value);
+      searchPage.refBibsNative.push(bool);
     } else {
-      var index = searchPage.refBibsNative.indexOf(this.value);
+      var index = searchPage.refBibsNative.indexOf(bool);
       searchPage.refBibsNative.splice(index, 1);
     }
     searchPageController.search();

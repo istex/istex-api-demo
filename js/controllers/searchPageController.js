@@ -1,16 +1,16 @@
 /*global jquery: true, angular: true, $: true, define: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function (searchPage, conf, mustache) {
+define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
   "use strict";
   var searchPageController = {};
   var timeStamp = null;
 
-  (function () {
+  (function() {
     var err = $.ajax({
       url: conf.apiUrl + "corpus",
       dataType: "jsonp",
-      success: function (data, status, xhr) {
+      success: function(data, status, xhr) {
         var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}",
           corpusList = {
             corpusList: data
@@ -18,12 +18,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
       }
     });
-    window.setTimeout(function () {
+    window.setTimeout(function() {
       console.log(err);
     }, 60000);
   }());
 
-  searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
+  searchPageController.displayRanges = function(data, field, slider, amount, nb, type) {
 
     var minDate, maxDate;
     if (type === 'integer') {
@@ -47,7 +47,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       " à " + $(slider).slider("values", 1));
   };
 
-  searchPageController.displayResults = function (data) {
+  searchPageController.displayResults = function(data) {
     $("#jsonFromApi").JSONView(data);
 
     if (data.total > 0) {
@@ -88,8 +88,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       $("#totalResults").val(data.total);
       $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-api'].took);
 
-      data.abstr = function () {
-        return function (text, render) {
+      data.abstr = function() {
+        return function(text, render) {
           if (render(text) === "") {
             return "Pas de résumé pour ce résultat.";
           }
@@ -97,9 +97,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.linksIcon = function () {
+      data.linksIcon = function() {
 
-        return function (text, render) {
+        return function(text, render) {
           var infos = render(text).split(" "),
             html = (infos.length === 2) ? "" : "<table class='downloadFilesTable'><th>" + infos[0] + "</th><tr><td>",
             i = 1,
@@ -163,8 +163,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.titleClic = function () {
-        return function (text, render) {
+      data.titleClic = function() {
+        return function(text, render) {
           var res = render(text),
             infos = res.split(" "),
             index = infos.indexOf("application/pdf"),
@@ -178,8 +178,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.quality = function () {
-        return function (text, render) {
+      data.quality = function() {
+        return function(text, render) {
           if (render(text).split(':')[1] === " ") {
             return "";
           }
@@ -187,16 +187,14 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.presence = function () {
-        return function (text, render) {
+      data.presence = function() {
+        return function(text, render) {
           var res = render(text);
-          console.log(res);
-          if (res === "true") {
+          if (res === 'T') {
             return "Présente(s)";
           } else {
             return "Absente(s)";
-          }
-          ;
+          };
         };
       };
 
@@ -229,6 +227,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         // Vidage des facets avant remplissage
         $('#facetCorpus').empty();
         $('#facetPDFVersion').empty();
+        $('#facetRefBibsNative').empty();
 
         // CorpusFacet
         template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
@@ -300,13 +299,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#result").css("opacity", 1);
   };
 
-  searchPageController.manageError = function (err) {
+  searchPageController.manageError = function(err) {
     $("button").button('reset');
     $(".alert span").html("Houston ... Problem!" + err.responseText);
     $(".alert").alert();
   };
 
-  searchPageController.search = function () {
+  searchPageController.search = function() {
     var
       query = "document/?q=",
       fields = [],
@@ -340,7 +339,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }
 
     corpusQuery = '';
-    $.each(searchPage.editor, function (index, editor) {
+    $.each(searchPage.editor, function(index, editor) {
       if (editor !== "-1") {
         corpusQuery += editor + ',';
       }
@@ -352,7 +351,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     } else {
       ctrlScope.helper.corpus.query = null;
     }
-
 
     if ($("#collapse").is(':visible')) {
 
@@ -394,29 +392,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       fields.push("qualityIndicators.score:" + searchPage.score);
     }
 
-    if (searchPage.PDFVersion) {
-      var PDFVersionQuery = '';
-      $.each(searchPage.PDFVersion, function (index, version) {
-        if (version !== "-1") {
-          PDFVersionQuery += version + ',';
-        }
-      });
-      if (PDFVersionQuery !== '') {
-        query += ctrlScope.helper.PDFVersion.query = "qualityIndicators.pdfVersion:" + PDFVersionQuery.slice(0, -1);
-      } else {
-        ctrlScope.helper.PDFVersion.query = null;
-      }
+    if (searchPage.PDFVersion.length > 0) {
+      var pdfQuery = '(' + searchPage.PDFVersion.join(" OR ") + ')';
+      ctrlScope.helper.PDFVersion.query = "qualityIndicators.pdfVersion:" + pdfQuery;
+      fields.push("qualityIndicators.pdfVersion:" + pdfQuery);
+    } else {
+      ctrlScope.helper.PDFVersion.query = null;
     }
 
     if (searchPage.refBibsNative) {
-      var refBibsNativeQuery = '';
-      $.each(searchPage.refBibsNative, function (index, bool) {
-        if (bool !== "-1") {
-          refBibsNativeQuery += bool + ',';
-        }
-      });
-      if (refBibsNativeQuery !== '') {
-        query += ctrlScope.helper.refBibsNative.query = "qualityIndicators.refBibsNative:" + refBibsNativeQuery.slice(0, -1);
+      if (searchPage.refBibsNative.length === 1) {
+        ctrlScope.helper.refBibsNative.query = "qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
+        fields.push("qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0]);
       } else {
         ctrlScope.helper.refBibsNative.query = null;
       }
@@ -425,8 +412,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     query += fields.join(" AND ");
     query += "&size=" + searchPage.resultsPerPage;
     query += queryFrom = "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
-
-
 
     ctrlScope.safeApply();
 
@@ -456,25 +441,24 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     query += facetQuery;
     softHyphen = "<wbr>";
 
-    $("#request-tooltip-content")
-      .html("<p class='h4'>https://api.istex.fr/document/?" + softHyphen
-        + "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen
-        + "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen
-        + "<mark class=''>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen
-        + "&size=" + (searchPage.resultsPerPage || '') + softHyphen +
-        (queryFrom || '') + softHyphen
-        + (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>")
-        + "</p>");
-    console.log(queryFrom)
+    // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
+    var tooltipsContent = "<p class='h4'>https://api.istex.fr/document/?" + softHyphen;
+    tooltipsContent += "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "<mark class=''>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen;
+    tooltipsContent += "&size=" + (searchPage.resultsPerPage || '') + softHyphen + (queryFrom || '') + softHyphen;
+    tooltipsContent += (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>") + "</p>";
+    $("#request-tooltip-content").html(tooltipsContent);
+
     searchPageController.request(conf.apiUrl + query);
   };
 
-  searchPageController.request = function (url) {
+  searchPageController.request = function(url) {
 
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
@@ -487,20 +471,20 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       url: url,
       dataType: "jsonp",
       crossDomain: true,
-      success: function (data) {
+      success: function(data) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.displayResults(data);
         }
       },
-      error: function (err) {
+      error: function(err) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.manageError(err);
         }
       },
       timeout: 10000,
-      complete: function () {
+      complete: function() {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           $(document).trigger("resultsLoaded");
