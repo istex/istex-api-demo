@@ -268,13 +268,13 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         }
 
         // WosFacet
-        template = "{{#aggregations.WOS.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+        template = "{{#aggregations.wos.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{key}}</label>" +
-          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.WOS.buckets}}";
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.wos.buckets}}";
 
         $('#facetWos').append(mustache.to_html(template, data));
 
-        if (data.aggregations.WOS.buckets.length === 1) {
+        if (data.aggregations.wos.buckets.length === 1) {
           $('#facetWos').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetWos').get(0).getElementsByTagName('input').item(0).disabled = true;
         }
@@ -415,8 +415,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     if (searchPage.WOS.length > 0) {
       var wosQuery = '(' + searchPage.WOS.join(" OR ") + ')';
-      ctrlScope.helper.WOS.query = "categories.WOS:" + wosQuery;
-      fields.push("categories.WOS:" + wosQuery);
+      ctrlScope.helper.WOS.query = "categories.wos:" + wosQuery;
+      fields.push("categories.wos:" + wosQuery);
     } else {
       ctrlScope.helper.WOS.query = null;
     }
@@ -456,7 +456,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
       facetQuery += ",score[" + minScore + "-" + maxScore + "]";
     } else {
-      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score,WOS";
+      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score,wos";
     }
     facetQuery += "&output=*&stats";
     query += facetQuery;
