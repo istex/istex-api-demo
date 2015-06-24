@@ -163,6 +163,55 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
+      data.lang = function() {
+        return function(text, render) {
+          switch (render(text)) {
+            case 'en':
+              return 'Anglais';
+              break;
+            case 'fr':
+              return 'Français';
+              break;
+            case 'de':
+              return 'Allemand';
+              break;
+            case 'la':
+              return 'Latin';
+              break;
+            case 'es':
+              return 'Espagnol';
+              break;
+            case 'it':
+              return 'Italien';
+              break;
+            case 'nl':
+              return 'Néerlandais';
+              break;
+            case 'ru':
+              return 'Russe';
+              break;
+            case 'pt':
+              return 'Portugais';
+              break;
+            case 'pl':
+              return 'Polonais';
+              break;
+            case 'cs':
+              return 'Tchèque';
+              break;
+            case 'ka':
+              return 'Géorgien';
+              break;
+            case 'ja':
+              return 'Japonais';
+              break;
+            default:
+              return render(text);
+              break;
+          };
+        }
+      };
+
       data.titleClic = function() {
         return function(text, render) {
           var res = render(text),
@@ -265,6 +314,18 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         if (data.aggregations.refBibsNative.buckets.length === 1) {
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).disabled = true;
+        }
+
+        // LanguageFacet
+        template = "{{#aggregations.language.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{#lang}}{{key}}{{/lang}}</label>" +
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
+
+        $('#facetLang').append(mustache.to_html(template, data));
+
+        if (data.aggregations.language.buckets.length === 1) {
+          $('#facetLang').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetLang').get(0).getElementsByTagName('input').item(0).disabled = true;
         }
 
         // WosFacet
@@ -421,6 +482,14 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       ctrlScope.helper.WOS.query = null;
     }
 
+    if (searchPage.language.length > 0) {
+      var langQuery = '(' + searchPage.language.join(" OR ") + ')';
+      ctrlScope.helper.lang.query = "language:" + wosQuery;
+      fields.push("language:" + langQuery);
+    } else {
+      ctrlScope.helper.lang.query = null;
+    }
+
     if (searchPage.refBibsNative) {
       if (searchPage.refBibsNative.length === 1) {
         ctrlScope.helper.refBibsNative.query = "qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
@@ -437,7 +506,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     ctrlScope.safeApply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-    facetQuery = "&facet=corpusName,pdfVersion,refBibsNative";
+    facetQuery = "&facet=corpusName,pdfVersion,refBibsNative,wos,language";
 
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
       minCopyright = $("#slider-range-copyright").slider("values", 0);
@@ -456,7 +525,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
       facetQuery += ",score[" + minScore + "-" + maxScore + "]";
     } else {
-      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score,wos";
+      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score";
     }
     facetQuery += "&output=*&stats";
     query += facetQuery;

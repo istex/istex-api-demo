@@ -23,6 +23,7 @@ var search = function(searchPage, searchPageController) {
   searchPage.PDFVersion = [];
   searchPage.refBibsNative = [];
   searchPage.WOS = [];
+  searchPage.language = [];
   searchPageController.search();
 };
 
@@ -42,7 +43,8 @@ istexApp.controller("istexAppCtrl", function($scope) {
     PDFCharCount: {},
     PDFVersion: {},
     refBibsNative: {},
-    WOS: {}
+    WOS: {},
+    lang: {}
   };
 
   /**
@@ -68,6 +70,7 @@ istexApp.controller("istexAppCtrl", function($scope) {
 });
 
 $(document).ready(function() {
+
   /**
    * Istex tooltip
    * Pour déclencher le tooltip: data-toggle='istex-tooltip'
@@ -283,6 +286,17 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     } else {
       var index = searchPage.WOS.indexOf(valueHTML);
       searchPage.WOS.splice(index, 1);
+    }
+    searchPageController.search();
+  });
+
+  $("#facetLang").on("click", "input", function() {
+    searchPage.reaffine = true;
+    if (this.checked) {
+      searchPage.language.push(this.value);
+    } else {
+      var index = searchPage.language.indexOf(this.value);
+      searchPage.language.splice(index, 1);
     }
     searchPageController.search();
   });
