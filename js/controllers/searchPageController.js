@@ -1,14 +1,20 @@
 /*global jquery: true, angular: true, $: true, define: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
+define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js"], function(searchPage, config, mustache) {
   "use strict";
-  var searchPageController = {};
-  var timeStamp = null;
+  var searchPageController = {},
+    timeStamp = null,
+    ctrlScope;
+  // On récupére le scope du controleur Angular
+  if (angular) {
+    ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
+  }
+  ctrlScope.helper.apiUrl = config.apiUrl;
 
   (function() {
     var err = $.ajax({
-      url: conf.apiUrl + "corpus",
+      url: config.apiUrl + "corpus",
       dataType: "jsonp",
       success: function(data, status, xhr) {
         var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}",
@@ -321,6 +327,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{#lang}}{{key}}{{/lang}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
 
+        $('#nbLangFacet').text(data.aggregations.language.buckets.length);
         $('#facetLang').append(mustache.to_html(template, data));
 
         if (data.aggregations.language.buckets.length === 1) {
@@ -333,6 +340,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
           "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.wos.buckets}}";
 
+        $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
         $('#facetWos').append(mustache.to_html(template, data));
 
         if (data.aggregations.wos.buckets.length === 1) {
@@ -342,7 +350,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
         // ScoreFacet
         searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
-
         // CopyrightDateFacet
         searchPageController.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'integer');
         // PubDateFacet
@@ -383,7 +390,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     var
       query = "document/?q=",
       fields = [],
-      ctrlScope,
+      //      ctrlScope,
       minCopyright,
       maxCopyright,
       minPubdate,
@@ -399,10 +406,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       facetQuery,
       softHyphen;
 
-    // On récupére le scope du controleur Angular
-    if (angular) {
-      ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
-    }
 
     if (searchPage.searchField) {
       ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
@@ -532,8 +535,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     softHyphen = "<wbr>";
 
     // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
-    var tooltipsContent = "<p class='h4'>https://api.istex.fr/document/?" + softHyphen; +
-    "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
+    var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen +
+      "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen +
@@ -546,7 +549,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     $("#request-tooltip-content").html(tooltipsContent);
 
-    searchPageController.request(conf.apiUrl + query);
+    searchPageController.request(config.apiUrl + query);
   };
 
   searchPageController.request = function(url) {

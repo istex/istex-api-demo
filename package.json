@@ -4,12 +4,14 @@
   "description": "Démonstrateur Istex",
   "main": "index.html",
   "dependencies": {
+    "lodash": "^3.9.3"
   },
   "devDependencies": {
     "less": "^2.4.0",
     "less-plugin-clean-css": "^1.5.0"
   },
   "scripts": {
+    "postinstall": "node ./js/postInstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
