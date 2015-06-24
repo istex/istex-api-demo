@@ -1,2 +1,4 @@
 node_modules
 /nbproject
+js/parameters.json
+js/parameters.js

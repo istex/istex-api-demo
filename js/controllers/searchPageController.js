@@ -1,16 +1,22 @@
 /*global jquery: true, angular: true, $: true, define: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/jsonview/jquery.jsonview.js"], function(searchPage, conf, mustache) {
+define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js"], function (searchPage, config, mustache) {
   "use strict";
-  var searchPageController = {};
-  var timeStamp = null;
+  var searchPageController = {},
+    timeStamp = null,
+    ctrlScope;
+  // On récupére le scope du controleur Angular
+  if (angular) {
+    ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
+  }
+  ctrlScope.helper.apiUrl = config.apiUrl;
 
-  (function() {
+  (function () {
     var err = $.ajax({
-      url: conf.apiUrl + "corpus",
+      url: config.apiUrl + "corpus",
       dataType: "jsonp",
-      success: function(data, status, xhr) {
+      success: function (data, status, xhr) {
         var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}",
           corpusList = {
             corpusList: data
@@ -18,12 +24,12 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
       }
     });
-    window.setTimeout(function() {
+    window.setTimeout(function () {
       console.log(err);
     }, 60000);
   }());
 
-  searchPageController.displayRanges = function(data, field, slider, amount, nb, type) {
+  searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
 
     var minDate, maxDate;
     if (type === 'integer') {
@@ -47,7 +53,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       " à " + $(slider).slider("values", 1));
   };
 
-  searchPageController.displayResults = function(data) {
+  searchPageController.displayResults = function (data) {
     $("#jsonFromApi").JSONView(data);
 
     if (data.total > 0) {
@@ -88,8 +94,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       $("#totalResults").val(data.total);
       $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-api'].took);
 
-      data.abstr = function() {
-        return function(text, render) {
+      data.abstr = function () {
+        return function (text, render) {
           if (render(text) === "") {
             return "Pas de résumé pour ce résultat.";
           }
@@ -97,9 +103,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.linksIcon = function() {
+      data.linksIcon = function () {
 
-        return function(text, render) {
+        return function (text, render) {
           var infos = render(text).split(" "),
             html = (infos.length === 2) ? "" : "<table class='downloadFilesTable'><th>" + infos[0] + "</th><tr><td>",
             i = 1,
@@ -163,8 +169,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.titleClic = function() {
-        return function(text, render) {
+      data.titleClic = function () {
+        return function (text, render) {
           var res = render(text),
             infos = res.split(" "),
             index = infos.indexOf("application/pdf"),
@@ -178,8 +184,8 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.quality = function() {
-        return function(text, render) {
+      data.quality = function () {
+        return function (text, render) {
           if (render(text).split(':')[1] === " ") {
             return "";
           }
@@ -187,14 +193,15 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
         };
       };
 
-      data.presence = function() {
-        return function(text, render) {
+      data.presence = function () {
+        return function (text, render) {
           var res = render(text);
           if (res === 'T') {
             return "Présente(s)";
           } else {
             return "Absente(s)";
-          };
+          }
+          ;
         };
       };
 
@@ -312,17 +319,17 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     $("#result").css("opacity", 1);
   };
 
-  searchPageController.manageError = function(err) {
+  searchPageController.manageError = function (err) {
     $("button").button('reset');
     $(".alert span").html("Houston ... Problem!" + err.responseText);
     $(".alert").alert();
   };
 
-  searchPageController.search = function() {
+  searchPageController.search = function () {
     var
       query = "document/?q=",
       fields = [],
-      ctrlScope,
+//      ctrlScope,
       minCopyright,
       maxCopyright,
       minPubdate,
@@ -338,10 +345,6 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       facetQuery,
       softHyphen;
 
-    // On récupére le scope du controleur Angular
-    if (angular) {
-      ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
-    }
 
     if (searchPage.searchField) {
       ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
@@ -352,7 +355,7 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     }
 
     corpusQuery = '';
-    $.each(searchPage.editor, function(index, editor) {
+    $.each(searchPage.editor, function (index, editor) {
       if (editor !== "-1") {
         corpusQuery += editor + ',';
       }
@@ -463,8 +466,9 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
     softHyphen = "<wbr>";
 
     // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
-    var tooltipsContent = "<p class='h4'>https://api.istex.fr/document/?" + softHyphen; +
-    "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
+    var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen
+      +
+      "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen +
@@ -477,10 +481,10 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
 
     $("#request-tooltip-content").html(tooltipsContent);
 
-    searchPageController.request(conf.apiUrl + query);
+    searchPageController.request(config.apiUrl + query);
   };
 
-  searchPageController.request = function(url) {
+  searchPageController.request = function (url) {
 
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
@@ -493,20 +497,20 @@ define(["../models/searchPage", "../conf", "../vendor/mustache", "../vendor/json
       url: url,
       dataType: "jsonp",
       crossDomain: true,
-      success: function(data) {
+      success: function (data) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.displayResults(data);
         }
       },
-      error: function(err) {
+      error: function (err) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.manageError(err);
         }
       },
       timeout: 10000,
-      complete: function() {
+      complete: function () {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           $(document).trigger("resultsLoaded");
