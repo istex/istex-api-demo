@@ -1,7 +1,7 @@
 /*global jquery: true, angular: true, $: true, define: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js"], function (searchPage, config, mustache) {
+define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js"], function(searchPage, config, mustache) {
   "use strict";
   var searchPageController = {},
     timeStamp = null,
@@ -12,11 +12,11 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
   }
   ctrlScope.helper.apiUrl = config.apiUrl;
 
-  (function () {
+  (function() {
     var err = $.ajax({
       url: config.apiUrl + "corpus",
       dataType: "jsonp",
-      success: function (data, status, xhr) {
+      success: function(data, status, xhr) {
         var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}",
           corpusList = {
             corpusList: data
@@ -24,12 +24,12 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
       }
     });
-    window.setTimeout(function () {
+    window.setTimeout(function() {
       console.log(err);
     }, 60000);
   }());
 
-  searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
+  searchPageController.displayRanges = function(data, field, slider, amount, nb, type) {
 
     var minDate, maxDate;
     if (type === 'integer') {
@@ -53,7 +53,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       " à " + $(slider).slider("values", 1));
   };
 
-  searchPageController.displayResults = function (data) {
+  searchPageController.displayResults = function(data) {
     $("#jsonFromApi").JSONView(data);
 
     if (data.total > 0) {
@@ -94,8 +94,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       $("#totalResults").val(data.total);
       $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-api'].took);
 
-      data.abstr = function () {
-        return function (text, render) {
+      data.abstr = function() {
+        return function(text, render) {
           if (render(text) === "") {
             return "Pas de résumé pour ce résultat.";
           }
@@ -103,9 +103,9 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.linksIcon = function () {
+      data.linksIcon = function() {
 
-        return function (text, render) {
+        return function(text, render) {
           var infos = render(text).split(" "),
             html = (infos.length === 2) ? "" : "<table class='downloadFilesTable'><th>" + infos[0] + "</th><tr><td>",
             i = 1,
@@ -169,8 +169,57 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.titleClic = function () {
-        return function (text, render) {
+      data.lang = function() {
+        return function(text, render) {
+          switch (render(text)) {
+            case 'en':
+              return 'Anglais';
+              break;
+            case 'fr':
+              return 'Français';
+              break;
+            case 'de':
+              return 'Allemand';
+              break;
+            case 'la':
+              return 'Latin';
+              break;
+            case 'es':
+              return 'Espagnol';
+              break;
+            case 'it':
+              return 'Italien';
+              break;
+            case 'nl':
+              return 'Néerlandais';
+              break;
+            case 'ru':
+              return 'Russe';
+              break;
+            case 'pt':
+              return 'Portugais';
+              break;
+            case 'pl':
+              return 'Polonais';
+              break;
+            case 'cs':
+              return 'Tchèque';
+              break;
+            case 'ka':
+              return 'Géorgien';
+              break;
+            case 'ja':
+              return 'Japonais';
+              break;
+            default:
+              return render(text);
+              break;
+          };
+        }
+      };
+
+      data.titleClic = function() {
+        return function(text, render) {
           var res = render(text),
             infos = res.split(" "),
             index = infos.indexOf("application/pdf"),
@@ -184,8 +233,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.quality = function () {
-        return function (text, render) {
+      data.quality = function() {
+        return function(text, render) {
           if (render(text).split(':')[1] === " ") {
             return "";
           }
@@ -193,15 +242,14 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.presence = function () {
-        return function (text, render) {
+      data.presence = function() {
+        return function(text, render) {
           var res = render(text);
           if (res === 'T') {
             return "Présente(s)";
           } else {
             return "Absente(s)";
-          }
-          ;
+          };
         };
       };
 
@@ -274,11 +322,25 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).disabled = true;
         }
 
+        // LanguageFacet
+        template = "{{#aggregations.language.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{#lang}}{{key}}{{/lang}}</label>" +
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
+
+        $('#nbLangFacet').text(data.aggregations.language.buckets.length);
+        $('#facetLang').append(mustache.to_html(template, data));
+
+        if (data.aggregations.language.buckets.length === 1) {
+          $('#facetLang').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetLang').get(0).getElementsByTagName('input').item(0).disabled = true;
+        }
+
         // WosFacet
         template = "{{#aggregations.wos.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.wos.buckets}}";
 
+        $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
         $('#facetWos').append(mustache.to_html(template, data));
 
         if (data.aggregations.wos.buckets.length === 1) {
@@ -288,7 +350,6 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
 
         // ScoreFacet
         searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
-
         // CopyrightDateFacet
         searchPageController.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'integer');
         // PubDateFacet
@@ -319,17 +380,17 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     $("#result").css("opacity", 1);
   };
 
-  searchPageController.manageError = function (err) {
+  searchPageController.manageError = function(err) {
     $("button").button('reset');
     $(".alert span").html("Houston ... Problem!" + err.responseText);
     $(".alert").alert();
   };
 
-  searchPageController.search = function () {
+  searchPageController.search = function() {
     var
       query = "document/?q=",
       fields = [],
-//      ctrlScope,
+      //      ctrlScope,
       minCopyright,
       maxCopyright,
       minPubdate,
@@ -355,7 +416,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     }
 
     corpusQuery = '';
-    $.each(searchPage.editor, function (index, editor) {
+    $.each(searchPage.editor, function(index, editor) {
       if (editor !== "-1") {
         corpusQuery += editor + ',';
       }
@@ -424,6 +485,14 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       ctrlScope.helper.WOS.query = null;
     }
 
+    if (searchPage.language.length > 0) {
+      var langQuery = '(' + searchPage.language.join(" OR ") + ')';
+      ctrlScope.helper.lang.query = "language:" + wosQuery;
+      fields.push("language:" + langQuery);
+    } else {
+      ctrlScope.helper.lang.query = null;
+    }
+
     if (searchPage.refBibsNative) {
       if (searchPage.refBibsNative.length === 1) {
         ctrlScope.helper.refBibsNative.query = "qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
@@ -440,7 +509,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     ctrlScope.safeApply();
 
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-    facetQuery = "&facet=corpusName,pdfVersion,refBibsNative";
+    facetQuery = "&facet=corpusName,pdfVersion,refBibsNative,wos,language";
 
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
       minCopyright = $("#slider-range-copyright").slider("values", 0);
@@ -459,15 +528,14 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
       facetQuery += ",score[" + minScore + "-" + maxScore + "]";
     } else {
-      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score,wos";
+      facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score";
     }
     facetQuery += "&output=*&stats";
     query += facetQuery;
     softHyphen = "<wbr>";
 
     // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
-    var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen
-      +
+    var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen +
       "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen +
       "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen +
@@ -484,7 +552,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     searchPageController.request(config.apiUrl + query);
   };
 
-  searchPageController.request = function (url) {
+  searchPageController.request = function(url) {
 
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
@@ -497,20 +565,20 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       url: url,
       dataType: "jsonp",
       crossDomain: true,
-      success: function (data) {
+      success: function(data) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.displayResults(data);
         }
       },
-      error: function (err) {
+      error: function(err) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.manageError(err);
         }
       },
       timeout: 10000,
-      complete: function () {
+      complete: function() {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           $(document).trigger("resultsLoaded");
