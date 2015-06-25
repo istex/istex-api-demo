@@ -287,6 +287,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         $('#facetPDFVersion').empty();
         $('#facetRefBibsNative').empty();
         $('#facetWos').empty();
+        $('#facetLang').empty();
 
         // CorpusFacet
         template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
@@ -457,29 +458,6 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       fields.push("publicationDate:" + searchPage.pubdate);
     }
 
-    if (searchPage.PDFWordCount !== undefined) {
-      ctrlScope.helper.PDFWordCount.query = "AND qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount;
-      fields.push("qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount);
-    }
-
-    if (searchPage.PDFCharCount !== undefined) {
-      ctrlScope.helper.pubDate.query = "AND qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount;
-      fields.push("qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount);
-    }
-
-    if (searchPage.score !== undefined) {
-      ctrlScope.helper.score.query = "AND qualityIndicators.score:" + searchPage.score;
-      fields.push("qualityIndicators.score:" + searchPage.score);
-    }
-
-    if (searchPage.PDFVersion.length > 0) {
-      var pdfQuery = '(' + searchPage.PDFVersion.join(" OR ") + ')';
-      ctrlScope.helper.PDFVersion.query = "qualityIndicators.pdfVersion:" + pdfQuery;
-      fields.push("qualityIndicators.pdfVersion:" + pdfQuery);
-    } else {
-      ctrlScope.helper.PDFVersion.query = null;
-    }
-
     if (searchPage.WOS.length > 0) {
       var wosQuery = '(' + searchPage.WOS.join(" OR ") + ')';
       ctrlScope.helper.WOS.query = "categories.wos:" + wosQuery;
@@ -490,15 +468,46 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
 
     if (searchPage.language.length > 0) {
       var langQuery = '(' + searchPage.language.join(" OR ") + ')';
-      ctrlScope.helper.lang.query = "language:" + wosQuery;
+      ctrlScope.helper.lang.query = "language:" + langQuery;
       fields.push("language:" + langQuery);
     } else {
       ctrlScope.helper.lang.query = null;
     }
 
+    // Facette qualité
+    ctrlScope.helper.quality.query = '';
+
+    if (searchPage.score !== undefined) {
+      ctrlScope.helper.score.query = " AND qualityIndicators.score:" + searchPage.score;
+      ctrlScope.helper.quality.query += ctrlScope.helper.score.query;
+      fields.push("qualityIndicators.score:" + searchPage.score);
+    }
+
+    if (searchPage.PDFWordCount !== undefined) {
+      ctrlScope.helper.PDFWordCount.query = " AND qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount;
+      ctrlScope.helper.quality.query += ctrlScope.helper.PDFWordCount.query;
+      fields.push("qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount);
+    }
+
+    if (searchPage.PDFCharCount !== undefined) {
+      ctrlScope.helper.PDFCharCount.query = " AND qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount;
+      ctrlScope.helper.quality.query += ctrlScope.helper.PDFCharCount.query;
+      fields.push("qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount);
+    }
+
+    if (searchPage.PDFVersion.length > 0) {
+      var pdfQuery = '(' + searchPage.PDFVersion.join(" OR ") + ')';
+      ctrlScope.helper.PDFVersion.query = " AND qualityIndicators.pdfVersion:" + pdfQuery;
+      ctrlScope.helper.quality.query += ctrlScope.helper.PDFVersion.query;
+      fields.push("qualityIndicators.pdfVersion:" + pdfQuery);
+    } else {
+      ctrlScope.helper.PDFVersion.query = null;
+    }
+
     if (searchPage.refBibsNative) {
       if (searchPage.refBibsNative.length === 1) {
-        ctrlScope.helper.refBibsNative.query = "qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
+        ctrlScope.helper.refBibsNative.query = " AND qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
+        ctrlScope.helper.quality.query += ctrlScope.helper.refBibsNative.query;
         fields.push("qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0]);
       } else {
         ctrlScope.helper.refBibsNative.query = null;
