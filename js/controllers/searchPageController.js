@@ -173,7 +173,10 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         return function(text, render) {
           switch (render(text)) {
             case 'en':
-              return 'Anglais';
+              return 'Anglais (en)';
+              break;
+            case 'eng':
+              return 'Anglais (eng)';
               break;
             case 'fr':
               return 'Français';
