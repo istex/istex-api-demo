@@ -34,11 +34,14 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
 
     var minDate, maxDate;
     if (type === 'integer') {
-      minDate = parseInt(data.aggregations[field].buckets[0].fromAsString, 10);
-      maxDate = parseInt(data.aggregations[field].buckets[0].toAsString, 10);
+      minDate = parseInt(data.aggregations[field].buckets[0].from, 10);
+      maxDate = parseInt(data.aggregations[field].buckets[0].to, 10);
     } else if (type === 'float') {
-      minDate = parseFloat(data.aggregations[field].buckets[0].fromAsString);
-      maxDate = parseFloat(data.aggregations[field].buckets[0].toAsString);
+      minDate = parseFloat(data.aggregations[field].buckets[0].from);
+      maxDate = parseFloat(data.aggregations[field].buckets[0].to);
+    } else if (type === 'date') {
+      minDate = parseInt(data.aggregations[field].buckets[0].fromAsString);
+      maxDate = parseInt(data.aggregations[field].buckets[0].toAsString);
     }
 
     if (nb !== '') $(nb).text(data.aggregations[field].buckets[0].docCount);
@@ -360,9 +363,9 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         // ScoreFacet
         searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
         // CopyrightDateFacet
-        searchPageController.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'integer');
+        searchPageController.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'date');
         // PubDateFacet
-        searchPageController.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'integer');
+        searchPageController.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'date');
         // PdfWordCountFacet
         searchPageController.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", '', 'integer');
         // PdfCharCountFacet
