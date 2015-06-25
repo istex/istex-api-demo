@@ -179,12 +179,16 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
               return 'Anglais (eng)';
               break;
             case 'fr':
-              return 'Français';
+              return 'Français (fr)';
+              break;
+            case 'fre':
+              return 'Français (fre)';
               break;
             case 'de':
               return 'Allemand';
               break;
             case 'la':
+            case 'lat':
               return 'Latin';
               break;
             case 'es':
