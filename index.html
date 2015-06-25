@@ -30,9 +30,9 @@
 
   <body ng-app="istexApp" ng-controller="istexAppCtrl">
     <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-                your browser</a> to improve your experience.</p>
-        <![endif]-->
+              <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+                  your browser</a> to improve your experience.</p>
+          <![endif]-->
 
     <div class="container">
 
@@ -110,12 +110,12 @@
                         </h6>
                         <ul>
                           <li>
-                            <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#syntaxe-des-requ-tes">
+                            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#syntaxe-des-requ-tes">
                               Syntaxe des requêtes
                             </a>
                           </li>
                           <li>
-                            <a  class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#recherche-de-documents">
+                            <a  class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-de-documents">
                               Recherche de documents
                             </a>
                           </li>
@@ -165,17 +165,17 @@
                             </h6>
                             <ul>
                               <li>
-                                <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#recherche-par-corpus">
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-corpus">
                                   Recherche par corpus
                                 </a>
                               </li>
                               <li>
-                                <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#facettes">
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
                                   Facettes
                                 </a>
                               </li>
                               <li>
-                                <a class="link-external" target="_blank" href="{{ app.apiUrl }}/corpus/">
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/corpus/">
                                   Liste des éditeurs disponible via l'API
                                 </a>
                               </li>
@@ -202,12 +202,12 @@
                             </h6>
                             <ul>
                               <li>
-                                <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#syntaxe-des-requ-tes">
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#syntaxe-des-requ-tes">
                                   Syntaxe des requêtes
                                 </a>
                               </li>
                               <li>
-                                <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#recherche-de-documents">
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-de-documents">
                                   Recherche de documents
                                 </a>
                               </li>
@@ -234,7 +234,7 @@
                             </h6>
                             <ul>
                               <li>
-                                <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#recherche-par-auteur">
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-auteur">
                                   Recherche par auteur
                                 </a>
                               </li>
@@ -261,7 +261,7 @@
                             </h6>
                             <ul>
                               <li>
-                                <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#recherche-par-sujet">
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-sujet">
                                   Recherche par sujet
                                 </a>
                               </li>
@@ -344,16 +344,17 @@
               <button class="js-resetFacet glyphicon glyphicon-refresh pull-right" type="button"></button>
             </h6>
 
-            <div class="panel-group" id="accordeon">
+            <div class="panel-group" id="accordion-facets" role="tablist" aria-multiselectable="true">
 
               <div class="panel panel-primary" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
-                <div class="panel-heading">
+                <div class="panel-heading" role="tab" id="headingOne">
                   <h4 class="panel-title">
-                    Corpus
+                    <a role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Corpus </a>
                     <span id="nbCorpusFacet" class="badge pull-right"></span>
                   </h4>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                   <div class="panel-body">
                     <div id="facetCorpus">
                     </div>
@@ -369,17 +370,17 @@
                     </h6>
                     <ul>
                       <li>
-                        <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#recherche-par-corpus">
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-corpus">
                           Recherche par corpus
                         </a>
                       </li>
                       <li>
-                        <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#facettes">
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
                           Facettes
                         </a>
                       </li>
                       <li>
-                        <a class="link-external" target="_blank" href="{{ app.apiUrl }}/corpus/">
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/corpus/">
                           Liste des éditeurs disponible via l'API
                         </a>
                       </li>
@@ -397,12 +398,13 @@
 
 
               <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-                <div class="panel-heading">
+                <div class="panel-heading" role="tab" id="headingTwo">
                   <h4 class="panel-title">
-                    Copyright
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Copyright </a>
                   </h4>
                 </div>
-                <div id="collapseTwo" class="panel-collapse collapse in">
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                   <div class="panel-body">
                     <div class="col-xs-12">
                       <label for="amountCopyrightDate" class="col-xs-5">Entre :</label>
@@ -421,7 +423,7 @@
                     </h6>
                     <ul>
                       <li>
-                        <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#facettes">
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
                           Facettes
                         </a>
                       </li>
@@ -439,12 +441,13 @@
 
 
               <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-                <div class="panel-heading">
+                <div class="panel-heading" role="tab" id="headingThree">
                   <h4 class="panel-title">
-                    Publication
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      Publication </a>
                   </h4>
                 </div>
-                <div id="collapseThree" class="panel-collapse collapse in">
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                   <div class="panel-body">
                     <div class="col-xs-12">
                       <label for="amountPubDate" class="col-xs-5">Entre :</label>
@@ -463,7 +466,7 @@
                     </h6>
                     <ul>
                       <li>
-                        <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#facettes">
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
                           Facettes
                         </a>
                       </li>
@@ -479,53 +482,55 @@
                 </div>
               </div>
 
-            <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                    Langue(s)
+              <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
+                <div class="panel-heading" role="tab" id="headingSix">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      Langue(s) </a>
                     <span id="nbLangFacet" class="badge pull-right"></span>
                   </h4>
-              </div>
-              <div id="collapseSix" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  <div id="facetLang">
+                </div>
+                <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                  <div class="panel-body">
+                    <div id="facetLang">
+                    </div>
+                  </div>
+                </div>
+                <div class="istex-tooltip">
+                  <h5>Langue(s)</h5>
+                  <p>Cette facette permet de préciser la <b class="text-primary">langue du document</b> sur laquelle porte la requête.</p>
+                  <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
+                  <div class="references">
+                    <h6>
+                      <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                    </h6>
+                    <ul>
+                      <li>
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
+                          Facettes
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div data-ng-if="helper.lang.query">
+                    <hr>
+                    <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                    <p class="query-chunk">
+                      <mark data-ng-bind="helper.lang.query"></mark>
+                    </p>
                   </div>
                 </div>
               </div>
-              <div class="istex-tooltip">
-                <h5>Langue(s)</h5>
-                <p>Cette facette permet de préciser la <b class="text-primary">langue du document</b> sur laquelle porte la requête.</p>
-                <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-                <div class="references">
-                  <h6>
-                      <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-                    </h6>
-                  <ul>
-                    <li>
-                      <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#facettes">
-                          Facettes
-                        </a>
-                    </li>
-                  </ul>
-                </div>
-                <div data-ng-if="helper.lang.query">
-                  <hr>
-                  <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-                  <p class="query-chunk">
-                    <mark data-ng-bind="helper.lang.query"></mark>
-                  </p>
-                </div>
-              </div>
-            </div>
 
-            <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                    Catégorie(s) WOS
+              <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
+                <div class="panel-heading" role="tab" id="headingFive">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                      Catégorie(s) WOS </a>
                     <span id="nbWOSFacet" class="badge pull-right"></span>
                   </h4>
                 </div>
-                <div id="collapseFive" class="panel-collapse collapse in">
+                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
                   <div class="panel-body">
                     <div id="facetWos">
                     </div>
@@ -541,7 +546,7 @@
                     </h6>
                     <ul>
                       <li>
-                        <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#facettes">
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
                           Facettes
                         </a>
                       </li>
@@ -573,14 +578,14 @@
               </div>
 
               <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-                <div class="panel-heading">
+                <div class="panel-heading" role="tab" id="headingFour">
                   <h4 class="panel-title">
-                    Qualité
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                      Qualité </a>
                   </h4>
                 </div>
-                <div id="collapseFour" class="panel-collapse collapse in">
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                   <div class="panel-body">
-
                     <div class="panel panel-info">
                       <div class="panel-heading">Score</div>
                       <div class="panel-body">
@@ -617,7 +622,7 @@
                     </div>
 
                     <div class="panel panel-info">
-                      <div class="panel-heading">Références bibliographiques natives</div>
+                      <div class="panel-heading">Références citées natives</div>
                       <div class="panel-body" style="padding-left:0;">
                         <div id="facetRefBibsNative">
                         </div>
@@ -636,7 +641,7 @@
                     </h6>
                     <ul>
                       <li>
-                        <a class="link-external" target="_blank" href="{{ app.apiUrl }}/documentation/300-search.html#facettes">
+                        <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
                           Facettes
                         </a>
                       </li>
@@ -646,7 +651,7 @@
                     <hr>
                     <h6 class="h5">Morceau de la requête généré par la facette: </h6>
                     <p class="query-chunk">
-                      <mark class="" data-ng-bind="helper.score.query"></mark>
+                      <mark class="" data-ng-bind="helper.quality.query"></mark>
                     </p>
                   </div>
                 </div>
@@ -691,25 +696,25 @@
 
       <div class="text-center">
         <div id="paginRow" class="btn-group hide text-center" role="group">
-          <a data-toggle="istex-tooltip" id="first" href="#"  class="btn btn-primary">&#8676;</a>
+          <a data-toggle="istex-tooltip" id="first" href="#" class="btn btn-primary">&#8676;</a>
           <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
             <h5>Première page</h5>
             <p>Le lien <b class="text-primary">firstPageURI</b> dans la réponse de l'API permet d'accéder à la première page des résultats de la requête : firstPageURI:<b id="js-firstPageURI"></b>
             </p>
           </div>
-          <a data-toggle="istex-tooltip" id="prev" href="#"  class="btn btn-primary">&#8672;</a>
+          <a data-toggle="istex-tooltip" id="prev" href="#" class="btn btn-primary">&#8672;</a>
           <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
             <h5>Page précédente</h5>
             <p>Le lien <b class="text-primary">prevPageURI</b> dans la réponse de l'API permet d'accéder à la page précédente des résultats de la requête : prevPageURI:<b id="js-prevPageURI"></b>
             </p>
           </div>
-          <a data-toggle="istex-tooltip" id="next" href="#"  class="btn btn-primary">&#8674;</a>
+          <a data-toggle="istex-tooltip" id="next" href="#" class="btn btn-primary">&#8674;</a>
           <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
             <h5>Page suivante</h5>
             <p>Le lien <b class="text-primary">nextPageURI</b> dans la réponse de l'API permet d'accéder à la page suivante des résultats de la requête : nextPageURI:<b id="js-nextPageURI"></b>
             </p>
           </div>
-          <a data-toggle="istex-tooltip" id="last" href="#"  class="btn btn-primary">&#8677;</a>
+          <a data-toggle="istex-tooltip" id="last" href="#" class="btn btn-primary">&#8677;</a>
           <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
             <h5>Dernière page</h5>
             <p>Le lien <b class="text-primary">lastPageURI</b> dans la réponse de l'API permet d'accéder à la dernière page des résultats de la requête : lastPageURI:<b id="js-lastPageURI"></b>
@@ -735,29 +740,29 @@
             Site officiel du projet :
             <a target="_blank" href="http://www.istex.fr">www.istex.fr</a>
             <!--             <br>
-              <button  data-toggle="modal" data-target="#politicMenu">Politique de confidentialité</button> -->
+                <button  data-toggle="modal" data-target="#politicMenu">Politique de confidentialité</button> -->
           </div>
 
           <!-- Modal politique -->
           <!--           <div class="modal fade" id="politicMenu" tabindex="-1" role="dialog" aria-labelledby="politicLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                      <span aria-hidden="true">&times;</span>
-                      <span class="sr-only">Fermer</span>
-                    </button>
-                    <h4 class="modal-title text-center"><strong>Politique de confidentialité</strong></h4>
-                  </div>
-                  <div class="modal-body">
-                    <iframe frameborder="no" width="500" height="200" src="http://piwik.inist.fr/index.php?module=CoreAdminHome&action=optOut&language=fr"></iframe>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Fermer</span>
+                      </button>
+                      <h4 class="modal-title text-center"><strong>Politique de confidentialité</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                      <iframe frameborder="no" width="500" height="200" src="http://piwik.inist.fr/index.php?module=CoreAdminHome&action=optOut&language=fr"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div> -->
+              </div> -->
 
 
           <div class="col-xs-2" id="logoIA">
@@ -773,10 +778,10 @@
         </div>
 
         <!--[if IE]>
-        <div class="row" style='margin-top:15px;'>
-          Ce démonstrateur a été optimisé pour <b>Mozilla Firefox</b> et <b>Google Chrome</b>, la compatibilité <b>Internet Explorer</b> ne peut être garantie.
-        </div>
-        <![endif]-->
+          <div class="row" style='margin-top:15px;'>
+            Ce démonstrateur a été optimisé pour <b>Mozilla Firefox</b> et <b>Google Chrome</b>, la compatibilité <b>Internet Explorer</b> ne peut être garantie.
+          </div>
+          <![endif]-->
 
       </div>
       <script src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
@@ -791,11 +796,10 @@
 
       <!-- Piwik -->
       <!--       <noscript>
-        <p><img src="http://piwik.inist.fr/piwik.php?idsite=118" style="border:0" alt="" />
-        </p>
-        </noscript> -->
+          <p><img src="http://piwik.inist.fr/piwik.php?idsite=118" style="border:0" alt="" />
+          </p>
+          </noscript> -->
       <!-- End Piwik Code -->
     </div>
   </body>
-
 </html>
