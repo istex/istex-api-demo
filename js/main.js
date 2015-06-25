@@ -26,6 +26,21 @@ var search = function (searchPage, searchPageController) {
   searchPage.language = [];
   searchPageController.search();
 };
+
+/**
+ * String.rtrim
+ * @param {String} char
+ * @returns {String}
+ */
+if (!String.prototype.rtrim) {
+  (function() {
+    String.prototype.rtrim = function(char) {
+    var trim = '[' + char + ']+$';
+      return this.replace(new RegExp(trim, 'g'), '');
+    };
+  })();
+}
+
 istexApp.controller("istexAppCtrl", function ($scope, $sce) {
 
   $scope.helper = {
@@ -44,6 +59,10 @@ istexApp.controller("istexAppCtrl", function ($scope, $sce) {
     refBibsNative: {},
     WOS: {},
     lang: {}
+  };
+
+  $scope.app = {
+    apiUrl: ""
   };
 
   /**

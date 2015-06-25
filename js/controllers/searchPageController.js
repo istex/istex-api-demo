@@ -10,7 +10,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
   if (angular) {
     ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
   }
-  ctrlScope.helper.apiUrl = config.apiUrl;
+  ctrlScope.app.apiUrl = config.apiUrl.rtrim('/ ');
+  ctrlScope.safeApply();
 
   (function() {
     var err = $.ajax({
