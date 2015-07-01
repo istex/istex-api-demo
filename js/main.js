@@ -33,9 +33,9 @@ var search = function (searchPage, searchPageController) {
  * @returns {String}
  */
 if (!String.prototype.rtrim) {
-  (function() {
-    String.prototype.rtrim = function(char) {
-    var trim = '[' + char + ']+$';
+  (function () {
+    String.prototype.rtrim = function (char) {
+      var trim = '[' + char + ']+$';
       return this.replace(new RegExp(trim, 'g'), '');
     };
   })();
@@ -178,6 +178,10 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
   globalSearchPage = searchPage;
   globalSearchPageController = searchPageController;
 
+  $("#advancedSearchForm").on("input", ":input", function () {
+    $("#searchButton").click();
+  });
+
   $("#searchform").submit(function (event) {
     event.preventDefault();
     search(searchPage, searchPageController);
@@ -309,7 +313,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("#facetLang").on("click", "input", function() {
+  $("#facetLang").on("click", "input", function () {
     searchPage.reaffine = true;
     if (this.checked) {
       searchPage.language.push(this.value);
@@ -320,7 +324,7 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
     searchPageController.search();
   });
 
-  $("#facetRefBibsNative").on("click", "input", function() {
+  $("#facetRefBibsNative").on("click", "input", function () {
     searchPage.reaffine = true;
     var bool = (this.value === 'T');
     if (this.checked) {

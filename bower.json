@@ -1,0 +1,27 @@
+{
+  "name": "istex-api-demo",
+  "version": "1.0.0",
+  "authors": [
+    "parentin <jean-joffrey.parentin@inist.fr>"
+  ],
+  "main": "index.html",
+  "keywords": [
+    "istex"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-1.11.3.min": "http://code.jquery.com/jquery-1.11.3.min.js"
+  },
+  "moduleType": [
+    "amd",
+    "globals"
+  ]
+}

@@ -6,6 +6,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
   var searchPageController = {},
     timeStamp = null,
     ctrlScope;
+
   // On récupére le scope du controleur Angular
   if (angular) {
     ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
@@ -18,13 +19,11 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       url: config.apiUrl + "corpus",
       dataType: "jsonp",
       success: function(data, status, xhr) {
-        var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}",
-          corpusList = {
-            corpusList: data
-          };
-        $('#editorField').append(mustache.to_html(corpusTemplate, corpusList));
+        var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
+        $('#editorField').append(mustache.render(corpusTemplate, {corpusList:data}));
       }
     });
+
     window.setTimeout(function() {
       console.log(err);
     }, 60000);
@@ -286,7 +285,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         "</div></td></tr>{{/hits}}",
         template;
 
-      $("#tableResult").html(mustache.to_html(tableLine, data));
+      $("#tableResult").html(mustache.render(tableLine, data));
 
       if (!searchPage.reaffine) {
 
@@ -303,7 +302,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.corpusName.buckets}}";
 
         $('#nbCorpusFacet').text(data.aggregations.corpusName.buckets.length);
-        $('#facetCorpus').append(mustache.to_html(template, data));
+        $('#facetCorpus').append(mustache.render(template, data));
 
         if (data.aggregations.corpusName.buckets.length === 1) {
           $('#facetCorpus').get(0).getElementsByTagName('input').item(0).checked = true;
@@ -315,7 +314,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.pdfVersion.buckets}}";
 
-        $('#facetPDFVersion').append(mustache.to_html(template, data));
+        $('#facetPDFVersion').append(mustache.render(template, data));
 
         if (data.aggregations.pdfVersion.buckets.length === 1) {
           $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).checked = true;
@@ -327,7 +326,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{#presence}}{{key}}{{/presence}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.refBibsNative.buckets}}";
 
-        $('#facetRefBibsNative').append(mustache.to_html(template, data));
+        $('#facetRefBibsNative').append(mustache.render(template, data));
 
         if (data.aggregations.refBibsNative.buckets.length === 1) {
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).checked = true;
@@ -340,7 +339,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
 
         $('#nbLangFacet').text(data.aggregations.language.buckets.length);
-        $('#facetLang').append(mustache.to_html(template, data));
+        $('#facetLang').append(mustache.render(template, data));
 
         if (data.aggregations.language.buckets.length === 1) {
           $('#facetLang').get(0).getElementsByTagName('input').item(0).checked = true;
@@ -353,7 +352,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.wos.buckets}}";
 
         $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
-        $('#facetWos').append(mustache.to_html(template, data));
+        $('#facetWos').append(mustache.render(template, data));
 
         if (data.aggregations.wos.buckets.length === 1) {
           $('#facetWos').get(0).getElementsByTagName('input').item(0).checked = true;
@@ -441,7 +440,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       ctrlScope.helper.corpus.query = null;
     }
 
-    if ($("#collapse").is(':visible')) {
+    if ($("#advancedSearchPanel").is(':visible')) {
 
       if (searchPage.author !== "" && searchPage.author !== undefined) {
         ctrlScope.helper.author.query = "AND author.name:" + searchPage.author;
