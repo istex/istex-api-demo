@@ -130,11 +130,10 @@ $(document).ready(function () {
     });
   });
 
-  /**
-   * Toolip pour les icons des fichiers
-   */
   $(document).on("resultsLoaded", function (e) {
 
+
+    // Toolip pour les icons des fichiers
     $(".downloadFilesTable").find('a').each(function () {
       var $this = $(this),
         $thisImg = $this.children("img"),
@@ -163,10 +162,12 @@ $(document).ready(function () {
           }
         });
     });
+    // ellipse sur les abstracts
+    $("#tableResult").find(".abstract, h4").dotdotdot();
   });
-
-
 });
+
+
 
 //require.config({
 //  paths: {
@@ -178,23 +179,21 @@ require(["js/models/searchPage", "js/controllers/searchPageController"], functio
   globalSearchPage = searchPage;
   globalSearchPageController = searchPageController;
 
-  $("#advancedSearchForm").on("input", ":input", function () {
-    $("#searchButton").click();
-  });
-
   $("#searchform").submit(function (event) {
     event.preventDefault();
     search(searchPage, searchPageController);
   });
 
-  $("#advancedSearchForm input").keypress(function (e) {
-    if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
-      $("#searchButton").click();
-      return false;
-    }
-
-    return true;
+  $("#advancedSearchForm").submit(function (event) {
+    event.preventDefault();
+    $("#searchform").submit();
   });
+
+  $("#advancedSearchForm").on("input", ":input", function (event) {
+    $("#searchform").submit();
+  });
+
+
 
   $("#prev").click(function (e) {
     e.preventDefault();

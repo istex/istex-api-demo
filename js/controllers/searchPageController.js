@@ -266,7 +266,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       var tableLine = "{{#hits}}<tr class='row'><td class='col-xs-12'><h4 class='alert-success'><b>" +
         "{{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} \"{{title}}\"{{/titleClic}}" +
         "</b></h4>" +
-        "<div class='col-xs-10'><p class='small'>" +
+        "<div class='col-xs-10'><p class='small abstract'>" +
         "{{#abstr}}{{abstract}}{{/abstr}}" +
         "</p><div class='row' style='text-align:center;'>" +
         "<div class='col-xs-4'>" +

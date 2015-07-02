@@ -18,7 +18,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery-1.11.3.min": "http://code.jquery.com/jquery-1.11.3.min.js"
+    "jquery-1.11.3.min": "http://code.jquery.com/jquery-1.11.3.min.js",
+    "jQuery.dotdotdot": "~1.7.3"
   },
   "moduleType": [
     "amd",
