@@ -162,8 +162,32 @@ $(document).ready(function () {
           }
         });
     });
-    // ellipse sur les abstracts
-    $("#tableResult").find(".abstract, h4").dotdotdot();
+
+    /**
+     * ellipse sur les abstracts et titles
+     */
+    var $tableResult = $("#tableResult"),
+      dotdotdotConfig = {ellipsis: '…', watch: "window"}
+    ;
+    $tableResult.find("h4").dotdotdot(dotdotdotConfig);
+
+    $tableResult
+      .find(".abstract")
+      .addClass("ellipsed")
+      .dotdotdot(
+        dotdotdotConfig
+        )
+      .click(function () {
+        var $this = $(this);
+        var content = $this.triggerHandler("originalContent");
+        $this
+          .toggleClass("ellipsed")
+          .append(content)
+          .trigger("update.dot")
+          ;
+      })
+      ;
+
   });
 });
 

@@ -180,8 +180,10 @@ textarea {
   color: #333;
   text-shadow: #AAA 1px 1px 2px;
 }
+
 /* ==========================================================================
    Tooltip
+   @qtip
    ========================================================================== */
 .qtip {
   .well; .well-sm;
@@ -267,6 +269,8 @@ textarea {
     }
   }
 }
+
+// New Contextual backgrounds
 .bg-corpus{
   background-color: lighten(@brand-istex-blue, 33,5%);
 }
@@ -291,16 +295,29 @@ textarea {
 .bg-stats{
   background-color: lighten(@brand-success, 30%);
 }
+
+// Reset input copyrightDate
 .amount{
   border:0;
   padding-top:0;
   padding-left:0;
 }
 
+// Ellpisis settings
+// @dotdotdot
 #tableResult > tr > td > h4 {
   max-height: 1.2em;
   overflow: hidden;
 }
 .abstract{
-  max-height: 5.6em;
+  &:hover{
+    background-color: darken(@table-bg-hover, 5%);
+    cursor: zoom-out;
+  }
+  &.ellipsed{
+    max-height: 5.6em;
+    &:hover{
+      cursor: zoom-in;
+    }
+  }
 }
