@@ -1,57 +1,66 @@
-/* global process */
+/* global process, e */
 
 "use strict";
 
 var fs = require("fs"),
   _ = require("lodash"),
-  finalParameters = {},
+  colors = require("./myColors"),
+  parameters = {},
   envParameters,
-  parameters,
+  localParameters,
   distParameters,
-  generatedScript,
-  data
+  generatedScript
   ;
 
 // parametres d'environnement
-if (process.env.ISTEX_DEMO_PARAMETERS_FILE && typeof process.env.ISTEX_DEMO_PARAMETERS_FILE === 'string') {
-  data = fs.readFileSync(process.env.ISTEX_DEMO_PARAMETERS_FILE);
-} else {
-  console.log("Pas de paramètres d'environnement");
-}
+envParameters = (function () {
+  var _data;
 
-envParameters = data && JSON.parse(data) || {};
-
-
-// parametres locaux
-try {
-  data = fs.readFileSync("js/parameters.json");
-} catch(e) {
-  if (e.code === 'ENOENT') {
-    console.info("Pas de paramètres locaux");
+  if (process.env.ISTEX_DEMO_PARAMETERS_FILE && typeof process.env.ISTEX_DEMO_PARAMETERS_FILE === 'string') {
+    _data = fs.readFileSync(process.env.ISTEX_DEMO_PARAMETERS_FILE);
   } else {
-    console.error("Erreur lors de la lecture du fichier parameters.json: ", e);
-    throw e;
+    console.log("Pas de paramètres d'environnement".muted);
   }
-}
-parameters = data && JSON.parse(data) || {};
 
+  return _data && JSON.parse(_data) || {};
+
+}());
+
+
+// paramètres locaux
+localParameters = (function () {
+  var _data;
+
+  try {
+    _data = fs.readFileSync("js/parameters.json");
+  } catch(e) {
+    if (e.code === 'ENOENT') {
+      console.log("Pas de paramètres locaux".muted);
+    } else {
+      console.error("Erreur lors de la lecture du fichier \"parameters.json\": \n".danger, e);
+      throw e;
+    }
+  }
+
+  return _data && console.log("Paramètres locaux trouvés".info) && JSON.parse(_data) || {};
+}());
 
 // parametres distants
-data = fs.readFileSync("js/parameters.json.dist");
-distParameters = data && JSON.parse(data);
+distParameters = (function () {
+  var _data = fs.readFileSync("js/parameters.json.dist");
+
+  return  _data && console.log("Paramètres distants trouvés".info) && JSON.parse(_data) || {};
+}());
 
 // On cascade les parametres
-_.defaults(finalParameters, envParameters);
-_.defaults(finalParameters, parameters);
-_.defaults(finalParameters, distParameters);
+_.defaults(parameters, envParameters, localParameters, distParameters);
 
 generatedScript =
   "/* Ce fichier est généré par npm, merci de ne pas le modifier */ \n "
-  + "define(" + JSON.stringify(finalParameters) + ");";
+  + "define(" + JSON.stringify(parameters) + ");";
 
 fs.writeFile("js/parameters.js", generatedScript, function (err) {
-  if (err) {
-    throw err;
-  }
+  if (err) { throw err; }
+  console.log("Fichier \"parameters.js\" généré avec succès.".success);
 });
 

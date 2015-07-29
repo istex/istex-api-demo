@@ -4,6 +4,7 @@
   "description": "Démonstrateur Istex",
   "main": "index.html",
   "dependencies": {
+    "colors": "^1.1.2",
     "lodash": "^3.9.3"
   },
   "devDependencies": {
