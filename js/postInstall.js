@@ -21,6 +21,7 @@ envParameters = (function () {
   } else {
     console.log("Pas de paramètres d'environnement".muted);
   }
+  _data && console.log("Paramètres d'environnement trouvés".info);
 
   return _data && JSON.parse(_data) || {};
 
@@ -41,15 +42,17 @@ localParameters = (function () {
       throw e;
     }
   }
+  _data && console.log("Paramètres locaux trouvés".info);
 
-  return _data && console.log("Paramètres locaux trouvés".info) && JSON.parse(_data) || {};
+  return _data && JSON.parse(_data) || {};
 }());
 
 // parametres distants
 distParameters = (function () {
   var _data = fs.readFileSync("js/parameters.json.dist");
+  _data && console.log("Paramètres distants trouvés".info);
 
-  return  _data && console.log("Paramètres distants trouvés".info) && JSON.parse(_data) || {};
+  return  _data && JSON.parse(_data) || {};
 }());
 
 // On cascade les parametres
@@ -60,7 +63,9 @@ generatedScript =
   + "define(" + JSON.stringify(parameters) + ");";
 
 fs.writeFile("js/parameters.js", generatedScript, function (err) {
-  if (err) { throw err; }
+  if (err) {
+    throw err;
+  }
   console.log("Fichier \"parameters.js\" généré avec succès.".success);
 });
 
