@@ -323,8 +323,42 @@ textarea {
 }
 
 .glyphicon-flip-horizontal{
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
-    -webkit-transform: scale(-1, 1);
-    -ms-transform: scale(-1, 1);
-    transform: scale(-1, 1);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+
+
+/* ==========================================================================
+   Helper classes
+   @helper
+   ========================================================================== */
+.reset-box{
+  padding: 0 !important;
+  width: auto !important; height: auto !important;
+}
+/* ==========================================================================
+   Top header
+   @top
+   ========================================================================== */
+#surentete{
+  position: relative;
+  margin-top: 5px !important;
+  width: auto !important;
+  .clearfix;
+
+  .logoistex{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .logoanr{
+    display: inline-block;
+    padding: 0;
+  }
+  .srent{
+    .clearfix;
+    position: absolute;
+    top:0; right: 0;
+  }
 }
