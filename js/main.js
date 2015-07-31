@@ -5,6 +5,40 @@
 var globalSearchPage = {},
   globalSearchPageController = {};
 
+/**
+ * Polyfill Object.create pour >ie9
+ */
+if (typeof Object.create != 'function') {
+
+  Object.create = (function() {
+
+    function Temp() {}
+    var hasOwn = Object.prototype.hasOwnProperty;
+
+    return function (O) {
+
+      if (typeof O != 'object') {
+        throw TypeError('Object prototype may only be an Object or null');
+      }
+      Temp.prototype = O;
+      var obj = new Temp();
+      Temp.prototype = null;
+
+      if (arguments.length > 1) {
+        var Properties = Object(arguments[1]);
+        for (var prop in Properties) {
+          if (hasOwn.call(Properties, prop)) {
+            obj[prop] = Properties[prop];
+          }
+        }
+      }
+
+      return obj;
+    };
+  })();
+}
+
+
 var istexApp = angular.module("istexApp", []);
 
 var search = function (searchPage, searchPageController) {
@@ -129,15 +163,15 @@ $(document).ready(function () {
       }
     });
   });
+
   require(["js/config"], function (config) {
 
     $.ajax({
       url: "include/top_header/surenteteistex.html",
       converters: {"text html": function (data) {
-console.log(data);
-          return data
-            .replace(/(href|src)="(?!http)(.*?)"/img, "$1=\"include/top_header/$2\"")
-            ;
+
+          return data.replace(/(href|src)="(?!http)(.*?)"/img, "$1=\"include/top_header/$2\"");
+
         }},
       success: function (data, textStatus) {
 

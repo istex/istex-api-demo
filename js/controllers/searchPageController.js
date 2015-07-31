@@ -1,7 +1,7 @@
 /*global jquery: true, angular: true, $: true, define: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js"], function(searchPage, config, mustache) {
+define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js"], function (searchPage, config, mustache) {
   "use strict";
   var searchPageController = {},
     timeStamp = null,
@@ -14,22 +14,24 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
   ctrlScope.app.apiUrl = config.apiUrl.rtrim('/ ');
   ctrlScope.safeApply();
 
-  (function() {
+  (function () {
     var err = $.ajax({
       url: config.apiUrl + "corpus",
       dataType: "jsonp",
-      success: function(data, status, xhr) {
+      success: function (data, status, xhr) {
         var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-        $('#editorField').append(mustache.render(corpusTemplate, {corpusList:data}));
+        $('#editorField').append(mustache.render(corpusTemplate, {corpusList: data}));
       }
     });
 
-    window.setTimeout(function() {
+    window.setTimeout(function () {
       console.log(err);
     }, 60000);
   }());
 
-  searchPageController.displayRanges = function(data, field, slider, amount, nb, type) {
+
+
+  searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
 
     var minDate, maxDate;
     if (type === 'integer') {
@@ -56,8 +58,9 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       " à " + $(slider).slider("values", 1));
   };
 
-  searchPageController.displayResults = function(data) {
+  searchPageController.displayResults = function (data) {
     $("#jsonFromApi").JSONView(data);
+
 
     if (data.total > 0) {
 
@@ -97,8 +100,10 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       $("#totalResults").val(data.total);
       $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-api'].took);
 
-      data.abstr = function() {
-        return function(text, render) {
+     // On créé un wrapper à l'objet data avant de lui donner de nouvelles méthodes.
+      data = Object.create(data);
+      data.abstr = function () {
+        return function (text, render) {
           if (render(text) === "") {
             return "Pas de résumé pour ce résultat.";
           }
@@ -106,9 +111,9 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.linksIcon = function() {
+      data.linksIcon = function () {
 
-        return function(text, render) {
+        return function (text, render) {
           var infos = render(text).split(" "),
             html = (infos.length === 2) ? "" : "<table class='downloadFilesTable'><th>" + infos[0] + "</th><tr><td>",
             i = 1,
@@ -172,8 +177,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.lang = function() {
-        return function(text, render) {
+      data.lang = function () {
+        return function (text, render) {
           switch (render(text)) {
             case 'en':
               return 'Anglais (en)';
@@ -224,12 +229,13 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
             default:
               return render(text);
               break;
-          };
+          }
+          ;
         };
       };
 
-      data.titleClic = function() {
-        return function(text, render) {
+      data.titleClic = function () {
+        return function (text, render) {
           var res = render(text),
             infos = res.split(" "),
             index = infos.indexOf("application/pdf"),
@@ -243,8 +249,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.quality = function() {
-        return function(text, render) {
+      data.quality = function () {
+        return function (text, render) {
           if (render(text).split(':')[1] === " ") {
             return "";
           }
@@ -252,14 +258,15 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         };
       };
 
-      data.presence = function() {
-        return function(text, render) {
+      data.presence = function () {
+        return function (text, render) {
           var res = render(text);
           if (res === 'T') {
             return "Présente(s)";
           } else {
             return "Absente(s)";
-          };
+          }
+          ;
         };
       };
 
@@ -391,13 +398,13 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     $("#result").css("opacity", 1);
   };
 
-  searchPageController.manageError = function(err) {
+  searchPageController.manageError = function (err) {
     $("button").button('reset');
     $(".alert span").html("Houston ... Problem!" + err.responseText);
     $(".alert").alert();
   };
 
-  searchPageController.search = function() {
+  searchPageController.search = function () {
     var
       query = "document/?q=",
       fields = [],
@@ -427,7 +434,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     }
 
     corpusQuery = '';
-    $.each(searchPage.editor, function(index, editor) {
+    $.each(searchPage.editor, function (index, editor) {
       if (editor !== "-1") {
         corpusQuery += editor + ',';
       }
@@ -571,7 +578,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     searchPageController.request(config.apiUrl + query);
   };
 
-  searchPageController.request = function(url) {
+  searchPageController.request = function (url) {
+//    var memoizedData = ;
 
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
@@ -579,25 +587,25 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
 
     var timeStampLocal = (new Date()).getTime();
     timeStamp = timeStampLocal;
-
     var request = {
       url: url,
       dataType: "jsonp",
       crossDomain: true,
-      success: function(data) {
+      success: function (data) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
+          $("body").data(url, data);
           searchPageController.displayResults(data);
         }
       },
-      error: function(err) {
+      error: function (err) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           searchPageController.manageError(err);
         }
       },
       timeout: 10000,
-      complete: function() {
+      complete: function () {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
           $(document).trigger("resultsLoaded");
@@ -605,7 +613,12 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       }
     };
 
-    $.ajax(request);
+    if ($("body").data(url)) {
+      searchPageController.displayResults($("body").data(url));
+      $(document).trigger("resultsLoaded");
+    } else {
+      $.ajax(request);
+    }
     $("#result").removeClass('hide');
     $("#paginRow").removeClass('hide');
     $("#pageNumber").removeClass('hide');
