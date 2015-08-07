@@ -5,39 +5,6 @@
 var globalSearchPage = {},
   globalSearchPageController = {};
 
-/**
- * Polyfill Object.create pour >ie9
- */
-if (typeof Object.create != 'function') {
-
-  Object.create = (function() {
-
-    function Temp() {}
-    var hasOwn = Object.prototype.hasOwnProperty;
-
-    return function (O) {
-
-      if (typeof O != 'object') {
-        throw TypeError('Object prototype may only be an Object or null');
-      }
-      Temp.prototype = O;
-      var obj = new Temp();
-      Temp.prototype = null;
-
-      if (arguments.length > 1) {
-        var Properties = Object(arguments[1]);
-        for (var prop in Properties) {
-          if (hasOwn.call(Properties, prop)) {
-            obj[prop] = Properties[prop];
-          }
-        }
-      }
-
-      return obj;
-    };
-  })();
-}
-
 
 var istexApp = angular.module("istexApp", []);
 
@@ -61,19 +28,7 @@ var search = function (searchPage, searchPageController) {
   searchPageController.search();
 };
 
-/**
- * String.rtrim
- * @param {String} char
- * @returns {String}
- */
-if (!String.prototype.rtrim) {
-  (function () {
-    String.prototype.rtrim = function (char) {
-      var trim = '[' + char + ']+$';
-      return this.replace(new RegExp(trim, 'g'), '');
-    };
-  })();
-}
+
 
 istexApp.controller("istexAppCtrl", function ($scope, $sce) {
 
@@ -180,9 +135,10 @@ $(document).ready(function () {
           .find("meta").remove().end()
           .find("title").remove().end()
           .find("[href*=documentation]").attr("href", config.apiUrl + "documentation").end()
-          .find("#surentete a[href*=demo]").parent("li").remove();
+          .find("#surentete").find("[href*=demo]").parent("li").remove();
       }
     });
+
   });
 
   $(document).on("resultsLoaded", function (e) {
@@ -193,7 +149,8 @@ $(document).ready(function () {
         $thisImg = $this.children("img"),
         mimetype = $thisImg.attr("title");
 
-      $thisImg.removeAttr("title")
+      $thisImg
+        .removeAttr("title")
         .qtip({
           content: {
             text: $("<h5><span class='label label-primary'>" + mimetype + " <span class='glyphicon glyphicon-file'></span></span></h5>" + "<p><b>" + $this.attr("href") + "</b></p>")
@@ -242,6 +199,13 @@ $(document).ready(function () {
       })
       ;
 
+    // Retour au top
+    if(document.body.scrollTop > document.getElementById("result").offsetTop) {
+      $("html, body").animate({
+        scrollTop: 0
+      }, 600);
+    }
+    
   });
 });
 
@@ -253,167 +217,169 @@ $(document).ready(function () {
 //  }
 //});
 
-require(["js/models/searchPage", "js/controllers/searchPageController"], function (searchPage, searchPageController) {
-  globalSearchPage = searchPage;
-  globalSearchPageController = searchPageController;
+require(
+  ["js/models/searchPage", "js/controllers/searchPageController"],
+  function (searchPage, searchPageController) {
+    globalSearchPage = searchPage;
+    globalSearchPageController = searchPageController;
 
-  $("#searchform").submit(function (event) {
-    event.preventDefault();
-    search(searchPage, searchPageController);
+    $("#searchform").submit(function (event) {
+      event.preventDefault();
+      search(searchPage, searchPageController);
+    });
+
+    $("#advancedSearchForm").submit(function (event) {
+      event.preventDefault();
+      $("#searchform").submit();
+    });
+
+    $("#advancedSearchForm").on("input", ":input", function (event) {
+      $("#searchform").submit();
+    });
+
+
+    var $pager = $(".istex-pager");
+    $pager.find(".prev").click(function (e) {
+      e.preventDefault();
+      searchPage.currentPage = searchPage.currentPage - 1;
+      searchPageController.request($(".prev").attr("href"));
+    });
+
+    $pager.find(".first").click(function (e) {
+      e.preventDefault();
+      searchPage.currentPage = 1;
+      searchPageController.request($(".first").attr("href"));
+    });
+
+    $pager.find(".next").click(function (e) {
+      e.preventDefault();
+      searchPage.currentPage = searchPage.currentPage + 1;
+      searchPageController.request($(".next").attr("href"));
+    });
+
+    $pager.find(".last").click(function (e) {
+      e.preventDefault();
+      searchPage.currentPage = searchPage.numberOfPages;
+      searchPageController.request($(".last").attr("href"));
+    });
+
+    $("#facetCorpus").on("click", "input", function () {
+      searchPage.reaffine = true;
+      if (this.checked) {
+        searchPage.editor.push(this.value);
+      } else {
+        var index = searchPage.editor.indexOf(this.value);
+        searchPage.editor.splice(index, 1);
+      }
+      searchPageController.search();
+    });
+
+    $("#slider-range-copyright").on("slide", function (event, ui) {
+      $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
+    });
+
+    $("#slider-range-copyright").on("slidestop", function (event, ui) {
+      searchPage.reaffine = true;
+      searchPage.copyrightdate = [];
+      searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+      searchPageController.search();
+    });
+
+    $("#slider-range-pubdate").on("slide", function (event, ui) {
+      $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
+    });
+
+    $("#slider-range-pubdate").on("slidestop", function (event, ui) {
+      searchPage.reaffine = true;
+      searchPage.pubdate = [];
+      searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+      searchPageController.search();
+    });
+
+    $("#slider-range-PDFWordCount").on("slide", function (event, ui) {
+      $("#amountPDFWordCount").val(ui.values[0] + " à " + ui.values[1]);
+    });
+
+    $("#slider-range-PDFWordCount").on("slidestop", function (event, ui) {
+      searchPage.reaffine = true;
+      searchPage.PDFWordCount = [];
+      searchPage.PDFWordCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+      searchPageController.search();
+    });
+
+    $("#slider-range-PDFCharCount").on("slide", function (event, ui) {
+      $("#amountPDFCharCount").val(ui.values[0] + " à " + ui.values[1]);
+    });
+
+    $("#slider-range-PDFCharCount").on("slidestop", function (event, ui) {
+      searchPage.reaffine = true;
+      searchPage.PDFCharCount = [];
+      searchPage.PDFCharCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+      searchPageController.search();
+    });
+
+    $("#slider-range-score").slider({
+      step: 0.3
+    });
+
+    $("#slider-range-score").on("slide", function (event, ui) {
+      $("#amountScore").val(ui.values[0] + " à " + ui.values[1]);
+    });
+
+    $("#slider-range-score").on("slidestop", function (event, ui) {
+      searchPage.reaffine = true;
+      searchPage.score = [];
+      searchPage.score.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+      searchPageController.search();
+    });
+
+    $("#facetPDFVersion").on("click", "input", function () {
+      searchPage.reaffine = true;
+      if (this.checked) {
+        searchPage.PDFVersion.push(this.value);
+      } else {
+        var index = searchPage.PDFVersion.indexOf(this.value);
+        searchPage.PDFVersion.splice(index, 1);
+      }
+      searchPageController.search();
+    });
+
+    $("#facetWos").on("click", "input", function () {
+      searchPage.reaffine = true;
+      var valueHTML = "\"" + this.value.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20') + "\"";
+      if (this.checked) {
+        searchPage.WOS.push(valueHTML);
+      } else {
+        var index = searchPage.WOS.indexOf(valueHTML);
+        searchPage.WOS.splice(index, 1);
+      }
+      searchPageController.search();
+    });
+
+    $("#facetLang").on("click", "input", function () {
+      searchPage.reaffine = true;
+      if (this.checked) {
+        searchPage.language.push(this.value);
+      } else {
+        var index = searchPage.language.indexOf(this.value);
+        searchPage.language.splice(index, 1);
+      }
+      searchPageController.search();
+    });
+
+    $("#facetRefBibsNative").on("click", "input", function () {
+      searchPage.reaffine = true;
+      var bool = (this.value === 'T');
+      if (this.checked) {
+        searchPage.refBibsNative.push(bool);
+      } else {
+        var index = searchPage.refBibsNative.indexOf(bool);
+        searchPage.refBibsNative.splice(index, 1);
+      }
+      searchPageController.search();
+    });
+
+    $("button.js-resetFacet").on("click", function (event, ui) {
+      search(searchPage, searchPageController);
+    });
   });
-
-  $("#advancedSearchForm").submit(function (event) {
-    event.preventDefault();
-    $("#searchform").submit();
-  });
-
-  $("#advancedSearchForm").on("input", ":input", function (event) {
-    $("#searchform").submit();
-  });
-
-
-
-  $("#prev").click(function (e) {
-    e.preventDefault();
-    searchPage.currentPage = searchPage.currentPage - 1;
-    searchPageController.request($("#prev").attr("href"));
-  });
-
-  $("#first").click(function (e) {
-    e.preventDefault();
-    searchPage.currentPage = 1;
-    searchPageController.request($("#first").attr("href"));
-  });
-
-  $("#next").click(function (e) {
-    e.preventDefault();
-    searchPage.currentPage = searchPage.currentPage + 1;
-    searchPageController.request($("#next").attr("href"));
-  });
-
-  $("#last").click(function (e) {
-    e.preventDefault();
-    searchPage.currentPage = searchPage.numberOfPages;
-    searchPageController.request($("#last").attr("href"));
-  });
-
-  $("#facetCorpus").on("click", "input", function () {
-    searchPage.reaffine = true;
-    if (this.checked) {
-      searchPage.editor.push(this.value);
-    } else {
-      var index = searchPage.editor.indexOf(this.value);
-      searchPage.editor.splice(index, 1);
-    }
-    searchPageController.search();
-  });
-
-  $("#slider-range-copyright").on("slide", function (event, ui) {
-    $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
-  });
-
-  $("#slider-range-copyright").on("slidestop", function (event, ui) {
-    searchPage.reaffine = true;
-    searchPage.copyrightdate = [];
-    searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
-    searchPageController.search();
-  });
-
-  $("#slider-range-pubdate").on("slide", function (event, ui) {
-    $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
-  });
-
-  $("#slider-range-pubdate").on("slidestop", function (event, ui) {
-    searchPage.reaffine = true;
-    searchPage.pubdate = [];
-    searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
-    searchPageController.search();
-  });
-
-  $("#slider-range-PDFWordCount").on("slide", function (event, ui) {
-    $("#amountPDFWordCount").val(ui.values[0] + " à " + ui.values[1]);
-  });
-
-  $("#slider-range-PDFWordCount").on("slidestop", function (event, ui) {
-    searchPage.reaffine = true;
-    searchPage.PDFWordCount = [];
-    searchPage.PDFWordCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
-    searchPageController.search();
-  });
-
-  $("#slider-range-PDFCharCount").on("slide", function (event, ui) {
-    $("#amountPDFCharCount").val(ui.values[0] + " à " + ui.values[1]);
-  });
-
-  $("#slider-range-PDFCharCount").on("slidestop", function (event, ui) {
-    searchPage.reaffine = true;
-    searchPage.PDFCharCount = [];
-    searchPage.PDFCharCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
-    searchPageController.search();
-  });
-
-  $("#slider-range-score").slider({
-    step: 0.3
-  });
-
-  $("#slider-range-score").on("slide", function (event, ui) {
-    $("#amountScore").val(ui.values[0] + " à " + ui.values[1]);
-  });
-
-  $("#slider-range-score").on("slidestop", function (event, ui) {
-    searchPage.reaffine = true;
-    searchPage.score = [];
-    searchPage.score.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
-    searchPageController.search();
-  });
-
-  $("#facetPDFVersion").on("click", "input", function () {
-    searchPage.reaffine = true;
-    if (this.checked) {
-      searchPage.PDFVersion.push(this.value);
-    } else {
-      var index = searchPage.PDFVersion.indexOf(this.value);
-      searchPage.PDFVersion.splice(index, 1);
-    }
-    searchPageController.search();
-  });
-
-  $("#facetWos").on("click", "input", function () {
-    searchPage.reaffine = true;
-    var valueHTML = "\"" + this.value.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20') + "\"";
-    if (this.checked) {
-      searchPage.WOS.push(valueHTML);
-    } else {
-      var index = searchPage.WOS.indexOf(valueHTML);
-      searchPage.WOS.splice(index, 1);
-    }
-    searchPageController.search();
-  });
-
-  $("#facetLang").on("click", "input", function () {
-    searchPage.reaffine = true;
-    if (this.checked) {
-      searchPage.language.push(this.value);
-    } else {
-      var index = searchPage.language.indexOf(this.value);
-      searchPage.language.splice(index, 1);
-    }
-    searchPageController.search();
-  });
-
-  $("#facetRefBibsNative").on("click", "input", function () {
-    searchPage.reaffine = true;
-    var bool = (this.value === 'T');
-    if (this.checked) {
-      searchPage.refBibsNative.push(bool);
-    } else {
-      var index = searchPage.refBibsNative.indexOf(bool);
-      searchPage.refBibsNative.splice(index, 1);
-    }
-    searchPageController.search();
-  });
-
-  $("button.js-resetFacet").on("click", function (event, ui) {
-    search(searchPage, searchPageController);
-  });
-});

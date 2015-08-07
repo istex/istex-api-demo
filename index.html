@@ -36,7 +36,7 @@
           <![endif]-->
 
     <div class="container">
-
+      <div id="topHeader"></div>
       <div id="header" class="istex-header jumbotron">
         <h1>&nbsp;</h1>
       </div>
@@ -405,7 +405,8 @@
                 <div class="panel-heading" role="tab" id="headingTwo">
                   <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                      Copyright </a>
+                      Copyright
+                    </a>
                   </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
@@ -448,7 +449,8 @@
                 <div class="panel-heading" role="tab" id="headingThree">
                   <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                      Publication </a>
+                      Publication
+                    </a>
                   </h4>
                 </div>
                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
@@ -490,7 +492,8 @@
                 <div class="panel-heading" role="tab" id="headingSix">
                   <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                      Langue(s) </a>
+                      Langue(s)
+                    </a>
                     <span id="nbLangFacet" class="badge pull-right"></span>
                   </h4>
                 </div>
@@ -530,7 +533,8 @@
                 <div class="panel-heading" role="tab" id="headingFive">
                   <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                      Catégorie(s) WOS </a>
+                      Catégorie(s) WOS
+                    </a>
                     <span id="nbWOSFacet" class="badge pull-right"></span>
                   </h4>
                 </div>
@@ -585,7 +589,8 @@
                 <div class="panel-heading" role="tab" id="headingFour">
                   <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                      Qualité </a>
+                      Qualité
+                    </a>
                   </h4>
                 </div>
                 <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
@@ -666,12 +671,49 @@
           </div>
           <!--.col-xs-3-->
 
+
+
+
           <div class="col-xs-9">
+            <div class="text-center">
+              <div class="istex-pager tweaked  hide" role="group">
+                <nav class="btn-group btn-group-xs">
+                  <a data-toggle="istex-tooltip"  href="#" class="first btn btn-primary">&#8676;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Première page</h5>
+                    <p>Le lien <b class="text-primary">firstPageURI</b> dans la réponse de l'API permet d'accéder à la première page des résultats de la requête : firstPageURI:<b class="js-firstPageURI"></b>
+                    </p>
+                  </div>
+                  <a data-toggle="istex-tooltip"  href="#" class="prev btn btn-primary">&#8672;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Page précédente</h5>
+                    <p>Le lien <b class="text-primary">prevPageURI</b> dans la réponse de l'API permet d'accéder à la page précédente des résultats de la requête : prevPageURI:<b class="js-prevPageURI"></b>
+                    </p>
+                  </div>
+                  <a data-toggle="istex-tooltip" href="#" class="next btn btn-primary">&#8674;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Page suivante</h5>
+                    <p>Le lien <b class="text-primary">nextPageURI</b> dans la réponse de l'API permet d'accéder à la page suivante des résultats de la requête : nextPageURI:<b class="js-nextPageURI"></b>
+                    </p>
+                  </div>
+                  <a data-toggle="istex-tooltip"  href="#" class="last btn btn-primary">&#8677;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Dernière page</h5>
+                    <p>Le lien <b class="text-primary">lastPageURI</b> dans la réponse de l'API permet d'accéder à la dernière page des résultats de la requête : lastPageURI:<b class="js-lastPageURI"></b>
+                    </p>
+                  </div>
+                </nav>
+                <div class="page">
+                  <span class="current">*</span>/
+                  <span class="total">*</span>
+                </div>
+              </div>
+            </div>
             <table class="table table-striped table-hover" data-toggle="istex-tooltip" data-tooltip-target=".requestTimeDisplay" style="table-layout: fixed; word-wrap: break-word;">
               <thead>
                 <tr class="row">
-                  <th class="col-xs-12" style='text-align:left;'>
-                    <span class="requestTimeDisplay">
+                  <th class="col-xs-12 text-left">
+                    <span class="requestTimeDisplay ">
                       Résultats obtenus :
                       <input type="text" id="totalResults" readonly style="border:0; text-align: center; width: 80px"><i>en</i>
                       <input type="text" id="totalms" readonly style="border:0; text-align: center; width: 40px"> ms
@@ -692,50 +734,46 @@
                 </p>
               </div>
             </div>
+            <div class="text-center">
+              <div class="istex-pager  hide text-center" role="group">
+                <nav class="btn-group">
+                  <a data-toggle="istex-tooltip"  href="#" class="first btn btn-primary">&#8676;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Première page</h5>
+                    <p>Le lien <b class="text-primary">firstPageURI</b> dans la réponse de l'API permet d'accéder à la première page des résultats de la requête : firstPageURI:<b class="js-firstPageURI"></b>
+                    </p>
+                  </div>
+                  <a data-toggle="istex-tooltip"  href="#" class="prev btn btn-primary">&#8672;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Page précédente</h5>
+                    <p>Le lien <b class="text-primary">prevPageURI</b> dans la réponse de l'API permet d'accéder à la page précédente des résultats de la requête : prevPageURI:<b class="js-prevPageURI"></b>
+                    </p>
+                  </div>
+                  <a data-toggle="istex-tooltip" href="#" class="next btn btn-primary">&#8674;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Page suivante</h5>
+                    <p>Le lien <b class="text-primary">nextPageURI</b> dans la réponse de l'API permet d'accéder à la page suivante des résultats de la requête : nextPageURI:<b class="js-nextPageURI"></b>
+                    </p>
+                  </div>
+                  <a data-toggle="istex-tooltip"  href="#" class="last btn btn-primary">&#8677;</a>
+                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+                    <h5>Dernière page</h5>
+                    <p>Le lien <b class="text-primary">lastPageURI</b> dans la réponse de l'API permet d'accéder à la dernière page des résultats de la requête : lastPageURI:<b class="js-lastPageURI"></b>
+                    </p>
+                  </div>
+                </nav>
+                <div class="page">
+                  <span class="current">*</span>/
+                  <span class="total">*</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-      </div>
-      <!--#result-->
+        <hr>
+      </div><!--#result-->
 
-      <div class="text-center">
-        <div id="paginRow" class="btn-group hide text-center" role="group">
-          <a data-toggle="istex-tooltip" id="first" href="#" class="btn btn-primary">&#8676;</a>
-          <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-            <h5>Première page</h5>
-            <p>Le lien <b class="text-primary">firstPageURI</b> dans la réponse de l'API permet d'accéder à la première page des résultats de la requête : firstPageURI:<b id="js-firstPageURI"></b>
-            </p>
-          </div>
-          <a data-toggle="istex-tooltip" id="prev" href="#" class="btn btn-primary">&#8672;</a>
-          <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-            <h5>Page précédente</h5>
-            <p>Le lien <b class="text-primary">prevPageURI</b> dans la réponse de l'API permet d'accéder à la page précédente des résultats de la requête : prevPageURI:<b id="js-prevPageURI"></b>
-            </p>
-          </div>
-          <a data-toggle="istex-tooltip" id="next" href="#" class="btn btn-primary">&#8674;</a>
-          <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-            <h5>Page suivante</h5>
-            <p>Le lien <b class="text-primary">nextPageURI</b> dans la réponse de l'API permet d'accéder à la page suivante des résultats de la requête : nextPageURI:<b id="js-nextPageURI"></b>
-            </p>
-          </div>
-          <a data-toggle="istex-tooltip" id="last" href="#" class="btn btn-primary">&#8677;</a>
-          <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-            <h5>Dernière page</h5>
-            <p>Le lien <b class="text-primary">lastPageURI</b> dans la réponse de l'API permet d'accéder à la dernière page des résultats de la requête : lastPageURI:<b id="js-lastPageURI"></b>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div id="pageNumber" class="hide">
-        <div class="row">
-          <div class="col-xs-12">
-            <span id=currentPage>*</span>/
-            <span id=totalPages>*</span>
-            <hr>
-          </div>
-        </div>
-      </div>
 
       <div id="footer">
         <div class="row">

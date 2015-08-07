@@ -1,19 +1,17 @@
-/*global jquery: true, angular: true, $: true, define: true */
+/*global jquery: true, angular: true, $: true, define: true, e: true, DOMException: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
-define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js"], function (searchPage, config, mustache) {
+define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js", "js/polyfill.js"], function (searchPage, config, mustache) {
   "use strict";
   var searchPageController = {},
     timeStamp = null,
     ctrlScope;
-
   // On récupére le scope du controleur Angular
   if (angular) {
     ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
   }
   ctrlScope.app.apiUrl = config.apiUrl.rtrim('/ ');
   ctrlScope.safeApply();
-
   (function () {
     var err = $.ajax({
       url: config.apiUrl + "corpus",
@@ -23,14 +21,10 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         $('#editorField').append(mustache.render(corpusTemplate, {corpusList: data}));
       }
     });
-
     window.setTimeout(function () {
       console.log(err);
     }, 60000);
   }());
-
-
-
   searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
 
     var minDate, maxDate;
@@ -46,61 +40,59 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     }
 
     if (nb !== '') $(nb).text(data.aggregations[field].buckets[0].docCount);
-
     $(slider).slider({
       range: true,
       min: minDate,
       max: maxDate,
       values: [minDate, maxDate]
     });
-
     $(amount).val($(slider).slider("values", 0) +
       " à " + $(slider).slider("values", 1));
   };
-
   searchPageController.displayResults = function (data) {
     $("#jsonFromApi").JSONView(data);
 
-
     if (data.total > 0) {
+      $("#accordeon").show();
+      $(".istex-pager")
+        .show()
+        .find(".first")
+        .attr("href", data.firstPageURI)
+        .end()
+        .find(".last")
+        .attr("href", data.lastPageURI)
+        .end()
+        ;
 
-      $('#accordeon').show();
-
-      $('#first').attr("href", data.firstPageURI);
-      $('#js-firstPageURI').html(data.firstPageURI);
-      $('#first').show();
-
-      $('#last').attr("href", data.lastPageURI);
-      $('#js-lastPageURI').html(data.lastPageURI);
-      $('#last').show();
+      $(".js-firstPageURI").html(data.firstPageURI);
+      $(".js-lastPageURI").html(data.lastPageURI);
 
       // Selon les réponses, il peut ne pas y avoir de prevPageURI ou de nextPageURI
-      $('#prev').attr("href", data.prevPageURI);
-      $('#js-prevPageURI').html(data.prevPageURI);
+      $(".prev").attr("href", data.prevPageURI);
+      $(".js-prevPageURI").html(data.prevPageURI);
       if (data.prevPageURI) {
-        $('#prev').show();
+        $(".prev").show();
       } else {
-        $('#prev').hide(); // Assurance si une recherche a déjà été effectué en amont
+        $(".prev").hide(); // Assurance si une recherche a déjà été effectué en amont
       }
 
-      $('#next').attr("href", data.nextPageURI);
-      $('#js-nextPageURI').html(data.nextPageURI);
+      $(".next").attr("href", data.nextPageURI);
+      $(".js-nextPageURI").html(data.nextPageURI);
       if (data.nextPageURI) {
-        $('#next').show();
+        $(".next").show();
       } else {
-        $('#next').hide(); // Assurance si une recherche a déjà été effectué en amont
+        $(".next").hide(); // Assurance si une recherche a déjà été effectué en amont
       }
 
       searchPage.numberOfResults = data.total;
       searchPage.numberOfPages = searchPage.numberOfResults === 0 ? 0 : Math.ceil(searchPage.numberOfResults / searchPage.resultsPerPage);
       searchPage.currentPage = searchPage.numberOfResults === 0 ? 0 : searchPage.currentPage;
-      $("#currentPage").text(searchPage.currentPage === 0 ? "*" : searchPage.currentPage);
-      $("#totalPages").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
+      $(".page").find(".current").text(searchPage.currentPage === 0 ? "*" : searchPage.currentPage);
+      $(".page").find(".total").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
 
       $("#totalResults").val(data.total);
       $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-api'].took);
-
-     // On créé un wrapper à l'objet data avant de lui donner de nouvelles méthodes.
+      // On wrap l'objet data avant de lui donner de nouvelles méthodes.
       data = Object.create(data);
       data.abstr = function () {
         return function (text, render) {
@@ -302,15 +294,12 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         $('#facetRefBibsNative').empty();
         $('#facetWos').empty();
         $('#facetLang').empty();
-
         // CorpusFacet
         template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.corpusName.buckets}}";
-
         $('#nbCorpusFacet').text(data.aggregations.corpusName.buckets.length);
         $('#facetCorpus').append(mustache.render(template, data));
-
         if (data.aggregations.corpusName.buckets.length === 1) {
           $('#facetCorpus').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetCorpus').get(0).getElementsByTagName('input').item(0).disabled = true;
@@ -320,9 +309,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         template = "{{#aggregations.pdfVersion.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.pdfVersion.buckets}}";
-
         $('#facetPDFVersion').append(mustache.render(template, data));
-
         if (data.aggregations.pdfVersion.buckets.length === 1) {
           $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).disabled = true;
@@ -332,9 +319,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         template = "{{#aggregations.refBibsNative.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{#presence}}{{key}}{{/presence}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.refBibsNative.buckets}}";
-
         $('#facetRefBibsNative').append(mustache.render(template, data));
-
         if (data.aggregations.refBibsNative.buckets.length === 1) {
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).disabled = true;
@@ -344,10 +329,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         template = "{{#aggregations.language.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{#lang}}{{key}}{{/lang}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
-
         $('#nbLangFacet').text(data.aggregations.language.buckets.length);
         $('#facetLang').append(mustache.render(template, data));
-
         if (data.aggregations.language.buckets.length === 1) {
           $('#facetLang').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetLang').get(0).getElementsByTagName('input').item(0).disabled = true;
@@ -357,10 +340,8 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         template = "{{#aggregations.wos.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
           "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{key}}</label>" +
           "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.wos.buckets}}";
-
         $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
         $('#facetWos').append(mustache.render(template, data));
-
         if (data.aggregations.wos.buckets.length === 1) {
           $('#facetWos').get(0).getElementsByTagName('input').item(0).checked = true;
           $('#facetWos').get(0).getElementsByTagName('input').item(0).disabled = true;
@@ -382,13 +363,10 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
 
       $("#totalResults").val(0);
       $("#tableResult").html("<tr class='row'><td class='truncate col-xs-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
-      $('#first').hide();
-      $('#prev').hide();
-      $('#next').hide();
-      $('#last').hide();
+      $(".istex-pager").hide();
+
       $("#currentPage").text("*");
       $("#totalPages").text("*");
-
 
       if (!searchPage.reaffine) {
         $('#accordeon').hide();
@@ -397,13 +375,11 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     $("button").button('reset');
     $("#result").css("opacity", 1);
   };
-
   searchPageController.manageError = function (err) {
     $("button").button('reset');
     $(".alert span").html("Houston ... Problem!" + err.responseText);
     $(".alert").alert();
   };
-
   searchPageController.search = function () {
     var
       query = "document/?q=",
@@ -423,8 +399,6 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       queryFrom,
       facetQuery,
       softHyphen;
-
-
     if (searchPage.searchField) {
       ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
       fields.push(searchPage.searchField);
@@ -439,7 +413,6 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
         corpusQuery += editor + ',';
       }
     });
-
     if (corpusQuery) {
       ctrlScope.helper.corpus.query = "AND corpusName:" + corpusQuery.slice(0, -1);
       fields.push(" corpusName:" + corpusQuery.slice(0, -1));
@@ -490,7 +463,6 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
 
     // Facette qualité
     ctrlScope.helper.quality.query = '';
-
     if (searchPage.score !== undefined) {
       ctrlScope.helper.score.query = " AND qualityIndicators.score:" + searchPage.score;
       ctrlScope.helper.quality.query += ctrlScope.helper.score.query;
@@ -531,12 +503,9 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     query += fields.join(" AND ");
     query += "&size=" + searchPage.resultsPerPage;
     query += queryFrom = "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
-
     ctrlScope.safeApply();
-
     // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
     facetQuery = "&facet=corpusName,pdfVersion,refBibsNative,wos,language";
-
     if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
       minCopyright = $("#slider-range-copyright").slider("values", 0);
       maxCopyright = $("#slider-range-copyright").slider("values", 1);
@@ -559,7 +528,6 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     facetQuery += "&output=*&stats";
     query += facetQuery;
     softHyphen = "<wbr>";
-
     // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
     var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen +
       "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
@@ -572,19 +540,14 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       "<mark class=''>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen +
       "&size=" + (searchPage.resultsPerPage || '') + softHyphen + (queryFrom || '') + softHyphen +
       (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>") + "</p>";
-
     $("#request-tooltip-content").html(tooltipsContent);
-
     searchPageController.request(config.apiUrl + query);
   };
 
   searchPageController.request = function (url) {
-//    var memoizedData = ;
-
     $("#searchButton").button('loading');
     $("#result").css("opacity", 0.4);
     $("#reqForApi").val(url);
-
     var timeStampLocal = (new Date()).getTime();
     timeStamp = timeStampLocal;
     var request = {
@@ -594,8 +557,19 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       success: function (data) {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
-          $("body").data(url, data);
-          searchPageController.displayResults(data);
+          try {
+            localStorage && localStorage.setItem(url, JSON.stringify(data));
+          } catch(e) {
+            if (e instanceof DOMException && e.name === 'QuotaExceededError') {
+              localStorage.clear();
+              console.log("localStorage cleared");
+            } else {
+              throw e;
+            }
+          } finally {
+            searchPageController.displayResults(data);
+            $(document).trigger("resultsLoaded");
+          }
         }
       },
       error: function (err) {
@@ -608,21 +582,23 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       complete: function () {
         //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
         if (timeStamp === timeStampLocal) {
-          $(document).trigger("resultsLoaded");
+
         }
       }
     };
 
-    if ($("body").data(url)) {
-      searchPageController.displayResults($("body").data(url));
-      $(document).trigger("resultsLoaded");
+    localStorage && localStorage.refreshIfNeeded();
+    
+    if (localStorage && localStorage.getItem(url)) {
+      searchPageController.displayResults(JSON.parse(localStorage.getItem(url)));
     } else {
       $.ajax(request);
     }
-    $("#result").removeClass('hide');
-    $("#paginRow").removeClass('hide');
-    $("#pageNumber").removeClass('hide');
-  };
 
+    $("#result").removeClass('hide');
+    $(document).trigger("resultsLoaded");
+    $(".istex-pager").removeClass('hide');
+    $(".pager").removeClass('hide');
+  };
   return searchPageController;
 });
