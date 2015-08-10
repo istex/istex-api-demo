@@ -1,6 +1,7 @@
 /*global jquery: true, angular: true, $: true, define: true, e: true, DOMException: true */
 /*jslint node: true, browser: true, unparam: true */
 /*jslint indent: 2 */
+
 define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/jsonview/jquery.jsonview.js", "js/polyfill.js"], function (searchPage, config, mustache) {
   "use strict";
   var searchPageController = {},
@@ -25,6 +26,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
       console.log(err);
     }, 60000);
   }());
+  
   searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
 
     var minDate, maxDate;
@@ -588,7 +590,7 @@ define(["js/models/searchPage", "js/config", "js/vendor/mustache", "js/vendor/js
     };
 
     localStorage && localStorage.refreshIfNeeded();
-    
+
     if (localStorage && localStorage.getItem(url)) {
       searchPageController.displayResults(JSON.parse(localStorage.getItem(url)));
     } else {

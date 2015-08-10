@@ -1,3 +1,7 @@
+/*global jquery: true, angular: true, $: true, define: true, e: true, DOMException: true, Storage: true */
+/*jslint node: true, browser: true, unparam: true */
+/*jslint indent: 2 */
+
 /**
  * Polyfill Object.create pour <ie9
  */
@@ -7,6 +11,8 @@ if (typeof Object.create != 'function') {
 
     function Temp () {
     }
+    ;
+
     var hasOwn = Object.prototype.hasOwnProperty;
 
     return function (O) {
@@ -50,32 +56,38 @@ if (!String.prototype.rtrim) {
  * nettoie Storage si la donnée la plus ancienne à plus d'un jour.
  * @returns null
  */
-Storage.prototype.refreshIfNeeded = function () {
-  var
-    DAY = 86400000,
-    LAST_REFRESH = 'last-refresh',
-    lastRefresh = this.getItem(LAST_REFRESH),
-    refreshTime = DAY
-    ;
-    
-  if (!lastRefresh || +lastRefresh + refreshTime < Date.now()) {
-    this.clear();
-    this.setItem(LAST_REFRESH, Date.now());
-  }
-};
+if (!Storage.prototype.refreshIfNeeded) {
+  Storage.prototype.refreshIfNeeded = function () {
+    var
+      DAY = 86400000,
+      LAST_REFRESH = 'last-refresh',
+      lastRefresh = this.getItem(LAST_REFRESH),
+      refreshTime = DAY
+      ;
 
-
-
-var fill = function () {
-  var i = 1;
-  while (i < 7500) {
-    try {
-      localStorage.setItem(i, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis neque felis, in efficitur tortor vestibulum id. Sed vitae lectus volutpat, vehicula quam id, condimentum lorem. Maecenas nec mauris eu risus posuere ultricies. Integer in ultrices sem. In tincidunt bibendum maximus. Proin consectetur elit orci, maximus suscipit mi finibus eu. Morbi aliquet urna eu diam mollis elementum. Maecenas tempor ultricies elit ac lacinia. Suspendisse pharetra eros suscipit vehicula pretium. Ut id iaculis nisi. In cursus felis ac dui malesuada malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum, ante sit amet rhoncus commodo, turpis felis elementum ante, et viverra erat augue at urna. Vestibulum in tincidunt erat, vitae porta odio. Mauris commodo id diam vel vehicula.");
+    if (!lastRefresh || +lastRefresh + refreshTime < Date.now()) {
+      this.clear();
+      this.setItem(LAST_REFRESH, Date.now());
     }
-    catch(e) {
-      throw e;
+  };
+}
+
+/**
+ * Sature le storage. Permet essentiellement de faire des tests.
+ * @returns null
+ */
+if (!Storage.prototype.saturate) {
+  Storage.prototype.saturate = function () {
+    var i = 1;
+    while (i < 7500) {
+      try {
+        localStorage.setItem(i, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis neque felis, in efficitur tortor vestibulum id. Sed vitae lectus volutpat, vehicula quam id, condimentum lorem. Maecenas nec mauris eu risus posuere ultricies. Integer in ultrices sem. In tincidunt bibendum maximus. Proin consectetur elit orci, maximus suscipit mi finibus eu. Morbi aliquet urna eu diam mollis elementum. Maecenas tempor ultricies elit ac lacinia. Suspendisse pharetra eros suscipit vehicula pretium. Ut id iaculis nisi. In cursus felis ac dui malesuada malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum, ante sit amet rhoncus commodo, turpis felis elementum ante, et viverra erat augue at urna. Vestibulum in tincidunt erat, vitae porta odio. Mauris commodo id diam vel vehicula.");
+      }
+      catch(e) {
+        throw e;
+      }
+      ++i;
     }
-    console.log(i);
-    ++i;
-  }
-};
+  };
+}
+
