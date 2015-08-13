@@ -33,7 +33,7 @@
     <!--[if lt IE 7]>
               <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
                   your browser</a> to improve your experience.</p>
-          <![endif]-->
+    <![endif]-->
 
     <div class="container">
       <div id="topHeader"></div>
@@ -58,7 +58,8 @@
                     </button>
                     <h4 class="modal-title text-center" id="helpLabel">
                       <strong>Bienvenue</strong> sur le démonstrateur de l'API
-                      <strong>ISTEX</strong>!</h4>
+                      <strong>ISTEX</strong>!
+                    </h4>
                   </div>
                   <div class="modal-body">
                     <p class="text-justify">Avant toute chose, ce site ne constitue pas une portail sur l'API. Il s'agit ici de montrer les différents aspects de l'API ISTEX. Le corps du site peut cependant être matière de base à la construction d'un portail. Le code sera bientôt disponible publiquement.</p>
@@ -675,40 +676,7 @@
 
 
           <div class="col-xs-9">
-            <div class="text-center">
-              <div class="istex-pager tweaked  hide" role="group">
-                <nav class="btn-group btn-group-xs">
-                  <a data-toggle="istex-tooltip"  href="#" class="first btn btn-primary">&#8676;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Première page</h5>
-                    <p>Le lien <b class="text-primary">firstPageURI</b> dans la réponse de l'API permet d'accéder à la première page des résultats de la requête : firstPageURI:<b class="js-firstPageURI"></b>
-                    </p>
-                  </div>
-                  <a data-toggle="istex-tooltip"  href="#" class="prev btn btn-primary">&#8672;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Page précédente</h5>
-                    <p>Le lien <b class="text-primary">prevPageURI</b> dans la réponse de l'API permet d'accéder à la page précédente des résultats de la requête : prevPageURI:<b class="js-prevPageURI"></b>
-                    </p>
-                  </div>
-                  <a data-toggle="istex-tooltip" href="#" class="next btn btn-primary">&#8674;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Page suivante</h5>
-                    <p>Le lien <b class="text-primary">nextPageURI</b> dans la réponse de l'API permet d'accéder à la page suivante des résultats de la requête : nextPageURI:<b class="js-nextPageURI"></b>
-                    </p>
-                  </div>
-                  <a data-toggle="istex-tooltip"  href="#" class="last btn btn-primary">&#8677;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Dernière page</h5>
-                    <p>Le lien <b class="text-primary">lastPageURI</b> dans la réponse de l'API permet d'accéder à la dernière page des résultats de la requête : lastPageURI:<b class="js-lastPageURI"></b>
-                    </p>
-                  </div>
-                </nav>
-                <div class="page">
-                  <span class="current">*</span>/
-                  <span class="total">*</span>
-                </div>
-              </div>
-            </div>
+            <div id="topResultPager" class="pager-placeholder"></div>
             <table class="table table-striped table-hover" data-toggle="istex-tooltip" data-tooltip-target=".requestTimeDisplay" style="table-layout: fixed; word-wrap: break-word;">
               <thead>
                 <tr class="row">
@@ -734,40 +702,7 @@
                 </p>
               </div>
             </div>
-            <div class="text-center">
-              <div class="istex-pager  hide text-center" role="group">
-                <nav class="btn-group">
-                  <a data-toggle="istex-tooltip"  href="#" class="first btn btn-primary">&#8676;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Première page</h5>
-                    <p>Le lien <b class="text-primary">firstPageURI</b> dans la réponse de l'API permet d'accéder à la première page des résultats de la requête : firstPageURI:<b class="js-firstPageURI"></b>
-                    </p>
-                  </div>
-                  <a data-toggle="istex-tooltip"  href="#" class="prev btn btn-primary">&#8672;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Page précédente</h5>
-                    <p>Le lien <b class="text-primary">prevPageURI</b> dans la réponse de l'API permet d'accéder à la page précédente des résultats de la requête : prevPageURI:<b class="js-prevPageURI"></b>
-                    </p>
-                  </div>
-                  <a data-toggle="istex-tooltip" href="#" class="next btn btn-primary">&#8674;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Page suivante</h5>
-                    <p>Le lien <b class="text-primary">nextPageURI</b> dans la réponse de l'API permet d'accéder à la page suivante des résultats de la requête : nextPageURI:<b class="js-nextPageURI"></b>
-                    </p>
-                  </div>
-                  <a data-toggle="istex-tooltip"  href="#" class="last btn btn-primary">&#8677;</a>
-                  <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
-                    <h5>Dernière page</h5>
-                    <p>Le lien <b class="text-primary">lastPageURI</b> dans la réponse de l'API permet d'accéder à la dernière page des résultats de la requête : lastPageURI:<b class="js-lastPageURI"></b>
-                    </p>
-                  </div>
-                </nav>
-                <div class="page">
-                  <span class="current">*</span>/
-                  <span class="total">*</span>
-                </div>
-              </div>
-            </div>
+            <div class="pager-placeholder"></div>
           </div>
         </div>
 
@@ -781,31 +716,7 @@
           <div class="col-xs-5">
             Site officiel du projet :
             <a target="_blank" href="http://www.istex.fr">www.istex.fr</a>
-            <!--             <br>
-                <button  data-toggle="modal" data-target="#politicMenu">Politique de confidentialité</button> -->
           </div>
-
-          <!-- Modal politique -->
-          <!--           <div class="modal fade" id="politicMenu" tabindex="-1" role="dialog" aria-labelledby="politicLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Fermer</span>
-                      </button>
-                      <h4 class="modal-title text-center"><strong>Politique de confidentialité</strong></h4>
-                    </div>
-                    <div class="modal-body">
-                      <iframe frameborder="no" width="500" height="200" src="http://piwik.inist.fr/index.php?module=CoreAdminHome&action=optOut&language=fr"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-
 
           <div class="col-xs-2" id="logoIA">
             <img src="./img/Label-IA-mini.jpg" alt="">
@@ -824,25 +735,53 @@
             Ce démonstrateur a été optimisé pour <b>Mozilla Firefox</b> et <b>Google Chrome</b>, la compatibilité <b>Internet Explorer</b> ne peut être garantie.
           </div>
           <![endif]-->
-
       </div>
-      <script src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
-      <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
-      <script type="text/javascript" src="js/vendor/noty/packaged/jquery.noty.packaged.min.js"></script>
-      <script src="js/vendor/require.js"></script>
-      <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.7.3/jquery.dotdotdot.min.js"></script>
-      <script src="js/plugins.js"></script>
-      <script src="js/main.js"></script>
-
-      <!-- Piwik -->
-      <!--       <noscript>
-          <p><img src="http://piwik.inist.fr/piwik.php?idsite=118" style="border:0" alt="" />
-          </p>
-          </noscript> -->
-      <!-- End Piwik Code -->
     </div>
+
+    <div id="pager-prototype" class="text-center">
+      <div class="istex-pager hide" role="group">
+        <nav class="btn-group ">
+          <a data-toggle="istex-tooltip"  href="#" class="first btn btn-primary">&#8676;</a>
+          <div class="istex-tooltip" data-my-position="right center" data-at-position="left center">
+            <h5>Première page</h5>
+            <p>Le lien <b class="text-primary">firstPageURI</b> dans la réponse de l'API permet d'accéder à la première page des résultats de la requête : firstPageURI:<b class="js-firstPageURI"></b>
+            </p>
+          </div>
+          <a data-toggle="istex-tooltip"  href="#" class="prev btn btn-primary">&#8672;</a>
+          <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+            <h5>Page précédente</h5>
+            <p>Le lien <b class="text-primary">prevPageURI</b> dans la réponse de l'API permet d'accéder à la page précédente des résultats de la requête : prevPageURI:<b class="js-prevPageURI"></b>
+            </p>
+          </div>
+          <a data-toggle="istex-tooltip" href="#" class="next btn btn-primary">&#8674;</a>
+          <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+            <h5>Page suivante</h5>
+            <p>Le lien <b class="text-primary">nextPageURI</b> dans la réponse de l'API permet d'accéder à la page suivante des résultats de la requête : nextPageURI:<b class="js-nextPageURI"></b>
+            </p>
+          </div>
+          <a data-toggle="istex-tooltip"  href="#" class="last btn btn-primary">&#8677;</a>
+          <div class="istex-tooltip" data-my-position="bottom center" data-at-position="top center">
+            <h5>Dernière page</h5>
+            <p>Le lien <b class="text-primary">lastPageURI</b> dans la réponse de l'API permet d'accéder à la dernière page des résultats de la requête : lastPageURI:<b class="js-lastPageURI"></b>
+            </p>
+          </div>
+        </nav>
+        <div class="page">
+          <span class="current">*</span>/
+          <span class="total">*</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
+    <script type="text/javascript" src="js/vendor/noty/packaged/jquery.noty.packaged.min.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.7.3/jquery.dotdotdot.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,46 @@
+{{#hits}}
+<tr class='row'>
+  <td class='col-xs-12'>
+    <h4 class='alert-success'>
+      <b>
+        {{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} "{{title}}"{{/titleClic}}
+      </b>
+    </h4>
+    <div class='col-xs-10'>
+      <p class='small abstract'>
+        {{#abstr}}{{abstract}}{{/abstr}}
+      </p>
+      <div class='row' style='text-align:center;'>
+        <div class='col-xs-4'>
+          {{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}
+        </div>
+        <div class='col-xs-2'>
+          {{#linksIcon}}Metadata {{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}
+        </div>
+        <div class='col-xs-2'>
+          {{#linksIcon}}Annexes {{#annexes}}{{{mimetype}}} {{{uri}}} {{/annexes}}{{/linksIcon}}
+        </div>
+        <div class='col-xs-2'>
+          {{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}
+        </div>
+        <div class='colx-xs-2'>
+          {{#linksIcon}}Enrichments {{#enrichments}}{{{mimetype}}} {{{uri}}} {{/enrichments}}{{/linksIcon}}
+        </div>
+        {{#enrichments}}
+        yolo
+        {{/enrichments}}
+      </div>
+    </div>
+    <div class='col-xs-2'>
+      <div class='text-right'>
+        <b class='label label-primary'>Corpus : {{corpusName}}</b>
+        <div>{{#quality}}Score : {{qualityIndicators.score}}{{/quality}}</div>
+        <div>{{#quality}}Mots : {{qualityIndicators.pdfWordCount}}{{/quality}}</div>
+      </div>
+    </div>
+  </td>
+</tr>
+{{/hits}}
+
+
+
