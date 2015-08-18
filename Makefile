@@ -9,3 +9,4 @@ less-checking: ./node_modules/.bin/lessc ./node_modules/less-plugin-clean-css
 
 install: ./package.json less-compilation
 	@ npm install
+	@ bower install

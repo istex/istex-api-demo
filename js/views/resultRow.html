@@ -10,26 +10,80 @@
       <p class='small abstract'>
         {{#abstr}}{{abstract}}{{/abstr}}
       </p>
-      <div class='row' style='text-align:center;'>
-        <div class='col-xs-4'>
-          {{#linksIcon}}Fulltext {{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}}{{/linksIcon}}
+      <section class="download-links">
+        <div class='row'>
+          <div class='col-xs-3'>
+            {{#spaceless}}
+            {{#hasFulltext}}
+            <div class="inline-block">
+              <p class="h4 text-muted text-center">Fulltext</p>
+              {{#fulltext}}
+              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+              </a>
+              {{/fulltext}}
+            </div>
+            {{/hasFulltext}}
+            {{/spaceless}}
+          </div>
+          <div class='col-xs-2'>
+            {{#spaceless}}
+            {{#hasMetadata}}
+            <div class="inline-block">
+              <p class="h4 text-muted text-center">Metadata</p>
+              {{#metadata}}
+              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+              </a>
+              {{/metadata}}
+            </div>
+            {{/hasMetadata}}
+            {{/spaceless}}
+          </div>
+          {{#hasCovers}}
+          <div class='col-xs-2'>
+            {{#spaceless}}
+            <div class="inline-block">
+              <p class="h4 text-muted text-center">Covers</p>
+              {{#covers}}
+              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+              </a>
+              {{/covers}}
+            </div>
+            {{/spaceless}}
+          </div>
+          {{/hasCovers}}
+          {{#hasAnnexes}}
+          <div class='col-xs-3'>
+            {{#spaceless}}
+            <div class="inline-block">
+              <p class="h4 text-muted text-center">Annexes</p>
+              {{#annexes}}
+              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+              </a>
+              {{/annexes}}
+            </div>
+            {{/spaceless}}
+          </div>
+          {{/hasAnnexes}}
+          {{#hasEnrichments}}
+          <div class='col-xs-2'>
+            {{#spaceless}}
+            <div class="inline-block">
+              <p class="h4 text-muted text-center">Enrichments</p>
+              {{#enrichments}}
+              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+                <img src='img/mimetypes/32px/tei.png' title="application/tei+xml">
+              </a>
+              {{/enrichments}}
+            </div>
+            {{/spaceless}}
+          </div>
+          {{/hasEnrichments}}
         </div>
-        <div class='col-xs-2'>
-          {{#linksIcon}}Metadata {{#metadata}}{{{mimetype}}} {{{uri}}} {{/metadata}}{{/linksIcon}}
-        </div>
-        <div class='col-xs-2'>
-          {{#linksIcon}}Annexes {{#annexes}}{{{mimetype}}} {{{uri}}} {{/annexes}}{{/linksIcon}}
-        </div>
-        <div class='col-xs-2'>
-          {{#linksIcon}}Covers {{#covers}}{{{mimetype}}} {{{uri}}} {{/covers}}{{/linksIcon}}
-        </div>
-        <div class='colx-xs-2'>
-          {{#linksIcon}}Enrichments {{#enrichments}}{{{mimetype}}} {{{uri}}} {{/enrichments}}{{/linksIcon}}
-        </div>
-        {{#enrichments}}
-        yolo
-        {{/enrichments}}
-      </div>
+      </section>
     </div>
     <div class='col-xs-2'>
       <div class='text-right'>
@@ -41,6 +95,3 @@
   </td>
 </tr>
 {{/hits}}
-
-
-

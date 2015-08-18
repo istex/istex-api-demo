@@ -14,7 +14,6 @@ define(
   function (searchPage, config, mustache, resultRowTemplate) {
     "use strict";
 
-
     var searchPageController = {},
       timeStamp = null,
       ctrlScope
@@ -50,8 +49,8 @@ define(
         minDate = parseFloat(data.aggregations[field].buckets[0].from);
         maxDate = parseFloat(data.aggregations[field].buckets[0].to);
       } else if (type === 'date') {
-        minDate = parseInt(data.aggregations[field].buckets[0].fromAsString);
-        maxDate = parseInt(data.aggregations[field].buckets[0].toAsString);
+        minDate = parseInt(data.aggregations[field].buckets[0].fromAsString, 10);
+        maxDate = parseInt(data.aggregations[field].buckets[0].toAsString, 10);
       }
 
       if (nb !== '') $(nb).text(data.aggregations[field].buckets[0].docCount);
@@ -118,71 +117,37 @@ define(
             return render(text);
           };
         };
-console.log(data);
-        data.linksIcon = function () {
 
-          return function (text, render) {
-            var infos = render(text).split(" "),
-              html = (infos.length === 2) ? "" : "<table class='download-links'><th class='text-center'>" + infos[0] + "</th><tr><td>",
-              i = 1,
-              typeFile;
-            while ((i + 1) < infos.length) {
-              /*jslint white: true */
-              switch (infos[i]) {
-                case 'application/zip':
-                  typeFile = 'img/mimetypes/32px/zip.png';
-                  break;
-                case 'application/pdf':
-                  typeFile = 'img/mimetypes/32px/pdf.png';
-                  break;
-                case 'image/tiff':
-                  typeFile = 'img/mimetypes/32px/tiff.png';
-                  break;
-                case 'application/xml':
-                  typeFile = 'img/mimetypes/32px/xml.png';
-                  break;
-                case 'application/mods+xml':
-                  typeFile = 'img/mimetypes/32px/mods.png';
-                  break;
-                case 'application/tei+xml':
-                  typeFile = 'img/mimetypes/32px/tei.png';
-                  break;
-                case 'text/plain':
-                  typeFile = 'img/mimetypes/32px/txt.png';
-                  break;
-                case 'image/jpeg':
-                  typeFile = 'img/mimetypes/32px/jpg.png';
-                  break;
-                case 'image/gif':
-                  typeFile = 'img/mimetypes/32px/gif.png';
-                  break;
-                case 'application/vnd.ms-powerpoint':
-                  typeFile = 'img/mimetypes/32px/ppt.png';
-                  break;
-                case 'application/msword':
-                  typeFile = 'img/mimetypes/32px/doc.png';
-                  break;
-                case 'video/quicktime':
-                  typeFile = 'img/mimetypes/32px/qt.png';
-                  break;
-                case 'application/rtf':
-                  typeFile = 'img/mimetypes/32px/rtf.png';
-                  break;
-                case 'application/vnd.ms-excel':
-                  typeFile = 'img/mimetypes/32px/xls.png';
-                  break;
-                default:
-                  typeFile = 'img/mimetypes/32px/_blank.png';
-                  break;
-              }
-              /*jslint white: false */
-              html += "<a href=\"" + infos[i + 1] + "\" target=\"_blank\"><img src=\"" + typeFile + "\" alt=\'" + infos[i].split("/")[1] + "\' title=\'" + infos[i].split("/")[1] + "\'></a>";
-              i = i + 2;
-            }
-
-            html += (infos.length === 2) ? "" : "</td></tr></table>";
-            return html;
+        data.mimetypeIconName = (function (config) {
+          return function () {
+           return config.mimetypeIconNames[this.mimetype] || config.mimetypeIconNames["unknown"];
           };
+        }(config));
+
+        data.spaceless = function () {
+          return function (text, render) {
+            return render(text).replace(/(?:>)\s*(?=<)/g, ">");
+          };
+        };
+
+        data.hasFulltext = function () {
+          return this.fulltext && this.fulltext.length;
+        };
+
+        data.hasMetadata = function () {
+          return this.metadata && this.metadata.length;
+        };
+
+        data.hasCovers = function () {
+          return this.covers && this.covers.length;
+        };
+
+        data.hasAnnexes = function () {
+          return this.annexes && this.annexes.length;
+        };
+
+        data.hasEnrichments = function () {
+          return this.enrichments && this.enrichments.length;
         };
 
         data.lang = function () {

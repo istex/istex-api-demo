@@ -72,6 +72,7 @@ if (!Storage.prototype.refreshIfNeeded) {
   };
 }
 
+
 /**
  * Sature le storage. Permet essentiellement de faire des tests.
  * @returns null
@@ -90,4 +91,3 @@ if (!Storage.prototype.saturate) {
     }
   };
 }
-
