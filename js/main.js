@@ -90,7 +90,7 @@ istexApp.controller("istexAppCtrl", function ($scope, $sce) {
 require(["config"], function (config) {
   $(document).ready(function () {
 
-    $("#pager-prototype").appendTo(".pager-placeholder");
+    $("#pager-prototype").contents().appendTo(".pager-placeholder");
 
     /**
      * Istex tooltip
@@ -212,7 +212,7 @@ require(["config"], function (config) {
         ;
 
       // Retour au top
-      if (document.body.scrollTop > document.getElementById("result").offsetTop) {
+      if (!!$(document).scrollTop()) {
         $("html, body").animate({
           scrollTop: 0
         }, 600);

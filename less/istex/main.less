@@ -222,6 +222,7 @@ textarea {
 #request-tooltip-content{
   font-family: "Lucida Console", Monaco, monospace;
   & > p > mark {
+    padding: 0;
     white-space: nowrap;
   }
 }
@@ -343,7 +344,20 @@ textarea {
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
-
+.enrichments-type{
+  display: inline-block;
+  margin-right: -40px;
+  color: #000;
+  font-weight: 700;
+  vertical-align: super;
+  line-height: 1;
+  background-color: #F1DB32;
+  transform: rotate(17deg) scale(0.80) skew(1deg) translate(0px);
+  -webkit-transform: rotate(17deg) scale(0.80) skew(1deg) translate(0px);
+  -moz-transform: rotate(17deg) scale(0.80) skew(1deg) translate(0px);
+  -o-transform: rotate(17deg) scale(0.80) skew(1deg) translate(0px);
+  -ms-transform: rotate(17deg) scale(0.80) skew(1deg) translate(0px);
+}
 // Pager
 #topResultPager{
   margin-top: 10px;

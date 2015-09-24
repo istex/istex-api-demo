@@ -12,9 +12,9 @@
       </p>
       <section class="download-links">
         <div class='row'>
+          {{#hasFulltext}}
           <div class='col-xs-3'>
             {{#spaceless}}
-            {{#hasFulltext}}
             <div class="inline-block">
               <p class="h4 text-muted text-center">Fulltext</p>
               {{#fulltext}}
@@ -23,12 +23,12 @@
               </a>
               {{/fulltext}}
             </div>
-            {{/hasFulltext}}
             {{/spaceless}}
           </div>
+          {{/hasFulltext}}
+          {{#hasMetadata}}
           <div class='col-xs-2'>
             {{#spaceless}}
-            {{#hasMetadata}}
             <div class="inline-block">
               <p class="h4 text-muted text-center">Metadata</p>
               {{#metadata}}
@@ -37,9 +37,9 @@
               </a>
               {{/metadata}}
             </div>
-            {{/hasMetadata}}
             {{/spaceless}}
           </div>
+          {{/hasMetadata}}
           {{#hasCovers}}
           <div class='col-xs-2'>
             {{#spaceless}}
@@ -75,6 +75,7 @@
               <p class="h4 text-muted text-center">Enrichments</p>
               {{#enrichments}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+                <i class="enrichments-type">{{type}}</i>
                 <img src='img/mimetypes/32px/tei.png' title="application/tei+xml">
               </a>
               {{/enrichments}}
