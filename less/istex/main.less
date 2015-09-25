@@ -162,6 +162,15 @@ textarea {
 
 .generate-inline-push-left(4);
 
+.generate-inline-push-right(@n, @i: 1) when (@i <= @n){
+  .inline-push-right-@{i}{
+    margin-right: unit(@i, em);
+  }
+
+  .generate-inline-push-right(@n, @i + 1);
+}
+
+.generate-inline-push-right(4);
 
 .generate-inline-push-down(@n, @i: 1) when (@i <= @n){
   .inline-push-down-@{i}{
@@ -344,9 +353,16 @@ textarea {
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
-.enrichments-type{
-  display: inline-block;
-  margin-right: -40px;
+
+// Enrichments
+
+.enrichment{
+  position: relative;
+}
+.enrichment-type{
+  position: absolute;
+  left: 50%;
+  margin-left: -65%;
   color: #000;
   font-weight: 700;
   vertical-align: super;

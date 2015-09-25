@@ -120,7 +120,7 @@ define(
 
         data.mimetypeIconName = (function (config) {
           return function () {
-           return config.mimetypeIconNames[this.mimetype] || config.mimetypeIconNames["unknown"];
+            return config.mimetypeIconNames[this.mimetype] || config.mimetypeIconNames["unknown"];
           };
         }(config));
 
@@ -148,6 +148,18 @@ define(
 
         data.hasEnrichments = function () {
           return this.enrichments && this.enrichments.length;
+        };
+
+        data.consolidateEnrichmentsUri = function () {
+          if (!this.enrichments) {
+            return;
+          }
+          
+          var path = [];
+          this.enrichments.forEach(function (enrichment) {
+            path.push(enrichment.type);
+          });
+          return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate';
         };
 
         data.lang = function () {
