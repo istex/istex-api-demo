@@ -133,26 +133,6 @@ require(["config"], function (config) {
     });
 
 
-
-    $.ajax({
-      url: "include/top_header/surenteteistex.html",
-      converters: {"text html": function (data) {
-
-          return data.replace(/(href|src)="(?!http)(.*?)"/img, "$1=\"include/top_header/$2\"");
-
-        }},
-      success: function (data, textStatus) {
-
-        $(".container")
-          .prepend($(jQuery.parseHTML(data)))
-          .find("meta").remove().end()
-          .find("title").remove().end()
-          .find("[href*=documentation]").attr("href", config.apiUrl + "documentation").end()
-          .find("#surentete").find("[href*=demo]").parent("li").remove();
-      }
-    });
-
-
     $(document).on("resultsLoaded", function (e) {
 
       // Toolip pour les icons des fichiers
