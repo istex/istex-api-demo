@@ -7,6 +7,8 @@ less-compilation: less-checking ./less/istex/main.less
 less-checking: ./node_modules/.bin/lessc ./node_modules/less-plugin-clean-css
 	@ echo "Verification des modules nodes lessc et less-plugin-clean-css"
 
-install: ./package.json less-compilation
+npm-install:
 	@ npm install
+
+install: ./package.json npm-install less-compilation
 	@ bower install
