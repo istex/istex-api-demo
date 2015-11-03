@@ -343,17 +343,6 @@ require(["config"], function (config) {
         searchPageController.search();
       });
 
-      $("#facetLang").on("click", "input", function () {
-        searchPage.reaffine = true;
-        if (this.checked) {
-          searchPage.language.push(this.value);
-        } else {
-          var index = searchPage.language.indexOf(this.value);
-          searchPage.language.splice(index, 1);
-        }
-        searchPageController.search();
-      });
-
       $("#facetRefBibsNative").on("click", "input", function () {
         searchPage.reaffine = true;
         var bool = (this.value === 'T');

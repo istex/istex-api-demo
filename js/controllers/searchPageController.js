@@ -247,7 +247,7 @@ define(
             obj.value = lang.key;
             obj.desc = lang.docCount + ' documents'
             obj.label = config.languageCorrespondance[lang.key];
-            if (obj.label === undefined) obj.label = obj.value; 
+            if (obj.label === undefined) obj.label = obj.value;
             languageList.push(obj);
           }
 
@@ -261,6 +261,12 @@ define(
                 $("#languages").val(ui.item.label);
                 $("#languages-id").val(ui.item.value);
                 $('#nbLangResults').text(ui.item.desc.split(' ')[0]);
+
+                searchPage.reaffine = true;
+                searchPage.language = [];
+                searchPage.language.push(ui.item.value);
+                searchPageController.search();
+
                 return false;
               }
             })
