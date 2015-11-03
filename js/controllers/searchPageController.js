@@ -11,13 +11,12 @@ define(
     "vendor/jsonview/jquery.jsonview",
     "polyfill"
   ],
-  function (searchPage, config, mustache, resultRowTemplate) {
+  function(searchPage, config, mustache, resultRowTemplate) {
     "use strict";
 
     var searchPageController = {},
       timeStamp = null,
-      ctrlScope
-      ;
+      ctrlScope;
 
     // On récupére le scope du controleur Angular
     if (angular) {
@@ -25,21 +24,23 @@ define(
     }
     ctrlScope.app.apiUrl = config.apiUrl.rtrim('/ ');
     ctrlScope.safeApply();
-    (function () {
+    (function() {
       var err = $.ajax({
         url: config.apiUrl + "corpus",
         dataType: "jsonp",
-        success: function (data, status, xhr) {
+        success: function(data, status, xhr) {
           var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-          $('#editorField').append(mustache.render(corpusTemplate, {corpusList: data}));
+          $('#editorField').append(mustache.render(corpusTemplate, {
+            corpusList: data
+          }));
         }
       });
-      window.setTimeout(function () {
+      window.setTimeout(function() {
         console.log(err);
       }, 60000);
     }());
 
-    searchPageController.displayRanges = function (data, field, slider, amount, nb, type) {
+    searchPageController.displayRanges = function(data, field, slider, amount, nb, type) {
 
       var minDate, maxDate;
       if (type === 'integer') {
@@ -63,7 +64,7 @@ define(
       $(amount).val($(slider).slider("values", 0) +
         " à " + $(slider).slider("values", 1));
     };
-    searchPageController.displayResults = function (data) {
+    searchPageController.displayResults = function(data) {
       $("#jsonFromApi").JSONView(data);
 
       if (data.total > 0) {
@@ -75,8 +76,7 @@ define(
           .end()
           .find(".last")
           .attr("href", data.lastPageURI)
-          .end()
-          ;
+          .end();
 
         $(".js-firstPageURI").html(data.firstPageURI);
         $(".js-lastPageURI").html(data.lastPageURI);
@@ -109,8 +109,8 @@ define(
 
         // On wrap l'objet data avant de lui donner de nouvelles méthodes.
         data = Object.create(data);
-        data.abstr = function () {
-          return function (text, render) {
+        data.abstr = function() {
+          return function(text, render) {
             if (render(text) === "") {
               return "Pas de résumé pour ce résultat.";
             }
@@ -118,82 +118,81 @@ define(
           };
         };
 
-        data.mimetypeIconName = (function (config) {
-          return function () {
+        data.mimetypeIconName = (function(config) {
+          return function() {
             return config.mimetypeIconNames[this.mimetype] || config.mimetypeIconNames["unknown"];
           };
         }(config));
 
-        data.spaceless = function () {
-          return function (text, render) {
+        data.spaceless = function() {
+          return function(text, render) {
             return render(text).replace(/(?:>)\s*(?=<)/g, ">");
           };
         };
 
-        data.hasFulltext = function () {
+        data.hasFulltext = function() {
           return this.fulltext && this.fulltext.length;
         };
 
-        data.hasMetadata = function () {
+        data.hasMetadata = function() {
           return this.metadata && this.metadata.length;
         };
 
-        data.hasCovers = function () {
+        data.hasCovers = function() {
           return this.covers && this.covers.length;
         };
 
-        data.hasAnnexes = function () {
+        data.hasAnnexes = function() {
           return this.annexes && this.annexes.length;
         };
 
-        data.hasEnrichments = function () {
+        data.hasEnrichments = function() {
           return this.enrichments && this.enrichments.length;
         };
 
-        data.consolidateEnrichmentsUri = function () {
+        data.consolidateEnrichmentsUri = function() {
           if (!this.enrichments) {
             return;
           }
-          
+
           var path = [];
-          this.enrichments.forEach(function (enrichment) {
+          this.enrichments.forEach(function(enrichment) {
             path.push(enrichment.type);
           });
           return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate';
         };
 
-        data.lang = function () {
-          return function (text, render) {
+        data.lang = function() {
+          return function(text, render) {
             switch (render(text)) {
               case 'en':
                 return 'Anglais (en)';
                 break;
               case 'eng':
-                return 'Anglais (eng)';
+                return 'Anglais';
                 break;
-              case 'fr':
-                return 'Français (fr)';
+              case 'unknown':
+                return 'Inconnue';
                 break;
               case 'fre':
-                return 'Français (fre)';
+                return 'Français';
                 break;
-              case 'de':
+              case 'deu':
                 return 'Allemand';
                 break;
-              case 'la':
               case 'lat':
                 return 'Latin';
                 break;
-              case 'es':
+              case 'spa':
                 return 'Espagnol';
                 break;
-              case 'it':
+              case 'ita':
                 return 'Italien';
                 break;
               case 'nl':
                 return 'Néerlandais';
                 break;
-              case 'ru':
+              case 'rus':
                 return 'Russe';
                 break;
               case 'pt':
@@ -214,13 +213,12 @@ define(
               default:
                 return render(text);
                 break;
-            }
-            ;
+            };
           };
         };
 
-        data.titleClic = function () {
-          return function (text, render) {
+        data.titleClic = function() {
+          return function(text, render) {
             var res = render(text),
               infos = res.split(" "),
               index = infos.indexOf("application/pdf"),
@@ -234,8 +232,8 @@ define(
           };
         };
 
-        data.quality = function () {
-          return function (text, render) {
+        data.quality = function() {
+          return function(text, render) {
             if (render(text).split(':')[1] === " ") {
               return "";
             }
@@ -243,15 +241,14 @@ define(
           };
         };
 
-        data.presence = function () {
-          return function (text, render) {
+        data.presence = function() {
+          return function(text, render) {
             var res = render(text);
             if (res === 'T') {
               return "Présente(s)";
             } else {
               return "Absente(s)";
-            }
-            ;
+            };
           };
         };
 
@@ -266,7 +263,7 @@ define(
           $('#facetPDFVersion').empty();
           $('#facetRefBibsNative').empty();
           $('#facetWos').empty();
-          $('#facetLang').empty();
+          //$('#facetLang').empty();
           // CorpusFacet
           template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
             "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
@@ -299,15 +296,50 @@ define(
           }
 
           // LanguageFacet
-          template = "{{#aggregations.language.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
-            "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{#lang}}{{key}}{{/lang}}</label>" +
-            "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
+          var languageList = [{
+            value: "eng",
+            label: "Anglais",
+            desc: "9000 documents"
+          }, {
+            value: "fre",
+            label: "Français",
+            desc: "600 documents"
+          }, {
+            value: "deu",
+            label: "Allemand",
+            desc: "200 documents"
+          }];
+
+          $("#languages").autocomplete({
+              minLength: 0,
+              source: languageList,
+              focus: function(event, ui) {
+                $("#languages").val(ui.item.label);
+                return false;
+              },
+              select: function(event, ui) {
+                $("#languages").val(ui.item.label);
+                $("#languages-id").val(ui.item.value);
+                $('#nbLangResults').text(ui.item.desc.split(' ')[0]);
+                return false;
+              }
+            })
+            .autocomplete("instance")._renderItem = function(ul, item) {
+              return $("<li>")
+                .append("<a>" + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + "</span></a>")
+                .appendTo(ul);
+            };
           $('#nbLangFacet').text(data.aggregations.language.buckets.length);
-          $('#facetLang').append(mustache.render(template, data));
-          if (data.aggregations.language.buckets.length === 1) {
-            $('#facetLang').get(0).getElementsByTagName('input').item(0).checked = true;
-            $('#facetLang').get(0).getElementsByTagName('input').item(0).disabled = true;
-          }
+
+          // template = "{{#aggregations.language.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          //   "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{#lang}}{{key}}{{/lang}}</label>" +
+          //   "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
+          // $('#nbLangFacet').text(data.aggregations.language.buckets.length);
+          // $('#facetLang').append(mustache.render(template, data));
+          // if (data.aggregations.language.buckets.length === 1) {
+          //   $('#facetLang').get(0).getElementsByTagName('input').item(0).checked = true;
+          //   $('#facetLang').get(0).getElementsByTagName('input').item(0).disabled = true;
+          // }
 
           // WosFacet
           template = "{{#aggregations.wos.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
@@ -348,12 +380,12 @@ define(
       $("button").button('reset');
       $("#result").css("opacity", 1);
     };
-    searchPageController.manageError = function (err) {
+    searchPageController.manageError = function(err) {
       $("button").button('reset');
       $(".alert span").html("Houston ... Problem!" + err.responseText);
       $(".alert").alert();
     };
-    searchPageController.search = function () {
+    searchPageController.search = function() {
       var
         query = "document/?q=",
         fields = [],
@@ -381,7 +413,7 @@ define(
       }
 
       corpusQuery = '';
-      $.each(searchPage.editor, function (index, editor) {
+      $.each(searchPage.editor, function(index, editor) {
         if (editor !== "-1") {
           corpusQuery += editor + ',';
         }
@@ -478,7 +510,7 @@ define(
       query += queryFrom = "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
       ctrlScope.safeApply();
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-      facetQuery = "&facet=corpusName,pdfVersion,refBibsNative,wos,language";
+      facetQuery = "&facet=corpusName[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
       if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
         minCopyright = $("#slider-range-copyright").slider("values", 0);
         maxCopyright = $("#slider-range-copyright").slider("values", 1);
@@ -517,7 +549,7 @@ define(
       searchPageController.request(config.apiUrl + query);
     };
 
-    searchPageController.request = function (url) {
+    searchPageController.request = function(url) {
       $("#searchButton").button('loading');
       $("#result").css("opacity", 0.4);
       $("#reqForApi").val(url);
@@ -527,12 +559,12 @@ define(
         url: url,
         dataType: "jsonp",
         crossDomain: true,
-        success: function (data) {
+        success: function(data) {
           //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
           if (timeStamp === timeStampLocal) {
             try {
               localStorage && localStorage.setItem(url, JSON.stringify(data));
-            } catch(e) {
+            } catch (e) {
               if (e instanceof DOMException && e.name === 'QuotaExceededError') {
                 localStorage.clear();
                 console.log("localStorage cleared");
@@ -545,14 +577,14 @@ define(
             }
           }
         },
-        error: function (err) {
+        error: function(err) {
           //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
           if (timeStamp === timeStampLocal) {
             searchPageController.manageError(err);
           }
         },
         timeout: 10000,
-        complete: function () {
+        complete: function() {
           //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
           if (timeStamp === timeStampLocal) {
 
