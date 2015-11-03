@@ -331,18 +331,6 @@ require(["config"], function (config) {
         searchPageController.search();
       });
 
-      $("#facetWos").on("click", "input", function () {
-        searchPage.reaffine = true;
-        var valueHTML = "\"" + this.value.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20') + "\"";
-        if (this.checked) {
-          searchPage.WOS.push(valueHTML);
-        } else {
-          var index = searchPage.WOS.indexOf(valueHTML);
-          searchPage.WOS.splice(index, 1);
-        }
-        searchPageController.search();
-      });
-
       $("#facetRefBibsNative").on("click", "input", function () {
         searchPage.reaffine = true;
         var bool = (this.value === 'T');

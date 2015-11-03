@@ -197,7 +197,9 @@ define(
           };
         };
 
-        var template;
+        var template, lang, wos, obj;
+        var languageList = [];
+        var wosList = [];
 
         $("#tableResult").html(mustache.render(resultRowTemplate, data));
 
@@ -207,7 +209,7 @@ define(
           $('#facetCorpus').empty();
           $('#facetPDFVersion').empty();
           $('#facetRefBibsNative').empty();
-          $('#facetWos').empty();
+          //$('#facetWos').empty();
           //$('#facetLang').empty();
           // CorpusFacet
           template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
@@ -241,9 +243,8 @@ define(
           }
 
           // LanguageFacet
-          var languageList = [];
-          for (var lang of data.aggregations.language.buckets) {
-            var obj = {};
+          for (lang of data.aggregations.language.buckets) {
+            obj = {};
             obj.value = lang.key;
             obj.desc = lang.docCount + ' documents'
             obj.label = config.languageCorrespondance[lang.key];
@@ -278,15 +279,39 @@ define(
           $('#nbLangFacet').text(data.aggregations.language.buckets.length);
 
           // WosFacet
-          template = "{{#aggregations.wos.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
-            "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{key}}</label>" +
-            "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.wos.buckets}}";
-          $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
-          $('#facetWos').append(mustache.render(template, data));
-          if (data.aggregations.wos.buckets.length === 1) {
-            $('#facetWos').get(0).getElementsByTagName('input').item(0).checked = true;
-            $('#facetWos').get(0).getElementsByTagName('input').item(0).disabled = true;
+          for (wos of data.aggregations.wos.buckets) {
+            obj = {};
+            obj.value = "\"" + wos.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20') + "\"";
+            obj.desc = wos.docCount + ' documents'
+            obj.label = wos.key;
+            wosList.push(obj);
           }
+
+          $("#wosCategories").autocomplete({
+              minLength: 0,
+              source: wosList,
+              focus: function(event, ui) {
+                $("#wosCategories").val(ui.item.label);
+              },
+              select: function(event, ui) {
+                $("#wosCategories").val(ui.item.label);
+                $("#wosCategories-id").val(ui.item.value);
+                $('#nbWOSResults').text(ui.item.desc.split(' ')[0]);
+
+                searchPage.reaffine = true;
+                searchPage.WOS = [];
+                searchPage.WOS.push(ui.item.value);
+                searchPageController.search();
+
+                return false;
+              }
+            })
+            .autocomplete("instance")._renderItem = function(ul, item) {
+              return $("<li>")
+                .append("<a>" + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + "</span></a>")
+                .appendTo(ul);
+            };
+          $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
 
           // ScoreFacet
           searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
