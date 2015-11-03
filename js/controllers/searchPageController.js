@@ -162,61 +162,6 @@ define(
           return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate';
         };
 
-        data.lang = function() {
-          return function(text, render) {
-            switch (render(text)) {
-              case 'en':
-                return 'Anglais (en)';
-                break;
-              case 'eng':
-                return 'Anglais';
-                break;
-              case 'unknown':
-                return 'Inconnue';
-                break;
-              case 'fre':
-                return 'Français';
-                break;
-              case 'deu':
-                return 'Allemand';
-                break;
-              case 'lat':
-                return 'Latin';
-                break;
-              case 'spa':
-                return 'Espagnol';
-                break;
-              case 'ita':
-                return 'Italien';
-                break;
-              case 'nl':
-                return 'Néerlandais';
-                break;
-              case 'rus':
-                return 'Russe';
-                break;
-              case 'pt':
-                return 'Portugais';
-                break;
-              case 'pl':
-                return 'Polonais';
-                break;
-              case 'cs':
-                return 'Tchèque';
-                break;
-              case 'ka':
-                return 'Géorgien';
-                break;
-              case 'ja':
-                return 'Japonais';
-                break;
-              default:
-                return render(text);
-                break;
-            };
-          };
-        };
-
         data.titleClic = function() {
           return function(text, render) {
             var res = render(text),
@@ -296,26 +241,21 @@ define(
           }
 
           // LanguageFacet
-          var languageList = [{
-            value: "eng",
-            label: "Anglais",
-            desc: "9000 documents"
-          }, {
-            value: "fre",
-            label: "Français",
-            desc: "600 documents"
-          }, {
-            value: "deu",
-            label: "Allemand",
-            desc: "200 documents"
-          }];
+          var languageList = [];
+          for (var lang of data.aggregations.language.buckets) {
+            var obj = {};
+            obj.value = lang.key;
+            obj.desc = lang.docCount + ' documents'
+            obj.label = config.languageCorrespondance[lang.key];
+            if (obj.label === undefined) obj.label = obj.value; 
+            languageList.push(obj);
+          }
 
           $("#languages").autocomplete({
               minLength: 0,
               source: languageList,
               focus: function(event, ui) {
                 $("#languages").val(ui.item.label);
-                return false;
               },
               select: function(event, ui) {
                 $("#languages").val(ui.item.label);
@@ -330,16 +270,6 @@ define(
                 .appendTo(ul);
             };
           $('#nbLangFacet').text(data.aggregations.language.buckets.length);
-
-          // template = "{{#aggregations.language.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
-          //   "<div class='checkbox'><label><input value=\"{{key}}\" type='checkbox'>{{#lang}}{{key}}{{/lang}}</label>" +
-          //   "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.language.buckets}}";
-          // $('#nbLangFacet').text(data.aggregations.language.buckets.length);
-          // $('#facetLang').append(mustache.render(template, data));
-          // if (data.aggregations.language.buckets.length === 1) {
-          //   $('#facetLang').get(0).getElementsByTagName('input').item(0).checked = true;
-          //   $('#facetLang').get(0).getElementsByTagName('input').item(0).disabled = true;
-          // }
 
           // WosFacet
           template = "{{#aggregations.wos.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
