@@ -209,8 +209,11 @@ define(
           $('#facetCorpus').empty();
           $('#facetPDFVersion').empty();
           $('#facetRefBibsNative').empty();
-          //$('#facetWos').empty();
-          //$('#facetLang').empty();
+          $('#languages').val('');
+          $('#nbLangResults').text('');
+          $('#wosCategories').val('');
+          $('#nbWOSResults').text('');
+
           // CorpusFacet
           template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
             "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
@@ -260,7 +263,6 @@ define(
               },
               select: function(event, ui) {
                 $("#languages").val(ui.item.label);
-                $("#languages-id").val(ui.item.value);
                 $('#nbLangResults').text(ui.item.desc.split(' ')[0]);
 
                 searchPage.reaffine = true;
@@ -295,7 +297,6 @@ define(
               },
               select: function(event, ui) {
                 $("#wosCategories").val(ui.item.label);
-                $("#wosCategories-id").val(ui.item.value);
                 $('#nbWOSResults').text(ui.item.desc.split(' ')[0]);
 
                 searchPage.reaffine = true;
