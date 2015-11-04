@@ -5,20 +5,18 @@
 var globalSearchPage = {},
   globalSearchPageController = {},
   istexTemplate = {};
-require.config(
-  {
-    baseUrl: 'js/',
-    paths: {
-      'text': '../bower_components/requirejs-text/text',
-      'qTip': ['//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip']
-    }
+require.config({
+  baseUrl: 'js/',
+  paths: {
+    'text': '../bower_components/requirejs-text/text',
+    'qTip': ['//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip']
   }
-);
+});
 
 
 var istexApp = angular.module("istexApp", []);
 
-var search = function (searchPage, searchPageController) {
+var search = function(searchPage, searchPageController) {
   searchPage.reaffine = false;
   searchPage.currentPage = 1;
   searchPage.searchField = $("#searchField").val();
@@ -40,7 +38,7 @@ var search = function (searchPage, searchPageController) {
 
 
 
-istexApp.controller("istexAppCtrl", function ($scope, $sce) {
+istexApp.controller("istexAppCtrl", function($scope, $sce) {
 
   $scope.helper = {
     request: {},
@@ -71,7 +69,7 @@ istexApp.controller("istexAppCtrl", function ($scope, $sce) {
    * @param Function fn
    * @returns null
    */
-  $scope.safeApply = function (fn) {
+  $scope.safeApply = function(fn) {
     var phase = this.$root.$$phase;
     if (phase === "$apply" || phase === "$digest") {
       if (fn && (typeof fn === "function")) {
@@ -82,13 +80,13 @@ istexApp.controller("istexAppCtrl", function ($scope, $sce) {
     }
   };
   globalSearchPageController.a = 3;
-  $scope.search = function () {
+  $scope.search = function() {
     search(globalSearchPage, globalSearchPageController);
   };
 });
 
-require(["config"], function (config) {
-  $(document).ready(function () {
+require(["config"], function(config) {
+  $(document).ready(function() {
 
     $("#pager-prototype").contents().appendTo(".pager-placeholder");
 
@@ -98,7 +96,7 @@ require(["config"], function (config) {
      * Par défaut le tooltip doit étre le premier element frère  'div.istex-tooltip'
      * sauf si l'attribut 'data-content-text' est précisé avec un selecteur.
      */
-    $("[data-toggle='istex-tooltip']").each(function () {
+    $("[data-toggle='istex-tooltip']").each(function() {
       var $this = $(this),
         dataTooltipTarget = $this.data("tooltip-target"),
         $targetElement = dataTooltipTarget ? $this.find(dataTooltipTarget) : $this,
@@ -133,10 +131,10 @@ require(["config"], function (config) {
     });
 
 
-    $(document).on("resultsLoaded", function (e) {
+    $(document).on("resultsLoaded", function(e) {
 
       // Toolip pour les icons des fichiers
-      $(".download-links").find('a').each(function () {
+      $(".download-links").find('a').each(function() {
         var $this = $(this),
           $thisImg = $this.children("img"),
           mimetype = $thisImg.attr("title");
@@ -170,8 +168,10 @@ require(["config"], function (config) {
        * ellipse sur les abstracts et titles
        */
       var $tableResult = $("#tableResult"),
-        dotdotdotConfig = {ellipsis: '…', watch: "window"}
-      ;
+        dotdotdotConfig = {
+          ellipsis: '…',
+          watch: "window"
+        };
       $tableResult.find("h4").dotdotdot(dotdotdotConfig);
 
       $tableResult
@@ -179,17 +179,15 @@ require(["config"], function (config) {
         .addClass("ellipsed")
         .dotdotdot(
           dotdotdotConfig
-          )
-        .click(function () {
+        )
+        .click(function() {
           var $this = $(this);
           var content = $this.triggerHandler("originalContent");
           $this
             .toggleClass("ellipsed")
             .append(content)
-            .trigger("update.dot")
-            ;
-        })
-        ;
+            .trigger("update.dot");
+        });
 
       // Retour au top
       if (!!$(document).scrollTop()) {
@@ -204,53 +202,53 @@ require(["config"], function (config) {
 
   require(
     ["models/searchPage", "controllers/searchPageController"],
-    function (searchPage, searchPageController) {
+    function(searchPage, searchPageController) {
       globalSearchPage = searchPage;
       globalSearchPageController = searchPageController;
 
 
 
-      $("#searchform").submit(function (event) {
+      $("#searchform").submit(function(event) {
         event.preventDefault();
         search(searchPage, searchPageController);
       });
 
-      $("#advancedSearchForm").submit(function (event) {
+      $("#advancedSearchForm").submit(function(event) {
         event.preventDefault();
         $("#searchform").submit();
       });
 
-      $("#advancedSearchForm").on("input", ":input", function (event) {
+      $("#advancedSearchForm").on("input", ":input", function(event) {
         $("#searchform").submit();
       });
 
 
       var $pager = $(".istex-pager");
-      $pager.find(".prev").click(function (e) {
+      $pager.find(".prev").click(function(e) {
         e.preventDefault();
         searchPage.currentPage = searchPage.currentPage - 1;
         searchPageController.request($(".prev").attr("href"));
       });
 
-      $pager.find(".first").click(function (e) {
+      $pager.find(".first").click(function(e) {
         e.preventDefault();
         searchPage.currentPage = 1;
         searchPageController.request($(".first").attr("href"));
       });
 
-      $pager.find(".next").click(function (e) {
+      $pager.find(".next").click(function(e) {
         e.preventDefault();
         searchPage.currentPage = searchPage.currentPage + 1;
         searchPageController.request($(".next").attr("href"));
       });
 
-      $pager.find(".last").click(function (e) {
+      $pager.find(".last").click(function(e) {
         e.preventDefault();
         searchPage.currentPage = searchPage.numberOfPages;
         searchPageController.request($(".last").attr("href"));
       });
 
-      $("#facetCorpus").on("click", "input", function () {
+      $("#facetCorpus").on("click", "input", function() {
         searchPage.reaffine = true;
         if (this.checked) {
           searchPage.editor.push(this.value);
@@ -261,44 +259,44 @@ require(["config"], function (config) {
         searchPageController.search();
       });
 
-      $("#slider-range-copyright").on("slide", function (event, ui) {
+      $("#slider-range-copyright").on("slide", function(event, ui) {
         $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
       });
 
-      $("#slider-range-copyright").on("slidestop", function (event, ui) {
+      $("#slider-range-copyright").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.copyrightdate = [];
         searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
       });
 
-      $("#slider-range-pubdate").on("slide", function (event, ui) {
+      $("#slider-range-pubdate").on("slide", function(event, ui) {
         $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
       });
 
-      $("#slider-range-pubdate").on("slidestop", function (event, ui) {
+      $("#slider-range-pubdate").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.pubdate = [];
         searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
       });
 
-      $("#slider-range-PDFWordCount").on("slide", function (event, ui) {
+      $("#slider-range-PDFWordCount").on("slide", function(event, ui) {
         $("#amountPDFWordCount").val(ui.values[0] + " à " + ui.values[1]);
       });
 
-      $("#slider-range-PDFWordCount").on("slidestop", function (event, ui) {
+      $("#slider-range-PDFWordCount").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.PDFWordCount = [];
         searchPage.PDFWordCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
       });
 
-      $("#slider-range-PDFCharCount").on("slide", function (event, ui) {
+      $("#slider-range-PDFCharCount").on("slide", function(event, ui) {
         $("#amountPDFCharCount").val(ui.values[0] + " à " + ui.values[1]);
       });
 
-      $("#slider-range-PDFCharCount").on("slidestop", function (event, ui) {
+      $("#slider-range-PDFCharCount").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.PDFCharCount = [];
         searchPage.PDFCharCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
@@ -309,18 +307,18 @@ require(["config"], function (config) {
         step: 0.3
       });
 
-      $("#slider-range-score").on("slide", function (event, ui) {
+      $("#slider-range-score").on("slide", function(event, ui) {
         $("#amountScore").val(ui.values[0] + " à " + ui.values[1]);
       });
 
-      $("#slider-range-score").on("slidestop", function (event, ui) {
+      $("#slider-range-score").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.score = [];
         searchPage.score.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
         searchPageController.search();
       });
 
-      $("#facetPDFVersion").on("click", "input", function () {
+      $("#facetPDFVersion").on("click", "input", function() {
         searchPage.reaffine = true;
         if (this.checked) {
           searchPage.PDFVersion.push(this.value);
@@ -331,7 +329,7 @@ require(["config"], function (config) {
         searchPageController.search();
       });
 
-      $("#facetRefBibsNative").on("click", "input", function () {
+      $("#facetRefBibsNative").on("click", "input", function() {
         searchPage.reaffine = true;
         var bool = (this.value === 'T');
         if (this.checked) {
@@ -343,7 +341,15 @@ require(["config"], function (config) {
         searchPageController.search();
       });
 
-      $("button.js-resetFacet").on("click", function (event, ui) {
+      $("#languages").on("click", function() {
+        if ($('#languages').val() === "") $('#languages').autocomplete("search", "");
+      });
+
+      $("#wosCategories").on("click", function() {
+        if ($('#wosCategories').val() === "") $('#wosCategories').autocomplete("search", "");
+      });
+
+      $("button.js-resetFacet").on("click", function(event, ui) {
         search(searchPage, searchPageController);
       });
     });

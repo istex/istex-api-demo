@@ -259,10 +259,10 @@ define(
               minLength: 0,
               source: languageList,
               focus: function(event, ui) {
-                $("#languages").val(ui.item.label);
+                $('#languages').val(ui.item.label);
               },
               select: function(event, ui) {
-                $("#languages").val(ui.item.label);
+                $('#languages').val(ui.item.label);
                 $('#nbLangResults').text(ui.item.desc.split(' ')[0]);
 
                 searchPage.reaffine = true;
@@ -273,9 +273,9 @@ define(
                 return false;
               }
             })
-            .autocomplete("instance")._renderItem = function(ul, item) {
-              return $("<li>")
-                .append("<a>" + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + "</span></a>")
+            .autocomplete('instance')._renderItem = function(ul, item) {
+              return $('<li>')
+                .append('<a>' + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + '</span></a>')
                 .appendTo(ul);
             };
           $('#nbLangFacet').text(data.aggregations.language.buckets.length);
