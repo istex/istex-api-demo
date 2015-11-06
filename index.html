@@ -477,8 +477,12 @@
                                         <p style="font-size:13px;font-weight:bold">Entrez la langue désirée :</p>
                                         <p style="font-size:12px;font-style:italic">(ex : anglais, français...)</p>
                                         <div class="raw">
-                                            <input style="margin-top:5px;text-align:center" id="languages">
-                                            <span id="nbLangResults" class="badge"></span>
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" style="text-align:center" id="languages">
+                                                <span class="input-group-btn">
+                                              <button class="btn btn-default" style="color:red" type="button" id="resetLanguages">X</button>
+                                            </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -493,9 +497,7 @@
                     </h6>
                                     <ul>
                                         <li>
-                                            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-                          Facettes
-                        </a>
+                                            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">Facettes</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -521,10 +523,14 @@
                                 <div class="panel-body">
                                     <div id="facetWos">
                                         <p style="font-size:13px;font-weight:bold">Entrez la catégorie WOS désirée :</p>
-                                        <p style="font-size:12px;font-style:italic">(ex : MEDICINE, GENERAL & INTERNAL...)</p>
+                                        <p style="font-size:10px;font-style:italic">(ex : MEDICINE, GENERAL & INTERNAL...)</p>
                                         <div class="raw">
-                                            <input style="margin-top:5px;text-align:center" id="wosCategories">
-                                            <span id="nbWOSResults" class="badge"></span>
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" style="text-align:center" id="wosCategories">
+                                                <span class="input-group-btn">
+                                                  <button class="btn btn-default" style="color:red" type="button" id="resetWos">X</button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

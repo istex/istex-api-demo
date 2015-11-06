@@ -349,6 +349,20 @@ require(["config"], function(config) {
         if ($('#wosCategories').val() === "") $('#wosCategories').autocomplete("search", "");
       });
 
+      $("#resetLanguages").on("click", function() {
+        searchPage.reaffine = true;
+        searchPage.language = [];
+        $('#languages').val("");
+        searchPageController.search();
+      });
+
+      $("#resetWos").on("click", function() {
+        searchPage.reaffine = true;
+        searchPage.WOS = [];
+        $('#wosCategories').val("");
+        searchPageController.search();
+      });
+
       $("button.js-resetFacet").on("click", function(event, ui) {
         search(searchPage, searchPageController);
       });

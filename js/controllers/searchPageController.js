@@ -263,7 +263,6 @@ define(
               },
               select: function(event, ui) {
                 $('#languages').val(ui.item.label);
-                $('#nbLangResults').text(ui.item.desc.split(' ')[0]);
 
                 searchPage.reaffine = true;
                 searchPage.language = [];
@@ -297,7 +296,6 @@ define(
               },
               select: function(event, ui) {
                 $("#wosCategories").val(ui.item.label);
-                $('#nbWOSResults').text(ui.item.desc.split(' ')[0]);
 
                 searchPage.reaffine = true;
                 searchPage.WOS = [];
