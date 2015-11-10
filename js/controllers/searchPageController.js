@@ -372,8 +372,7 @@ define(
         fields.push('*');
       }
 
-      if (searchPage.editor.length > 0) {
-        if (searchPage.editor[0] === '-1') searchPage.editor[0] = '*';
+      if (searchPage.editor[0] !== '-1') {
         var corpusQuery = '(\"' + searchPage.editor.join("\" OR \"") + '\")';
         ctrlScope.helper.WOS.query = "corpusName:" + corpusQuery;
         fields.push("corpusName:" + corpusQuery);

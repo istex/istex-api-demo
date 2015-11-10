@@ -206,8 +206,6 @@ require(["config"], function(config) {
       globalSearchPage = searchPage;
       globalSearchPageController = searchPageController;
 
-
-
       $("#searchform").submit(function(event) {
         event.preventDefault();
         search(searchPage, searchPageController);
@@ -251,10 +249,12 @@ require(["config"], function(config) {
       $("#facetCorpus").on("click", "input", function() {
         searchPage.reaffine = true;
         if (this.checked) {
+          if (searchPage.editor[0] === '-1') searchPage.editor = [];
           searchPage.editor.push(this.value);
         } else {
           var index = searchPage.editor.indexOf(this.value);
           searchPage.editor.splice(index, 1);
+          if (searchPage.editor.length === 0) searchPage.editor.push('-1');
         }
         searchPageController.search();
       });
