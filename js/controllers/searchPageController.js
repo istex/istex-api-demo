@@ -462,7 +462,8 @@ define(
 
       query += fields.join(" AND ");
       query += "&size=" + searchPage.resultsPerPage;
-      query += queryFrom = "&from=" + searchPage.resultsPerPage * (searchPage.currentPage === 0 ? 1 : searchPage.currentPage - 1);
+      searchPage.currentPage = 1; // nouvelle recherche => retour page 1
+
       ctrlScope.safeApply();
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
       facetQuery = "&facet=corpusName[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
