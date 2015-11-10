@@ -215,7 +215,7 @@ define(
           $('#nbWOSResults').text('');
 
           // CorpusFacet
-          template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1'>" +
             "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
             "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.corpusName.buckets}}";
           $('#nbCorpusFacet').text(data.aggregations.corpusName.buckets.length);
@@ -236,7 +236,7 @@ define(
           }
 
           // RefBibsNativeFacet
-          template = "{{#aggregations.refBibsNative.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          template = "{{#aggregations.refBibsNative.buckets}}<div class='col-xs-offset-1'>" +
             "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{#presence}}{{key}}{{/presence}}</label>" +
             "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.refBibsNative.buckets}}";
           $('#facetRefBibsNative').append(mustache.render(template, data));
