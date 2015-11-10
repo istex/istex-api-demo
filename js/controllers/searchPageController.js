@@ -282,7 +282,7 @@ define(
           // WosFacet
           for (wos of data.aggregations.wos.buckets) {
             obj = {};
-            obj.value = "\"" + wos.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20') + "\"";
+            obj.value = wos.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20');
             obj.desc = wos.docCount + ' documents'
             obj.label = wos.key;
             wosList.push(obj);
@@ -372,15 +372,11 @@ define(
         fields.push('*');
       }
 
-      corpusQuery = '';
-      $.each(searchPage.editor, function(index, editor) {
-        if (editor !== "-1") {
-          corpusQuery += editor + ',';
-        }
-      });
-      if (corpusQuery) {
-        ctrlScope.helper.corpus.query = "AND corpusName:" + corpusQuery.slice(0, -1);
-        fields.push(" corpusName:" + corpusQuery.slice(0, -1));
+      if (searchPage.editor.length > 0) {
+        if (searchPage.editor[0] === '-1') searchPage.editor[0] = '*';
+        var corpusQuery = '(\"' + searchPage.editor.join("\" OR \"") + '\")';
+        ctrlScope.helper.WOS.query = "corpusName:" + corpusQuery;
+        fields.push("corpusName:" + corpusQuery);
       } else {
         ctrlScope.helper.corpus.query = null;
       }
@@ -388,16 +384,16 @@ define(
       if ($("#advancedSearchPanel").is(':visible')) {
 
         if (searchPage.author !== "" && searchPage.author !== undefined) {
-          ctrlScope.helper.author.query = "AND author.name:" + searchPage.author;
-          fields.push("author.name:" + searchPage.author);
+          ctrlScope.helper.author.query = "AND author.name:\"" + searchPage.author + "\"";
+          fields.push("author.name:\"" + searchPage.author + "\"");
         }
         if (searchPage.title !== "" && searchPage.title !== undefined) {
-          ctrlScope.helper.title.query = "AND title:" + searchPage.title;
-          fields.push("title:" + searchPage.title);
+          ctrlScope.helper.title.query = "AND title:\"" + searchPage.title + "\"";
+          fields.push("title:\"" + searchPage.title + "\"");
         }
         if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
-          ctrlScope.helper.subject.query = "AND subject.value:" + searchPage.keywords;
-          fields.push("subject.value:" + searchPage.keywords);
+          ctrlScope.helper.subject.query = "AND subject.value:\"" + searchPage.keywords + "\"";
+          fields.push("subject.value:\"" + searchPage.keywords + "\"");
         }
       }
 
@@ -411,7 +407,7 @@ define(
       }
 
       if (searchPage.WOS.length > 0) {
-        var wosQuery = '(' + searchPage.WOS.join(" OR ") + ')';
+        var wosQuery = '(\"' + searchPage.WOS.join("\" OR \"") + '\")';
         ctrlScope.helper.WOS.query = "categories.wos:" + wosQuery;
         fields.push("categories.wos:" + wosQuery);
       } else {
@@ -419,7 +415,7 @@ define(
       }
 
       if (searchPage.language.length > 0) {
-        var langQuery = '(' + searchPage.language.join(" OR ") + ')';
+        var langQuery = '(\"' + searchPage.language.join("\" OR \"") + '\")';
         ctrlScope.helper.lang.query = "language:" + langQuery;
         fields.push("language:" + langQuery);
       } else {
@@ -447,7 +443,7 @@ define(
       }
 
       if (searchPage.PDFVersion.length > 0) {
-        var pdfQuery = '(' + searchPage.PDFVersion.join(" OR ") + ')';
+        var pdfQuery = '(\"' + searchPage.PDFVersion.join("\" OR \"") + '\")';
         ctrlScope.helper.PDFVersion.query = " AND qualityIndicators.pdfVersion:" + pdfQuery;
         ctrlScope.helper.quality.query += ctrlScope.helper.PDFVersion.query;
         fields.push("qualityIndicators.pdfVersion:" + pdfQuery);
