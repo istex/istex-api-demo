@@ -3,12 +3,13 @@
 # Script de création d'incrémentation de version, git tag, changelog interactif pour istex-api version béta 1
 
 if [ "$1" = '-h' ] || [ "$#" -lt 1 ]; then
-  echo -e "usage: ./newVersion <nouvelle_version>.\n ex: ./newVersion '3.0.0'"
+  echo -e "usage: ./newVersion <nouvelle_version> <version_api_correspondante>.\n ex: ./newVersion '1.0.0' '3.2.1'"
   exit 0
 fi
 
-# On récupère le nouveau numéro de version
+# On récupère le nouveau numéro de version et la version de l'API correspondante
 NEWVERSION="$1"
+APIVERSION="$2"
 
 #On vérifie que jq est dispo
 jq --version
@@ -44,7 +45,7 @@ echo -e "Voici le commit lié au tag $LASTTAG :\n"
 LASTTAGCOMMIT=`git show $LASTTAG | head -1 | cut -d' ' -f2`
 echo "$LASTTAGCOMMIT"
 CHANGELOG=`git log --pretty=format:%s $LASTTAGCOMMIT...HEAD`
-echo -e "ISTEX-API\n=============\nChangements depuis le tag $LASTTAG\n-------------\n $CHANGELOG" > "changelog.md"
+echo -e "ISTEX-API-DEMO\n=============\nChangements depuis le tag $LASTTAG\nCorrespond à l'API v.$APIVERSION\n-------------\n $CHANGELOG" > "changelog.md"
 echo '' >> "changelog.md"
 
 echo -e "Mise à jour du package.json en version $NEWVERSION\n"
@@ -55,7 +56,7 @@ mv package.json .package.json.bkp
 mv .tmppackage.json package.json
 git add package.json
 git add changelog.md
-git commit -m "Passage en $NEWVERSION"
+git commit -m "Passage en $NEWVERSION correspondant à l'API v.$APIVERSION"
 git push
 while true; do
     read -p "Souhaitez-vous tagger la version ? (Y/N)" yn
