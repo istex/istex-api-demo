@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Script de création d'incrémentation de version, git tag, changelog interactif pour istex-api version béta 1
+
+if [ "$1" = '-h' ] || [ "$#" -lt 1 ]; then
+  echo -e "usage: ./newVersion <nouvelle_version>.\n ex: ./newVersion '3.0.0'"
+  exit 0
+fi
+
+# On récupère le nouveau numéro de version
+NEWVERSION="$1"
+
+#On vérifie que jq est dispo
+jq --version
+if [ "$?" -ne 0 ]; then
+  echo -e "jq n'est pas disponible.\n"
+  exit 1
+fi
+
+# On vérifie que git est dispo
+git --version
+if [ "$?" -ne 0 ]; then
+  echo -e "git n'est pas disponible.\n"
+  exit 1
+fi
+
+# Les deux test suivants servent à tester le bon formatage du package.json
+PKGAPPNAME=`jq -r '.name' 'package.json'`
+if [ "$?" -ne 0 ]; then
+  echo -e "jq n'a pas réussi à déterminer le nom de l'application depuis le package.json.\n"
+  exit 1
+fi
+CURRENTPKGVERSION=`jq -r '.version' 'package.json'`
+if [ "$?" -ne 0 ]; then
+  echo -e "jq n'a pas réussi à déterminer la version actuelle depuis le package.json.\n"
+  exit 1
+fi
+echo -e "$PKGAPPNAME est actuellement en version $CURRENTPKGVERSION.\n"
+
+# On récupère le nom du dernier tag
+LASTTAG=`git tag | tail -1`
+
+echo -e "Voici le commit lié au tag $LASTTAG :\n"
+LASTTAGCOMMIT=`git show $LASTTAG | head -1 | cut -d' ' -f2`
+echo "$LASTTAGCOMMIT"
+CHANGELOG=`git log --pretty=format:%s $LASTTAGCOMMIT...HEAD`
+echo -e "ISTEX-API\n=============\nChangements depuis le tag $LASTTAG\n-------------\n $CHANGELOG" > "changelog.md"
+echo '' >> "changelog.md"
+
+echo -e "Mise à jour du package.json en version $NEWVERSION\n"
+jq ".version = \"$NEWVERSION\"" 'package.json' 1>.tmppackage.json
+echo '' >> .tmppackage.json
+rm .package.json.bkp
+mv package.json .package.json.bkp
+mv .tmppackage.json package.json
+git add package.json
+git add changelog.md
+git commit -m "Passage en $NEWVERSION"
+git push
+while true; do
+    read -p "Souhaitez-vous tagger la version ? (Y/N)" yn
+    case $yn in
+        [Yy]* ) git tag "v$NEWVERSION" -f
+                git tag "latest" -f
+                git push --tags -f
+                break;;
+        [Nn]* ) break;;
+        * ) echo "Répondez par Y ou N.";;
+    esac
+done
+echo -e "La version a été incrémentée, le changelog généré le readme et les tag ont été créés le cas échéant (v$NEWVERSION et latest).\nTout est pushé. Terminé.\n"
