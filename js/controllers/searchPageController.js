@@ -488,6 +488,11 @@ define(
       }
       facetQuery += "&output=*&stats";
       query += facetQuery;
+
+      if (searchPage.sortBy){
+        query += '&sortBy=' + searchPage.sortBy;
+      }
+
       softHyphen = "<wbr>";
       // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
       var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen +

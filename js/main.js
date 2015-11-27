@@ -29,6 +29,7 @@ var search = function(searchPage, searchPageController) {
   searchPage.copyrightdate = undefined;
   searchPage.PDFWordCount = undefined;
   searchPage.PDFCharCount = undefined;
+  searchPage.sortBy = undefined;
   searchPage.PDFVersion = [];
   searchPage.refBibsNative = [];
   searchPage.WOS = [];
@@ -220,6 +221,7 @@ require(["config"], function(config) {
         $("#searchform").submit();
       });
 
+      // Pagination
 
       var $pager = $(".istex-pager");
       $pager.find(".prev").click(function(e) {
@@ -245,6 +247,59 @@ require(["config"], function(config) {
         searchPage.currentPage = searchPage.numberOfPages;
         searchPageController.request($(".last").attr("href"));
       });
+
+      // Tris
+
+      $("#qualitySort").on("click", function(event, ui) {
+        searchPage.reaffine = true;
+        $("#sortChosen").text("Qualité");
+        searchPage.sortBy = undefined;
+        searchPageController.search();
+      });
+
+      $("#pubAscSort").on("click", function(event, ui) {
+        searchPage.reaffine = true;
+        $("#sortChosen").text("Date de publication (ancien-récent)");
+        searchPage.sortBy = "publicationDate[asc]";
+        searchPageController.search();
+      });
+
+      $("#pubDescSort").on("click", function(event, ui) {
+        searchPage.reaffine = true;
+        $("#sortChosen").text("Date de publication (récent-ancien)");
+        searchPage.sortBy = "publicationDate[desc]";
+        searchPageController.search();
+      });
+
+      $("#titleAscSort").on("click", function(event, ui) {
+        searchPage.reaffine = true;
+        $("#sortChosen").text("Titre (A-Z)");
+        searchPage.sortBy = "title[asc]";
+        searchPageController.search();
+      });
+
+      $("#titleDescSort").on("click", function(event, ui) {
+        searchPage.reaffine = true;
+        $("#sortChosen").text("Titre (Z-A)");
+        searchPage.sortBy = "title[desc]";
+        searchPageController.search();
+      });
+
+      $("#authorAscSort").on("click", function(event, ui) {
+        searchPage.reaffine = true;
+        $("#sortChosen").text("Auteur (A-Z)");
+        searchPage.sortBy = "author.name[asc]";
+        searchPageController.search();
+      });
+
+      $("#authorDescSort").on("click", function(event, ui) {
+        searchPage.reaffine = true;
+        $("#sortChosen").text("Auteur (Z-A)");
+        searchPage.sortBy = "author.name[desc]";
+        searchPageController.search();
+      });
+
+      // Facettes
 
       $("#facetCorpus").on("click", "input", function() {
         searchPage.reaffine = true;
