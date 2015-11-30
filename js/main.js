@@ -250,52 +250,32 @@ require(["config"], function(config) {
 
       // Tris
 
-      $("#qualitySort").on("click", function(event, ui) {
+      $("#sortMenuChosen li a").click(function() {
+        $("#sortMenu:first-child").html('Tri par : ' + $(this).text() + ' <span class="caret"></span>');
         searchPage.reaffine = true;
-        $("#sortChosen").text("Qualité");
-        searchPage.sortBy = undefined;
-        searchPageController.search();
-      });
-
-      $("#pubAscSort").on("click", function(event, ui) {
-        searchPage.reaffine = true;
-        $("#sortChosen").text("Date de publication (ancien-récent)");
-        searchPage.sortBy = "publicationDate[asc]";
-        searchPageController.search();
-      });
-
-      $("#pubDescSort").on("click", function(event, ui) {
-        searchPage.reaffine = true;
-        $("#sortChosen").text("Date de publication (récent-ancien)");
-        searchPage.sortBy = "publicationDate[desc]";
-        searchPageController.search();
-      });
-
-      $("#titleAscSort").on("click", function(event, ui) {
-        searchPage.reaffine = true;
-        $("#sortChosen").text("Titre (A-Z)");
-        searchPage.sortBy = "title[asc]";
-        searchPageController.search();
-      });
-
-      $("#titleDescSort").on("click", function(event, ui) {
-        searchPage.reaffine = true;
-        $("#sortChosen").text("Titre (Z-A)");
-        searchPage.sortBy = "title[desc]";
-        searchPageController.search();
-      });
-
-      $("#authorAscSort").on("click", function(event, ui) {
-        searchPage.reaffine = true;
-        $("#sortChosen").text("Auteur (A-Z)");
-        searchPage.sortBy = "author.name[asc]";
-        searchPageController.search();
-      });
-
-      $("#authorDescSort").on("click", function(event, ui) {
-        searchPage.reaffine = true;
-        $("#sortChosen").text("Auteur (Z-A)");
-        searchPage.sortBy = "author.name[desc]";
+        switch ($(this).text()) {
+          case 'Qualité':
+            searchPage.sortBy = undefined;
+            break;
+          case 'Date de publication (ancien-récent)':
+            searchPage.sortBy = 'publicationDate[asc]';
+            break;
+          case 'Date de publication (récent-ancien)':
+            searchPage.sortBy = 'publicationDate[desc]';
+            break;
+          case 'Titre (A-Z)':
+            searchPage.sortBy = 'title[asc]';
+            break;
+          case 'Titre (Z-A)':
+            searchPage.sortBy = 'title[desc]';
+            break;
+          case 'Auteur (A-Z)':
+            searchPage.sortBy = 'author.name[asc]';
+            break;
+          case 'Auteur (Z-A)':
+            searchPage.sortBy = 'author.name[desc]';
+            break;
+        }
         searchPageController.search();
       });
 
