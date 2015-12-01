@@ -57,7 +57,9 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
     refBibsNative: {},
     WOS: {},
     lang: {},
-    quality: {}
+    quality: {},
+    sortBy: {},
+    size: {}
   };
 
   $scope.app = {

@@ -375,7 +375,7 @@ define(
 
       if (searchPage.editor[0] !== '-1') {
         var corpusQuery = '(\"' + searchPage.editor.join("\" OR \"") + '\")';
-        ctrlScope.helper.WOS.query = "corpusName:" + corpusQuery;
+        ctrlScope.helper.corpus.query = " AND corpusName:" + corpusQuery;
         fields.push("corpusName:" + corpusQuery);
       } else {
         ctrlScope.helper.corpus.query = null;
@@ -384,31 +384,31 @@ define(
       if ($("#advancedSearchPanel").is(':visible')) {
 
         if (searchPage.author !== "" && searchPage.author !== undefined) {
-          ctrlScope.helper.author.query = "AND author.name:\"" + searchPage.author + "\"";
+          ctrlScope.helper.author.query = " AND author.name:\"" + searchPage.author + "\"";
           fields.push("author.name:\"" + searchPage.author + "\"");
         }
         if (searchPage.title !== "" && searchPage.title !== undefined) {
-          ctrlScope.helper.title.query = "AND title:\"" + searchPage.title + "\"";
+          ctrlScope.helper.title.query = " AND title:\"" + searchPage.title + "\"";
           fields.push("title:\"" + searchPage.title + "\"");
         }
         if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
-          ctrlScope.helper.subject.query = "AND subject.value:\"" + searchPage.keywords + "\"";
+          ctrlScope.helper.subject.query = " AND subject.value:\"" + searchPage.keywords + "\"";
           fields.push("subject.value:\"" + searchPage.keywords + "\"");
         }
       }
 
       if (searchPage.copyrightdate) {
-        ctrlScope.helper.copyrightDate.query = "AND copyrightDate:" + searchPage.copyrightdate;
+        ctrlScope.helper.copyrightDate.query = " AND copyrightDate:" + searchPage.copyrightdate;
         fields.push("copyrightDate:" + searchPage.copyrightdate);
       }
       if (searchPage.pubdate !== undefined) {
-        ctrlScope.helper.pubDate.query = "AND publicationDate:" + searchPage.pubdate;
+        ctrlScope.helper.pubDate.query = " AND publicationDate:" + searchPage.pubdate;
         fields.push("publicationDate:" + searchPage.pubdate);
       }
 
       if (searchPage.WOS.length > 0) {
         var wosQuery = '(\"' + searchPage.WOS.join("\" OR \"") + '\")';
-        ctrlScope.helper.WOS.query = "categories.wos:" + wosQuery;
+        ctrlScope.helper.WOS.query = " AND categories.wos:" + wosQuery;
         fields.push("categories.wos:" + wosQuery);
       } else {
         ctrlScope.helper.WOS.query = null;
@@ -416,7 +416,7 @@ define(
 
       if (searchPage.language.length > 0) {
         var langQuery = '(\"' + searchPage.language.join("\" OR \"") + '\")';
-        ctrlScope.helper.lang.query = "language:" + langQuery;
+        ctrlScope.helper.lang.query = " AND language:" + langQuery;
         fields.push("language:" + langQuery);
       } else {
         ctrlScope.helper.lang.query = null;
@@ -462,10 +462,7 @@ define(
       }
 
       query += fields.join(" AND ");
-      query += "&size=" + searchPage.resultsPerPage;
-      searchPage.currentPage = 1; // nouvelle recherche => retour page 1
 
-      ctrlScope.safeApply();
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
       facetQuery = "&facet=corpusName[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
       if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
@@ -487,26 +484,47 @@ define(
       } else {
         facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score";
       }
-      facetQuery += "&output=*&stats";
       query += facetQuery;
 
-      if (searchPage.sortBy){
+      // Ajout de l'option size
+      ctrlScope.helper.size.query = '&size=' + searchPage.resultsPerPage;
+      query += "&size=" + searchPage.resultsPerPage;
+      searchPage.currentPage = 1; // nouvelle recherche => retour page 1
+
+      if (searchPage.sortBy) {
+        ctrlScope.helper.sortBy.query = '&sortBy=' + searchPage.sortBy;
         query += '&sortBy=' + searchPage.sortBy;
       }
+
+      // Ajout des options non modifiable dans le demonstrateur
+      query += "&output=*&stats";
+
+      ctrlScope.safeApply();
 
       softHyphen = "<wbr>";
       // Construction du contenu des tooltips (sur plusieurs lignes pour la lisibilité)
       var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen +
         "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen +
-        "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen +
-        "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen +
-        "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen +
-        "<mark class=''>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen +
-        "&size=" + (searchPage.resultsPerPage || '') + softHyphen + (queryFrom || '') + softHyphen +
-        (facetQuery || '').replace(/,/g, ",<wbr>").replace('&stats', "<mark class='bg-stats'>&stats</mark>") + "</p>";
+        "<mark class='bg-wos'>" + (ctrlScope.helper.WOS.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-lang'>" + (ctrlScope.helper.lang.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-score'>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-pdfWordCount'>" + (ctrlScope.helper.PDFWordCount.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-pdfCharCount'>" + (ctrlScope.helper.PDFCharCount.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-pdfVersion'>" + (ctrlScope.helper.PDFVersion.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-refBibsNative'>" + (ctrlScope.helper.refBibsNative.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-facets'>" + (facetQuery.replace(/,/g, ",<wbr>") || '') + "</mark>" + softHyphen +
+        "<mark class='bg-from'>" + (queryFrom || '') + "</mark>" + softHyphen +
+        "<mark class='bg-size'>&size=" + searchPage.resultsPerPage + "</mark>" + softHyphen +
+        "<mark class='bg-sortBy'>" + (ctrlScope.helper.sortBy.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-output'>&output=*</mark>" + softHyphen +
+        "<mark class='bg-stats'>&stats</mark>" +"</p>";
+
       $("#request-tooltip-content").html(tooltipsContent);
       searchPageController.request(config.apiUrl + query);
     };
