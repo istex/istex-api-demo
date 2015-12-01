@@ -264,6 +264,35 @@
                             </p>
                           </div>
                         </div>
+                      
+                        <div class="form-group col-xs-6" data-toggle="istex-tooltip">
+                          <label for="issnField">ISSN :</label>
+                          <input type="text" class="form-control" id="issnField" placeholder="ISSN">
+                        </div>
+                        <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle">
+                          <h5>ISSN</h5>
+                          <p>Ce champ permet de préciser un ISSN sur lequel va porter la requête.</p>
+                          <div class="references">
+                            <h6>
+                                <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                              </h6>
+                            <ul>
+                              <li>
+                                <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-avancee">
+                                    Recherche avancée
+                                  </a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div data-ng-if="helper.issn.query">
+                            <hr>
+                            <h6 class="h5">Morceau de la requête généré par le champ: </h6>
+                            <p class="query-chunk">
+                              <mark data-ng-bind="helper.issn.query"></mark>
+                            </p>
+                          </div>
+                        </div>
+
                         <button class="hidden" type="submit"></button>
                       </form>
                     </div>

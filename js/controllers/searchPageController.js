@@ -395,6 +395,10 @@ define(
           ctrlScope.helper.subject.query = "AND subject.value:\"" + searchPage.keywords + "\"";
           fields.push("subject.value:\"" + searchPage.keywords + "\"");
         }
+        if (searchPage.issn !== "" && searchPage.issn !== undefined) {
+          ctrlScope.helper.issn.query = "AND host.issn:\"" + searchPage.issn + "\"";
+          fields.push("host.issn:\"" + searchPage.issn + "\"");
+        }
       }
 
       if (searchPage.copyrightdate) {

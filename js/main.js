@@ -22,6 +22,7 @@ var search = function(searchPage, searchPageController) {
   searchPage.searchField = $("#searchField").val();
   searchPage.title = $("#titleField").val();
   searchPage.author = $("#authorField").val();
+  searchPage.issn = $("#issnField").val();
   searchPage.keywords = $("#themeField").val();
   searchPage.editor = [];
   searchPage.editor.push($("#editorField").val());
@@ -50,6 +51,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
     title: {},
     subject: {},
     author: {},
+    issn: {},
     score: {},
     PDFWordCount: {},
     PDFCharCount: {},
