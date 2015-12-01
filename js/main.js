@@ -269,12 +269,6 @@ require(["config"], function(config) {
           case 'Titre (Z-A)':
             searchPage.sortBy = 'title[desc]';
             break;
-          case 'Auteur (A-Z)':
-            searchPage.sortBy = 'author.name[asc]';
-            break;
-          case 'Auteur (Z-A)':
-            searchPage.sortBy = 'author.name[desc]';
-            break;
         }
         searchPageController.search();
       });

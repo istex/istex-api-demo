@@ -213,6 +213,7 @@ define(
           $('#nbLangResults').text('');
           $('#wosCategories').val('');
           $('#nbWOSResults').text('');
+          $('#sortMenu:first-child').html('Tri par : Qualité <span class="caret"></span>');
 
           // CorpusFacet
           template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1'>" +
