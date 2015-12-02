@@ -531,7 +531,9 @@ define(
       searchPageController.checkSyntax(qParameter,function(syntaxOK) {
         if (syntaxOK) {
           searchPageController.request(config.apiUrl + query);
+          $("#search-warning").fadeOut();
         } else {
+          $("#search-warning").fadeIn();
           console.log("syntaxe de la requête incorrecte.");
         }
       });
