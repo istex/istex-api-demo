@@ -461,7 +461,8 @@ define(
         }
       }
 
-      query += fields.join(" AND ");
+      var qParameter = fields.join(" AND ");
+      query += qParameter;
 
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
       facetQuery = "&facet=corpusName[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
@@ -526,8 +527,16 @@ define(
         "<mark class='bg-stats'>&stats</mark>" +"</p>";
 
       $("#request-tooltip-content").html(tooltipsContent);
-      searchPageController.request(config.apiUrl + query);
-    };
+
+      searchPageController.checkSyntax(qParameter,function(syntaxOK) {
+        if (syntaxOK) {
+          searchPageController.request(config.apiUrl + query);
+        } else {
+          console.log("syntaxe de la requête incorrecte.");
+        }
+      });
+ 
+    }
 
     searchPageController.request = function(url) {
       $("#searchButton").button('loading');
@@ -563,27 +572,40 @@ define(
             searchPageController.manageError(err);
           }
         },
-        timeout: 10000,
-        complete: function() {
-          //Vérification qu'il n'y a pas eu d'autres requêtes entretemps, sinon annulation
-          if (timeStamp === timeStampLocal) {
-
-          }
-        }
+        timeout: 10000
       };
 
       localStorage && localStorage.refreshIfNeeded();
+      
+      setTimeout(function () {
+        if (timeStamp === timeStampLocal) {
+          if (localStorage && localStorage.getItem(url)) {
+            searchPageController.displayResults(JSON.parse(localStorage.getItem(url)));
+          } else {
+            $.ajax(request);
+          }
 
-      if (localStorage && localStorage.getItem(url)) {
-        searchPageController.displayResults(JSON.parse(localStorage.getItem(url)));
-      } else {
-        $.ajax(request);
-      }
+          $("#result").removeClass('hide');
+          $(document).trigger("resultsLoaded");
+          $(".istex-pager").removeClass('hide');
+          $(".pager").removeClass('hide');
+        }
+      }, 618);
+    }
 
-      $("#result").removeClass('hide');
-      $(document).trigger("resultsLoaded");
-      $(".istex-pager").removeClass('hide');
-      $(".pager").removeClass('hide');
-    };
+    searchPageController.checkSyntax = function(qParam, callback) {
+      var syntaxOK = true;
+      var q = qParam.trim();
+      // teste que le nb de double-quotes est pair
+      if (syntaxOK) syntaxOK = (q.match(/"/g) || []).length % 2 === 0;
+      // teste que la requete ne finit pas par ':' ni '.'
+      if (syntaxOK) syntaxOK = ":".indexOf(q[q.length -1]) < 0;
+      // teste qu'on a le même nb de '(' que de ')'
+      if (syntaxOK) syntaxOK = (q.match(/\(/g) || []).length === (q.match(/\)/g) || []).length;
+      // teste qu'on a le même nb de '(' que de ')'
+      if (syntaxOK) syntaxOK = (q.match(/\[/g) || []).length === (q.match(/\]/g) || []).length;
+      callback(syntaxOK);
+    }
+
     return searchPageController;
   });
