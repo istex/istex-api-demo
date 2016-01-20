@@ -1,17 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js">
-<!--<![endif]-->
 
 <head lang="fr">
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ISTEX - Demonstrateur</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +10,7 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.css">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="css/jquery.reject.css">
   <link rel="stylesheet" href="css/main.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -27,10 +19,6 @@
 </head>
 
 <body ng-app="istexApp" ng-controller="istexAppCtrl">
-  <!--[if lt IE 7]>
-              <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-                  your browser</a> to improve your experience.</p>
-    <![endif]-->
   <div class="container">
     <div id="searchHeader">
       <div class="row">
@@ -719,11 +707,6 @@
           </div>
         </div>
       </div>
-      <!--[if IE]>
-      <div class="row" style='margin-top:15px;'>
-        Ce démonstrateur a été optimisé pour <b>Mozilla Firefox</b> et <b>Google Chrome</b>, la compatibilité <b>Internet Explorer</b> ne peut être garantie.
-      </div>
-      <![endif]-->
     </div>
   </div>
   <div id="pager-prototype">
@@ -765,6 +748,7 @@
   <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="js/vendor/jsonview/jquery.jsonview.js"></script>
+  <script src="js/vendor/jquery.reject.js"></script>
   <script type="text/javascript" src="js/vendor/noty/packaged/jquery.noty.packaged.min.js"></script>
   <script type="text/javascript" src="js/vendor/jquery-jsonp/src/jquery.jsonp.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.7.3/jquery.dotdotdot.min.js"></script>

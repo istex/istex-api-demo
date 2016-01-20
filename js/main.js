@@ -13,6 +13,17 @@ require.config({
   }
 });
 
+$.reject({
+  reject: {
+    msie: true,
+    trident: true
+  },
+  display: ['firefox', 'chrome'],
+  close: false,
+  header: 'Le navigateur Internet Explorer n\'est pas supporté pour ce site',
+  paragraph1: 'Nous vous invitons à installer et à utiliser un des navigateurs suivants :',
+  paragraph2: ''
+});
 
 var istexApp = angular.module("istexApp", []);
 
@@ -36,8 +47,6 @@ var search = function(searchPage, searchPageController) {
   searchPage.language = [];
   searchPageController.search();
 };
-
-
 
 istexApp.controller("istexAppCtrl", function($scope, $sce) {
 
@@ -133,10 +142,9 @@ require(["config"], function(config) {
       });
     });
 
-
     $(document).on("resultsLoaded", function(e) {
 
-      // Toolip pour les icons des fichiers
+      // Tooltip pour les icons des fichiers
       $(".download-links").find('a').each(function() {
         var $this = $(this),
           $thisImg = $this.children("img"),
@@ -198,10 +206,12 @@ require(["config"], function(config) {
           scrollTop: 0
         }, 600);
       }
-
     });
-  });
 
+    // $('#searchHeader').load('html/searchHeader.html');
+    // $('#results').load('html/results.html');
+
+  });
 
   require(
     ["models/searchPage", "controllers/searchPageController"],
@@ -224,7 +234,6 @@ require(["config"], function(config) {
       });
 
       // Pagination
-
       var $pager = $(".istex-pager");
       $pager.find(".prev").click(function(e) {
         e.preventDefault();
@@ -251,7 +260,6 @@ require(["config"], function(config) {
       });
 
       // Tris
-
       $("#sortMenuChosen li a").click(function() {
         $("#sortMenu:first-child").html('Tri par : ' + $(this).text() + ' <span class="caret"></span>');
         searchPage.reaffine = true;
