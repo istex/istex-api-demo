@@ -20,6 +20,7 @@ $.reject({
     trident: true
   },
   display: ['firefox', 'chrome'],
+  imagePath:'./img/browsers/',
   close: false,
   header: 'Le navigateur Internet Explorer n\'est pas supporté pour ce site',
   paragraph1: 'Nous vous invitons à installer et à utiliser un des navigateurs suivants :',
