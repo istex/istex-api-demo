@@ -301,6 +301,8 @@ require(["config"], function(config) {
           searchPage.editor.splice(index, 1);
           if (searchPage.editor.length === 0) searchPage.editor.push('-1');
         }
+
+        $("#refineRoad").append('<li><a href="#">corpusName:"' + this.value + '"</a></li>');
         searchPageController.search();
       });
 
@@ -311,7 +313,9 @@ require(["config"], function(config) {
       $("#slider-range-copyright").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.copyrightdate = [];
-        searchPage.copyrightdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+        var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+        searchPage.copyrightdate.push(value);
+        $("#refineRoad").append('<li><a href="#">copyrightDate:"' + value + '"</a></li>');
         searchPageController.search();
       });
 
@@ -322,7 +326,9 @@ require(["config"], function(config) {
       $("#slider-range-pubdate").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.pubdate = [];
-        searchPage.pubdate.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+        var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+        searchPage.pubdate.push(value);
+        $("#refineRoad").append('<li><a href="#">publicationDate:"' + value + '"</a></li>');
         searchPageController.search();
       });
 
@@ -333,7 +339,9 @@ require(["config"], function(config) {
       $("#slider-range-PDFWordCount").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.PDFWordCount = [];
-        searchPage.PDFWordCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+        var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+        searchPage.PDFWordCount.push(value);
+        $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfWordCount:"' + value + '"</a></li>');
         searchPageController.search();
       });
 
@@ -344,7 +352,9 @@ require(["config"], function(config) {
       $("#slider-range-PDFCharCount").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.PDFCharCount = [];
-        searchPage.PDFCharCount.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+        var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+        searchPage.PDFCharCount.push(value);
+        $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfCharCount:"' + value + '"</a></li>');
         searchPageController.search();
       });
 
@@ -359,7 +369,9 @@ require(["config"], function(config) {
       $("#slider-range-score").on("slidestop", function(event, ui) {
         searchPage.reaffine = true;
         searchPage.score = [];
-        searchPage.score.push("[" + ui.values[0] + " TO " + ui.values[1] + "]");
+        var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+        searchPage.score.push(value);
+        $("#refineRoad").append('<li><a href="#">qualityIndicators.score:"' + value + '"</a></li>');
         searchPageController.search();
       });
 
@@ -371,6 +383,7 @@ require(["config"], function(config) {
           var index = searchPage.PDFVersion.indexOf(this.value);
           searchPage.PDFVersion.splice(index, 1);
         }
+        $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfVersion:"' + this.value + '"</a></li>');
         searchPageController.search();
       });
 
@@ -383,6 +396,7 @@ require(["config"], function(config) {
           var index = searchPage.refBibsNative.indexOf(bool);
           searchPage.refBibsNative.splice(index, 1);
         }
+        $("#refineRoad").append('<li><a href="#">qualityIndicators.refBibsNative:"' + this.value + '"</a></li>');
         searchPageController.search();
       });
 

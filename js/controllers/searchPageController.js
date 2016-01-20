@@ -268,6 +268,7 @@ define(
                 searchPage.reaffine = true;
                 searchPage.language = [];
                 searchPage.language.push(ui.item.value);
+                $("#refineRoad").append('<li><a href="#">language:"' + ui.item.value + '"</a></li>');
                 searchPageController.search();
 
                 return false;
@@ -301,6 +302,7 @@ define(
                 searchPage.reaffine = true;
                 searchPage.WOS = [];
                 searchPage.WOS.push(ui.item.value);
+                $("#refineRoad").append('<li><a href="#">categories.wos:"' + ui.item.value + '"</a></li>');
                 searchPageController.search();
 
                 return false;

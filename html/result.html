@@ -37,22 +37,43 @@
   </div>
 </div>
 <div class="row">
+  <h6 class="clearfix">
+  <span class="glyphicon glyphicon-search"></span>&nbsp;Affinage des résultats :   
+  <span class="refineRoad">          
+    <ol class="breadcrumb" id="refineRoad">
+      <li id="allResultsRefine">
+        <a href='#'>
+          <button class="js-resetFacet btn btn-warning btn-xs glyphicon-flip-horizontal glyphicon glyphicon-refresh pull-right" type="button" title="Remettre les facette à zéro"></button>
+        </a>
+      </li>
+    </ol>
+  </span>
+</h6>
+</div>
+<div class="row">
   <div id="facets" class="col-xs-3">
   </div>
   <!--.col-xs-3-->
   <div class="col-xs-9">
-    <div id="topResultPager" class="pager-placeholder"></div>
     <div class="row">
       <div class="col-xs-6 text-left">
-        <span class="requestTimeDisplay ">
+        <div class="requestTimeDisplay">
           <strong>
             Résultats obtenus :
             <input type="text" id="totalResults" readonly style="border:0; text-align: center; width: 80px"><i>en</i>
             <input type="text" id="totalms" readonly style="border:0; text-align: center; width: 40px"> ms
           </strong>
-        </span>
+        </div>
       </div>
-      <div class="col-xs-6 text-right">
+      <div id="topResultPager" class="pager-placeholder col-xs-2">
+      </div>
+      <div class="col-xs-2 text-left">
+        <div class="page">Page :
+          <span class="current">*</span>/
+          <span class="total">*</span>
+        </div>
+      </div>
+      <div class="col-xs-2 text-right">
         <div class="btn-group">
           <a class="btn btn-sm btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#">
             Tri par : Qualité <span class="caret"></span>
@@ -81,7 +102,13 @@
         </p>
       </div>
     </div>
-    <div class="pager-placeholder"></div>
+    <div id="bottomResultPager">
+      <div class="pager-placeholder"></div>
+      <div class="page">
+        <span class="current">*</span>/
+        <span class="total">*</span>
+      </div>
+    </div>
   </div>
 </div>
 <hr>
