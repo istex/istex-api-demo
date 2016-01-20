@@ -13,6 +13,7 @@ require.config({
   }
 });
 
+// Vérification que l'utilisateur n'utilise pas IE
 $.reject({
   reject: {
     msie: true,
@@ -24,6 +25,14 @@ $.reject({
   paragraph1: 'Nous vous invitons à installer et à utiliser un des navigateurs suivants :',
   paragraph2: ''
 });
+
+// Intégration des fichiers HTML avant d'utiliser Angular.js
+$('#searchHeader').load('html/searchHeader.html');
+$('#result').load('html/result.html', function() {
+  $('#facets').load('html/facets.html');
+});
+$('#footer').load('html/footer.html');
+$('#pager-prototype').load('html/pagerPrototype.html');
 
 var istexApp = angular.module("istexApp", []);
 
@@ -207,10 +216,6 @@ require(["config"], function(config) {
         }, 600);
       }
     });
-
-    // $('#searchHeader').load('html/searchHeader.html');
-    // $('#results').load('html/results.html');
-
   });
 
   require(

@@ -1,0 +1,250 @@
+<div class="row">
+  <div class="col-xs-3">
+  </div>
+  <div class="col-xs-6">
+    <div id="searchFieldRow">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 style="color:#458ca6" class="h3">Bienvenue sur le <span style="color:#c4d733">démonstrateur ISTEX</span></h1>
+          <button class="btn btn-info btn-xs dropdown-toggle" style="margin-bottom:10px" data-toggle="modal" data-target="#helpMenu">
+            En savoir plus
+          </button>
+          <!-- Modal aide -->
+          <div class="modal fade" id="helpMenu" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Fermer</span>
+                  </button>
+                  <h4 class="modal-title text-center" id="helpLabel">
+                    <strong>Bienvenue</strong> sur le démonstrateur de l'API <strong>ISTEX</strong>!
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <p class="text-justify">Avant toute chose, ce site ne constitue pas une portail sur l'API. Il s'agit ici de montrer les différents aspects de l'API ISTEX. Le corps du site peut cependant être matière de base à la construction d'un portail. Le code sera bientôt disponible publiquement.</p>
+                  <br>
+                  <u>Pour effectuer une recherche :</u>
+                  <br>
+                  <br>
+                  <img src="img/help/help1.png" class="img-responsive center-block" alt="">
+                  <p class="text-justify">Entrer votre requête simplement dans le champs "Titre ou mot clef". La recherche se lance dès que ce champ est renseigné. Vous pouvez également sélectionner "Recherche avancée" pour mieux préciser votre recherche. Il est dans ce cas nécessaire de cliquer sur l'icone en forme de loupe pour démarrer la recherche.</p>
+                  <br>
+                  <u>Pour comprendre comment ces résultats sont obtenus :</u>
+                  <br>
+                  <br>
+                  <img src="img/help/help2.png" class="img-responsive center-block" alt="">
+                  <p class="text-justify">Une fois la requête effectuée, il est possible de consulter la réponse brute fournie par l'API en cliquant sur le bouton correspondant. La requête envoyée est également visible à gauche du bouton précédent.</p>
+                  <br>
+                  <p class="text-justify">Pour toute aide supplémentaire ou suggestion, vous pouvez nous écrire à istex@inist.fr (lien disponible en bas de page).</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form role="form" class="form-inline" id="searchform">
+            <div data-toggle="istex-tooltip" class="form-group">
+              <div class="input-group">
+                <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
+                <span class="input-group-btn">
+                  <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+                </span>
+              </div>
+            </div>
+            <div class="istex-tooltip">
+              <h5>Mot clef</h5>
+              <p>Ce champ permet la recherche d'un ou plusieurs mot(s) clef(s). Cette recherche peut être affinée grâce aux options de recherche avancées et aux facettes.</p>
+              <div class="references">
+                <h6>
+                  <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                </h6>
+                <ul>
+                  <li>
+                    <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#syntaxe-des-requ-tes">
+                      Syntaxe des requêtes
+                    </a>
+                  </li>
+                  <li>
+                    <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-de-documents">
+                      Recherche de documents
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div data-ng-if="helper.searchKeys.query">
+                <hr>
+                <p>Morceau de la requête généré par le champ: </p>
+                <p class="query-chunk">
+                  <mark data-ng-bind="helper.searchKeys.query"></mark>
+                </p>
+              </div>
+            </div>
+            <div id="search-warning">
+              <p>Attention, la requête saisie est syntaxiquement incorrecte ou incomplète.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="advancedSearchTitle" class="panel-heading col-xs-6 col-xs-offset-3">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#advancedSearchPanel">
+                Recherche avancée
+              </a>
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-offset-2 col-xs-8">
+          <div id="advancedSearchPanel" class="panel-collapse collapse">
+            <div class="panel-body">
+              <div class="row">
+                <form role="form" id="advancedSearchForm" class="clearfix">
+                  <div data-toggle="istex-tooltip" class="form-group col-xs-6">
+                    <label for="editorField">Éditeur :</label>
+                    <select id="editorField" class="form-control">
+                      <option value="-1">Tous</option>
+                    </select>
+                  </div>
+                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle">
+                    <h5>Éditeur</h5>
+                    <p>Cette facette permet de préciser <strong>un unique</strong> <b class="text-primary">corpus éditeur</b> sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-corpus">
+                            Recherche par corpus
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
+                            Facettes
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/corpus/">
+                            Liste des éditeurs disponible via l'API
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.corpus.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+                      <p class="query-chunk">
+                        <mark data-ng-bind="helper.corpus.query"></mark>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group col-xs-6" data-toggle="istex-tooltip">
+                    <label for="titleField">Titre :</label>
+                    <input type="text" class="form-control" id="titleField" placeholder="Titre">
+                  </div>
+                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle">
+                    <h5>Titre</h5>
+                    <p>Ce champ permet la recherche sur le titre.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#syntaxe-des-requ-tes">
+                            Syntaxe des requêtes
+                          </a>
+                        </li>
+                        <li>
+                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-de-documents">
+                            Recherche de documents
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.title.query">
+                      <hr>
+                      <p>Morceau de la requête généré par le champ: </p>
+                      <p class="query-chunk">
+                        <mark data-ng-bind="helper.title.query"></mark>
+                      </p>
+                    </div>
+                  </div>
+                  <div data-toggle="istex-tooltip" class="form-group col-xs-6">
+                    <label for="authorField">Auteur :</label>
+                    <input type="text" class="form-control" id="authorField" placeholder="Auteur">
+                  </div>
+                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle">
+                    <h5>Auteur</h5>
+                    <p>Ce champ permet de préciser un auteur sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-auteur">
+                            Recherche par auteur
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.author.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
+                      <p class="query-chunk">
+                        <mark data-ng-bind="helper.author.query"></mark>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group col-xs-6" data-toggle="istex-tooltip">
+                    <label for="themeField">Mot clef :</label>
+                    <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
+                  </div>
+                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle">
+                    <h5>Mot clef/sujet</h5>
+                    <p>Ce champ permet de préciser un sujet sur lequel va porter la requête.</p>
+                    <div class="references">
+                      <h6>
+                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+                      </h6>
+                      <ul>
+                        <li>
+                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-sujet">
+                            Recherche par sujet
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div data-ng-if="helper.subject.query">
+                      <hr>
+                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
+                      <p class="query-chunk">
+                        <mark data-ng-bind="helper.subject.query"></mark>
+                      </p>
+                    </div>
+                  </div>
+                  <button class="hidden" type="submit"></button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--#searchFieldRow-->
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <hr>
+  </div>
+</div>
