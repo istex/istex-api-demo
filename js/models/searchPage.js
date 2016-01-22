@@ -11,6 +11,7 @@ define({
     numberOfPages: 0,
     numberOfResults: 0,
     editor: [],
+    genre: [],
     advancedSearch: false,
     reaffine: false
 });

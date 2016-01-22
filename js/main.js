@@ -78,7 +78,8 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
     lang: {},
     quality: {},
     sortBy: {},
-    size: {}
+    size: {},
+    articleType: {}
   };
 
   $scope.app = {
@@ -303,6 +304,18 @@ require(["config"], function(config) {
         }
 
         $("#refineRoad").append('<li><a href="#">corpusName:"' + this.value + '"</a></li>');
+        searchPageController.search();
+      });
+
+      $("#facetArticleType").on("click", "input", function() {
+        searchPage.reaffine = true;
+        if (this.checked) {
+          searchPage.genre.push(this.value);
+        } else {
+          var index = searchPage.genre.indexOf(this.value);
+          searchPage.genre.splice(index, 1);
+        }
+        $("#refineRoad").append('<li><a href="#">genre:"' + this.value + '"</a></li>');
         searchPageController.search();
       });
 

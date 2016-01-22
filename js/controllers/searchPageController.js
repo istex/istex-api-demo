@@ -207,6 +207,7 @@ define(
 
           // Vidage des facets avant remplissage
           $('#facetCorpus').empty();
+          $('#facetArticleType').empty();
           $('#facetPDFVersion').empty();
           $('#facetRefBibsNative').empty();
           $('#languages').val('');
@@ -224,6 +225,17 @@ define(
           if (data.aggregations.corpusName.buckets.length === 1) {
             $('#facetCorpus').get(0).getElementsByTagName('input').item(0).checked = true;
             $('#facetCorpus').get(0).getElementsByTagName('input').item(0).disabled = true;
+          }
+
+          // ArticleTypeFacet
+          template = "{{#aggregations.genre.buckets}}<div class='col-xs-offset-1'>" +
+            "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
+            "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.genre.buckets}}";
+          $('#nbArticleTypeFacet').text(data.aggregations.genre.buckets.length);
+          $('#facetArticleType').append(mustache.render(template, data));
+          if (data.aggregations.genre.buckets.length === 1) {
+            $('#facetArticleType').get(0).getElementsByTagName('input').item(0).checked = true;
+            $('#facetArticleType').get(0).getElementsByTagName('input').item(0).disabled = true;
           }
 
           // PDFVersionFacet
@@ -340,6 +352,7 @@ define(
           $('#accordeon').hide();
         }
       }
+
       $("button").button('reset');
       $("#result").css("opacity", 1);
     };
@@ -397,6 +410,14 @@ define(
           ctrlScope.helper.subject.query = " AND subject.value:\"" + searchPage.keywords + "\"";
           fields.push("subject.value:\"" + searchPage.keywords + "\"");
         }
+      }
+
+      if (searchPage.genre.length > 0) {
+        var articleTypeQuery = '(\"' + searchPage.genre.join("\" OR \"") + '\")';
+        ctrlScope.helper.articleType.query = " AND genre:" + articleTypeQuery;
+        fields.push("genre:" + articleTypeQuery);
+      } else {
+        ctrlScope.helper.articleType.query = null;
       }
 
       if (searchPage.copyrightdate) {
@@ -467,7 +488,7 @@ define(
       query += qParameter;
 
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-      facetQuery = "&facet=corpusName[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
+      facetQuery = "&facet=corpusName[*],genre[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
       if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
         minCopyright = $("#slider-range-copyright").slider("values", 0);
         maxCopyright = $("#slider-range-copyright").slider("values", 1);
@@ -538,8 +559,7 @@ define(
           $("#search-warning").fadeIn();
           console.log("syntaxe de la requête incorrecte.");
         }
-      });
- 
+      }); 
     }
 
     searchPageController.request = function(url) {
