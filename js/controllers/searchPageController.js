@@ -203,141 +203,136 @@ define(
 
         $("#tableResult").html(mustache.render(resultRowTemplate, data));
 
-        if (!searchPage.reaffine) {
+        // Vidage des facets avant remplissage
+        $('#facetCorpus').empty();
+        $('#facetArticleType').empty();
+        $('#facetPDFVersion').empty();
+        $('#facetRefBibsNative').empty();
+        $('#languages').val('');
+        $('#nbLangResults').text('');
+        $('#wosCategories').val('');
+        $('#nbWOSResults').text('');
+        $('#sortMenu:first-child').html('Tri par : Qualité <span class="caret"></span>');
 
-          // Vidage des facets avant remplissage
-          $('#facetCorpus').empty();
-          $('#facetArticleType').empty();
-          $('#facetPDFVersion').empty();
-          $('#facetRefBibsNative').empty();
-          $('#languages').val('');
-          $('#nbLangResults').text('');
-          $('#wosCategories').val('');
-          $('#nbWOSResults').text('');
-          $('#sortMenu:first-child').html('Tri par : Qualité <span class="caret"></span>');
-
-          // CorpusFacet
-          template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1'>" +
-            "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
-            "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.corpusName.buckets}}";
-          $('#nbCorpusFacet').text(data.aggregations.corpusName.buckets.length);
-          $('#facetCorpus').append(mustache.render(template, data));
-          if (data.aggregations.corpusName.buckets.length === 1) {
-            $('#facetCorpus').get(0).getElementsByTagName('input').item(0).checked = true;
-            $('#facetCorpus').get(0).getElementsByTagName('input').item(0).disabled = true;
-          }
-
-          // ArticleTypeFacet
-          template = "{{#aggregations.genre.buckets}}<div class='col-xs-offset-1'>" +
-            "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
-            "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.genre.buckets}}";
-          $('#nbArticleTypeFacet').text(data.aggregations.genre.buckets.length);
-          $('#facetArticleType').append(mustache.render(template, data));
-          if (data.aggregations.genre.buckets.length === 1) {
-            $('#facetArticleType').get(0).getElementsByTagName('input').item(0).checked = true;
-            $('#facetArticleType').get(0).getElementsByTagName('input').item(0).disabled = true;
-          }
-
-          // PDFVersionFacet
-          template = "{{#aggregations.pdfVersion.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
-            "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
-            "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.pdfVersion.buckets}}";
-          $('#facetPDFVersion').append(mustache.render(template, data));
-          if (data.aggregations.pdfVersion.buckets.length === 1) {
-            $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).checked = true;
-            $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).disabled = true;
-          }
-
-          // RefBibsNativeFacet
-          template = "{{#aggregations.refBibsNative.buckets}}<div class='col-xs-offset-1'>" +
-            "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{#presence}}{{key}}{{/presence}}</label>" +
-            "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.refBibsNative.buckets}}";
-          $('#facetRefBibsNative').append(mustache.render(template, data));
-          if (data.aggregations.refBibsNative.buckets.length === 1) {
-            $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).checked = true;
-            $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).disabled = true;
-          }
-
-          // LanguageFacet
-          for (lang of data.aggregations.language.buckets) {
-            obj = {};
-            obj.value = lang.key;
-            obj.desc = lang.docCount + ' documents'
-            obj.label = config.languageCorrespondance[lang.key];
-            if (obj.label === undefined) obj.label = obj.value;
-            languageList.push(obj);
-          }
-
-          $("#languages").autocomplete({
-              minLength: 0,
-              source: languageList,
-              focus: function(event, ui) {
-                $('#languages').val(ui.item.label);
-              },
-              select: function(event, ui) {
-                $('#languages').val(ui.item.label);
-
-                searchPage.reaffine = true;
-                searchPage.language = [];
-                searchPage.language.push(ui.item.value);
-                $("#refineRoad").append('<li><a href="#">language:"' + ui.item.value + '"</a></li>');
-                searchPageController.search();
-
-                return false;
-              }
-            })
-            .autocomplete('instance')._renderItem = function(ul, item) {
-              return $('<li>')
-                .append('<a>' + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + '</span></a>')
-                .appendTo(ul);
-            };
-          $('#nbLangFacet').text(data.aggregations.language.buckets.length);
-
-          // WosFacet
-          for (wos of data.aggregations.wos.buckets) {
-            obj = {};
-            obj.value = wos.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20');
-            obj.desc = wos.docCount + ' documents'
-            obj.label = wos.key;
-            wosList.push(obj);
-          }
-
-          $("#wosCategories").autocomplete({
-              minLength: 0,
-              source: wosList,
-              focus: function(event, ui) {
-                $("#wosCategories").val(ui.item.label);
-              },
-              select: function(event, ui) {
-                $("#wosCategories").val(ui.item.label);
-
-                searchPage.reaffine = true;
-                searchPage.WOS = [];
-                searchPage.WOS.push(ui.item.value);
-                $("#refineRoad").append('<li><a href="#">categories.wos:"' + ui.item.value + '"</a></li>');
-                searchPageController.search();
-
-                return false;
-              }
-            })
-            .autocomplete("instance")._renderItem = function(ul, item) {
-              return $("<li>")
-                .append("<a>" + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + "</span></a>")
-                .appendTo(ul);
-            };
-          $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
-
-          // ScoreFacet
-          searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
-          // CopyrightDateFacet
-          searchPageController.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'date');
-          // PubDateFacet
-          searchPageController.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'date');
-          // PdfWordCountFacet
-          searchPageController.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", '', 'integer');
-          // PdfCharCountFacet
-          searchPageController.displayRanges(data, "pdfCharCount", "#slider-range-PDFCharCount", "#amountPDFCharCount", '', 'integer');
+        // CorpusFacet
+        template = "{{#aggregations.corpusName.buckets}}<div class='col-xs-offset-1'>" +
+          "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.corpusName.buckets}}";
+        $('#nbCorpusFacet').text(data.aggregations.corpusName.buckets.length);
+        $('#facetCorpus').append(mustache.render(template, data));
+        if (data.aggregations.corpusName.buckets.length === 1) {
+          $('#facetCorpus').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetCorpus').get(0).getElementsByTagName('input').item(0).disabled = true;
         }
+
+        // ArticleTypeFacet
+        template = "{{#aggregations.genre.buckets}}<div class='col-xs-offset-1'>" +
+          "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.genre.buckets}}";
+        $('#nbArticleTypeFacet').text(data.aggregations.genre.buckets.length);
+        $('#facetArticleType').append(mustache.render(template, data));
+        if (data.aggregations.genre.buckets.length === 1) {
+          $('#facetArticleType').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetArticleType').get(0).getElementsByTagName('input').item(0).disabled = true;
+        }
+
+        // PDFVersionFacet
+        template = "{{#aggregations.pdfVersion.buckets}}<div class='col-xs-offset-1 col-xs-10'>" +
+          "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{key}}</label>" +
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.pdfVersion.buckets}}";
+        $('#facetPDFVersion').append(mustache.render(template, data));
+        if (data.aggregations.pdfVersion.buckets.length === 1) {
+          $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetPDFVersion').get(0).getElementsByTagName('input').item(0).disabled = true;
+        }
+
+        // RefBibsNativeFacet
+        template = "{{#aggregations.refBibsNative.buckets}}<div class='col-xs-offset-1'>" +
+          "<div class='checkbox'><label><input value={{key}} type='checkbox'>{{#presence}}{{key}}{{/presence}}</label>" +
+          "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations.refBibsNative.buckets}}";
+        $('#facetRefBibsNative').append(mustache.render(template, data));
+        if (data.aggregations.refBibsNative.buckets.length === 1) {
+          $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).checked = true;
+          $('#facetRefBibsNative').get(0).getElementsByTagName('input').item(0).disabled = true;
+        }
+
+        // LanguageFacet
+        for (lang of data.aggregations.language.buckets) {
+          obj = {};
+          obj.value = lang.key;
+          obj.desc = lang.docCount + ' documents'
+          obj.label = config.languageCorrespondance[lang.key];
+          if (obj.label === undefined) obj.label = obj.value;
+          languageList.push(obj);
+        }
+
+        $("#languages").autocomplete({
+            minLength: 0,
+            source: languageList,
+            focus: function(event, ui) {
+              $('#languages').val(ui.item.label);
+            },
+            select: function(event, ui) {
+              $('#languages').val(ui.item.label);
+
+              searchPage.language = [];
+              searchPage.language.push(ui.item.value);
+              $("#refineRoad").append('<li><a href="#">language:"' + ui.item.value + '"</a></li>');
+              searchPageController.search();
+
+              return false;
+            }
+          })
+          .autocomplete('instance')._renderItem = function(ul, item) {
+            return $('<li>')
+              .append('<a>' + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + '</span></a>')
+              .appendTo(ul);
+          };
+        $('#nbLangFacet').text(data.aggregations.language.buckets.length);
+
+        // WosFacet
+        for (wos of data.aggregations.wos.buckets) {
+          obj = {};
+          obj.value = wos.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20');
+          obj.desc = wos.docCount + ' documents'
+          obj.label = wos.key;
+          wosList.push(obj);
+        }
+
+        $("#wosCategories").autocomplete({
+            minLength: 0,
+            source: wosList,
+            focus: function(event, ui) {
+              $("#wosCategories").val(ui.item.label);
+            },
+            select: function(event, ui) {
+              $("#wosCategories").val(ui.item.label);
+
+              searchPage.WOS = [];
+              searchPage.WOS.push(ui.item.value);
+              $("#refineRoad").append('<li><a href="#">categories.wos:"' + ui.item.value + '"</a></li>');
+              searchPageController.search();
+
+              return false;
+            }
+          })
+          .autocomplete("instance")._renderItem = function(ul, item) {
+            return $("<li>")
+              .append("<a>" + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + "</span></a>")
+              .appendTo(ul);
+          };
+        $('#nbWOSFacet').text(data.aggregations.wos.buckets.length);
+
+        // ScoreFacet
+        searchPageController.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
+        // CopyrightDateFacet
+        searchPageController.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'date');
+        // PubDateFacet
+        searchPageController.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'date');
+        // PdfWordCountFacet
+        searchPageController.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", '', 'integer');
+        // PdfCharCountFacet
+        searchPageController.displayRanges(data, "pdfCharCount", "#slider-range-PDFCharCount", "#amountPDFCharCount", '', 'integer');
 
       } else {
 
@@ -547,11 +542,11 @@ define(
         "<mark class='bg-size'>&size=" + searchPage.resultsPerPage + "</mark>" + softHyphen +
         "<mark class='bg-sortBy'>" + (ctrlScope.helper.sortBy.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-output'>&output=*</mark>" + softHyphen +
-        "<mark class='bg-stats'>&stats</mark>" +"</p>";
+        "<mark class='bg-stats'>&stats</mark>" + "</p>";
 
       $("#request-tooltip-content").html(tooltipsContent);
 
-      searchPageController.checkSyntax(qParameter,function(syntaxOK) {
+      searchPageController.checkSyntax(qParameter, function(syntaxOK) {
         if (syntaxOK) {
           searchPageController.request(config.apiUrl + query);
           $("#search-warning").fadeOut();
@@ -559,7 +554,7 @@ define(
           $("#search-warning").fadeIn();
           console.log("syntaxe de la requête incorrecte.");
         }
-      }); 
+      });
     }
 
     searchPageController.request = function(url) {
@@ -600,8 +595,8 @@ define(
       };
 
       localStorage && localStorage.refreshIfNeeded();
-      
-      setTimeout(function () {
+
+      setTimeout(function() {
         if (timeStamp === timeStampLocal) {
           if (localStorage && localStorage.getItem(url)) {
             searchPageController.displayResults(JSON.parse(localStorage.getItem(url)));
@@ -623,7 +618,7 @@ define(
       // teste que le nb de double-quotes est pair
       if (syntaxOK) syntaxOK = (q.match(/"/g) || []).length % 2 === 0;
       // teste que la requete ne finit pas par ':' ni '.'
-      if (syntaxOK) syntaxOK = ":".indexOf(q[q.length -1]) < 0;
+      if (syntaxOK) syntaxOK = ":".indexOf(q[q.length - 1]) < 0;
       // teste qu'on a le même nb de '(' que de ')'
       if (syntaxOK) syntaxOK = (q.match(/\(/g) || []).length === (q.match(/\)/g) || []).length;
       // teste qu'on a le même nb de '(' que de ')'

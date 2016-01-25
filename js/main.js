@@ -20,7 +20,7 @@ $.reject({
     trident: true
   },
   display: ['firefox', 'chrome'],
-  imagePath:'./img/browsers/',
+  imagePath: './img/browsers/',
   close: false,
   header: 'Le navigateur Internet Explorer n\'est pas supporté pour ce site',
   paragraph1: 'Nous vous invitons à installer et à utiliser un des navigateurs suivants :',
@@ -269,7 +269,6 @@ require(["config"], function(config) {
       // Tris
       $("#sortMenuChosen li a").click(function() {
         $("#sortMenu:first-child").html('Tri par : ' + $(this).text() + ' <span class="caret"></span>');
-        searchPage.reaffine = true;
         switch ($(this).text()) {
           case 'Qualité':
             searchPage.sortBy = undefined;
@@ -293,7 +292,6 @@ require(["config"], function(config) {
       // Facettes
 
       $("#facetCorpus").on("click", "input", function() {
-        searchPage.reaffine = true;
         if (this.checked) {
           if (searchPage.editor[0] === '-1') searchPage.editor = [];
           searchPage.editor.push(this.value);
@@ -304,11 +302,21 @@ require(["config"], function(config) {
         }
 
         $("#refineRoad").append('<li><a href="#">corpusName:"' + this.value + '"</a></li>');
+
+        var childrenRefineRoad = $("#refineRoad").children();
+
+        childrenRefineRoad.last().attr('value', childrenRefineRoad.length);
+        childrenRefineRoad.last().click(function() {
+          //searchPage = $(this).attr('value');
+          console.log(searchPage);
+          $(this).nextAll().remove();
+          searchPageController.search();
+        });
+
         searchPageController.search();
       });
 
       $("#facetArticleType").on("click", "input", function() {
-        searchPage.reaffine = true;
         if (this.checked) {
           searchPage.genre.push(this.value);
         } else {
@@ -324,7 +332,6 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-copyright").on("slidestop", function(event, ui) {
-        searchPage.reaffine = true;
         searchPage.copyrightdate = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
         searchPage.copyrightdate.push(value);
@@ -337,7 +344,6 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-pubdate").on("slidestop", function(event, ui) {
-        searchPage.reaffine = true;
         searchPage.pubdate = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
         searchPage.pubdate.push(value);
@@ -350,7 +356,6 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-PDFWordCount").on("slidestop", function(event, ui) {
-        searchPage.reaffine = true;
         searchPage.PDFWordCount = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
         searchPage.PDFWordCount.push(value);
@@ -363,7 +368,6 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-PDFCharCount").on("slidestop", function(event, ui) {
-        searchPage.reaffine = true;
         searchPage.PDFCharCount = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
         searchPage.PDFCharCount.push(value);
@@ -380,7 +384,6 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-score").on("slidestop", function(event, ui) {
-        searchPage.reaffine = true;
         searchPage.score = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
         searchPage.score.push(value);
@@ -389,7 +392,6 @@ require(["config"], function(config) {
       });
 
       $("#facetPDFVersion").on("click", "input", function() {
-        searchPage.reaffine = true;
         if (this.checked) {
           searchPage.PDFVersion.push(this.value);
         } else {
@@ -401,7 +403,6 @@ require(["config"], function(config) {
       });
 
       $("#facetRefBibsNative").on("click", "input", function() {
-        searchPage.reaffine = true;
         var bool = (this.value === 'T');
         if (this.checked) {
           searchPage.refBibsNative.push(bool);
@@ -422,20 +423,19 @@ require(["config"], function(config) {
       });
 
       $("#resetLanguages").on("click", function() {
-        searchPage.reaffine = true;
         searchPage.language = [];
         $('#languages').val("");
         searchPageController.search();
       });
 
       $("#resetWos").on("click", function() {
-        searchPage.reaffine = true;
         searchPage.WOS = [];
         $('#wosCategories').val("");
         searchPageController.search();
       });
 
       $("button.js-resetFacet").on("click", function(event, ui) {
+        $("#refineRoad").contents().slice(2).remove();
         search(searchPage, searchPageController);
       });
     });
