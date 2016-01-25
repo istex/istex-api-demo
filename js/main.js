@@ -37,8 +37,9 @@ $('#pager-prototype').load('html/pagerPrototype.html');
 
 var istexApp = angular.module("istexApp", []);
 
+var searchPageHistory = [];
+
 var search = function(searchPage, searchPageController) {
-  searchPage.reaffine = false;
   searchPage.currentPage = 1;
   searchPage.searchField = $("#searchField").val();
   searchPage.title = $("#titleField").val();
@@ -223,6 +224,7 @@ require(["config"], function(config) {
   require(
     ["models/searchPage", "controllers/searchPageController"],
     function(searchPage, searchPageController) {
+
       globalSearchPage = searchPage;
       globalSearchPageController = searchPageController;
 
@@ -436,7 +438,7 @@ require(["config"], function(config) {
 
       $("button.js-resetFacet").on("click", function(event, ui) {
         $("#refineRoad").contents().slice(2).remove();
-        search(searchPage, searchPageController);
+        search(searchPageHistory[0], searchPageController);
       });
     });
 
