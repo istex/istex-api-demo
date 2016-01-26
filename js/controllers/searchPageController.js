@@ -4,14 +4,13 @@
 
 define(
   [
-    "models/searchPage",
     "config",
     "vendor/mustache",
     "controllers/results",
     "vendor/jsonview/jquery.jsonview",
     "polyfill"
   ],
-  function(searchPage, config, mustache, results) {
+  function(config, mustache, results) {
     "use strict";
 
     var searchPageController = {},

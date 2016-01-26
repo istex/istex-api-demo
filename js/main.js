@@ -233,6 +233,8 @@ require(["config"], function(config) {
         searchPageToInsert.WOS = [];
         searchPageToInsert.language = [];
 
+        searchPageHistory = [];
+        $("#allResultsRefine").siblings().remove();
         searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
@@ -539,6 +541,7 @@ require(["config"], function(config) {
       $("button.js-resetFacet").on("click", function(event, ui) {
         $("#refineRoad").contents().slice(2).remove();
         var searchPage = searchPageHistory[0];
+
         searchPageHistory = [];
         searchPageController.search(searchPageHistory[0], searchPageHistory);
       });
