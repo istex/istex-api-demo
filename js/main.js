@@ -27,14 +27,6 @@ $.reject({
   paragraph2: ''
 });
 
-// Intégration des fichiers HTML avant d'utiliser Angular.js
-$('#searchHeader').load('html/searchHeader.html');
-$('#result').load('html/result.html', function() {
-  $('#facets').load('html/facets.html');
-});
-$('#footer').load('html/footer.html');
-$('#pager-prototype').load('html/pagerPrototype.html');
-
 var istexApp = angular.module("istexApp", []);
 
 // Contient l'historique de l'affinage
@@ -540,10 +532,9 @@ require(["config"], function(config) {
 
       $("button.js-resetFacet").on("click", function(event, ui) {
         $("#refineRoad").contents().slice(2).remove();
-        var searchPage = searchPageHistory[0];
-
+        searchPageToInsert = searchPageHistory[0];
         searchPageHistory = [];
-        searchPageController.search(searchPageHistory[0], searchPageHistory);
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
     });
 

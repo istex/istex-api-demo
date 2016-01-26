@@ -20,19 +20,11 @@
 
 <body ng-app="istexApp" ng-controller="istexAppCtrl">
   <div class="container">
-    <div id="searchHeader">
-      <!-- Intégration dans main.js de html/searchHeader.html via Jquery -->
-    </div>
-    <div id="result" class="hide">
-      <!-- Intégration dans main.js de html/result.html via Jquery -->
-    </div>
-    <div id="footer">
-      <!-- Intégration dans main.js de html/footer.html via Jquery -->
-    </div>
+    <div id="searchHeader" ng-include="'html/searchHeader.html'"></div>
+    <div id="result" class="hide" ng-include="'html/result.html'"></div>
+    <div id="footer" ng-include="'html/footer.html'"></div>
   </div>
-  <div id="pager-prototype">
-    <!-- Intégration dans main.js de html/pagerPrototype.html via Jquery -->
-  </div>
+  <div id="pager-prototype" ng-include="'html/pagerPrototype.html'"></div>
   <script src="//content-delivery.istex.fr/web-header/main.js"></script>
   <script src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
   <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
