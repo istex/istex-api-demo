@@ -46,7 +46,7 @@ define(
       $(".alert").alert();
     };
 
-    searchPageController.search = function() {
+    searchPageController.search = function(searchPage, searchPageHistory) {
       var
         query = "document/?q=",
         fields = [],
@@ -236,9 +236,11 @@ define(
 
       $("#request-tooltip-content").html(tooltipsContent);
 
+      searchPageHistory.push(searchPage);
+
       searchPageController.checkSyntax(qParameter, function(syntaxOK) {
         if (syntaxOK) {
-          searchPageController.request(config.apiUrl + query);
+          searchPageController.request(searchPage, config.apiUrl + query);
           $("#search-warning").fadeOut();
         } else {
           $("#search-warning").fadeIn();
@@ -247,7 +249,7 @@ define(
       });
     }
 
-    searchPageController.request = function(url) {
+    searchPageController.request = function(searchPage, url) {
       $("#searchButton").button('loading');
       $("#result").css("opacity", 0.4);
       $("#reqForApi").val(url);

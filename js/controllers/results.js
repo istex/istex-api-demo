@@ -226,23 +226,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
           languageList.push(obj);
         }
 
-        $("#languages").autocomplete({
-            minLength: 0,
-            source: languageList,
-            focus: function(event, ui) {
-              $('#languages').val(ui.item.label);
-            },
-            select: function(event, ui) {
-              $('#languages').val(ui.item.label);
-
-              searchPage.language = [];
-              searchPage.language.push(ui.item.value);
-              $("#refineRoad").append('<li><a href="#">language:"' + ui.item.value + '"</a></li>');
-              searchPageController.search();
-
-              return false;
-            }
-          })
+        $("#languages").autocomplete("option", "source", languageList)
           .autocomplete('instance')._renderItem = function(ul, item) {
             return $('<li>')
               .append('<a>' + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + '</span></a>')
@@ -259,23 +243,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
           wosList.push(obj);
         }
 
-        $("#wosCategories").autocomplete({
-            minLength: 0,
-            source: wosList,
-            focus: function(event, ui) {
-              $("#wosCategories").val(ui.item.label);
-            },
-            select: function(event, ui) {
-              $("#wosCategories").val(ui.item.label);
-
-              searchPage.WOS = [];
-              searchPage.WOS.push(ui.item.value);
-              $("#refineRoad").append('<li><a href="#">categories.wos:"' + ui.item.value + '"</a></li>');
-              searchPageController.search();
-
-              return false;
-            }
-          })
+        $("#wosCategories").autocomplete("option", "source", wosList)
           .autocomplete("instance")._renderItem = function(ul, item) {
             return $("<li>")
               .append("<a>" + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + "</span></a>")

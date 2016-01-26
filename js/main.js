@@ -37,27 +37,8 @@ $('#pager-prototype').load('html/pagerPrototype.html');
 
 var istexApp = angular.module("istexApp", []);
 
+// Contient l'historique de l'affinage
 var searchPageHistory = [];
-
-var search = function(searchPage, searchPageController) {
-  searchPage.currentPage = 1;
-  searchPage.searchField = $("#searchField").val();
-  searchPage.title = $("#titleField").val();
-  searchPage.author = $("#authorField").val();
-  searchPage.keywords = $("#themeField").val();
-  searchPage.editor = [];
-  searchPage.editor.push($("#editorField").val());
-  searchPage.pubdate = undefined;
-  searchPage.copyrightdate = undefined;
-  searchPage.PDFWordCount = undefined;
-  searchPage.PDFCharCount = undefined;
-  searchPage.sortBy = undefined;
-  searchPage.PDFVersion = [];
-  searchPage.refBibsNative = [];
-  searchPage.WOS = [];
-  searchPage.language = [];
-  searchPageController.search();
-};
 
 istexApp.controller("istexAppCtrl", function($scope, $sce) {
 
@@ -228,9 +209,31 @@ require(["config"], function(config) {
       globalSearchPage = searchPage;
       globalSearchPageController = searchPageController;
 
+      var searchPageToInsert;
+
       $("#searchform").submit(function(event) {
         event.preventDefault();
-        search(searchPage, searchPageController);
+
+        searchPageToInsert = $.extend(true, {}, searchPage);
+
+        searchPageToInsert.currentPage = 1;
+        searchPageToInsert.searchField = $("#searchField").val();
+        searchPageToInsert.title = $("#titleField").val();
+        searchPageToInsert.author = $("#authorField").val();
+        searchPageToInsert.keywords = $("#themeField").val();
+        searchPageToInsert.editor = [];
+        searchPageToInsert.editor.push($("#editorField").val());
+        searchPageToInsert.pubdate = undefined;
+        searchPageToInsert.copyrightdate = undefined;
+        searchPageToInsert.PDFWordCount = undefined;
+        searchPageToInsert.PDFCharCount = undefined;
+        searchPageToInsert.sortBy = undefined;
+        searchPageToInsert.PDFVersion = [];
+        searchPageToInsert.refBibsNative = [];
+        searchPageToInsert.WOS = [];
+        searchPageToInsert.language = [];
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#advancedSearchForm").submit(function(event) {
@@ -246,87 +249,100 @@ require(["config"], function(config) {
       var $pager = $(".istex-pager");
       $pager.find(".prev").click(function(e) {
         e.preventDefault();
-        searchPage.currentPage = searchPage.currentPage - 1;
-        searchPageController.request($(".prev").attr("href"));
+        searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
+        searchPageToInsert.currentPage = searchPageToInsert.currentPage - 1;
+        searchPageController.request(searchPageToInsert, $(".prev").attr("href"));
       });
 
       $pager.find(".first").click(function(e) {
         e.preventDefault();
-        searchPage.currentPage = 1;
-        searchPageController.request($(".first").attr("href"));
+        searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
+        searchPageToInsert.currentPage = 1;
+        searchPageController.request(searchPageToInsert, $(".first").attr("href"));
       });
 
       $pager.find(".next").click(function(e) {
         e.preventDefault();
-        searchPage.currentPage = searchPage.currentPage + 1;
-        searchPageController.request($(".next").attr("href"));
+        searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
+        searchPageToInsert.currentPage = searchPageToInsert.currentPage + 1;
+        searchPageController.request(searchPageToInsert, $(".next").attr("href"));
       });
 
       $pager.find(".last").click(function(e) {
         e.preventDefault();
-        searchPage.currentPage = searchPage.numberOfPages;
-        searchPageController.request($(".last").attr("href"));
+        searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
+        searchPageToInsert.currentPage = searchPageToInsert.numberOfPages;
+        searchPageController.request(searchPageToInsert, $(".last").attr("href"));
       });
 
       // Tris
       $("#sortMenuChosen li a").click(function() {
         $("#sortMenu:first-child").html('Tri par : ' + $(this).text() + ' <span class="caret"></span>');
+        searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
+        searchPageHistory.pop();
         switch ($(this).text()) {
           case 'Qualité':
-            searchPage.sortBy = undefined;
+            searchPageToInsert.sortBy = undefined;
             break;
           case 'Date de publication (ancien-récent)':
-            searchPage.sortBy = 'publicationDate[asc]';
+            searchPageToInsert.sortBy = 'publicationDate[asc]';
             break;
           case 'Date de publication (récent-ancien)':
-            searchPage.sortBy = 'publicationDate[desc]';
+            searchPageToInsert.sortBy = 'publicationDate[desc]';
             break;
           case 'Titre (A-Z)':
-            searchPage.sortBy = 'title[asc]';
+            searchPageToInsert.sortBy = 'title[asc]';
             break;
           case 'Titre (Z-A)':
-            searchPage.sortBy = 'title[desc]';
+            searchPageToInsert.sortBy = 'title[desc]';
             break;
         }
-        searchPageController.search();
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       // Facettes
 
+      var refineRoadClick = function() {
+        var index = $(this).index();
+        var searchPage = searchPageHistory[index];
+        $(this).nextAll().remove();
+        searchPageHistory = searchPageHistory.slice(0, index);
+        searchPageController.search(searchPage, searchPageHistory);
+      }
+
       $("#facetCorpus").on("click", "input", function() {
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
         if (this.checked) {
-          if (searchPage.editor[0] === '-1') searchPage.editor = [];
-          searchPage.editor.push(this.value);
+          if (searchPageToInsert.editor[0] === '-1') searchPageToInsert.editor = [];
+          searchPageToInsert.editor.push(this.value);
         } else {
-          var index = searchPage.editor.indexOf(this.value);
-          searchPage.editor.splice(index, 1);
-          if (searchPage.editor.length === 0) searchPage.editor.push('-1');
+          var index = searchPageToInsert.editor.indexOf(this.value);
+          searchPageToInsert.editor.splice(index, 1);
+          if (searchPageToInsert.editor.length === 0) searchPageToInsert.editor.push('-1');
         }
 
         $("#refineRoad").append('<li><a href="#">corpusName:"' + this.value + '"</a></li>');
+        $("#refineRoad").children().last().click(refineRoadClick);
 
-        var childrenRefineRoad = $("#refineRoad").children();
-
-        childrenRefineRoad.last().attr('value', childrenRefineRoad.length);
-        childrenRefineRoad.last().click(function() {
-          //searchPage = $(this).attr('value');
-          console.log(searchPage);
-          $(this).nextAll().remove();
-          searchPageController.search();
-        });
-
-        searchPageController.search();
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#facetArticleType").on("click", "input", function() {
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
         if (this.checked) {
-          searchPage.genre.push(this.value);
+          searchPageToInsert.genre.push(this.value);
         } else {
-          var index = searchPage.genre.indexOf(this.value);
-          searchPage.genre.splice(index, 1);
+          var index = searchPageToInsert.genre.indexOf(this.value);
+          searchPageToInsert.genre.splice(index, 1);
         }
         $("#refineRoad").append('<li><a href="#">genre:"' + this.value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#slider-range-copyright").on("slide", function(event, ui) {
@@ -334,11 +350,17 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-copyright").on("slidestop", function(event, ui) {
-        searchPage.copyrightdate = [];
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
+        searchPageToInsert.copyrightdate = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-        searchPage.copyrightdate.push(value);
+        searchPageToInsert.copyrightdate.push(value);
+
         $("#refineRoad").append('<li><a href="#">copyrightDate:"' + value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#slider-range-pubdate").on("slide", function(event, ui) {
@@ -346,11 +368,17 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-pubdate").on("slidestop", function(event, ui) {
-        searchPage.pubdate = [];
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
+        searchPageToInsert.pubdate = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-        searchPage.pubdate.push(value);
+        searchPageToInsert.pubdate.push(value);
+
         $("#refineRoad").append('<li><a href="#">publicationDate:"' + value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#slider-range-PDFWordCount").on("slide", function(event, ui) {
@@ -358,11 +386,17 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-PDFWordCount").on("slidestop", function(event, ui) {
-        searchPage.PDFWordCount = [];
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
+        searchPageToInsert.PDFWordCount = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-        searchPage.PDFWordCount.push(value);
+        searchPageToInsert.PDFWordCount.push(value);
+
         $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfWordCount:"' + value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#slider-range-PDFCharCount").on("slide", function(event, ui) {
@@ -370,11 +404,17 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-PDFCharCount").on("slidestop", function(event, ui) {
-        searchPage.PDFCharCount = [];
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
+        searchPageToInsert.PDFCharCount = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-        searchPage.PDFCharCount.push(value);
+        searchPageToInsert.PDFCharCount.push(value);
+
         $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfCharCount:"' + value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#slider-range-score").slider({
@@ -386,38 +426,98 @@ require(["config"], function(config) {
       });
 
       $("#slider-range-score").on("slidestop", function(event, ui) {
-        searchPage.score = [];
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
+        searchPageToInsert.score = [];
         var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-        searchPage.score.push(value);
+        searchPageToInsert.score.push(value);
+
         $("#refineRoad").append('<li><a href="#">qualityIndicators.score:"' + value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#facetPDFVersion").on("click", "input", function() {
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
         if (this.checked) {
-          searchPage.PDFVersion.push(this.value);
+          searchPageToInsert.PDFVersion.push(this.value);
         } else {
-          var index = searchPage.PDFVersion.indexOf(this.value);
-          searchPage.PDFVersion.splice(index, 1);
+          var index = searchPageToInsert.PDFVersion.indexOf(this.value);
+          searchPageToInsert.PDFVersion.splice(index, 1);
         }
+
         $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfVersion:"' + this.value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
       });
 
       $("#facetRefBibsNative").on("click", "input", function() {
+
+        searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
         var bool = (this.value === 'T');
         if (this.checked) {
-          searchPage.refBibsNative.push(bool);
+          searchPageToInsert.refBibsNative.push(bool);
         } else {
-          var index = searchPage.refBibsNative.indexOf(bool);
-          searchPage.refBibsNative.splice(index, 1);
+          var index = searchPageToInsert.refBibsNative.indexOf(bool);
+          searchPageToInsert.refBibsNative.splice(index, 1);
         }
+
         $("#refineRoad").append('<li><a href="#">qualityIndicators.refBibsNative:"' + this.value + '"</a></li>');
-        searchPageController.search();
+        $("#refineRoad").children().last().click(refineRoadClick);
+
+        searchPageController.search(searchPageToInsert, searchPageHistory);
+      });
+
+      $("#languages").autocomplete({
+        minLength: 0,
+        focus: function(event, ui) {
+          $('#languages').val(ui.item.label);
+        },
+        select: function(event, ui) {
+          $('#languages').val(ui.item.label);
+
+          searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
+          searchPageToInsert.language = [];
+          searchPageToInsert.language.push(ui.item.value);
+          $("#refineRoad").append('<li><a href="#">language:"' + ui.item.value + '"</a></li>');
+          $("#refineRoad").children().last().click(refineRoadClick);
+
+          searchPageController.search(searchPageToInsert, searchPageHistory);
+
+          return false;
+        }
       });
 
       $("#languages").on("click", function() {
         if ($('#languages').val() === "") $('#languages').autocomplete("search", "");
+      });
+
+      $("#wosCategories").autocomplete({
+        minLength: 0,
+        focus: function(event, ui) {
+          $("#wosCategories").val(ui.item.label);
+        },
+        select: function(event, ui) {
+          $("#wosCategories").val(ui.item.label);
+
+          searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+
+          searchPageToInsert.WOS = [];
+          searchPageToInsert.WOS.push(ui.item.value);
+          $("#refineRoad").append('<li><a href="#">categories.wos:"' + ui.item.value + '"</a></li>');
+          $("#refineRoad").children().last().click(refineRoadClick);
+
+          searchPageController.search(searchPageToInsert, searchPageHistory);
+
+          return false;
+        }
       });
 
       $("#wosCategories").on("click", function() {
@@ -427,18 +527,20 @@ require(["config"], function(config) {
       $("#resetLanguages").on("click", function() {
         searchPage.language = [];
         $('#languages').val("");
-        searchPageController.search();
+        searchPageController.search(searchPage, searchPageHistory);
       });
 
       $("#resetWos").on("click", function() {
         searchPage.WOS = [];
         $('#wosCategories').val("");
-        searchPageController.search();
+        searchPageController.search(searchPage, searchPageHistory);
       });
 
       $("button.js-resetFacet").on("click", function(event, ui) {
         $("#refineRoad").contents().slice(2).remove();
-        search(searchPageHistory[0], searchPageController);
+        var searchPage = searchPageHistory[0];
+        searchPageHistory = [];
+        searchPageController.search(searchPageHistory[0], searchPageHistory);
       });
     });
 
