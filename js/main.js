@@ -32,6 +32,32 @@ var istexApp = angular.module("istexApp", []);
 // Contient l'historique de l'affinage
 var searchPageHistory = [];
 
+var search = function(searchPage, searchPageController) {
+
+  var searchPageToInsert = $.extend(true, {}, searchPage);
+
+  searchPageToInsert.currentPage = 1;
+  searchPageToInsert.searchField = $("#searchField").val();
+  searchPageToInsert.title = $("#titleField").val();
+  searchPageToInsert.author = $("#authorField").val();
+  searchPageToInsert.keywords = $("#themeField").val();
+  searchPageToInsert.editor = [];
+  searchPageToInsert.editor.push($("#editorField").val());
+  searchPageToInsert.pubdate = undefined;
+  searchPageToInsert.copyrightdate = undefined;
+  searchPageToInsert.PDFWordCount = undefined;
+  searchPageToInsert.PDFCharCount = undefined;
+  searchPageToInsert.sortBy = undefined;
+  searchPageToInsert.PDFVersion = [];
+  searchPageToInsert.refBibsNative = [];
+  searchPageToInsert.WOS = [];
+  searchPageToInsert.language = [];
+
+  searchPageHistory = [];
+  $("#allResultsRefine").siblings().remove();
+  searchPageController.search(searchPageToInsert, searchPageHistory);
+}
+
 istexApp.controller("istexAppCtrl", function($scope, $sce) {
 
   $scope.helper = {
@@ -205,29 +231,7 @@ require(["config"], function(config) {
 
       $("#searchform").submit(function(event) {
         event.preventDefault();
-
-        searchPageToInsert = $.extend(true, {}, searchPage);
-
-        searchPageToInsert.currentPage = 1;
-        searchPageToInsert.searchField = $("#searchField").val();
-        searchPageToInsert.title = $("#titleField").val();
-        searchPageToInsert.author = $("#authorField").val();
-        searchPageToInsert.keywords = $("#themeField").val();
-        searchPageToInsert.editor = [];
-        searchPageToInsert.editor.push($("#editorField").val());
-        searchPageToInsert.pubdate = undefined;
-        searchPageToInsert.copyrightdate = undefined;
-        searchPageToInsert.PDFWordCount = undefined;
-        searchPageToInsert.PDFCharCount = undefined;
-        searchPageToInsert.sortBy = undefined;
-        searchPageToInsert.PDFVersion = [];
-        searchPageToInsert.refBibsNative = [];
-        searchPageToInsert.WOS = [];
-        searchPageToInsert.language = [];
-
-        searchPageHistory = [];
-        $("#allResultsRefine").siblings().remove();
-        searchPageController.search(searchPageToInsert, searchPageHistory);
+        search(searchPage, searchPageController);
       });
 
       $("#advancedSearchForm").submit(function(event) {
