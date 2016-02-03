@@ -9,7 +9,7 @@ require.config({
   baseUrl: 'js/',
   paths: {
     'text': '../bower_components/requirejs-text/text',
-    'qTip': ['//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip']
+    'qTip': ['./vendor/jquery.qtip-2.2.1.min.js']
   }
 });
 
