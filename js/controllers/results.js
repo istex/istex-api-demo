@@ -220,7 +220,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         for (lang of data.aggregations.language.buckets) {
           obj = {};
           obj.value = lang.key;
-          obj.desc = lang.docCount + ' documents'
+          obj.desc = lang.docCount + ' documents';
           obj.label = config.languageCorrespondance[lang.key];
           if (obj.label === undefined) obj.label = obj.value;
           languageList.push(obj);
@@ -238,7 +238,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         for (wos of data.aggregations.wos.buckets) {
           obj = {};
           obj.value = wos.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20');
-          obj.desc = wos.docCount + ' documents'
+          obj.desc = wos.docCount + ' documents';
           obj.label = wos.key;
           wosList.push(obj);
         }
@@ -279,5 +279,5 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
       $("button").button('reset');
       $("#result").css("opacity", 1);
     }
-  }
+  };
 });

@@ -73,7 +73,7 @@ define(
       }
 
       if (searchPage.editor[0] !== '-1') {
-        var corpusQuery = '(\"' + searchPage.editor.join("\" OR \"") + '\")';
+        corpusQuery = '(\"' + searchPage.editor.join("\" OR \"") + '\")';
         ctrlScope.helper.corpus.query = " AND corpusName:" + corpusQuery;
         fields.push("corpusName:" + corpusQuery);
       } else {
@@ -246,7 +246,7 @@ define(
           console.log("syntaxe de la requête incorrecte.");
         }
       });
-    }
+    };
 
     searchPageController.request = function(searchPage, url) {
       $("#searchButton").button('loading');
@@ -301,7 +301,7 @@ define(
           $(".pager").removeClass('hide');
         }
       }, 618);
-    }
+    };
 
     searchPageController.checkSyntax = function(qParam, callback) {
       var syntaxOK = true;
@@ -315,7 +315,8 @@ define(
       // teste qu'on a le même nb de '(' que de ')'
       if (syntaxOK) syntaxOK = (q.match(/\[/g) || []).length === (q.match(/\]/g) || []).length;
       callback(syntaxOK);
-    }
+    };
 
     return searchPageController;
-  });
+  }
+);

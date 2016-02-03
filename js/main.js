@@ -56,7 +56,7 @@ var search = function(searchPage, searchPageController) {
   searchPageHistory = [];
   $("#allResultsRefine").siblings().remove();
   searchPageController.search(searchPageToInsert, searchPageHistory);
-}
+};
 
 istexApp.controller("istexAppCtrl", function($scope, $sce) {
 
