@@ -4,38 +4,14 @@ require(
 
     var searchPageToInsert;
 
-    searchEvents(searchPage, searchPageController); // Barre de recherche    
-    paginationEvents(searchPageController); // Pagination
-
-    // Tris
-    $("#sortMenuChosen li a").click(function() {
-      $("#sortMenu:first-child").html('Tri par : ' + $(this).text() + ' <span class="caret"></span>');
-      searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
-      searchPageHistory.pop();
-      switch ($(this).text()) {
-        case 'Qualité':
-          searchPageToInsert.sortBy = undefined;
-          break;
-        case 'Date de publication (ancien-récent)':
-          searchPageToInsert.sortBy = 'publicationDate[asc]';
-          break;
-        case 'Date de publication (récent-ancien)':
-          searchPageToInsert.sortBy = 'publicationDate[desc]';
-          break;
-        case 'Titre (A-Z)':
-          searchPageToInsert.sortBy = 'title[asc]';
-          break;
-        case 'Titre (Z-A)':
-          searchPageToInsert.sortBy = 'title[desc]';
-          break;
-      }
-      searchPageController.search(searchPageToInsert, searchPageHistory);
-    });
+    searchEvents(searchPage, searchPageController); // Barre de recherche
+    paginationEvents(searchPageController); // Pagination    
+    sortEvents(searchPage, searchPageController); // Tris
 
     // Facettes
     onClickFacetEvents(searchPageController); // Facettes de type "liste de termes"
     autocompleteFacetEvents(searchPage, searchPageController); // Facettes autocomplétées
-    slideFacetEvents(searchPage, searchPageController) // Facettes de type "slider"
+    slideFacetEvents(searchPage, searchPageController); // Facettes de type "slider"
 
     $("button.js-resetFacet").on("click", function(event, ui) {
       $("#refineRoad").contents().slice(2).remove();
@@ -86,6 +62,32 @@ function paginationEvents(searchPageController) {
     searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
     searchPageToInsert.currentPage = searchPageToInsert.numberOfPages;
     searchPageController.request(searchPageToInsert, $(".last").attr("href"))
+  });
+};
+
+function sortEvents(searchPage, searchPageController) {
+  $("#sortMenuChosen li a").click(function() {
+    $("#sortMenu:first-child").html('Tri par : ' + $(this).text() + ' <span class="caret"></span>');
+    searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
+    searchPageHistory.pop();
+    switch ($(this).text()) {
+      case 'Qualité':
+        searchPageToInsert.sortBy = undefined;
+        break;
+      case 'Date de publication (ancien-récent)':
+        searchPageToInsert.sortBy = 'publicationDate[asc]';
+        break;
+      case 'Date de publication (récent-ancien)':
+        searchPageToInsert.sortBy = 'publicationDate[desc]';
+        break;
+      case 'Titre (A-Z)':
+        searchPageToInsert.sortBy = 'title[asc]';
+        break;
+      case 'Titre (Z-A)':
+        searchPageToInsert.sortBy = 'title[desc]';
+        break;
+    }
+    searchPageController.search(searchPageToInsert, searchPageHistory);
   });
 };
 
@@ -163,99 +165,99 @@ function onClickFacetEvents(searchPageController) {
 };
 
 function slideFacetEvents(searchPage, searchPageController) {
-    $("#slider-range-copyright").on("slide", function(event, ui) {
-      $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
-    });
+  $("#slider-range-copyright").on("slide", function(event, ui) {
+    $("#amountCopyrightDate").val(ui.values[0] + " à " + ui.values[1]);
+  });
 
-    $("#slider-range-copyright").on("slidestop", function(event, ui) {
+  $("#slider-range-copyright").on("slidestop", function(event, ui) {
 
-      searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+    searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
 
-      searchPageToInsert.copyrightdate = [];
-      var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-      searchPageToInsert.copyrightdate.push(value);
+    searchPageToInsert.copyrightdate = [];
+    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+    searchPageToInsert.copyrightdate.push(value);
 
-      $("#refineRoad").append('<li><a href="#">copyrightDate:"' + value + '"</a></li>');
-      $("#refineRoad").children().last().click(refineRoadClick);
+    $("#refineRoad").append('<li><a href="#">copyrightDate:"' + value + '"</a></li>');
+    $("#refineRoad").children().last().click(refineRoadClick);
 
-      searchPageController.search(searchPageToInsert, searchPageHistory);
-    });
+    searchPageController.search(searchPageToInsert, searchPageHistory);
+  });
 
-    $("#slider-range-pubdate").on("slide", function(event, ui) {
-      $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
-    });
+  $("#slider-range-pubdate").on("slide", function(event, ui) {
+    $("#amountPubDate").val(ui.values[0] + " à " + ui.values[1]);
+  });
 
-    $("#slider-range-pubdate").on("slidestop", function(event, ui) {
+  $("#slider-range-pubdate").on("slidestop", function(event, ui) {
 
-      searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+    searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
 
-      searchPageToInsert.pubdate = [];
-      var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-      searchPageToInsert.pubdate.push(value);
+    searchPageToInsert.pubdate = [];
+    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+    searchPageToInsert.pubdate.push(value);
 
-      $("#refineRoad").append('<li><a href="#">publicationDate:"' + value + '"</a></li>');
-      $("#refineRoad").children().last().click(refineRoadClick);
+    $("#refineRoad").append('<li><a href="#">publicationDate:"' + value + '"</a></li>');
+    $("#refineRoad").children().last().click(refineRoadClick);
 
-      searchPageController.search(searchPageToInsert, searchPageHistory);
-    });
+    searchPageController.search(searchPageToInsert, searchPageHistory);
+  });
 
-    $("#slider-range-PDFWordCount").on("slide", function(event, ui) {
-      $("#amountPDFWordCount").val(ui.values[0] + " à " + ui.values[1]);
-    });
+  $("#slider-range-PDFWordCount").on("slide", function(event, ui) {
+    $("#amountPDFWordCount").val(ui.values[0] + " à " + ui.values[1]);
+  });
 
-    $("#slider-range-PDFWordCount").on("slidestop", function(event, ui) {
+  $("#slider-range-PDFWordCount").on("slidestop", function(event, ui) {
 
-      searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+    searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
 
-      searchPageToInsert.PDFWordCount = [];
-      var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-      searchPageToInsert.PDFWordCount.push(value);
+    searchPageToInsert.PDFWordCount = [];
+    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+    searchPageToInsert.PDFWordCount.push(value);
 
-      $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfWordCount:"' + value + '"</a></li>');
-      $("#refineRoad").children().last().click(refineRoadClick);
+    $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfWordCount:"' + value + '"</a></li>');
+    $("#refineRoad").children().last().click(refineRoadClick);
 
-      searchPageController.search(searchPageToInsert, searchPageHistory);
-    });
+    searchPageController.search(searchPageToInsert, searchPageHistory);
+  });
 
-    $("#slider-range-PDFCharCount").on("slide", function(event, ui) {
-      $("#amountPDFCharCount").val(ui.values[0] + " à " + ui.values[1]);
-    });
+  $("#slider-range-PDFCharCount").on("slide", function(event, ui) {
+    $("#amountPDFCharCount").val(ui.values[0] + " à " + ui.values[1]);
+  });
 
-    $("#slider-range-PDFCharCount").on("slidestop", function(event, ui) {
+  $("#slider-range-PDFCharCount").on("slidestop", function(event, ui) {
 
-      searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+    searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
 
-      searchPageToInsert.PDFCharCount = [];
-      var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-      searchPageToInsert.PDFCharCount.push(value);
+    searchPageToInsert.PDFCharCount = [];
+    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+    searchPageToInsert.PDFCharCount.push(value);
 
-      $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfCharCount:"' + value + '"</a></li>');
-      $("#refineRoad").children().last().click(refineRoadClick);
+    $("#refineRoad").append('<li><a href="#">qualityIndicators.pdfCharCount:"' + value + '"</a></li>');
+    $("#refineRoad").children().last().click(refineRoadClick);
 
-      searchPageController.search(searchPageToInsert, searchPageHistory);
-    });
+    searchPageController.search(searchPageToInsert, searchPageHistory);
+  });
 
-    $("#slider-range-score").slider({
-      step: 0.3
-    });
+  $("#slider-range-score").slider({
+    step: 0.3
+  });
 
-    $("#slider-range-score").on("slide", function(event, ui) {
-      $("#amountScore").val(ui.values[0] + " à " + ui.values[1]);
-    });
+  $("#slider-range-score").on("slide", function(event, ui) {
+    $("#amountScore").val(ui.values[0] + " à " + ui.values[1]);
+  });
 
-    $("#slider-range-score").on("slidestop", function(event, ui) {
+  $("#slider-range-score").on("slidestop", function(event, ui) {
 
-      searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+    searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
 
-      searchPageToInsert.score = [];
-      var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
-      searchPageToInsert.score.push(value);
+    searchPageToInsert.score = [];
+    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+    searchPageToInsert.score.push(value);
 
-      $("#refineRoad").append('<li><a href="#">qualityIndicators.score:"' + value + '"</a></li>');
-      $("#refineRoad").children().last().click(refineRoadClick);
+    $("#refineRoad").append('<li><a href="#">qualityIndicators.score:"' + value + '"</a></li>');
+    $("#refineRoad").children().last().click(refineRoadClick);
 
-      searchPageController.search(searchPageToInsert, searchPageHistory);
-    });
+    searchPageController.search(searchPageToInsert, searchPageHistory);
+  });
 };
 
 function autocompleteFacetEvents(searchPage, searchPageController) {
@@ -278,6 +280,7 @@ function autocompleteFacetEvents(searchPage, searchPageController) {
   $("#languages").on("click", function() {
     if ($("#languages").val() === "") $("#languages").autocomplete("search", "")
   });
+
   $("#wosCategories").autocomplete({
     minLength: 0,
     focus: function(event, ui) {
@@ -297,6 +300,7 @@ function autocompleteFacetEvents(searchPage, searchPageController) {
   $("#wosCategories").on("click", function() {
     if ($("#wosCategories").val() === "") $("#wosCategories").autocomplete("search", "")
   });
+  
   $("#resetLanguages").on("click", function() {
     searchPage.language = [];
     $("#languages").val("");
