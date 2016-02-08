@@ -164,7 +164,7 @@ function sliderEvents(tag, tagAmount, field, name, searchPage, searchPageControl
     var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
     searchPageToInsert[field].push(value);
 
-    $("#refineRoad").append('<li><a href="#">' + name + ':"' + value + '"</a></li>');
+    $("#refineRoad").append('<li><a href="#">' + name + ':' + value + '</a></li>');
     $("#refineRoad").children().last().click(refineRoadClick);
 
     searchPageController.search(searchPageToInsert, searchPageHistory);

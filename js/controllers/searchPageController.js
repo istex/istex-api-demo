@@ -64,6 +64,7 @@ define(
         queryFrom,
         facetQuery,
         softHyphen;
+
       if (searchPage.searchField) {
         ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
         fields.push(searchPage.searchField);
@@ -80,20 +81,20 @@ define(
         ctrlScope.helper.corpus.query = null;
       }
 
-      if ($("#advancedSearchPanel").is(':visible')) {
+      function getField(field, scopeField, qFragment, ctrlScopeHelper, fields, string, quality) {
+        if (field) {
+          ctrlScopeHelper[scopeField].query = " AND " + qFragment + ((string) ? ":\"" : ":") + field + ((string) ? "\"" : "");
+          if (quality) ctrlScopeHelper.quality.query += ctrlScopeHelper[scopeField].query;
+          fields.push(qFragment + ((string) ? ":\"" : ":") + field + ((string) ? "\"" : ""));
+        } else {
+          ctrlScopeHelper[scopeField].query = null;
+        }
+      }
 
-        if (searchPage.author !== "" && searchPage.author !== undefined) {
-          ctrlScope.helper.author.query = " AND author.name:\"" + searchPage.author + "\"";
-          fields.push("author.name:\"" + searchPage.author + "\"");
-        }
-        if (searchPage.title !== "" && searchPage.title !== undefined) {
-          ctrlScope.helper.title.query = " AND title:\"" + searchPage.title + "\"";
-          fields.push("title:\"" + searchPage.title + "\"");
-        }
-        if (searchPage.keywords !== "" && searchPage.keywords !== undefined) {
-          ctrlScope.helper.subject.query = " AND subject.value:\"" + searchPage.keywords + "\"";
-          fields.push("subject.value:\"" + searchPage.keywords + "\"");
-        }
+      if ($("#advancedSearchPanel").is(':visible')) {
+        getField(searchPage.author, 'author', 'author.name', ctrlScope.helper, fields, true, false);
+        getField(searchPage.title, 'title', 'title', ctrlScope.helper, fields, true, false);
+        getField(searchPage.keywords, 'subject', 'subject.value', ctrlScope.helper, fields, true, false);
       }
 
       if (searchPage.genre.length > 0) {
@@ -104,14 +105,8 @@ define(
         ctrlScope.helper.articleType.query = null;
       }
 
-      if (searchPage.copyrightdate) {
-        ctrlScope.helper.copyrightDate.query = " AND copyrightDate:" + searchPage.copyrightdate;
-        fields.push("copyrightDate:" + searchPage.copyrightdate);
-      }
-      if (searchPage.pubdate !== undefined) {
-        ctrlScope.helper.pubDate.query = " AND publicationDate:" + searchPage.pubdate;
-        fields.push("publicationDate:" + searchPage.pubdate);
-      }
+      getField(searchPage.copyrightdate, 'copyrightDate', 'copyrightDate', ctrlScope.helper, fields, false, false);
+      getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, false, false);
 
       if (searchPage.WOS.length > 0) {
         var wosQuery = '(\"' + searchPage.WOS.join("\" OR \"") + '\")';
@@ -131,23 +126,10 @@ define(
 
       // Facette qualité
       ctrlScope.helper.quality.query = '';
-      if (searchPage.score !== undefined) {
-        ctrlScope.helper.score.query = " AND qualityIndicators.score:" + searchPage.score;
-        ctrlScope.helper.quality.query += ctrlScope.helper.score.query;
-        fields.push("qualityIndicators.score:" + searchPage.score);
-      }
 
-      if (searchPage.PDFWordCount !== undefined) {
-        ctrlScope.helper.PDFWordCount.query = " AND qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount;
-        ctrlScope.helper.quality.query += ctrlScope.helper.PDFWordCount.query;
-        fields.push("qualityIndicators.pdfWordCount:" + searchPage.PDFWordCount);
-      }
-
-      if (searchPage.PDFCharCount !== undefined) {
-        ctrlScope.helper.PDFCharCount.query = " AND qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount;
-        ctrlScope.helper.quality.query += ctrlScope.helper.PDFCharCount.query;
-        fields.push("qualityIndicators.pdfCharCount:" + searchPage.PDFCharCount);
-      }
+      getField(searchPage.score, 'score', 'qualityIndicators.score', ctrlScope.helper, fields, false, true);
+      getField(searchPage.PDFWordCount, 'PDFWordCount', 'qualityIndicators.pdfWordCount', ctrlScope.helper, fields, false, true);
+      getField(searchPage.PDFCharCount, 'PDFCharCount', 'qualityIndicators.pdfCharCount', ctrlScope.helper, fields, false, true);
 
       if (searchPage.PDFVersion.length > 0) {
         var pdfQuery = '(\"' + searchPage.PDFVersion.join("\" OR \"") + '\")';
