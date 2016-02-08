@@ -30,34 +30,9 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
 
       if (data.total > 0) {
         $("#accordeon").show();
-        $(".istex-pager")
-          .show()
-          .find(".first")
-          .attr("href", data.firstPageURI)
-          .end()
-          .find(".last")
-          .attr("href", data.lastPageURI)
-          .end();
 
-        $(".js-firstPageURI").html(data.firstPageURI);
-        $(".js-lastPageURI").html(data.lastPageURI);
-
-        // Selon les réponses, il peut ne pas y avoir de prevPageURI ou de nextPageURI
-        $(".prev").attr("href", data.prevPageURI);
-        $(".js-prevPageURI").html(data.prevPageURI);
-        if (data.prevPageURI) {
-          $(".prev").show();
-        } else {
-          $(".prev").hide(); // Assurance si une recherche a déjà été effectué en amont
-        }
-
-        $(".next").attr("href", data.nextPageURI);
-        $(".js-nextPageURI").html(data.nextPageURI);
-        if (data.nextPageURI) {
-          $(".next").show();
-        } else {
-          $(".next").hide(); // Assurance si une recherche a déjà été effectué en amont
-        }
+        // Pager
+        generatePageURI(data);
 
         searchPage.numberOfResults = data.total;
         searchPage.numberOfPages = searchPage.numberOfResults === 0 ? 0 : Math.ceil(searchPage.numberOfResults / searchPage.resultsPerPage);
@@ -139,6 +114,34 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
     }
   };
 });
+
+function generatePageURI(data) {
+  $(".istex-pager")
+    .show()
+    .find(".first")
+    .attr("href", data.firstPageURI)
+    .end()
+    .find(".last")
+    .attr("href", data.lastPageURI)
+    .end();
+
+  $(".js-firstPageURI").html(data.firstPageURI);
+  $(".js-lastPageURI").html(data.lastPageURI);
+
+  // Selon les réponses, il peut ne pas y avoir de prevPageURI ou de nextPageURI
+  prevNextPageURI($(".prev"), data.prevPageURI, $(".js-prevPageURI"));
+  prevNextPageURI($(".next"), data.nextPageURI, $(".js-nextPageURI"));
+}
+
+function prevNextPageURI(tag, dataURI, jsTag) {
+  tag.attr("href", dataURI);
+  jsTag.html(dataURI);
+  if (dataURI) {
+    tag.show();
+  } else {
+    tag.hide(); // Assurance si une recherche a déjà été effectué en amont
+  }
+}
 
 function generateDataFunctions(data, config) {
   // On wrap l'objet data avant de lui donner de nouvelles méthodes.
