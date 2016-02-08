@@ -25,7 +25,8 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         " à " + $(slider).slider("values", 1));
     },
     displayResults: function(searchPage, data) {
-      $("#jsonFromApi").JSONView(data);
+
+      $("#jsonViewButton").attr('data-whatever', JSON.stringify(data));
 
       if (data.total > 0) {
         $("#accordeon").show();

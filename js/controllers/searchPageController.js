@@ -7,7 +7,7 @@ define(
     "config",
     "vendor/mustache",
     "controllers/results",
-    "vendor/jsonview/jquery.jsonview",
+    "vendor/jsonview/jquery.jsonview-1.2.3",
     "polyfill"
   ],
   function(config, mustache, results) {

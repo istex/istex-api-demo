@@ -1,6 +1,7 @@
+
 /*!
- * jQuery JSONView
- * Licensed under the MIT License.
+jQuery JSONView.
+Licensed under the MIT License.
  */
 (function(jQuery) {
   var $, Collapser, JSONFormatter, JSONView;
@@ -95,7 +96,7 @@
     };
 
     JSONFormatter.prototype.objectToHTML = function(object, level) {
-      var collapsible, hasContents, numProps, output, prop, value;
+      var collapsible, hasContents, key, numProps, output, prop, value;
       if (level == null) {
         level = 0;
       }
@@ -108,7 +109,8 @@
       for (prop in object) {
         value = object[prop];
         hasContents = true;
-        output += "<li><span class=\"prop\"><span class=\"q\">\"</span>" + (this.jsString(prop)) + "<span class=\"q\">\"</span></span>: " + (this.valueToHTML(value, level + 1));
+        key = this.options.escape ? this.jsString(prop) : prop;
+        output += "<li><span class=\"prop\"><span class=\"q\">\"</span>" + key + "<span class=\"q\">\"</span></span>: " + (this.valueToHTML(value, level + 1));
         if (numProps > 1) {
           output += ',';
         }
@@ -131,58 +133,83 @@
 
   })();
   (typeof module !== "undefined" && module !== null) && (module.exports = JSONFormatter);
-  Collapser = {
-    bindEvent: function(item, collapsed) {
+  Collapser = (function() {
+    function Collapser() {}
+
+    Collapser.bindEvent = function(item, options) {
       var collapser;
       collapser = document.createElement('div');
       collapser.className = 'collapser';
-      collapser.innerHTML = collapsed ? '+' : '-';
+      collapser.innerHTML = options.collapsed ? '+' : '-';
       collapser.addEventListener('click', (function(_this) {
         return function(event) {
-          return _this.toggle(event.target);
+          return _this.toggle(event.target, options);
         };
       })(this));
       item.insertBefore(collapser, item.firstChild);
-      if (collapsed) {
+      if (options.collapsed) {
         return this.collapse(collapser);
       }
-    },
-    expand: function(collapser) {
+    };
+
+    Collapser.expand = function(collapser) {
       var ellipsis, target;
       target = this.collapseTarget(collapser);
+      if (target.style.display === '') {
+        return;
+      }
       ellipsis = target.parentNode.getElementsByClassName('ellipsis')[0];
       target.parentNode.removeChild(ellipsis);
       target.style.display = '';
       return collapser.innerHTML = '-';
-    },
-    collapse: function(collapser) {
+    };
+
+    Collapser.collapse = function(collapser) {
       var ellipsis, target;
       target = this.collapseTarget(collapser);
+      if (target.style.display === 'none') {
+        return;
+      }
       target.style.display = 'none';
       ellipsis = document.createElement('span');
       ellipsis.className = 'ellipsis';
       ellipsis.innerHTML = ' &hellip; ';
       target.parentNode.insertBefore(ellipsis, target);
       return collapser.innerHTML = '+';
-    },
-    toggle: function(collapser) {
-      var target;
-      target = this.collapseTarget(collapser);
-      if (target.style.display === 'none') {
-        return this.expand(collapser);
-      } else {
-        return this.collapse(collapser);
+    };
+
+    Collapser.toggle = function(collapser, options) {
+      var action, collapsers, target, _i, _len, _results;
+      if (options == null) {
+        options = {};
       }
-    },
-    collapseTarget: function(collapser) {
+      target = this.collapseTarget(collapser);
+      action = target.style.display === 'none' ? 'expand' : 'collapse';
+      if (options.recursive_collapser) {
+        collapsers = collapser.parentNode.getElementsByClassName('collapser');
+        _results = [];
+        for (_i = 0, _len = collapsers.length; _i < _len; _i++) {
+          collapser = collapsers[_i];
+          _results.push(this[action](collapser));
+        }
+        return _results;
+      } else {
+        return this[action](collapser);
+      }
+    };
+
+    Collapser.collapseTarget = function(collapser) {
       var target, targets;
       targets = collapser.parentNode.getElementsByClassName('collapsible');
       if (!targets.length) {
         return;
       }
       return target = targets[0];
-    }
-  };
+    };
+
+    return Collapser;
+
+  })();
   $ = jQuery;
   JSONView = {
     collapse: function(el) {
@@ -213,7 +240,7 @@
             return JSONView[method](this);
           });
         } else {
-          return $this.find('.jsonview > ul > li > .collapsible').siblings('.collapser').each(function() {
+          return $this.find('.jsonview > ul > li .collapsible').siblings('.collapser').each(function() {
             return JSONView[method](this);
           });
         }
@@ -223,11 +250,14 @@
       options = args[1] || {};
       defaultOptions = {
         collapsed: false,
-        nl2br: false
+        nl2br: false,
+        recursive_collapser: false,
+        escape: true
       };
       options = $.extend(defaultOptions, options);
       formatter = new JSONFormatter({
-        nl2br: options.nl2br
+        nl2br: options.nl2br,
+        escape: options.escape
       });
       if (Object.prototype.toString.call(json) === '[object String]') {
         json = JSON.parse(json);
@@ -242,7 +272,7 @@
         for (_i = 0, _len = items.length; _i < _len; _i++) {
           item = items[_i];
           if (item.parentNode.nodeName === 'LI') {
-            _results.push(Collapser.bindEvent(item.parentNode, options.collapsed));
+            _results.push(Collapser.bindEvent(item.parentNode, options));
           } else {
             _results.push(void 0);
           }
