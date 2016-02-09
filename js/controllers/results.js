@@ -240,7 +240,7 @@ function generateDataFunctions(data, config) {
 
 function generateTermsFacet(facetName, keys, tag, nbTag, data, mustache) {
   var template = "{{#aggregations." + facetName + ".buckets}}<div class='col-xs-offset-1'>" +
-    "<div class='checkbox'><label><input value={{key}} type='checkbox'>" + keys + "</label>" +
+    "<div class='checkbox'><label><input value=\'{{key}}\' type='checkbox'>" + keys + "</label>" +
     "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations." + facetName + ".buckets}}";
 
   if (nbTag) nbTag.text(data.aggregations[facetName].buckets.length);

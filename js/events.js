@@ -115,12 +115,14 @@ function sortEvents(searchPage, searchPageController) {
   });
 }
 
-function refineRoadClick() {
-  var index = $(this).index();
-  var searchPage = searchPageHistory[index];
-  $(this).nextAll().remove();
-  searchPageHistory = searchPageHistory.slice(0, index);
-  searchPageController.search(searchPage, searchPageHistory);
+function refineRoadClick(searchPageController) {
+  return function() {
+    var index = $(this).index();
+    var searchPage = searchPageHistory[index];
+    $(this).nextAll().remove();
+    searchPageHistory = searchPageHistory.slice(0, index);
+    searchPageController.search(searchPage, searchPageHistory);
+  }
 }
 
 function onClickEvents(tag, field, name, searchPageController) {
@@ -143,7 +145,7 @@ function onClickEvents(tag, field, name, searchPageController) {
     }
 
     $("#refineRoad").append('<li><a href="#">' + name + ':"' + value + '"</a></li>');
-    $("#refineRoad").children().last().click(refineRoadClick);
+    $("#refineRoad").children().last().click(refineRoadClick(searchPageController));
     searchPageController.search(searchPageToInsert, searchPageHistory);
   });
 }
@@ -165,7 +167,7 @@ function sliderEvents(tag, tagAmount, field, name, searchPage, searchPageControl
     searchPageToInsert[field].push(value);
 
     $("#refineRoad").append('<li><a href="#">' + name + ':' + value + '</a></li>');
-    $("#refineRoad").children().last().click(refineRoadClick);
+    $("#refineRoad").children().last().click(refineRoadClick(searchPageController));
 
     searchPageController.search(searchPageToInsert, searchPageHistory);
   });
@@ -186,7 +188,7 @@ function autocompleteEvents(tag, resetTag, field, name, searchPage, searchPageCo
       searchPageToInsert[field] = [];
       searchPageToInsert[field].push(ui.item.value);
       $("#refineRoad").append('<li><a href="#">' + name + ':"' + ui.item.value + '"</a></li>');
-      $("#refineRoad").children().last().click(refineRoadClick);
+      $("#refineRoad").children().last().click(refineRoadClick(searchPageController));
       searchPageController.search(searchPageToInsert, searchPageHistory);
       return false;
     }
