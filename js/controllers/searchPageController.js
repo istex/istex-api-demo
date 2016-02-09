@@ -74,71 +74,28 @@ define(
       }
 
       if (searchPage.editor[0] !== '-1') {
-        corpusQuery = '(\"' + searchPage.editor.join("\" OR \"") + '\")';
-        ctrlScope.helper.corpus.query = " AND corpusName:" + corpusQuery;
-        fields.push("corpusName:" + corpusQuery);
-      } else {
-        ctrlScope.helper.corpus.query = null;
-      }
-
-      function getField(field, scopeField, qFragment, ctrlScopeHelper, fields, string, quality) {
-        if (field) {
-          ctrlScopeHelper[scopeField].query = " AND " + qFragment + ((string) ? ":\"" : ":") + field + ((string) ? "\"" : "");
-          if (quality) ctrlScopeHelper.quality.query += ctrlScopeHelper[scopeField].query;
-          fields.push(qFragment + ((string) ? ":\"" : ":") + field + ((string) ? "\"" : ""));
-        } else {
-          ctrlScopeHelper[scopeField].query = null;
-        }
+        getField(searchPage.editor, 'corpus', 'corpusName', ctrlScope.helper, fields, 'array', false);
       }
 
       if ($("#advancedSearchPanel").is(':visible')) {
-        getField(searchPage.author, 'author', 'author.name', ctrlScope.helper, fields, true, false);
-        getField(searchPage.title, 'title', 'title', ctrlScope.helper, fields, true, false);
-        getField(searchPage.keywords, 'subject', 'subject.value', ctrlScope.helper, fields, true, false);
+        getField(searchPage.author, 'author', 'author.name', ctrlScope.helper, fields, 'string', false);
+        getField(searchPage.title, 'title', 'title', ctrlScope.helper, fields, 'string', false);
+        getField(searchPage.keywords, 'subject', 'subject.value', ctrlScope.helper, fields, 'string', false);
       }
 
-      if (searchPage.genre.length > 0) {
-        var articleTypeQuery = '(\"' + searchPage.genre.join("\" OR \"") + '\")';
-        ctrlScope.helper.articleType.query = " AND genre:" + articleTypeQuery;
-        fields.push("genre:" + articleTypeQuery);
-      } else {
-        ctrlScope.helper.articleType.query = null;
-      }
-
-      getField(searchPage.copyrightdate, 'copyrightDate', 'copyrightDate', ctrlScope.helper, fields, false, false);
-      getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, false, false);
-
-      if (searchPage.WOS.length > 0) {
-        var wosQuery = '(\"' + searchPage.WOS.join("\" OR \"") + '\")';
-        ctrlScope.helper.WOS.query = " AND categories.wos:" + wosQuery;
-        fields.push("categories.wos:" + wosQuery);
-      } else {
-        ctrlScope.helper.WOS.query = null;
-      }
-
-      if (searchPage.language.length > 0) {
-        var langQuery = '(\"' + searchPage.language.join("\" OR \"") + '\")';
-        ctrlScope.helper.lang.query = " AND language:" + langQuery;
-        fields.push("language:" + langQuery);
-      } else {
-        ctrlScope.helper.lang.query = null;
-      }
+      getField(searchPage.genre, 'articleType', 'genre', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.copyrightdate, 'copyrightDate', 'copyrightDate', ctrlScope.helper, fields, 'range', false);
+      getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);
+      getField(searchPage.WOS, 'WOS', 'categories.wos', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.language, 'lang', 'language', ctrlScope.helper, fields, 'array', false);
 
       // Facette qualité
       ctrlScope.helper.quality.query = '';
 
-      getField(searchPage.score, 'score', 'qualityIndicators.score', ctrlScope.helper, fields, false, true);
-      getField(searchPage.PDFWordCount, 'PDFWordCount', 'qualityIndicators.pdfWordCount', ctrlScope.helper, fields, false, true);
-      getField(searchPage.PDFCharCount, 'PDFCharCount', 'qualityIndicators.pdfCharCount', ctrlScope.helper, fields, false, true);
-
-      if (searchPage.PDFVersion.length > 0) {
-        var pdfQuery = '(\"' + searchPage.PDFVersion.join("\" OR \"") + '\")';
-        ctrlScope.helper.PDFVersion.query = " AND qualityIndicators.pdfVersion:" + pdfQuery;
-        ctrlScope.helper.quality.query += ctrlScope.helper.PDFVersion.query;
-        fields.push("qualityIndicators.pdfVersion:" + pdfQuery);
-      } else {
-        ctrlScope.helper.PDFVersion.query = null;
-      }
+      getField(searchPage.score, 'score', 'qualityIndicators.score', ctrlScope.helper, fields, 'range', true);
+      getField(searchPage.PDFWordCount, 'PDFWordCount', 'qualityIndicators.pdfWordCount', ctrlScope.helper, fields, 'range', true);
+      getField(searchPage.PDFCharCount, 'PDFCharCount', 'qualityIndicators.pdfCharCount', ctrlScope.helper, fields, 'range', true);
+      getField(searchPage.PDFVersion, 'PDFVersion', 'qualityIndicators.pdfVersion', ctrlScope.helper, fields, 'array', true);
 
       if (searchPage.refBibsNative) {
         if (searchPage.refBibsNative.length === 1) {
@@ -302,3 +259,25 @@ define(
     return searchPageController;
   }
 );
+
+function getField(field, scopeField, qFragment, ctrlScopeHelper, fields, type, quality) {
+  if (field && field.length > 0) {
+    var contains;
+    switch (type) {
+      case 'array':
+        contains = '(\"' + field.join("\" OR \"") + '\")';
+        break;
+      case 'string':
+        contains = "\"" + field + "\"";
+        break;
+      default:
+        contains = field;
+        break;
+    }
+    ctrlScopeHelper[scopeField].query = " AND " + qFragment + ":" + contains;
+    if (quality) ctrlScopeHelper.quality.query += ctrlScopeHelper[scopeField].query;
+    fields.push(qFragment + ":" + contains);
+  } else {
+    ctrlScopeHelper[scopeField].query = null;
+  }
+}
