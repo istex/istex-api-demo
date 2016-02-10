@@ -112,6 +112,7 @@ require(["config", "events"], function(config, events) {
   $(document).ready(function() {
 
     $("#pager-prototype").contents().appendTo(".pager-placeholder");
+    $("#topResultPager a").addClass('btn-sm');
 
     /**
      * Istex tooltip

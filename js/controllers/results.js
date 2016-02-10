@@ -61,7 +61,6 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         $('#nbLangResults').text('');
         $('#wosCategories').val('');
         $('#nbWOSResults').text('');
-        $('#sortMenu:first-child').html('Tri par : Qualité <span class="caret"></span>');
 
         // Génération des facettes de type "terms"
         generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, mustache);

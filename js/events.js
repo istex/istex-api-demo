@@ -101,10 +101,10 @@ function sortEvents(searchPage, searchPageController) {
       case 'Qualité':
         searchPageToInsert.sortBy = undefined;
         break;
-      case 'Date de publication (ancien-récent)':
+      case 'Publication (ancien-récent)':
         searchPageToInsert.sortBy = 'publicationDate[asc]';
         break;
-      case 'Date de publication (récent-ancien)':
+      case 'Publication (récent-ancien)':
         searchPageToInsert.sortBy = 'publicationDate[desc]';
         break;
       case 'Titre (A-Z)':
