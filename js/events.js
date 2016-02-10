@@ -2,6 +2,9 @@ require(
   ["models/searchPage", "controllers/searchPageController"],
   function(searchPage, searchPageController) {
 
+    globalSearchPage = searchPage;
+    globalSearchPageController = searchPageController;
+
     searchEvents(searchPage, searchPageController); // Barre de recherche
     paginationEvents(searchPageController); // Pagination
     sortEvents(searchPage, searchPageController); // Tris
