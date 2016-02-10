@@ -1,29 +1,29 @@
 {
+  "main": "index.html",
+  "dependencies": {
+    "lodash": "^3.9.3",
+    "colors": "^1.1.2"
+  },
+  "keywords": [
+    "Istex",
+    "API"
+  ],
   "scripts": {
-    "postinstall": "node ./js/postInstall.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node ./js/postInstall.js"
   },
   "repository": {
-    "type": "git",
-    "url": "ssh://parentin@vsistex.intra.inist.fr:22222/istex/istex-api-demo.git"
+    "url": "ssh://parentin@vsistex.intra.inist.fr:22222/istex/istex-api-demo.git",
+    "type": "git"
   },
   "description": "Démonstrateur Istex",
   "author": "Istex team",
   "license": "ISC",
   "devDependencies": {
-    "less": "^2.4.0",
-    "less-plugin-clean-css": "^1.5.0"
+    "less-plugin-clean-css": "^1.5.0",
+    "less": "^2.4.0"
   },
-  "version": "1.2.1",
-  "name": "istex-api-demo",
-  "keywords": [
-    "Istex",
-    "API"
-  ],
-  "dependencies": {
-    "colors": "^1.1.2",
-    "lodash": "^3.9.3"
-  },
-  "main": "index.html"
+  "version": "1.2.2",
+  "name": "istex-api-demo"
 }
 
