@@ -108,7 +108,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
   };
 });
 
-require(["config", "events"], function(config, events) {
+require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1.min"], function(config, events, queryBuilder) {
   $(document).ready(function() {
 
     $("#pager-prototype").contents().appendTo(".pager-placeholder");
@@ -220,4 +220,56 @@ require(["config", "events"], function(config, events) {
       }
     });
   });
+
+  $('#builder').queryBuilder({
+    plugins: ['bt-tooltip-errors'],
+
+    filters: [{
+      id: 'corpusName',
+      label: 'corpusName',
+      type: 'string',
+      input: 'select',
+      values: {
+        1: 'elsevier',
+        2: 'wiley',
+        3: 'springer',
+        4: 'oup',
+        5: 'bmj',
+        6: 'iop'
+      },
+      operators: ['equal', 'not_equal']
+    }, {
+      id: 'title',
+      label: 'title',
+      type: 'string',
+      input: 'text',
+      operators: ['equal', 'not_equal', 'contains', 'not_contains']
+    }, {
+      id: 'author',
+      label: 'author',
+      type: 'string',
+      input: 'text',
+      operators: ['equal', 'not_equal', 'contains', 'not_contains']
+    }, {
+      id: 'subject.value',
+      label: 'subject.value',
+      type: 'string',
+      input: 'text',
+      operators: ['equal', 'not_equal', 'contains', 'not_contains']
+    }],
+    lang_code: 'fr'
+  });
+
+  $('#btn-reset').on('click', function() {
+    $('#builder').queryBuilder('reset');
+  });
+
+  $('#btn-get').on('click', function() {
+    var result = $('#builder').queryBuilder('getRules');
+
+    if (!$.isEmptyObject(result)) {
+      alert(JSON.stringify(result, null, 2));
+    }
+  });
+
 });

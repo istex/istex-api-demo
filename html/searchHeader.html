@@ -90,23 +90,38 @@
           </form>
         </div>
       </div>
-      <div class="row">
+      <div class="row" style="text-align:left">
         <div class="col-xs-12">
-          <div id="advancedSearchTitle" class="panel-heading col-xs-6 col-xs-offset-3">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#advancedSearchPanel">
+          <div class="panel-heading col-xs-6 col-xs-offset-3">
+            <h4 id="advancedSearchTitle" class="panel-title">
+              <button type="button" class="btn" data-toggle="modal" data-target="#advancedSearch">
                 Recherche avancée
-              </a>
+              </button>
             </h4>
+            <div id="advancedSearch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="gridSystemModalLabel">Recherche Avancée</h4></div>
+                  <div class="modal-body">
+                    <div id="builder"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="btn-reset" class="btn btn-warning glyphicon glyphicon-refresh"></button>
+                    <button id="btn-get" class="btn btn-success glyphicon glyphicon-search"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-offset-2 col-xs-8">
+      <!--       <div class="row">
+        <div>
           <div id="advancedSearchPanel" class="panel-collapse collapse">
             <div class="panel-body">
               <div class="row">
-                <form role="form" id="advancedSearchForm" class="clearfix">
+                                <form role="form" id="advancedSearchForm" class="clearfix">
                   <div data-toggle="istex-tooltip" class="form-group col-xs-6">
                     <label for="editorField">Éditeur :</label>
                     <select id="editorField" class="form-control">
@@ -238,7 +253,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!--#searchFieldRow-->
   </div>
