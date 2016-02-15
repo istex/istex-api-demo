@@ -1,6 +1,7 @@
 define(["js/parameters.js"], function(parameters) {
   return {
     apiUrl: parameters[parameters.default_api_url],
+    version: "1.2.2",
     mimetypeIconNames: {
       "application/zip": "zip",
       "application/pdf": "pdf",
@@ -17,6 +18,12 @@ define(["js/parameters.js"], function(parameters) {
       "application/rtf": "rtf",
       "application/vnd.ms-excel": "xls",
       "unknown": "_blank"
+    },
+    mapping: {
+      "corpusName": "string",
+      "subject.value": "string",
+      "author.name": "string",
+      "title": "string"
     },
     languageCorrespondance: {
       "unknown": "inconnue",

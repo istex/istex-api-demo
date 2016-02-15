@@ -50,12 +50,47 @@ function searchEvents(searchPage, searchPageController) {
     event.preventDefault();
     search(searchPage, searchPageController);
   });
-  $("#advancedSearchForm").submit(function(event) {
-    event.preventDefault();
-    $("#searchform").submit();
+
+  $('#btn-reset').on('click', function() {
+    $('#builder').queryBuilder('reset');
   });
-  $("#advancedSearchForm").on("input", ":input", function(event) {
-    $("#searchform").submit();
+
+  $('#btn-get').on('click', function() {
+    var result = $('#builder').queryBuilder('getRules');
+    if (!$.isEmptyObject(result)) {
+      $("#advancedSearch").modal('hide');
+
+      console.log(JSON.stringify(result, null, 2));
+      var searchField;
+
+      function recursiveConstructor(condition, rules) {
+
+        var queryPart = '(';
+
+        for (var i = 0; i < rules.length; i++) {
+
+          if (rules[i].condition) {
+            queryPart += recursiveConstructor(rules[i].condition, rules[i].rules) + ' ' + condition + ' ';
+            console.log(queryPart);
+          } else {
+            queryPart += rules[i].id + ':' + rules[i].value + ' ' + condition + ' ';
+            console.log(queryPart);
+          }
+        };
+
+        if (condition === 'AND') {
+          return queryPart.slice(0, -5) + ')';
+        } else {
+          return queryPart.slice(0, -4) + ')';
+        }
+      };
+
+      searchField = recursiveConstructor(result.condition, result.rules);
+      console.log(searchField);
+
+      searchPage.searchField = searchField;
+      searchPageController.search(searchPage, searchPageHistory);
+    }
   });
 }
 

@@ -114,6 +114,8 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
     $("#pager-prototype").contents().appendTo(".pager-placeholder");
     $("#topResultPager a").addClass('btn-sm');
 
+    $("#versionDemo").append(config.version);
+
     /**
      * Istex tooltip
      * Pour déclencher le tooltip: data-toggle='istex-tooltip'
@@ -221,55 +223,44 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
     });
   });
 
-  $('#builder').queryBuilder({
+  var jsonQueryBuilder = {
     plugins: ['bt-tooltip-errors'],
-
-    filters: [{
-      id: 'corpusName',
-      label: 'corpusName',
-      type: 'string',
-      input: 'select',
-      values: {
-        1: 'elsevier',
-        2: 'wiley',
-        3: 'springer',
-        4: 'oup',
-        5: 'bmj',
-        6: 'iop'
-      },
-      operators: ['equal', 'not_equal']
-    }, {
-      id: 'title',
-      label: 'title',
-      type: 'string',
-      input: 'text',
-      operators: ['equal', 'not_equal', 'contains', 'not_contains']
-    }, {
-      id: 'author',
-      label: 'author',
-      type: 'string',
-      input: 'text',
-      operators: ['equal', 'not_equal', 'contains', 'not_contains']
-    }, {
-      id: 'subject.value',
-      label: 'subject.value',
-      type: 'string',
-      input: 'text',
-      operators: ['equal', 'not_equal', 'contains', 'not_contains']
-    }],
+    filters: [],
     lang_code: 'fr'
-  });
+  };
+  var keys = Object.keys(config.mapping);
+  for (var i = 0; i < keys.length; i++) {
+    switch (config.mapping[keys[i]]) {
+      case 'string':
+        jsonQueryBuilder.filters.push({
+          id: keys[i],
+          type: 'string',
+          input: 'text',
+          operators: ['equal', 'not_equal', 'contains', 'not_contains'],
+          default_value: '*'
+        });
+        break;
+      case 'integer':
+        jsonQueryBuilder.filters.push({
+          id: keys[i],
+          type: 'integer',
+          input: 'text',
+          operators: ['equal', 'not_equal', 'contains', 'not_contains'],
+          default_value: '*'
+        });
+        break;
+      case 'boolean':
+        jsonQueryBuilder.filters.push({
+          id: keys[i],
+          type: 'boolean',
+          input: 'select',
+          values: ['true', 'false'],
+          operators: ['equal'],
+          default_value: 'true'
+        });
+        break;
+    };
+  };
 
-  $('#btn-reset').on('click', function() {
-    $('#builder').queryBuilder('reset');
-  });
-
-  $('#btn-get').on('click', function() {
-    var result = $('#builder').queryBuilder('getRules');
-
-    if (!$.isEmptyObject(result)) {
-      alert(JSON.stringify(result, null, 2));
-    }
-  });
-
+  $('#builder').queryBuilder(jsonQueryBuilder);
 });
