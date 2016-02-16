@@ -236,7 +236,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
           id: keys[i],
           type: 'string',
           input: 'text',
-          operators: ['equal', 'not_equal', 'contains', 'not_contains'],
+          operators: ['equal', 'not_equal', 'contains', 'not_contains', 'begins_with', 'not_begins-with', 'ends_with', 'not_ends_with', 'is_empty', 'is_not_empty'],
           default_value: '*'
         });
         break;
@@ -245,7 +245,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
           id: keys[i],
           type: 'integer',
           input: 'text',
-          operators: ['equal', 'not_equal', 'contains', 'not_contains'],
+          operators: ['equal', 'not_equal', 'greater', 'less', 'between', 'not_between', 'is_empty', 'is_not_empty'],
           default_value: '*'
         });
         break;
@@ -255,7 +255,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
           type: 'boolean',
           input: 'select',
           values: ['true', 'false'],
-          operators: ['equal'],
+          operators: ['equal', 'is_empty', 'is_not_empty'],
           default_value: 'true'
         });
         break;
