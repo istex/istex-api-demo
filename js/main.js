@@ -230,34 +230,41 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
   };
   var keys = Object.keys(config.mapping);
   for (var i = 0; i < keys.length; i++) {
+
+    var filter = {
+      id: keys[i],
+      type: config.mapping[keys[i]],
+      input: 'text',
+      operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty'],
+      default_value: '*'
+    };
+
     switch (config.mapping[keys[i]]) {
+
       case 'string':
-        jsonQueryBuilder.filters.push({
-          id: keys[i],
-          type: 'string',
-          input: 'text',
-          operators: ['equal', 'not_equal', 'contains', 'not_contains', 'begins_with', 'not_begins-with', 'ends_with', 'not_ends_with', 'is_empty', 'is_not_empty'],
-          default_value: '*'
-        });
+        filter.operators.push('contains', 'not_contains', 'begins_with', 'not_begins-with', 'ends_with', 'not_ends_with');
+        jsonQueryBuilder.filters.push(filter);
         break;
+
       case 'integer':
-        jsonQueryBuilder.filters.push({
-          id: keys[i],
-          type: 'integer',
-          input: 'text',
-          operators: ['equal', 'not_equal', 'greater', 'less', 'between', 'not_between', 'is_empty', 'is_not_empty'],
-          default_value: '*'
-        });
+      case 'double':
+      case 'date':
+        filter.operators.push('greater', 'less', 'between', 'not_between');
+        if (config.mapping[keys[i]] === 'date') {
+          filter.type = 'string';
+          filter.validation = {};
+          filter.validation.format = /^.{4}$/;
+          filter.placeholder = '____ (YYYY)';
+          filter.default_value = '';
+        };
+        jsonQueryBuilder.filters.push(filter);
         break;
+
       case 'boolean':
-        jsonQueryBuilder.filters.push({
-          id: keys[i],
-          type: 'boolean',
-          input: 'radio',
-          values: ['true', 'false'],
-          operators: ['equal', 'is_empty', 'is_not_empty'],
-          default_value: 'true'
-        });
+        filter.input = 'radio';
+        filter.values = ['true', 'false'];
+        filter.default_value = 'true';
+        jsonQueryBuilder.filters.push(filter);
         break;
     };
   };
