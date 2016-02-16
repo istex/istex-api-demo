@@ -59,40 +59,69 @@ function searchEvents(searchPage, searchPageController) {
     var result = $('#builder').queryBuilder('getRules');
     if (!$.isEmptyObject(result)) {
       $("#advancedSearch").modal('hide');
-
       console.log(JSON.stringify(result, null, 2));
-      var searchField;
-
-      function recursiveConstructor(condition, rules) {
-
-        var queryPart = '(';
-
-        for (var i = 0; i < rules.length; i++) {
-
-          if (rules[i].condition) {
-            queryPart += recursiveConstructor(rules[i].condition, rules[i].rules) + ' ' + condition + ' ';
-            console.log(queryPart);
-          } else {
-            queryPart += rules[i].id + ':' + rules[i].value + ' ' + condition + ' ';
-            console.log(queryPart);
-          }
-        };
-
-        if (condition === 'AND') {
-          return queryPart.slice(0, -5) + ')';
-        } else {
-          return queryPart.slice(0, -4) + ')';
-        }
-      };
-
-      searchField = recursiveConstructor(result.condition, result.rules);
-      console.log(searchField);
-
-      searchPage.searchField = searchField;
+      searchPage.searchField = recursiveConstructor(result.condition, result.rules);
       searchPageController.search(searchPage, searchPageHistory);
     }
   });
-}
+};
+
+function recursiveConstructor(condition, rules) {
+
+  var queryPart = '(';
+  for (var i = 0; i < rules.length; i++) {
+    var qp = rules[i];
+    if (qp.condition) {
+      queryPart += recursiveConstructor(qp.condition, qp.rules) + ' ' + condition + ' ';
+      console.log(queryPart);
+    } else {
+      var notPart = (qp.operator.indexOf('not') !== -1) ? 'NOT ' : '';
+      switch (qp.operator) {
+        case 'equal':
+        case 'not_equal':
+          queryPart += notPart + qp.id + ':' + qp.value + ' ' + condition + ' ';
+          break;
+        case 'contains':
+        case 'not_contains':
+          queryPart += notPart + qp.id + ':*' + qp.value + '* ' + condition + ' ';
+          break;
+        case 'begins_with':
+        case 'not_begins_with':
+          queryPart += notPart + qp.id + ':' + qp.value + '* ' + condition + ' ';
+          break;
+        case 'ends_with':
+        case 'not_ends_with':
+          queryPart += notPart + qp.id + ':*' + qp.value + ' ' + condition + ' ';
+          break;
+
+        case 'greater':
+          queryPart += qp.id + ':[' + qp.value + ' TO *] ' + condition + ' ';
+          break;
+        case 'less':
+          queryPart += qp.id + ':[* TO ' + qp.value + '] ' + condition + ' ';
+          break;
+        case 'between':
+        case 'not_between':
+          queryPart += notPart + qp.id + ':[' + qp.value[0] + ' TO ' + qp.value[1] + '] ' + condition + ' ';
+          break;
+
+        case 'is_empty':
+          queryPart += 'NOT ' + qp.id + ':* ' + condition + ' ';
+          break;
+        case 'is_not_empty':
+          queryPart += qp.id + ':* ' + condition + ' ';
+          break;
+      }
+      console.log(queryPart);
+    }
+  };
+
+  if (condition === 'AND') {
+    return queryPart.slice(0, -5) + ')';
+  } else {
+    return queryPart.slice(0, -4) + ')';
+  }
+};
 
 function paginationEvents(searchPageController) {
 

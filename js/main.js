@@ -253,7 +253,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
         jsonQueryBuilder.filters.push({
           id: keys[i],
           type: 'boolean',
-          input: 'select',
+          input: 'radio',
           values: ['true', 'false'],
           operators: ['equal', 'is_empty', 'is_not_empty'],
           default_value: 'true'
