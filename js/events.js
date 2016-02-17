@@ -59,7 +59,6 @@ function searchEvents(searchPage, searchPageController) {
     var result = $('#builder').queryBuilder('getRules');
     if (!$.isEmptyObject(result)) {
       $("#advancedSearch").modal('hide');
-      console.log(JSON.stringify(result, null, 2));
       searchPage.searchField = recursiveConstructor(result.condition, result.rules);
       searchPageController.search(searchPage, searchPageHistory);
     }
@@ -73,25 +72,25 @@ function recursiveConstructor(condition, rules) {
     var qp = rules[i];
     if (qp.condition) {
       queryPart += recursiveConstructor(qp.condition, qp.rules) + ' ' + condition + ' ';
-      console.log(queryPart);
     } else {
-      var notPart = (qp.operator.indexOf('not') !== -1) ? 'NOT ' : '';
+      var notPartBegin = (qp.operator.indexOf('not') !== -1) ? '(NOT ' : '';
+      var notPartEnd = (qp.operator.indexOf('not') !== -1) ? ') ' : ' ';
       switch (qp.operator) {
         case 'equal':
         case 'not_equal':
-          queryPart += notPart + qp.id + ':' + qp.value + ' ' + condition + ' ';
+          queryPart += notPartBegin + qp.id + ':' + qp.value + notPartEnd + condition + ' ';
           break;
         case 'contains':
         case 'not_contains':
-          queryPart += notPart + qp.id + ':*' + qp.value + '* ' + condition + ' ';
+          queryPart += notPartBegin + qp.id + ':*' + qp.value + '*' + notPartEnd + condition + ' ';
           break;
         case 'begins_with':
         case 'not_begins_with':
-          queryPart += notPart + qp.id + ':' + qp.value + '* ' + condition + ' ';
+          queryPart += notPartBegin + qp.id + ':' + qp.value + '*' + notPartEnd + condition + ' ';
           break;
         case 'ends_with':
         case 'not_ends_with':
-          queryPart += notPart + qp.id + ':*' + qp.value + ' ' + condition + ' ';
+          queryPart += notPartBegin + qp.id + ':*' + qp.value + notPartEnd + condition + ' ';
           break;
 
         case 'greater':
@@ -102,17 +101,16 @@ function recursiveConstructor(condition, rules) {
           break;
         case 'between':
         case 'not_between':
-          queryPart += notPart + qp.id + ':[' + qp.value[0] + ' TO ' + qp.value[1] + '] ' + condition + ' ';
+          queryPart += notPartBegin + qp.id + ':[' + qp.value[0] + ' TO ' + qp.value[1] + ']' + notPartEnd + condition + ' ';
           break;
 
         case 'is_empty':
-          queryPart += 'NOT ' + qp.id + ':* ' + condition + ' ';
+          queryPart += '(NOT ' + qp.id + ':*) ' + condition + ' ';
           break;
         case 'is_not_empty':
           queryPart += qp.id + ':* ' + condition + ' ';
           break;
       }
-      console.log(queryPart);
     }
   };
 

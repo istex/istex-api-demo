@@ -41,7 +41,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         $(".page").find(".total").text(searchPage.numberOfPages === 0 ? "*" : searchPage.numberOfPages);
 
         $("#totalResults").val(data.total);
-        $("#totalms").val(data.stats.elasticsearch.took + data.stats['istex-api'].took);
+        setTotalTime(data.stats.elasticsearch.took, data.stats["istex-api"].took);
 
         // Ajoute les fonctions nécessaires à data
         data = generateDataFunctions(data, config);
@@ -99,6 +99,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
       } else {
 
         $("#totalResults").val(0);
+        setTotalTime(data.stats.elasticsearch.took, data.stats["istex-api"].took);
         $("#tableResult").html("<tr class='row'><td class='truncate col-xs-8' colspan=\"3\" style='text-align:center'>Pas de résultat pour cette recherche.</td>");
         $(".istex-pager").hide();
 
@@ -259,3 +260,14 @@ function generateAutocompleteFacet(tag, list, nbTag, facetName, data) {
     };
   nbTag.text(data.aggregations[facetName].buckets.length);
 }
+
+function setTotalTime(elasticTime, apiTime) {
+  var totalTime = elasticTime + apiTime;
+  if (totalTime > 999) {
+    $("#totalms").val(Math.round(totalTime / 10) / 100);
+    $("#msOrS").text("s)")
+  } else {
+    $("#totalms").val(totalTime);
+    $("#msOrS").text("ms)")
+  }
+};

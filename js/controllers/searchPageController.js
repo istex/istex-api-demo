@@ -221,7 +221,7 @@ define(
             searchPageController.manageError(err);
           }
         },
-        timeout: 10000
+        timeout: 30000
       };
 
       localStorage && localStorage.refreshIfNeeded();

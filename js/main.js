@@ -242,7 +242,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
     switch (config.mapping[keys[i]]) {
 
       case 'string':
-        filter.operators.push('contains', 'not_contains', 'begins_with', 'not_begins-with', 'ends_with', 'not_ends_with');
+        filter.operators.push('contains', 'not_contains', 'begins_with', 'not_begins_with', 'ends_with', 'not_ends_with');
         jsonQueryBuilder.filters.push(filter);
         break;
 
