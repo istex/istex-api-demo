@@ -31,6 +31,7 @@ var istexApp = angular.module("istexApp", []);
 
 // Contient l'historique de l'affinage
 var searchPageHistory = [];
+var corpusList = ['*'];
 
 var search = function(searchPage, searchPageController) {
 
@@ -105,6 +106,78 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
 });
 
 require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1.min"], function(config, events, queryBuilder) {
+
+  (function() {
+    var err = $.ajax({
+      url: config.apiUrl + "corpus",
+      dataType: "jsonp",
+      success: function(data, status, xhr) {
+
+        for (var i in data) {
+          corpusList.push(data[i].key);
+        }
+
+        var jsonQueryBuilder = {
+          plugins: ['bt-tooltip-errors'],
+          filters: [],
+          lang_code: 'fr'
+        };
+        var keys = Object.keys(config.mapping);
+        for (var i = 0; i < keys.length; i++) {
+
+          var filter = {
+            id: keys[i],
+            type: config.mapping[keys[i]],
+            input: 'text',
+            operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty'],
+            default_value: '*'
+          };
+          
+          switch (config.mapping[keys[i]]) {
+
+            case 'string':
+              filter.operators.push('contains', 'not_contains', 'begins_with', 'not_begins_with', 'ends_with', 'not_ends_with');
+              break;
+
+            case 'integer':
+            case 'double':
+            case 'date':
+              filter.operators.push('greater', 'less', 'between', 'not_between');
+              if (config.mapping[keys[i]] === 'date') {
+                filter.type = 'string';
+                filter.validation = {};
+                filter.validation.format = /^.{4}$/;
+                filter.placeholder = '____ (YYYY)';
+                filter.default_value = '';
+              };
+              break;
+
+            case 'boolean':
+              filter.input = 'radio';
+              filter.values = ['true', 'false'];
+              filter.default_value = 'true';
+              break;
+
+            case 'select':
+              filter.input = 'select';
+              filter.type = 'string';
+              if (keys[i] === 'corpusName') {
+                filter.values = corpusList;
+                filter.default_value = '*';
+              }
+              break;
+          };
+          jsonQueryBuilder.filters.push(filter);
+        };
+
+        $('#builder').queryBuilder(jsonQueryBuilder);
+      }
+    });
+    window.setTimeout(function() {
+      console.log(err);
+    }, 60000);
+  }());
+
   $(document).ready(function() {
 
     $("#pager-prototype").contents().appendTo(".pager-placeholder");
@@ -218,52 +291,4 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
       }
     });
   });
-
-  var jsonQueryBuilder = {
-    plugins: ['bt-tooltip-errors'],
-    filters: [],
-    lang_code: 'fr'
-  };
-  var keys = Object.keys(config.mapping);
-  for (var i = 0; i < keys.length; i++) {
-
-    var filter = {
-      id: keys[i],
-      type: config.mapping[keys[i]],
-      input: 'text',
-      operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty'],
-      default_value: '*'
-    };
-
-    switch (config.mapping[keys[i]]) {
-
-      case 'string':
-        filter.operators.push('contains', 'not_contains', 'begins_with', 'not_begins_with', 'ends_with', 'not_ends_with');
-        jsonQueryBuilder.filters.push(filter);
-        break;
-
-      case 'integer':
-      case 'double':
-      case 'date':
-        filter.operators.push('greater', 'less', 'between', 'not_between');
-        if (config.mapping[keys[i]] === 'date') {
-          filter.type = 'string';
-          filter.validation = {};
-          filter.validation.format = /^.{4}$/;
-          filter.placeholder = '____ (YYYY)';
-          filter.default_value = '';
-        };
-        jsonQueryBuilder.filters.push(filter);
-        break;
-
-      case 'boolean':
-        filter.input = 'radio';
-        filter.values = ['true', 'false'];
-        filter.default_value = 'true';
-        jsonQueryBuilder.filters.push(filter);
-        break;
-    };
-  };
-
-  $('#builder').queryBuilder(jsonQueryBuilder);
 });

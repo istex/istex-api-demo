@@ -23,21 +23,6 @@ define(
     }
     ctrlScope.app.apiUrl = config.apiUrl.rtrim('/ ');
     ctrlScope.safeApply();
-    (function() {
-      var err = $.ajax({
-        url: config.apiUrl + "corpus",
-        dataType: "jsonp",
-        success: function(data, status, xhr) {
-          var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-          $('#editorField').append(mustache.render(corpusTemplate, {
-            corpusList: data
-          }));
-        }
-      });
-      window.setTimeout(function() {
-        console.log(err);
-      }, 60000);
-    }());
 
     searchPageController.manageError = function(err) {
       $("button").button('reset');

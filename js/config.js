@@ -25,7 +25,7 @@ define(["js/parameters.js"], function(parameters) {
       "author.affiliations": "string",
       "categories.wos": "string",
       "copyrightDate": "date",
-      "corpusName": "string",
+      "corpusName": "select",
       "doi": "string",
       "genre": "string",
       "isbn": "string",
