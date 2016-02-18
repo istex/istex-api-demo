@@ -98,11 +98,11 @@
                 Recherche avancée
               </button>
             </h4>
-            <div id="advancedSearch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div id="advancedSearch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="advancedSearchModalLabel">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title" id="gridSystemModalLabel">Recherche Avancée</h4></div>
+                    <h4 class="modal-title" id="advancedSearchModalLabel">Recherche Avancée</h4></div>
                   <div class="modal-body">
                     <div id="builder"></div>
                   </div>
@@ -116,146 +116,7 @@
           </div>
         </div>
       </div>
-      <!--       <div class="row">
-        <div>
-          <div id="advancedSearchPanel" class="panel-collapse collapse">
-            <div class="panel-body">
-              <div class="row">
-                                <form role="form" id="advancedSearchForm" class="clearfix">
-                  <div data-toggle="istex-tooltip" class="form-group col-xs-6">
-                    <label for="editorField">Éditeur :</label>
-                    <select id="editorField" class="form-control">
-                      <option value="-1">Tous</option>
-                    </select>
-                  </div>
-                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle">
-                    <h5>Éditeur</h5>
-                    <p>Cette facette permet de préciser <strong>un unique</strong> <b class="text-primary">corpus éditeur</b> sur lequel va porter la requête.</p>
-                    <div class="references">
-                      <h6>
-                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-                      </h6>
-                      <ul>
-                        <li>
-                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-corpus">
-                            Recherche par corpus
-                          </a>
-                        </li>
-                        <li>
-                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-                            Facettes
-                          </a>
-                        </li>
-                        <li>
-                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/corpus/">
-                            Liste des éditeurs disponible via l'API
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div data-ng-if="helper.corpus.query">
-                      <hr>
-                      <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-                      <p class="query-chunk">
-                        <mark data-ng-bind="helper.corpus.query"></mark>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="form-group col-xs-6" data-toggle="istex-tooltip">
-                    <label for="titleField">Titre :</label>
-                    <input type="text" class="form-control" id="titleField" placeholder="Titre">
-                  </div>
-                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle">
-                    <h5>Titre</h5>
-                    <p>Ce champ permet la recherche sur le titre.</p>
-                    <div class="references">
-                      <h6>
-                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-                      </h6>
-                      <ul>
-                        <li>
-                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#syntaxe-des-requ-tes">
-                            Syntaxe des requêtes
-                          </a>
-                        </li>
-                        <li>
-                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-de-documents">
-                            Recherche de documents
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div data-ng-if="helper.title.query">
-                      <hr>
-                      <p>Morceau de la requête généré par le champ: </p>
-                      <p class="query-chunk">
-                        <mark data-ng-bind="helper.title.query"></mark>
-                      </p>
-                    </div>
-                  </div>
-                  <div data-toggle="istex-tooltip" class="form-group col-xs-6">
-                    <label for="authorField">Auteur :</label>
-                    <input type="text" class="form-control" id="authorField" placeholder="Auteur">
-                  </div>
-                  <div class="istex-tooltip" data-my-position="right middle" data-at-position="left middle">
-                    <h5>Auteur</h5>
-                    <p>Ce champ permet de préciser un auteur sur lequel va porter la requête.</p>
-                    <div class="references">
-                      <h6>
-                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-                      </h6>
-                      <ul>
-                        <li>
-                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-auteur">
-                            Recherche par auteur
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div data-ng-if="helper.author.query">
-                      <hr>
-                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
-                      <p class="query-chunk">
-                        <mark data-ng-bind="helper.author.query"></mark>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="form-group col-xs-6" data-toggle="istex-tooltip">
-                    <label for="themeField">Mot clef :</label>
-                    <input type="text" class="form-control" id="themeField" placeholder="Mot clef">
-                  </div>
-                  <div class="istex-tooltip" data-my-position="left middle" data-at-position="right middle">
-                    <h5>Mot clef/sujet</h5>
-                    <p>Ce champ permet de préciser un sujet sur lequel va porter la requête.</p>
-                    <div class="references">
-                      <h6>
-                        <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-                      </h6>
-                      <ul>
-                        <li>
-                          <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-sujet">
-                            Recherche par sujet
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div data-ng-if="helper.subject.query">
-                      <hr>
-                      <h6 class="h5">Morceau de la requête généré par le champ: </h6>
-                      <p class="query-chunk">
-                        <mark data-ng-bind="helper.subject.query"></mark>
-                      </p>
-                    </div>
-                  </div>
-                  <button class="hidden" type="submit"></button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
-    <!--#searchFieldRow-->
   </div>
 </div>
 <div class="row">

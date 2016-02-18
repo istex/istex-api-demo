@@ -77,12 +77,6 @@ define(
         getField(searchPage.editor, 'corpus', 'corpusName', ctrlScope.helper, fields, 'array', false);
       }
 
-      if ($("#advancedSearchPanel").is(':visible')) {
-        getField(searchPage.author, 'author', 'author.name', ctrlScope.helper, fields, 'string', false);
-        getField(searchPage.title, 'title', 'title', ctrlScope.helper, fields, 'string', false);
-        getField(searchPage.keywords, 'subject', 'subject.value', ctrlScope.helper, fields, 'string', false);
-      }
-
       getField(searchPage.genre, 'articleType', 'genre', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.copyrightdate, 'copyrightDate', 'copyrightDate', ctrlScope.helper, fields, 'range', false);
       getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);

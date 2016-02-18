@@ -38,11 +38,7 @@ var search = function(searchPage, searchPageController) {
 
   searchPageToInsert.currentPage = 1;
   searchPageToInsert.searchField = $("#searchField").val();
-  searchPageToInsert.title = $("#titleField").val();
-  searchPageToInsert.author = $("#authorField").val();
-  searchPageToInsert.keywords = $("#themeField").val();
   searchPageToInsert.editor = [];
-  searchPageToInsert.editor.push($("#editorField").val());
   searchPageToInsert.pubdate = undefined;
   searchPageToInsert.copyrightdate = undefined;
   searchPageToInsert.PDFWordCount = undefined;
