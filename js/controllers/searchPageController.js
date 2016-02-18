@@ -23,21 +23,6 @@ define(
     }
     ctrlScope.app.apiUrl = config.apiUrl.rtrim('/ ');
     ctrlScope.safeApply();
-    (function() {
-      var err = $.ajax({
-        url: config.apiUrl + "corpus",
-        dataType: "jsonp",
-        success: function(data, status, xhr) {
-          var corpusTemplate = "{{#corpusList}}<option value={{key}}>{{key}}</option>{{/corpusList}}";
-          $('#editorField').append(mustache.render(corpusTemplate, {
-            corpusList: data
-          }));
-        }
-      });
-      window.setTimeout(function() {
-        console.log(err);
-      }, 60000);
-    }());
 
     searchPageController.manageError = function(err) {
       $("button").button('reset');
@@ -75,12 +60,6 @@ define(
 
       if (searchPage.editor[0] !== '-1') {
         getField(searchPage.editor, 'corpus', 'corpusName', ctrlScope.helper, fields, 'array', false);
-      }
-
-      if ($("#advancedSearchPanel").is(':visible')) {
-        getField(searchPage.author, 'author', 'author.name', ctrlScope.helper, fields, 'string', false);
-        getField(searchPage.title, 'title', 'title', ctrlScope.helper, fields, 'string', false);
-        getField(searchPage.keywords, 'subject', 'subject.value', ctrlScope.helper, fields, 'string', false);
       }
 
       getField(searchPage.genre, 'articleType', 'genre', ctrlScope.helper, fields, 'array', false);
@@ -221,7 +200,7 @@ define(
             searchPageController.manageError(err);
           }
         },
-        timeout: 10000
+        timeout: 30000
       };
 
       localStorage && localStorage.refreshIfNeeded();

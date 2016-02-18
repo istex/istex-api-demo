@@ -50,14 +50,76 @@ function searchEvents(searchPage, searchPageController) {
     event.preventDefault();
     search(searchPage, searchPageController);
   });
-  $("#advancedSearchForm").submit(function(event) {
-    event.preventDefault();
-    $("#searchform").submit();
+
+  $('#btn-reset').on('click', function() {
+    $('#builder').queryBuilder('reset');
   });
-  $("#advancedSearchForm").on("input", ":input", function(event) {
-    $("#searchform").submit();
+
+  $('#btn-get').on('click', function() {
+    var result = $('#builder').queryBuilder('getRules');
+    if (!$.isEmptyObject(result)) {
+      $("#advancedSearch").modal('hide');
+      searchPage.searchField = recursiveConstructor(result.condition, result.rules);
+      searchPageController.search(searchPage, searchPageHistory);
+    }
   });
-}
+};
+
+function recursiveConstructor(condition, rules) {
+
+  var queryPart = '(';
+  for (var i = 0; i < rules.length; i++) {
+    var qp = rules[i];
+    if (qp.condition) {
+      queryPart += recursiveConstructor(qp.condition, qp.rules) + ' ' + condition + ' ';
+    } else {
+      var notPartBegin = (qp.operator.indexOf('not') !== -1) ? '(NOT ' : '';
+      var notPartEnd = (qp.operator.indexOf('not') !== -1) ? ') ' : ' ';
+      switch (qp.operator) {
+        case 'equal':
+        case 'not_equal':
+          queryPart += notPartBegin + qp.id + ':' + qp.value + notPartEnd + condition + ' ';
+          break;
+        case 'contains':
+        case 'not_contains':
+          queryPart += notPartBegin + qp.id + ':*' + qp.value + '*' + notPartEnd + condition + ' ';
+          break;
+        case 'begins_with':
+        case 'not_begins_with':
+          queryPart += notPartBegin + qp.id + ':' + qp.value + '*' + notPartEnd + condition + ' ';
+          break;
+        case 'ends_with':
+        case 'not_ends_with':
+          queryPart += notPartBegin + qp.id + ':*' + qp.value + notPartEnd + condition + ' ';
+          break;
+
+        case 'greater':
+          queryPart += qp.id + ':[' + qp.value + ' TO *] ' + condition + ' ';
+          break;
+        case 'less':
+          queryPart += qp.id + ':[* TO ' + qp.value + '] ' + condition + ' ';
+          break;
+        case 'between':
+        case 'not_between':
+          queryPart += notPartBegin + qp.id + ':[' + qp.value[0] + ' TO ' + qp.value[1] + ']' + notPartEnd + condition + ' ';
+          break;
+
+        case 'is_empty':
+          queryPart += '(NOT ' + qp.id + ':*) ' + condition + ' ';
+          break;
+        case 'is_not_empty':
+          queryPart += qp.id + ':* ' + condition + ' ';
+          break;
+      }
+    }
+  };
+
+  if (condition === 'AND') {
+    return queryPart.slice(0, -5) + ')';
+  } else {
+    return queryPart.slice(0, -4) + ')';
+  }
+};
 
 function paginationEvents(searchPageController) {
 
