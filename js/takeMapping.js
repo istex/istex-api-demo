@@ -4,8 +4,8 @@
 
 var cp = require('child_process');
 var fs = require('fs');
-var apiUrl = require('./config.js').apiUrl;
-//var apiUrl = 'http://vd-istex-api.intra.inist.fr:53332';
+//var apiUrl = require('./config.js').apiUrl;
+var apiUrl = 'api.istex.fr';
 //var apiUrl = 'api-dev.istex.fr';
 
 // En cas de non récupération du mapping, on garde un minimum
@@ -31,25 +31,24 @@ try {
     for (var i = 0; i < keys.length; i++) {
       if (typeof raw[keys[i]] === 'object') {
         recursiveMapping(raw[keys[i]], road + ((road !== '') ? '.' : '') + keys[i], finalMapping);
-    } else {
-      if (keys[i] === 'raw') finalMapping[road + '.raw'] = raw[keys[i]];
-      finalMapping[road] = raw[keys[i]];
+      } else {
+        if (keys[i] === 'raw') finalMapping[road + '.raw'] = raw[keys[i]];
+        finalMapping[road] = raw[keys[i]];
+      }
     }
-  }
-  recursiveMapping(jsonMapping, '', finalMapping);
-};
+    recursiveMapping(jsonMapping, '', finalMapping);
+  };
 
-// Ecriture de mapping.json
-fs.writeFile('./js/mapping.json', JSON.stringify(finalMapping), 'utf8', function(err) {
-  if (err) {
-    console.log('!!!!!!! ERREUR D\'ECRITURE DU MAPPING.JSON !!!!!!!');
-    console.log(err);
-  }
-  console.log('Mapping formaté dans mapping.json !');
-});
+  // Ecriture de mapping.json
+  fs.writeFile('./js/mapping.json', JSON.stringify(finalMapping), 'utf8', function(err) {
+    if (err) {
+      console.log('!!!!!!! ERREUR D\'ECRITURE DU MAPPING.JSON !!!!!!!');
+      console.log(err);
+    }
+    console.log('Mapping formaté dans mapping.json !');
+  });
 
-}
-catch (e) {
+} catch (e) {
   console.log('!!!!!!! ERREUR DE PARSING DU MAPPING RECUPERE !!!!!!!');
   console.log(e);
 }
