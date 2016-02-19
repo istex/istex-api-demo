@@ -58,6 +58,7 @@ rm .package.json.bkp
 mv package.json .package.json.bkp
 mv .tmppackage.json package.json
 git add package.json
+git add js/config.js
 git add changelog.md
 git commit -m "Passage en $NEWVERSION correspondant à l'API v.$APIVERSION"
 git push
