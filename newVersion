@@ -39,7 +39,7 @@ fi
 echo -e "$PKGAPPNAME est actuellement en version $CURRENTPKGVERSION.\n"
 
 # On remplace le numéro de version dans config.js
-cat js/config.js | sed s/"$CURRENTPKGVERSION"/"$NEWVERSION"/g >> js/config.js
+cat js/config.js | sed s/"$CURRENTPKGVERSION"/"$NEWVERSION"/g > config.tmp && mv config.tmp js/config.js
 
 # On récupère le nom du dernier tag
 LASTTAG=`git tag | tail -1`
