@@ -9,6 +9,7 @@ require.config({
   baseUrl: 'js/',
   paths: {
     'text': '../bower_components/requirejs-text/text',
+    'json': '../node_modules/requirejs-json/json',
     'qTip': ['./vendor/jquery.qtip-2.2.1.min.js']
   }
 });
@@ -105,7 +106,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
   };
 });
 
-require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1.min"], function(config, events, queryBuilder) {
+require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1.min", 'json!mapping.json'], function(config, events, queryBuilder, mapping) {
 
   (function() {
     var err = $.ajax({
@@ -122,18 +123,18 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
           filters: [],
           lang_code: 'fr'
         };
-        var keys = Object.keys(config.mapping);
+        var keys = Object.keys(mapping);
         for (var i = 0; i < keys.length; i++) {
 
           var filter = {
             id: keys[i],
-            type: config.mapping[keys[i]],
+            type: mapping[keys[i]],
             input: 'text',
             operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty'],
             default_value: '*'
           };
           
-          switch (config.mapping[keys[i]]) {
+          switch (mapping[keys[i]]) {
 
             case 'string':
               filter.operators.push('contains', 'not_contains', 'begins_with', 'not_begins_with', 'ends_with', 'not_ends_with');
@@ -143,7 +144,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
             case 'double':
             case 'date':
               filter.operators.push('greater', 'less', 'between', 'not_between');
-              if (config.mapping[keys[i]] === 'date') {
+              if (mapping[keys[i]] === 'date') {
                 filter.type = 'string';
                 filter.validation = {};
                 filter.validation.format = /^.{4}$/;

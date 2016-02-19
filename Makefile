@@ -10,5 +10,9 @@ less-checking: ./node_modules/.bin/lessc ./node_modules/less-plugin-clean-css
 npm-install:
 	@ npm install
 
-install: ./package.json npm-install less-compilation
+mapping:
+	@ node ./js/takeMapping.js
+	@ echo "Mapping récupéré et transformé"
+
+install: ./package.json npm-install less-compilation mapping
 	@ bower install

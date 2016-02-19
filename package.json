@@ -8,7 +8,8 @@
   "main": "index.html",
   "dependencies": {
     "colors": "^1.1.2",
-    "lodash": "^3.9.3"
+    "lodash": "^3.9.3",
+    "requirejs-json": "0.0.3"
   },
   "keywords": [
     "Istex",
@@ -26,4 +27,3 @@
   "author": "Istex team",
   "license": "ISC"
 }
-
