@@ -55,14 +55,22 @@ function searchEvents(searchPage, searchPageController) {
     $('#builder').queryBuilder('reset');
   });
 
-  $('#btn-get').on('click', function() {
+  var advancedSearchFunction = function() {
     var result = $('#builder').queryBuilder('getRules');
     if (!$.isEmptyObject(result)) {
       $("#advancedSearch").modal('hide');
       searchPage.searchField = recursiveConstructor(result.condition, result.rules);
       searchPageController.search(searchPage, searchPageHistory);
     }
+  }
+
+  $('#advancedSearch').on('keydown', function(e) {
+    if (e.which === 13) {
+      $(document.activeElement).blur();
+      advancedSearchFunction()
+    }
   });
+  $('#btn-get').on('click', advancedSearchFunction);
 };
 
 function recursiveConstructor(condition, rules) {
