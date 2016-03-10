@@ -10,7 +10,7 @@
     "less": "^2.4.0"
   },
   "repository": {
-    "url": "ssh://parentin@vsistex.intra.inist.fr:22222/istex/istex-api-demo.git",
+    "url": "https://github.com/istex/istex-api-demo.git",
     "type": "git"
   },
   "scripts": {
