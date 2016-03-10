@@ -1,6 +1,8 @@
 # istex-api-demo #
 
-!!! DÉPOT DÉPRÉCIÉ, DÉPLACÉ SUR GITHUB : https://github.com/istex/istex-api-demo.git !!!
+## DÉPOT DÉPRÉCIÉ ##
+**DÉPLACÉ SUR GITHUB : https://github.com/istex/istex-api-demo**
+
 
 Démontrateur pour l'API de la plateforme ISTEX.
 
