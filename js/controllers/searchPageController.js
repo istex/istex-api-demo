@@ -62,8 +62,8 @@ define(
         getField(searchPage.editor, 'corpus', 'corpusName', ctrlScope.helper, fields, 'array', false);
       }
 
+      getField(searchPage.hostGenre, 'publicationType', 'host.genre', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.genre, 'articleType', 'genre', ctrlScope.helper, fields, 'array', false);
-      getField(searchPage.copyrightdate, 'copyrightDate', 'copyrightDate', ctrlScope.helper, fields, 'range', false);
       getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);
       getField(searchPage.WOS, 'WOS', 'categories.wos', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.language, 'lang', 'language', ctrlScope.helper, fields, 'array', false);
@@ -90,10 +90,8 @@ define(
       query += qParameter;
 
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-      facetQuery = "&facet=corpusName[*],genre[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
-      if (searchPage.reaffine && ($("#slider-range-copyright").slider("instance") !== undefined)) {
-        minCopyright = $("#slider-range-copyright").slider("values", 0);
-        maxCopyright = $("#slider-range-copyright").slider("values", 1);
+      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
+      if (searchPage.reaffine) {
         minPubdate = $("#slider-range-pubdate").slider("values", 0);
         maxPubdate = $("#slider-range-pubdate").slider("values", 1);
         minWordCount = $("#slider-range-PDFWordCount").slider("values", 0);
@@ -102,13 +100,12 @@ define(
         maxCharCount = $("#slider-range-PDFCharCount").slider("values", 1);
         minScore = $("#slider-range-score").slider("values", 0);
         maxScore = $("#slider-range-score").slider("values", 1);
-        facetQuery += ",copyrightDate[" + minCopyright + "-" + maxCopyright + "]";
         facetQuery += ",publicationDate[" + minPubdate + "-" + maxPubdate + "]";
         facetQuery += ",pdfWordCount[" + minWordCount + "-" + maxWordCount + "]";
         facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
         facetQuery += ",score[" + minScore + "-" + maxScore + "]";
       } else {
-        facetQuery += ",copyrightDate,publicationDate,pdfWordCount,pdfCharCount,score";
+        facetQuery += ",publicationDate,pdfWordCount,pdfCharCount,score";
       }
       query += facetQuery;
 
@@ -135,7 +132,6 @@ define(
         "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen +
-        "<mark class='bg-copyrightDate'>" + (ctrlScope.helper.copyrightDate.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-wos'>" + (ctrlScope.helper.WOS.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-lang'>" + (ctrlScope.helper.lang.query || '') + "</mark>" + softHyphen +

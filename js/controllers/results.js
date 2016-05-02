@@ -46,7 +46,11 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         // Ajoute les fonctions nécessaires à data
         data = generateDataFunctions(data, config);
 
-        var lang, wos, obj;
+        // Changement de host.genre en hostGenre pour mustache
+        data.aggregations.hostGenre = data.aggregations['host.genre'];
+
+        var lang, wos, pubType, obj;
+        var pubTypeList = [];
         var languageList = [];
         var wosList = [];
 
@@ -54,19 +58,44 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
 
         // Vidage des facets avant remplissage
         $('#facetCorpus').empty();
-        $('#facetArticleType').empty();
         $('#facetPDFVersion').empty();
         $('#facetRefBibsNative').empty();
+
+        $('#publicationTypes').val('');
+        $('#nbPubTypeFacet').text('');
+        $('#articleTypes').val('');
+        $('#nbArtTypeFacet').text('');
         $('#languages').val('');
         $('#nbLangResults').text('');
         $('#wosCategories').val('');
         $('#nbWOSResults').text('');
 
+        genresByPubTypes = {};
+        $('#facetArticleType').addClass('hide');
+
         // Génération des facettes de type "terms"
         generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, mustache);
-        generateTermsFacet('genre', '{{key}}', $('#facetArticleType'), $('#nbArticleTypeFacet'), data, mustache);
         generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, mustache);
         generateTermsFacet('refBibsNative', '{{#presence}}{{key}}{{/presence}}', $('#facetRefBibsNative'), null, data, mustache);
+
+        // PubTypeFacet et ArtTypeFacet
+        for (pubType of data.aggregations['host.genre'].buckets) {
+          obj = {};
+          obj.value = pubType.key;
+          obj.desc = pubType.docCount + ' documents';
+          obj.label = pubType.key;
+          pubTypeList.push(obj);
+
+          genresByPubTypes[pubType.key] = [];
+          for (artType of pubType['genre'].buckets) {
+            obj = {};
+            obj.value = artType.key;
+            obj.desc = artType.docCount + ' documents';
+            obj.label = artType.key;
+            genresByPubTypes[pubType.key].push(obj);
+          }
+        }
+        generateAutocompleteFacet($("#publicationTypes"), pubTypeList, $('#nbPubTypeFacet'), 'host.genre', data);
 
         // LanguageFacet
         for (lang of data.aggregations.language.buckets) {
@@ -91,7 +120,6 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
 
         // Appel des displayRanges
         this.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
-        this.displayRanges(data, "copyrightDate", "#slider-range-copyright", "#amountCopyrightDate", '#nbCopyrightFacet', 'date');
         this.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'date');
         this.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", '', 'integer');
         this.displayRanges(data, "pdfCharCount", "#slider-range-PDFCharCount", "#amountPDFCharCount", '', 'integer');
@@ -228,13 +256,12 @@ function generateDataFunctions(data, config) {
     return function(text, render) {
       var res = render(text);
       if (res === 'T') {
-        return "Présente(s)";
+        return "Fournies par l'éditeur";
       } else {
-        return "Absente(s)";
+        return "Recherchées via GROBID";
       };
     };
   };
-
   return data;
 }
 

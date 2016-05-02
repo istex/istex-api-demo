@@ -47,69 +47,36 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-primary" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingArticle">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseArticle" aria-expanded="false" aria-controls="collapseArticle"> Type d'article </a>
-        <span id="nbArticleTypeFacet" class="badge pull-right"></span>
-      </h4>
-    </div>
-    <div id="collapseArticle" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingArticle">
-      <div class="panel-body">
-        <div id="facetArticleType">
-        </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Type d'article</h5>
-      <p>Cette facette permet de préciser le <b class="text-primary">type d'article</b> sur lequel porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-genre">
-              Recherche par type d'article (genre)
-            </a>
-          </li>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div data-ng-if="helper.articleType.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.articleType.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
   <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingTwo">
+    <div class="panel-heading" role="tab" id="headingPublication">
       <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Copyright
-        </a>
+        <a role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapsePublication" aria-expanded="false" aria-controls="collapsePublication"> Type de publication</a>
+        <span id="nbPubTypeFacet" class="badge pull-right"></span>
       </h4>
     </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+    <div id="collapsePublication" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPublication">
       <div class="panel-body">
-        <div class="col-xs-12">
-          <label for="amountCopyrightDate" class="col-xs-5">Entre :</label>
-          <input type="text" id="amountCopyrightDate" readonly class="col-xs-7 amount">
+        <div id="facetPublicationType">
+          <p class="small"><b>Entrez le type de publication désiré :</b>
+            <br><i class="small">(ex : eBook, Monograph, Proceedings...)</i>
+          </p>
+          <div class="raw">
+            <input type="text" class="form-control" style="text-align:center; margin-bottom: 10px" id="publicationTypes">
+          </div>
+          <div id="facetArticleType">
+            <p class="small"><b>Entrez le type de contenu désiré :</b>
+              <br><i class="small">(ex : Review Paper, Original Paper...)</i>
+            </p>
+            <div class="raw">
+              <input type="text" class="form-control" style="text-align:center" id="articleTypes">
+            </div>
+          </div>
         </div>
-        <div id="slider-range-copyright" class="panel-collapse collapse in col-xs-12"></div>
       </div>
     </div>
     <div class="istex-tooltip">
-      <h5>Copyright</h5>
-      <p>Cette facette permet de préciser la <b class="text-primary">période de copyright</b> sur laquelle porte la requête.</p>
+      <h5>Type de publication et de contenu</h5>
+      <p>Cette facette permet de préciser le <b class="text-primary">type de publication et/ou de contenu</b> sur lequel porte la requête.</p>
       <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
       <div class="references">
         <h6>
@@ -123,11 +90,12 @@
           </li>
         </ul>
       </div>
-      <div data-ng-if="helper.copyrightDate.query">
+      <div data-ng-if="helper.publicationDate.query">
         <hr>
         <h6 class="h5">Morceau de la requête généré par la facette: </h6>
         <p class="query-chunk">
-          <mark data-ng-bind="helper.copyrightDate.query"></mark>
+          <mark data-ng-bind="helper.publicationType.query"></mark>
+          <mark data-ng-bind="helper.articleType.query"></mark>
         </p>
       </div>
     </div>
@@ -136,7 +104,7 @@
     <div class="panel-heading" role="tab" id="headingThree">
       <h4 class="panel-title">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Publication
+          Date de publication
         </a>
       </h4>
     </div>
@@ -150,7 +118,7 @@
       </div>
     </div>
     <div class="istex-tooltip">
-      <h5>Publication</h5>
+      <h5>Date de publication</h5>
       <p>Cette facette permet de préciser la <b class="text-primary">période de publication</b> sur laquelle porte la requête.</p>
       <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
       <div class="references">
@@ -189,12 +157,7 @@
           <p class="small"><b>Entrez la langue désirée :</b>
             <br><i class="small">(ex : anglais, français...)</i></p>
           <div class="raw">
-            <div class="input-group input-group-sm">
-              <input type="text" class="form-control" style="text-align:center" id="languages">
-              <span class="input-group-btn">
-                <button class="btn btn-default" style="color:red" type="button" id="resetLanguages">X</button>
-              </span>
-            </div>
+            <input type="text" class="form-control" style="text-align:center" id="languages">
           </div>
         </div>
       </div>
@@ -211,7 +174,7 @@
           <li>
             <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
               Facettes
-        	</a>
+          </a>
           </li>
         </ul>
       </div>
@@ -240,12 +203,7 @@
             <br><i class="small">(ex : MEDICINE, GENERAL & INTERNAL...)</i>
           </p>
           <div class="raw">
-            <div class="input-group input-group-sm">
-              <input type="text" class="form-control" style="text-align:center" id="wosCategories">
-              <span class="input-group-btn">
-                <button class="btn btn-default" style="color:red" type="button" id="resetWos">X</button>
-              </span>
-            </div>
+            <input type="text" class="form-control" style="text-align:center" id="wosCategories">
           </div>
         </div>
       </div>
@@ -334,8 +292,8 @@
           </div>
         </div>
         <div class="panel panel-info">
-          <div class="panel-heading">Références citées natives</div>
-          <div class="panel-body" style="padding-left:0;">
+          <div class="panel-heading">Références bibliographiques</div>
+          <div class="panel-body" style="padding-left:0;font-size: x-small;">
             <div id="facetRefBibsNative">
             </div>
           </div>
