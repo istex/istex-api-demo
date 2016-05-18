@@ -1,4 +1,16 @@
 {
+  "scripts": {
+    "postinstall": "node ./js/postInstall.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/istex/istex-api-demo.git"
+  },
+  "devDependencies": {
+    "less": "^2.4.0",
+    "less-plugin-clean-css": "^1.5.0"
+  },
   "author": "Istex team",
   "license": "ISC",
   "keywords": [
@@ -9,22 +21,10 @@
   "name": "istex-api-demo",
   "description": "Démonstrateur Istex",
   "dependencies": {
-    "colors": "^1.1.2",
+    "requirejs-json": "0.0.3",
     "lodash": "^3.9.3",
-    "requirejs-json": "0.0.3"
+    "colors": "^1.1.2"
   },
-  "main": "index.html",
-  "devDependencies": {
-    "less-plugin-clean-css": "^1.5.0",
-    "less": "^2.4.0"
-  },
-  "repository": {
-    "url": "https://github.com/istex/istex-api-demo.git",
-    "type": "git"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node ./js/postInstall.js"
-  }
+  "main": "index.html"
 }
 
