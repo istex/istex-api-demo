@@ -2,7 +2,7 @@
 
 # Script de création d'incrémentation de version, git tag, changelog interactif pour istex-api version béta 1
 
-if [ "$1" = '-h' ] || [ "$#" -lt 1 ]; then
+if [ "$1" = '-h' ] || [ "$#" -lt 1 ] || [ "$1" = '--help' ]; then
   echo -e "usage: ./newVersion <nouvelle_version> <version_api_correspondante>.\n ex: ./newVersion '1.0.0' '3.2.1'"
   exit 0
 fi
