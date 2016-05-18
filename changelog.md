@@ -1,9 +1,11 @@
 ISTEX-API-DEMO
 =============
 Changements depuis le tag v1.4.0
-Correspond à l'API v.
+Correspond à l'API v.3.7.2
 -------------
- Passage en --help correspondant à l'API v.
+ On va ajouter --help à newVersion c'est mieux...
+Passage en --help correspondant à l'API v.
+Passage en --help correspondant à l'API v.
 Merge branch 'master' of https://github.com/istex/istex-api-demo
 Merge branch 'master' of https://github.com/istex/istex-api-demo
 MAJ du fichier takeMapping.js
