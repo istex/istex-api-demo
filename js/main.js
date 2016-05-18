@@ -33,6 +33,7 @@ var istexApp = angular.module("istexApp", []);
 // Contient l'historique de l'affinage
 var searchPageHistory = [];
 var corpusList = ['*'];
+var genresByPubTypes = {};
 
 var search = function(searchPage, searchPageController) {
 
@@ -42,7 +43,6 @@ var search = function(searchPage, searchPageController) {
   searchPageToInsert.searchField = $("#searchField").val();
   searchPageToInsert.editor = [];
   searchPageToInsert.pubdate = undefined;
-  searchPageToInsert.copyrightdate = undefined;
   searchPageToInsert.PDFWordCount = undefined;
   searchPageToInsert.PDFCharCount = undefined;
   searchPageToInsert.sortBy = undefined;
@@ -61,7 +61,6 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
   $scope.helper = {
     request: {},
     corpus: {},
-    copyrightDate: {},
     pubDate: {},
     searchKeys: {},
     title: {},
@@ -77,6 +76,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
     quality: {},
     sortBy: {},
     size: {},
+    publicationType: {},
     articleType: {}
   };
 
@@ -133,7 +133,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
             operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty'],
             default_value: '*'
           };
-          
+
           switch (mapping[keys[i]]) {
 
             case 'string':
@@ -174,8 +174,20 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
         $('#builder').queryBuilder(jsonQueryBuilder);
       }
     });
+
+    var cacheClear = $.ajax({
+      url: config.apiUrl + 'properties',
+      success: function(data, status, xhr) {
+        if (data.corpus.lastUpdate > localStorage['last-refresh']) {
+          console.log('Le cache a été nettoyé...');
+          localStorage.clear();
+        }
+      }
+    });
+
     window.setTimeout(function() {
-      console.log(err);
+      console.log('/corpus : ' + JSON.stringify(err));
+      console.log('/properties : ' + JSON.stringify(cacheClear));
     }, 60000);
   }());
 

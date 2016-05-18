@@ -12,6 +12,7 @@ define({
     numberOfResults: 0,
     editor: [],
     genre: [],
+    hostGenre: [],
     advancedSearch: false,
     reaffine: false
 });

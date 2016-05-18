@@ -11,7 +11,6 @@ require(
 
     // Facettes de type "liste de termes"
     onClickEvents($("#facetCorpus"), 'editor', 'corpusName', searchPageController);
-    onClickEvents($("#facetArticleType"), 'genre', 'genre', searchPageController);
     onClickEvents($("#facetPDFVersion"), 'PDFVersion', 'qualityIndicators.pdfVersion', searchPageController);
     onClickEvents($("#facetRefBibsNative"), 'refBibsNative', 'qualityIndicators.refBibsNative', searchPageController);
 
@@ -19,8 +18,10 @@ require(
     autocompleteEvents($("#languages"), $("#resetLanguages"), 'language', 'language', searchPage, searchPageController);
     autocompleteEvents($("#wosCategories"), $("#resetWos"), 'WOS', 'categories.wos', searchPage, searchPageController);
 
+    // Facettes imbriquées
+    imbricatedEvents(searchPageController);
+
     // Facettes de type "slider"
-    sliderEvents($("#slider-range-copyright"), $("#amountCopyrightDate"), 'copyrightdate', 'copyrightDate', searchPage, searchPageController);
     sliderEvents($("#slider-range-pubdate"), $("#amountPubDate"), 'pubdate', 'publicationDate', searchPage, searchPageController);
     sliderEvents($("#slider-range-PDFWordCount"), $("#amountPDFWordCount"), 'PDFWordCount', 'qualityIndicators.pdfWordCount', searchPage, searchPageController);
     sliderEvents($("#slider-range-PDFCharCount"), $("#amountPDFCharCount"), 'PDFCharCount', 'qualityIndicators.pdfCharCount', searchPage, searchPageController);
@@ -276,4 +277,62 @@ function autocompleteEvents(tag, resetTag, field, name, searchPage, searchPageCo
     tag.val("");
     searchPageController.search(searchPage, searchPageHistory)
   });
+}
+
+function imbricatedEvents(searchPageController) {
+
+  // Facette type de publication 
+  var searchPageToInsert,
+    refineRoadHTML;
+
+  $("#publicationTypes").autocomplete({
+    minLength: 0,
+    focus: function(event, ui) {
+      $("#publicationTypes").val(ui.item.label)
+    },
+    select: function(event, ui) {
+
+      $("#publicationTypes").val(ui.item.label);
+      searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
+      searchPageToInsert.hostGenre = [];
+      searchPageToInsert.hostGenre.push(ui.item.value);
+      refineRoadHTML = '<li><a href="#">host.genre:"' + ui.item.value + '"';
+
+      // Facette type de contenu, mis à jour selon le type de publication
+      $("#articleTypes").autocomplete({
+        minLength: 0,
+        focus: function(event, ui2) {
+          $("#articleTypes").val(ui2.item.label)
+        },
+        select: function(event, ui2) {
+          $("#articleTypes").val(ui2.item.label);
+          searchPageToInsert.genre = [];
+          searchPageToInsert.genre.push(ui2.item.value);
+          $("#refineRoad").append(refineRoadHTML + ' AND genre:"' + ui2.item.value + '"</a></li>');
+          $("#refineRoad").children().last().click(refineRoadClick(searchPageController));
+          searchPageController.search(searchPageToInsert, searchPageHistory);
+          return false;
+        }
+      });
+
+      $("#articleTypes").on("click", function() {
+        if ($("#articleTypes").val() === "") $("#articleTypes").autocomplete("search", "")
+      });
+
+      // Mettre à jour la liste des possibilités de type de contenu
+      $("#articleTypes").autocomplete("option", "source", genresByPubTypes[ui.item.label])
+        .autocomplete('instance')._renderItem = function(ul, item) {
+          return $('<li>')
+            .append('<a>' + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + '</span></a>')
+            .appendTo(ul);
+        };
+
+      $("#facetArticleType").removeClass('hide');
+    }
+  });
+
+  $("#publicationTypes").on("click", function() {
+    if ($("#publicationTypes").val() === "") $("#publicationTypes").autocomplete("search", "")
+  });
+
 }
