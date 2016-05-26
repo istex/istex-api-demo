@@ -1,14 +1,8 @@
 # istex-api-demo #
 
-## DÉPOT DÉPRÉCIÉ ##
-**DÉPLACÉ SUR GITHUB : https://github.com/istex/istex-api-demo**
-
-
 Démontrateur pour l'API de la plateforme ISTEX.
 
-
 Le démonstrateur est basé sur le framework Bootstrap de Twitter.
-
 
 Pour lancer rapidement le démonstrateur dans son navigateur Web, vous avez besoin d'un serveur Web.
 voici une façon simple d'en lancer un :
