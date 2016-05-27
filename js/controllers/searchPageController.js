@@ -129,6 +129,8 @@ define(
       var tooltipsContent = "<p class='h4'>" + config.apiUrl + "document/?" + softHyphen +
         "<mark class='bg-searchKeys'>" + (ctrlScope.helper.searchKeys.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-corpus'>" + (ctrlScope.helper.corpus.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-publicationType'>" + (ctrlScope.helper.publicationType.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-articleType'>" + (ctrlScope.helper.articleType.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-author'>" + (ctrlScope.helper.author.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-title'>" + (ctrlScope.helper.title.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen +
