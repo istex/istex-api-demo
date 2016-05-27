@@ -59,7 +59,7 @@ define(
       }
 
       if (searchPage.editor[0] !== '-1') {
-        getField(searchPage.editor, 'corpus', 'corpusName', ctrlScope.helper, fields, 'array', false);
+        getField(searchPage.editor, 'corpus', 'corpusName.raw', ctrlScope.helper, fields, 'array', false);
       }
 
       getField(searchPage.hostGenre, 'publicationType', 'host.genre.raw', ctrlScope.helper, fields, 'array', false);
@@ -78,9 +78,9 @@ define(
 
       if (searchPage.refBibsNative) {
         if (searchPage.refBibsNative.length === 1) {
-          ctrlScope.helper.refBibsNative.query = " AND qualityIndicators.refBibsNative.raw:" + searchPage.refBibsNative[0];
+          ctrlScope.helper.refBibsNative.query = " AND qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
           ctrlScope.helper.quality.query += ctrlScope.helper.refBibsNative.query;
-          fields.push("qualityIndicators.refBibsNative.raw:" + searchPage.refBibsNative[0]);
+          fields.push("qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0]);
         } else {
           ctrlScope.helper.refBibsNative.query = null;
         }
