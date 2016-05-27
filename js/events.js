@@ -218,7 +218,7 @@ function onClickEvents(tag, field, name, searchPageController) {
       if (field === 'editor' && searchPageToInsert[field].length === 0) searchPageToInsert[field].push("-1");
     }
 
-    $("#refineRoad").append('<li><a href="#">' + name + ':"' + value + '"</a></li>');
+    $("#refineRoad").append('<li><a href="#">' + name + '.raw:"' + value + '"</a></li>');
     $("#refineRoad").children().last().click(refineRoadClick(searchPageController));
     searchPageController.search(searchPageToInsert, searchPageHistory);
   });
@@ -261,7 +261,7 @@ function autocompleteEvents(tag, resetTag, field, name, searchPage, searchPageCo
       searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
       searchPageToInsert[field] = [];
       searchPageToInsert[field].push(ui.item.value);
-      $("#refineRoad").append('<li><a href="#">' + name + ':"' + ui.item.value + '"</a></li>');
+      $("#refineRoad").append('<li><a href="#">' + name + '.raw:"' + ui.item.value + '"</a></li>');
       $("#refineRoad").children().last().click(refineRoadClick(searchPageController));
       searchPageController.search(searchPageToInsert, searchPageHistory);
       return false;
@@ -296,7 +296,7 @@ function imbricatedEvents(searchPageController) {
       searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
       searchPageToInsert.hostGenre = [];
       searchPageToInsert.hostGenre.push(ui.item.value);
-      refineRoadHTML = '<li><a href="#">host.genre:"' + ui.item.value + '"';
+      refineRoadHTML = '<li><a href="#">host.genre.raw:"' + ui.item.value + '"';
 
       // Facette type de contenu, mis à jour selon le type de publication
       $("#articleTypes").autocomplete({
@@ -308,7 +308,7 @@ function imbricatedEvents(searchPageController) {
           $("#articleTypes").val(ui2.item.label);
           searchPageToInsert.genre = [];
           searchPageToInsert.genre.push(ui2.item.value);
-          $("#refineRoad").append(refineRoadHTML + ' AND genre:"' + ui2.item.value + '"</a></li>');
+          $("#refineRoad").append(refineRoadHTML + ' AND genre.raw:"' + ui2.item.value + '"</a></li>');
           $("#refineRoad").children().last().click(refineRoadClick(searchPageController));
           searchPageController.search(searchPageToInsert, searchPageHistory);
           return false;

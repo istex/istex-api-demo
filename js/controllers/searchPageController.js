@@ -62,11 +62,11 @@ define(
         getField(searchPage.editor, 'corpus', 'corpusName', ctrlScope.helper, fields, 'array', false);
       }
 
-      getField(searchPage.hostGenre, 'publicationType', 'host.genre', ctrlScope.helper, fields, 'array', false);
-      getField(searchPage.genre, 'articleType', 'genre', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.hostGenre, 'publicationType', 'host.genre.raw', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.genre, 'articleType', 'genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);
-      getField(searchPage.WOS, 'WOS', 'categories.wos', ctrlScope.helper, fields, 'array', false);
-      getField(searchPage.language, 'lang', 'language', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.WOS, 'WOS', 'categories.wos.raw', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.language, 'lang', 'language.raw', ctrlScope.helper, fields, 'array', false);
 
       // Facette qualité
       ctrlScope.helper.quality.query = '';
@@ -74,13 +74,13 @@ define(
       getField(searchPage.score, 'score', 'qualityIndicators.score', ctrlScope.helper, fields, 'range', true);
       getField(searchPage.PDFWordCount, 'PDFWordCount', 'qualityIndicators.pdfWordCount', ctrlScope.helper, fields, 'range', true);
       getField(searchPage.PDFCharCount, 'PDFCharCount', 'qualityIndicators.pdfCharCount', ctrlScope.helper, fields, 'range', true);
-      getField(searchPage.PDFVersion, 'PDFVersion', 'qualityIndicators.pdfVersion', ctrlScope.helper, fields, 'array', true);
+      getField(searchPage.PDFVersion, 'PDFVersion', 'qualityIndicators.pdfVersion.raw', ctrlScope.helper, fields, 'array', true);
 
       if (searchPage.refBibsNative) {
         if (searchPage.refBibsNative.length === 1) {
-          ctrlScope.helper.refBibsNative.query = " AND qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0];
+          ctrlScope.helper.refBibsNative.query = " AND qualityIndicators.refBibsNative.raw:" + searchPage.refBibsNative[0];
           ctrlScope.helper.quality.query += ctrlScope.helper.refBibsNative.query;
-          fields.push("qualityIndicators.refBibsNative:" + searchPage.refBibsNative[0]);
+          fields.push("qualityIndicators.refBibsNative.raw:" + searchPage.refBibsNative[0]);
         } else {
           ctrlScope.helper.refBibsNative.query = null;
         }
