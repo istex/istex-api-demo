@@ -49,7 +49,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         // Changement de host.genre en hostGenre pour mustache
         data.aggregations.hostGenre = data.aggregations['host.genre'];
 
-        var lang, wos, pubType, obj;
+        var lang, wos, pubType, artType, obj;
         var pubTypeList = [];
         var languageList = [];
         var wosList = [];
