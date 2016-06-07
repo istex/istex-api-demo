@@ -1,15 +1,12 @@
 ISTEX-API-DEMO
 =============
-Changements depuis le tag v1.4.0
-Correspond à l'API v.3.7.2
+Changements depuis le tag v1.4.1
+Correspond à l'API v.3.7.6
 -------------
- On va ajouter --help à newVersion c'est mieux...
-Passage en --help correspondant à l'API v.
-Passage en --help correspondant à l'API v.
-Merge branch 'master' of https://github.com/istex/istex-api-demo
-Merge branch 'master' of https://github.com/istex/istex-api-demo
-MAJ du fichier takeMapping.js
-Remplacement de l'adresse par api-integ.istex.fr
-Update README.md
-Update README.md
+ Déclaration de la variable artType
+Ajout dans le descriptif de la requête des champs type publication/article
+Corrections sur les champs .raw
+On tape sur les champs .raw lorsque l'on sélectionne une entrée dans les facettes
+Correction sur le README.md
+Changement des exemples facette Type Publication
 
