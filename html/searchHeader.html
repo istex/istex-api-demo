@@ -45,15 +45,27 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
           <form role="form" class="form-inline" id="searchform">
             <div data-toggle="istex-tooltip" class="form-group">
               <div class="input-group">
                 <input type="text" class="form-control" id="searchField" placeholder="Titre ou mot clef" ng-model="searchfield" ng-change="search()">
-                <span class="input-group-btn">
+                <div class="input-group-btn">
                   <button id="searchButton" type="submit" class="btn" data-loading-text='<img src="img/loading.gif" class="loading" id="loading"/>'>
                     <span class="glyphicon glyphicon-search"></span>
-                </button>
-                </span>
+                  </button>
+                  <button id="optionsSearchButton" type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span><small style="margin-left:3px">Options</small>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionsSearchButton">
+                    <li class="dropdown-header">Score</li>
+                    <li><input type="radio" name="scoreGroup" value="quality" checked style="margin-left:15px;margin-right:5px"><small>Relevé par qualité</small></li>
+                    <li><input type="radio" name="scoreGroup" value="lucene" style="margin-left:15px;margin-right:5px"><small>Brut</small></li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="istex-tooltip">

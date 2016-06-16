@@ -49,17 +49,11 @@ textarea {
 .container {
   height: 100%;
 }
-.form-group {
-  max-width: 250px;
-}
 .pager li {
   font-size: 20px;
 }
 #searchFieldRow {
   text-align: center;
-}
-#searchField {
-  max-width: 250px;
 }
 #advancedSearchTitle {
   text-align: center;
@@ -67,7 +61,6 @@ textarea {
 #tableResult span.glyphicon {
   font-size: 20px;
 }
-
 #header {
   border-radius: 0px;
   margin-bottom: 0px;
@@ -93,6 +86,10 @@ textarea {
 .truncate:hover {
   overflow: visible;
   white-space: normal;
+}
+
+.btn {
+  border:1px solid rgba(0,0,0,.25)
 }
 
 #footer {
@@ -291,9 +288,6 @@ textarea {
     & > mark{
       &[data-ng-bind*="corpus"],bg-corpus {
         .bg-corpus;
-      }
-      &[data-ng-bind*="copyrightDate"] {
-        .bg-copyrightDate;
       }
       &[data-ng-bind*="pubDate"] {
         .bg-pubDate;
