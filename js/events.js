@@ -56,6 +56,18 @@ function searchEvents(searchPage, searchPageController) {
     $('#builder').queryBuilder('reset');
   });
 
+  $('input:radio[name=scoreGroup]').on('click change', function() {
+    //$('#builder').queryBuilder('reset');
+    switch ($(this)[0].value) {
+      case 'quality':
+        searchPage.rankBy = 'qualityOverRelevance';
+        break;
+      case 'lucene':
+        searchPage.rankBy = undefined;
+        break;
+    }
+  });
+
   var advancedSearchFunction = function() {
     var result = $('#builder').queryBuilder('getRules');
     if (!$.isEmptyObject(result)) {
@@ -169,7 +181,7 @@ function sortEvents(searchPage, searchPageController) {
     searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
     searchPageHistory.pop();
     switch ($(this).text()) {
-      case 'Qualité':
+      case 'Aucun':
         searchPageToInsert.sortBy = undefined;
         break;
       case 'Publication (ancien-récent)':

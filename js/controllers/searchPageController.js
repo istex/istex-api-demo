@@ -119,6 +119,11 @@ define(
         query += '&sortBy=' + searchPage.sortBy;
       }
 
+      if (searchPage.rankBy) {
+        ctrlScope.helper.rankBy.query = '&rankBy=' + searchPage.rankBy;
+        query += '&rankBy=' + searchPage.rankBy;
+      }
+
       // Ajout des options non modifiable dans le demonstrateur
       query += "&output=*&stats";
 
