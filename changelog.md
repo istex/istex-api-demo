@@ -1,12 +1,8 @@
 ISTEX-API-DEMO
 =============
-Changements depuis le tag v1.4.1
-Correspond à l'API v.3.7.6
+Changements depuis le tag v1.4.2
+Correspond à l'API v.3.8
 -------------
- Déclaration de la variable artType
-Ajout dans le descriptif de la requête des champs type publication/article
-Corrections sur les champs .raw
-On tape sur les champs .raw lorsque l'on sélectionne une entrée dans les facettes
-Correction sur le README.md
-Changement des exemples facette Type Publication
+ Ajout d'un bouton Options pour choisir le type de score
+WIP : Ajout d'un bouton Options pour choisir le type de score
 
