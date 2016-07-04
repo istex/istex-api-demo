@@ -191,10 +191,10 @@ function sortEvents(searchPage, searchPageController) {
         searchPageToInsert.sortBy = 'publicationDate[desc]';
         break;
       case 'Titre (A-Z)':
-        searchPageToInsert.sortBy = 'title[asc]';
+        searchPageToInsert.sortBy = 'title.raw[asc]';
         break;
       case 'Titre (Z-A)':
-        searchPageToInsert.sortBy = 'title[desc]';
+        searchPageToInsert.sortBy = 'title.raw[desc]';
         break;
     }
     searchPageController.search(searchPageToInsert, searchPageHistory);
