@@ -220,7 +220,26 @@ function generateDataFunctions(data, config) {
   
   data.hasErratumOf = function() {
     return this.erratumOf && this.erratumOf.length;
-  }
+  };
+  
+  data.errata = function() {
+    let doiUrl = 'https://api.istex.fr/document/?q=';
+    let first = true;
+    for (let erratumDoi of this.erratumOf) {
+      if (first)
+        first = false;
+      else
+        doiUrl += ' OR ';
+      doiUrl += 'doi:"' + erratumDoi + '"';
+  
+    }
+    var jsonResponse = $.ajax({
+      url: doiUrl + "&output=*",
+      crossDomain: true,
+      async: false}).responseText;
+      
+    return JSON.parse(jsonResponse).hits;
+  };
   
   data.consolidateEnrichmentsUri = function() {
     if (!this.enrichments) {

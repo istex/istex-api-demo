@@ -87,9 +87,13 @@
         {{#hasErratumOf}}
           <p>Cet erratum se réfère au(x) document(s) suivant(s) :</p>
           <ul>
-          {{#erratumOf}}
-              <li><a href="https://api.istex.fr/document/openurl?rft_id=info:doi/{{.}}" title="Accéder au document">{{.}}</a></li>
-          {{/erratumOf}}
+          {{#errata}}
+              <!--<li><a href="https://api.istex.fr/document/openurl?rft_id=info:doi/{{.}}" title="Accéder au document">{{title}}</a></li>-->
+              <li><a href="https://api.istex.fr/document/{{id}}" title="version JSON">{{title}}</a>
+                  [<a href="https://api.istex.fr/document/{{id}}/metadata/mods" title="version MODS">MODS</a>]
+                  [<a href="https://api.istex.fr/document/{{id}}/fulltext/pdf" title="version PDF">PDF</a>]
+              </li>
+          {{/errata}}
           </ul>
         {{/hasErratumOf}}
       </section>
