@@ -87,12 +87,14 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
           pubTypeList.push(obj);
 
           genresByPubTypes[pubType.key] = [];
-          for (artType of pubType['genre'].buckets) {
-            obj = {};
-            obj.value = artType.key;
-            obj.desc = artType.docCount + ' documents';
-            obj.label = artType.key;
-            genresByPubTypes[pubType.key].push(obj);
+          if (pubType.genre) {
+            for (artType of pubType['genre'].buckets) {
+              obj = {};
+              obj.value = artType.key;
+              obj.desc = artType.docCount + ' documents';
+              obj.label = artType.key;
+              genresByPubTypes[pubType.key].push(obj);
+            }
           }
         }
         generateAutocompleteFacet($("#publicationTypes"), pubTypeList, $('#nbPubTypeFacet'), 'host.genre', data);
@@ -215,7 +217,11 @@ function generateDataFunctions(data, config) {
   data.hasEnrichments = function() {
     return this.enrichments && this.enrichments.length;
   };
-
+  
+  data.hasErratumOf = function() {
+    return this.erratumOf && this.erratumOf.length;
+  }
+  
   data.consolidateEnrichmentsUri = function() {
     if (!this.enrichments) {
       return;
