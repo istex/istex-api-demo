@@ -86,7 +86,7 @@
         </div>
         {{#hasErratumOf}}
           <p>Cet erratum se réfère au(x) document(s) suivant(s) :</p>
-          <ul class='col-xs-12'>
+          <ul>
           {{#errata}}
               <li><a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a>
                   ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
