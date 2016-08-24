@@ -89,8 +89,9 @@
           <ul>
           {{#errata}}
               <li><a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a>
-                  [<a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS">MODS</a>]
-                  [<a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF">PDF</a>]
+                  <a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS"><img src='img/mimetypes/32px/mods.png' title="MODS"></a>
+                  <a href="{{apiUrl}}document/{{id}}/fulltext/tei" title="version TEI"><img src='img/mimetypes/32px/tei.png' title="TEI"></a>
+                  <a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF"><img src='img/mimetypes/32px/pdf.png' title="PDF"></a>
               </li>
           {{/errata}}
           {{^errata}}
