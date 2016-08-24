@@ -223,7 +223,7 @@ function generateDataFunctions(data, config) {
   };
   
   data.errata = function() {
-    let doiUrl = 'https://api.istex.fr/document/?q=';
+    let doiUrl = config.apiUrl + 'document/?q=';
     let first = true;
     for (let erratumDoi of this.erratumOf) {
       if (first)
@@ -231,14 +231,24 @@ function generateDataFunctions(data, config) {
       else
         doiUrl += ' OR ';
       doiUrl += 'doi:"' + erratumDoi + '"';
-  
     }
+
     var jsonResponse = $.ajax({
       url: doiUrl + "&output=*",
       crossDomain: true,
       async: false}).responseText;
-      
-    return JSON.parse(jsonResponse).hits;
+    
+    var res = undefined;
+    try {
+      res = JSON.parse(jsonResponse).hits;
+      for (hit of res) {
+        hit.apiUrl = config.apiUrl;
+      }
+    } catch (err) {
+      res=undefined;
+    }
+  
+    return res;
   };
   
   data.consolidateEnrichmentsUri = function() {

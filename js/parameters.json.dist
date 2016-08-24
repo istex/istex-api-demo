@@ -1,7 +1,7 @@
 {
   "prod_api_url": "https://api.istex.fr/",
   "dev_api_url": null,
-  "int_api_url": "http://api-integ.istex.fr/",
+  "int_api_url": "https://api-integ.istex.fr/",
   "local_api_url": null,
   "default_api_url": "prod_api_url"
 }
