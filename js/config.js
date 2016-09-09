@@ -21,6 +21,8 @@ define(["js/parameters.js"], function(parameters) {
     },
     languageCorrespondance: {
       "unknown": "inconnue",
+      "alg": "algonquines, langues",
+      "amh": "amharique",
       "ang": "anglo-saxon (ca.450-1100)",
       "ara": "arabe",
       "arc": "araméen d'empire (700-300 BCE)",
@@ -45,6 +47,7 @@ define(["js/parameters.js"], function(parameters) {
       "gla": "gaélique; gaélique écossais",
       "gle": "irlandais",
       "glg": "galicien",
+      "glv": "manx-mannois",
       "gmh": "allemand, moyen haut (ca. 1050-1500)",
       "got": "gothique",
       "grc": "grec ancien (jusqu'à 1453)",
@@ -61,6 +64,7 @@ define(["js/parameters.js"], function(parameters) {
       "jpn": "japonais",
       "kab": "kabyle",
       "kal": "groenlandais",
+      "kat": "géorgien",
       "kin": "rwanda",
       "kor": "coréen",
       "kur": "kurde",
@@ -115,6 +119,7 @@ define(["js/parameters.js"], function(parameters) {
       "wln": "wallon",
       "yid": "yiddish",
       "zul": "zoulou",
+      "zxx": "pas de contenu linguistique"
     }
   };
 });
