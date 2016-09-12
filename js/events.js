@@ -96,24 +96,27 @@ function recursiveConstructor(condition, rules) {
     } else {
       var notPartBegin = (qp.operator.indexOf('not') !== -1) ? '(NOT ' : '';
       var notPartEnd = (qp.operator.indexOf('not') !== -1) ? ') ' : ' ';
+      var beginWith = notPartBegin + qp.id;
+      var endWith = notPartEnd + condition + ' ';
       switch (qp.operator) {
         case 'equal':
         case 'not_equal':
-          queryPart += notPartBegin + qp.id + ':' + qp.value + notPartEnd + condition + ' ';
+          qp.value = (qp.value.indexOf('"') === 0) ? qp.value.slice(1) : qp.value;
+          qp.value = (qp.value.lastIndexOf('"') === (qp.value.length - 1)) ? qp.value.slice(0, -1) : qp.value;
+          queryPart += beginWith + ':' + ((qp.value !== '*') ? '"' + qp.value + '"' : qp.value) + endWith;
           break;
         case 'contains':
         case 'not_contains':
-          queryPart += notPartBegin + qp.id + ':*' + qp.value + '*' + notPartEnd + condition + ' ';
+          queryPart += beginWith + ':(' + qp.value.split(' ').join(' AND ') + ')' + endWith;
           break;
         case 'begins_with':
         case 'not_begins_with':
-          queryPart += notPartBegin + qp.id + ':' + qp.value + '*' + notPartEnd + condition + ' ';
+          queryPart += beginWith + ':(' + qp.value + '*' + ')' + endWith;
           break;
         case 'ends_with':
         case 'not_ends_with':
-          queryPart += notPartBegin + qp.id + ':*' + qp.value + notPartEnd + condition + ' ';
+          queryPart += beginWith + ':(*' + qp.value + endWith;
           break;
-
         case 'greater':
           queryPart += qp.id + ':[' + qp.value + ' TO *] ' + condition + ' ';
           break;
@@ -122,9 +125,8 @@ function recursiveConstructor(condition, rules) {
           break;
         case 'between':
         case 'not_between':
-          queryPart += notPartBegin + qp.id + ':[' + qp.value[0] + ' TO ' + qp.value[1] + ']' + notPartEnd + condition + ' ';
+          queryPart += beginWith + ':[' + qp.value[0] + ' TO ' + qp.value[1] + ']' + endWith;
           break;
-
         case 'is_empty':
           queryPart += '(NOT ' + qp.id + ':*) ' + condition + ' ';
           break;
