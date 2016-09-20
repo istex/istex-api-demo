@@ -3,7 +3,8 @@ ISTEX-API-DEMO
 Changements depuis le tag v1.4.3
 Correspond à l'API v.3.9.1
 -------------
- Merge branch 'master' of https://github.com/istex/istex-api-demo
+ Passage en 1.4.4 correspondant à l'API v.3.9.1
+Merge branch 'master' of https://github.com/istex/istex-api-demo
 Changement dans la recherche avancée : égal rajoute des doubles quotes et contient joint les mots par des AND
 Ajout de 5 codes langues
 Ajout de 5 codes langues--author=tinearconn
