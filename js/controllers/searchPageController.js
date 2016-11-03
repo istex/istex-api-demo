@@ -5,12 +5,12 @@
 define(
   [
     "config",
-    "vendor/mustache",
+    "vendor/handlebars",
     "controllers/results",
     "vendor/jsonview/jquery.jsonview-1.2.3",
     "polyfill"
   ],
-  function(config, mustache, results) {
+  function(config, handlebars, results) {
     "use strict";
 
     var searchPageController = {},
