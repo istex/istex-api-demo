@@ -62,6 +62,7 @@ define(
         getField(searchPage.editor, 'corpus', 'corpusName.raw', ctrlScope.helper, fields, 'array', false);
       }
 
+      getField(searchPage.enrichTypes, 'enrichTypes', 'enrichments.type.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.hostGenre, 'publicationType', 'host.genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.genre, 'articleType', 'genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);
@@ -90,7 +91,7 @@ define(
       query += qParameter;
 
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],pdfVersion[*],refBibsNative,wos[*],language[*]";
+      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],pdfVersion[*],refBibsNative,wos[*],language[*],enrichments.type[*]";
       if (searchPage.reaffine) {
         minPubdate = $("#slider-range-pubdate").slider("values", 0);
         maxPubdate = $("#slider-range-pubdate").slider("values", 1);

@@ -48,6 +48,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
 
         // Changement de host.genre en hostGenre pour mustache
         data.aggregations.hostGenre = data.aggregations['host.genre'];
+        data.aggregations.enrichTypes = data.aggregations['enrichments.type'];
 
         var lang, wos, pubType, artType, obj;
         var pubTypeList = [];
@@ -58,6 +59,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
 
         // Vidage des facets avant remplissage
         $('#facetCorpus').empty();
+        $('#facetEnrichTypes').empty();
         $('#facetPDFVersion').empty();
         $('#facetRefBibsNative').empty();
 
@@ -75,6 +77,7 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
 
         // Génération des facettes de type "terms"
         generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, mustache);
+        generateTermsFacet('enrichTypes', '{{key}}', $('#facetEnrichTypes'), $('#nbEnrichTypesFacet'), data, mustache);
         generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, mustache);
         generateTermsFacet('refBibsNative', '{{#presence}}{{key}}{{/presence}}', $('#facetRefBibsNative'), null, data, mustache);
 

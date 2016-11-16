@@ -11,6 +11,7 @@ require(
 
     // Facettes de type "liste de termes"
     onClickEvents($("#facetCorpus"), 'editor', 'corpusName', searchPageController);
+    onClickEvents($("#facetEnrichTypes"), 'enrichTypes', 'enrichments.type', searchPageController);
     onClickEvents($("#facetPDFVersion"), 'PDFVersion', 'qualityIndicators.pdfVersion', searchPageController);
     onClickEvents($("#facetRefBibsNative"), 'refBibsNative', 'qualityIndicators.refBibsNative', searchPageController);
 

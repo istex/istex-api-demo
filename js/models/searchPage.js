@@ -13,6 +13,7 @@ define({
     editor: [],
     genre: [],
     hostGenre: [],
+    enrichTypes: [],
     rankBy: 'qualityOverRelevance',
     advancedSearch: false,
     reaffine: false

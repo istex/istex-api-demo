@@ -188,6 +188,49 @@
     </div>
   </div>
   <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
+    <div class="panel-heading" role="tab" id="headingEnrichTypes">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseEnrichTypes" aria-expanded="true" aria-controls="collapseEnrichTypes"> Types d'enrichissement </a>
+        <span id="nbEnrichTypesFacet" class="badge pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseEnrichTypes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingEnrichTypes">
+      <div class="panel-body">
+        <div id="facetEnrichTypes">
+        </div>
+      </div>
+    </div>
+    <div class="istex-tooltip">
+      <h5>Types d'enrichissement</h5>
+      <p>Cette facette permet de préciser les <b class="text-primary">types d'enrichissement</b> présents dans les résultats sur lequel porte la requête.</p>
+      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
+      <div class="references">
+        <h6>
+          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+        </h6>
+        <ul>
+          <li>
+            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
+              Facettes
+            </a>
+          </li>
+          <li>
+            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/corpus/">
+              Liste des éditeurs disponible via l'API
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div data-ng-if="helper.corpus.query">
+        <hr>
+        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+        <p class="query-chunk">
+          <mark data-ng-bind="helper.corpus.query"></mark>
+        </p>
+      </div>
+    </div>
+  </div>  
+  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
     <div class="panel-heading" role="tab" id="headingFive">
       <h4 class="panel-title">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">

@@ -77,6 +77,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
     sortBy: {},
     rankBy: {},
     size: {},
+    enrichTypes: {},
     publicationType: {},
     articleType: {}
   };
