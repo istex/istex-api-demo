@@ -119,7 +119,7 @@ define(["js/parameters.js"], function(parameters) {
       "wln": "wallon",
       "yid": "yiddish",
       "zul": "zoulou",
-      "zxx": "pas de contenu linguistique"
+      "zxx": "pas d'information linguistique"
     }
   };
 });
