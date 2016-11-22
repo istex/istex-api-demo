@@ -1,4 +1,4 @@
-define(["config", "vendor/mustache", "text!views/resultRow.html"], function(config, mustache, resultRowTemplate) {
+define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(config, handlebars, resultRowTemplate) {
   return {
     displayRanges: function(data, field, slider, amount, nb, type) {
 
@@ -44,9 +44,9 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         setTotalTime(data.stats.elasticsearch.took, data.stats["istex-api"].took);
 
         // Ajoute les fonctions nécessaires à data
-        data = generateDataFunctions(data, config);
+        addHandlebarsFunctions(handlebars, config);
 
-        // Changement de host.genre en hostGenre pour mustache
+        // Changement de host.genre en hostGenre pour handlebars
         data.aggregations.hostGenre = data.aggregations['host.genre'];
         data.aggregations.enrichTypes = data.aggregations['enrichments.type'];
 
@@ -55,7 +55,8 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         var languageList = [];
         var wosList = [];
 
-        $("#tableResult").html(mustache.render(resultRowTemplate, data));
+        var template = handlebars.compile(resultRowTemplate);
+        $("#tableResult").html(template(data));
 
         // Vidage des facets avant remplissage
         $('#facetCorpus').empty();
@@ -76,10 +77,10 @@ define(["config", "vendor/mustache", "text!views/resultRow.html"], function(conf
         $('#facetArticleType').addClass('hide');
 
         // Génération des facettes de type "terms"
-        generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, mustache);
-        generateTermsFacet('enrichTypes', '{{key}}', $('#facetEnrichTypes'), $('#nbEnrichTypesFacet'), data, mustache);
-        generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, mustache);
-        generateTermsFacet('refBibsNative', '{{#presence}}{{key}}{{/presence}}', $('#facetRefBibsNative'), null, data, mustache);
+        generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, handlebars);
+        generateTermsFacet('enrichTypes', '{{key}}', $('#facetEnrichTypes'), $('#nbEnrichTypesFacet'), data, handlebars);
+        generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, handlebars);
+        generateTermsFacet('refBibsNative', '{{presence key}}', $('#facetRefBibsNative'), null, data, handlebars);
 
         // PubTypeFacet et ArtTypeFacet
         for (pubType of data.aggregations['host.genre'].buckets) {
@@ -176,140 +177,102 @@ function prevNextPageURI(tag, dataURI, jsTag) {
   }
 }
 
-function generateDataFunctions(data, config) {
-  // On wrap l'objet data avant de lui donner de nouvelles méthodes.
-  data = Object.create(data);
+function addHandlebarsFunctions(handlebars, config) {
 
-  data.abstr = function() {
-    return function(text, render) {
-      if (render(text) === "") {
-        return "Pas de résumé pour ce résultat.";
+  handlebars.registerHelper('abstr', function(abstract) {
+    if (abstract === "") {
+      return "Pas de résumé pour ce résultat.";
+    }
+    return abstract;
+  });
+
+  handlebars.registerHelper('mimetypeIconName', function(mimetype) {
+    return config.mimetypeIconNames[mimetype] || config.mimetypeIconNames["unknown"];
+  });
+
+  handlebars.registerHelper('enrichmentsList', function(enrichments) {
+
+    var template = "<a class=\"inline-push-down-1 inline-push-right-1 inline-block enrichment\" href='{{uri}}' target='_blank'>" +
+      "<i class=\"enrichment-type\">{{this}}</i>" +
+      "<img src='img/mimetypes/32px/tei.png' title=\"application/tei+xml\">" +
+      "</a>";
+    var finalTemplate = "";
+    var types = Object.keys(enrichments);
+    for (let type of types) {
+      finalTemplate += template;
+      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri);
+    }
+    return new handlebars.SafeString(finalTemplate);
+  });
+
+  handlebars.registerHelper('errata', function(fulltext, title) {
+      let doiUrl = config.apiUrl + 'document/?q=';
+      let first = true;
+      for (let erratumDoi of this.erratumOf) {
+        if (first)
+          first = false;
+        else
+          doiUrl += ' OR ';
+        doiUrl += 'doi:"' + erratumDoi + '"';
       }
-      return render(text);
-    };
-  };
 
-  data.mimetypeIconName = (function(config) {
-    return function() {
-      return config.mimetypeIconNames[this.mimetype] || config.mimetypeIconNames["unknown"];
-    };
-  }(config));
+      var jsonResponse = $.ajax({
+        url: doiUrl + "&output=*",
+        crossDomain: true,
+        async: false
+      }).responseText;
 
-  data.spaceless = function() {
-    return function(text, render) {
-      return render(text).replace(/(?:>)\s*(?=<)/g, ">");
-    };
-  };
-
-  data.hasFulltext = function() {
-    return this.fulltext && this.fulltext.length;
-  };
-
-  data.hasMetadata = function() {
-    return this.metadata && this.metadata.length;
-  };
-
-  data.hasCovers = function() {
-    return this.covers && this.covers.length;
-  };
-
-  data.hasAnnexes = function() {
-    return this.annexes && this.annexes.length;
-  };
-
-  data.hasEnrichments = function() {
-    return this.enrichments && this.enrichments.length;
-  };
-  
-  data.hasErratumOf = function() {
-    return this.erratumOf && this.erratumOf.length;
-  };
-  
-  data.errata = function() {
-    let doiUrl = config.apiUrl + 'document/?q=';
-    let first = true;
-    for (let erratumDoi of this.erratumOf) {
-      if (first)
-        first = false;
-      else
-        doiUrl += ' OR ';
-      doiUrl += 'doi:"' + erratumDoi + '"';
-    }
-
-    var jsonResponse = $.ajax({
-      url: doiUrl + "&output=*",
-      crossDomain: true,
-      async: false}).responseText;
-    
-    var res = undefined;
-    try {
-      res = JSON.parse(jsonResponse).hits;
-      for (hit of res) {
-        hit.apiUrl = config.apiUrl;
+      var res;
+      try {
+        res = JSON.parse(jsonResponse).hits;
+        for (hit of res) {
+          hit.apiUrl = config.apiUrl;
+        }
+      } catch (err) {
+        res = undefined;
       }
-    } catch (err) {
-      res=undefined;
-    }
-  
-    return res;
-  };
-  
-  data.consolidateEnrichmentsUri = function() {
-    if (!this.enrichments) {
-      return;
-    }
 
+      return res;
+  });
+
+  handlebars.registerHelper('consolidateEnrichmentsUri', function() {
     var path = [];
-    this.enrichments.forEach(function(enrichment) {
-      path.push(enrichment.type);
+    Object.keys(this.enrichments).forEach(function(type) {
+      path.push(type);
     });
     return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate';
-  };
+  });
 
-  data.titleClic = function() {
-    return function(text, render) {
-      var res = render(text),
-        infos = res.split(" "),
-        index = infos.indexOf("application/pdf"),
-        title = res.slice(res.indexOf("\"") + 1, res.length - 1);
-
-      if (index !== -1) {
-        return "<a href=\"" + infos[index + 1] + "\" target=\"_blank\">" + title + "</a>";
+  handlebars.registerHelper('titleClic', function(fulltext, title) {
+    for (let ft of fulltext) {
+      if (ft.mimetype == "application/pdf") {
+        return new handlebars.SafeString("<a href=\"" + ft.uri + "\" target=\"_blank\">" + title + "</a>");
       }
+    }
+    return title;
+  });
 
-      return title;
-    };
-  };
+  handlebars.registerHelper('quality', function(text, qi) {
+    return (qi === " ") ? "" : new handlebars.SafeString("<div class='text-right'><b class='label label-info'>" + text + qi + "</b>");
+  });
 
-  data.quality = function() {
-    return function(text, render) {
-      if (render(text).split(':')[1] === " ") {
-        return "";
-      }
-      return "<div class='text-right'><b class='label label-info'>" + render(text) + "</b>";
-    };
-  };
+  handlebars.registerHelper('presence', function(refbib) {
+    if (refbib === 'T') {
+      return "Fournies par l'éditeur";
+    } else {
+      return "Recherchées via GROBID";
+    }
+  });
 
-  data.presence = function() {
-    return function(text, render) {
-      var res = render(text);
-      if (res === 'T') {
-        return "Fournies par l'éditeur";
-      } else {
-        return "Recherchées via GROBID";
-      };
-    };
-  };
-  return data;
 }
 
-function generateTermsFacet(facetName, keys, tag, nbTag, data, mustache) {
-  var template = "{{#aggregations." + facetName + ".buckets}}<div class='col-xs-offset-1'>" +
+function generateTermsFacet(facetName, keys, tag, nbTag, data, handlebars) {
+  var template = handlebars.compile("{{#aggregations." + facetName + ".buckets}}<div class='col-xs-offset-1'>" +
     "<div class='checkbox'><label><input value=\'{{key}}\' type='checkbox'>" + keys + "</label>" +
-    "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations." + facetName + ".buckets}}";
+    "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations." + facetName + ".buckets}}");
 
   if (nbTag) nbTag.text(data.aggregations[facetName].buckets.length);
-  tag.append(mustache.render(template, data));
+  tag.append(template(data));
   if (data.aggregations[facetName].buckets.length === 1) {
     tag.get(0).getElementsByTagName('input').item(0).checked = true;
     tag.get(0).getElementsByTagName('input').item(0).disabled = true;
@@ -330,9 +293,9 @@ function setTotalTime(elasticTime, apiTime) {
   var totalTime = elasticTime + apiTime;
   if (totalTime > 999) {
     $("#totalms").val(Math.round(totalTime / 10) / 100);
-    $("#msOrS").text("s)")
+    $("#msOrS").text("s)");
   } else {
     $("#totalms").val(totalTime);
-    $("#msOrS").text("ms)")
+    $("#msOrS").text("ms)");
   }
-};
+}

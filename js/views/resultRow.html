@@ -2,113 +2,91 @@
 <tr class='row'>
   <td class='col-xs-12'>
     <h4 class='alert-success'>
-      <b>
-        {{#titleClic}}{{#fulltext}}{{{mimetype}}} {{{uri}}} {{/fulltext}} "{{title}}"{{/titleClic}}
+      <b>{{titleClic fulltext title}}
       </b>
     </h4>
     <div class='col-xs-10'>
       <p class='small abstract'>
-        {{#abstr}}{{abstract}}{{/abstr}}
+        {{abstr abstract}}
       </p>
       <section class="download-links">
         <div class='row'>
-          {{#hasFulltext}}
+          {{#if fulltext}}
           <div class='col-xs-3'>
-            {{#spaceless}}
             <div class="inline-block">
               <p class="h4 text-muted text-center">Fulltext</p>
-              {{#fulltext}}
+              {{#fulltext ~}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
-              {{/fulltext}}
+              {{~/fulltext}}
             </div>
-            {{/spaceless}}
           </div>
-          {{/hasFulltext}}
-          {{#hasMetadata}}
+          {{/if}} {{#if metadata}}
           <div class='col-xs-2'>
-            {{#spaceless}}
             <div class="inline-block">
               <p class="h4 text-muted text-center">Metadata</p>
-              {{#metadata}}
+              {{#metadata ~}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
-              {{/metadata}}
+              {{~/metadata}}
             </div>
-            {{/spaceless}}
           </div>
-          {{/hasMetadata}}
-          {{#hasCovers}}
+          {{/if}} {{#if covers}}
           <div class='col-xs-2'>
-            {{#spaceless}}
             <div class="inline-block">
               <p class="h4 text-muted text-center">Covers</p>
               {{#covers}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{/covers}}
             </div>
-            {{/spaceless}}
           </div>
-          {{/hasCovers}}
-          {{#hasAnnexes}}
+          {{/if}} {{#if annexes}}
           <div class='col-xs-3'>
-            {{#spaceless}}
             <div class="inline-block">
               <p class="h4 text-muted text-center">Annexes</p>
               {{#annexes}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{/annexes}}
             </div>
-            {{/spaceless}}
           </div>
-          {{/hasAnnexes}}
-          {{#hasEnrichments}}
+          {{/if}} {{#if enrichments}}
           <div class='col-xs-2'>
-            {{#spaceless}}
             <div class="inline-block">
               <p class="h4 text-muted text-center"><a href='{{consolidateEnrichmentsUri}}' target='_blank'>Enrichments</a></p>
-              {{#enrichments}}
-              <a class="inline-push-down-1 inline-push-right-1 inline-block enrichment" href='{{uri}}' target='_blank'>
-                <i class="enrichment-type">{{type}}</i>
-                <img src='img/mimetypes/32px/tei.png' title="application/tei+xml">
-              </a>
-              {{/enrichments}}
+              {{enrichmentsList enrichments}}
             </div>
-            {{/spaceless}}
           </div>
-          {{/hasEnrichments}}
+          {{/if}}
         </div>
-        {{#hasErratumOf}}
-          <p>Cet erratum se réfère au(x) document(s) suivant(s) :</p>
-          <ul>
+        {{#if erratumOf}}
+        <p>Cet erratum se réfère au(x) document(s) suivant(s) :</p>
+        <ul>
           {{#errata}}
-              <li><a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a>
-                  ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
-                  <a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS"><img src='img/mimetypes/32px/mods.png' title="MODS"></a>
-                  <a href="{{apiUrl}}document/{{id}}/fulltext/tei" title="version TEI"><img src='img/mimetypes/32px/tei.png' title="TEI"></a>
-                  <a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF"><img src='img/mimetypes/32px/pdf.png' title="PDF"></a>
-              </li>
+          <li><a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a> ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
+            <a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS"><img src='img/mimetypes/32px/mods.png' title="MODS"></a>
+            <a href="{{apiUrl}}document/{{id}}/fulltext/tei" title="version TEI"><img src='img/mimetypes/32px/tei.png' title="TEI"></a>
+            <a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF"><img src='img/mimetypes/32px/pdf.png' title="PDF"></a>
+          </li>
+          {{/errata}} {{^errata}}
+          <li>Problème lors de l'identification du ou des documents ciblés</li>
           {{/errata}}
-          {{^errata}}
-              <li>Problème lors de l'identification du ou des documents ciblés</li>
-          {{/errata}}
-          </ul>
-        {{/hasErratumOf}}
+        </ul>
+        {{/if}}
       </section>
     </div>
     <div class='col-xs-2'>
       <div class='text-right'>
         <b class='label label-primary'>{{corpusName}}</b>
         <b class='label label-primary'>{{genre}}</b>
-        <div>{{#quality}}Score : {{qualityIndicators.score}}{{/quality}}</div>
-        <div>{{#quality}}Mots : {{qualityIndicators.pdfWordCount}}{{/quality}}</div>
-        <div>{{#quality}}Publication : {{publicationDate}}{{/quality}}</div>
+        <div>{{quality "Score : " qualityIndicators.score}}</div>
+        <div>{{quality "Mots : " qualityIndicators.pdfWordCount}}</div>
+        <div>{{quality "Publication : " publicationDate}}</div>
       </div>
     </div>
   </td>
