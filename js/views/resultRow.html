@@ -17,7 +17,7 @@
               <p class="h4 text-muted text-center">Fulltext</p>
               {{#fulltext ~}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{~/fulltext}}
             </div>
@@ -28,7 +28,7 @@
               <p class="h4 text-muted text-center">Metadata</p>
               {{#metadata ~}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{~/metadata}}
             </div>
@@ -39,7 +39,7 @@
               <p class="h4 text-muted text-center">Covers</p>
               {{#covers}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{/covers}}
             </div>
@@ -50,7 +50,7 @@
               <p class="h4 text-muted text-center">Annexes</p>
               {{#annexes}}
               <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
-                <img src='img/mimetypes/32px/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
+                <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{/annexes}}
             </div>
@@ -69,9 +69,9 @@
         <ul>
           {{#errata}}
           <li><a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a> ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
-            <a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS"><img src='img/mimetypes/32px/mods.png' title="MODS"></a>
-            <a href="{{apiUrl}}document/{{id}}/fulltext/tei" title="version TEI"><img src='img/mimetypes/32px/tei.png' title="TEI"></a>
-            <a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF"><img src='img/mimetypes/32px/pdf.png' title="PDF"></a>
+            <a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS"><img src='img/mimetypes/mods.png' title="MODS"></a>
+            <a href="{{apiUrl}}document/{{id}}/fulltext/tei" title="version TEI"><img src='img/mimetypes/tei.png' title="TEI"></a>
+            <a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF"><img src='img/mimetypes/pdf.png' title="PDF"></a>
           </li>
           {{/errata}} {{^errata}}
           <li>Problème lors de l'identification du ou des documents ciblés</li>
