@@ -120,6 +120,7 @@ define(["js/parameters.js"], function(parameters) {
       "yid": "yiddish",
       "zul": "zoulou",
       "zxx": "pas d'information linguistique"
-    }
+    },
+    flags: ['chi', 'cze', 'deu', 'dut', 'eng', 'fin', 'fre', 'gle', 'gre', 'hun', 'ita', 'jpn', 'per', 'pol', 'por', 'rus', 'sco', 'spa', 'wel']
   };
 });

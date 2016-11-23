@@ -194,7 +194,7 @@ function addHandlebarsFunctions(handlebars, config) {
 
     var template = "<a class=\"inline-push-down-1 inline-push-right-1 inline-block enrichment\" href='{{uri}}' target='_blank'>" +
       "<i class=\"enrichment-type\">{{this}}</i>" +
-      "<img src='img/mimetypes/32px/tei.png' title=\"application/tei+xml\">" +
+      "<img src='img/mimetypes/tei.png' title=\"application/tei+xml\">" +
       "</a>";
     var finalTemplate = "";
     var types = Object.keys(enrichments);
@@ -206,33 +206,33 @@ function addHandlebarsFunctions(handlebars, config) {
   });
 
   handlebars.registerHelper('errata', function(fulltext, title) {
-      let doiUrl = config.apiUrl + 'document/?q=';
-      let first = true;
-      for (let erratumDoi of this.erratumOf) {
-        if (first)
-          first = false;
-        else
-          doiUrl += ' OR ';
-        doiUrl += 'doi:"' + erratumDoi + '"';
+    let doiUrl = config.apiUrl + 'document/?q=';
+    let first = true;
+    for (let erratumDoi of this.erratumOf) {
+      if (first)
+        first = false;
+      else
+        doiUrl += ' OR ';
+      doiUrl += 'doi:"' + erratumDoi + '"';
+    }
+
+    var jsonResponse = $.ajax({
+      url: doiUrl + "&output=*",
+      crossDomain: true,
+      async: false
+    }).responseText;
+
+    var res;
+    try {
+      res = JSON.parse(jsonResponse).hits;
+      for (hit of res) {
+        hit.apiUrl = config.apiUrl;
       }
+    } catch (err) {
+      res = undefined;
+    }
 
-      var jsonResponse = $.ajax({
-        url: doiUrl + "&output=*",
-        crossDomain: true,
-        async: false
-      }).responseText;
-
-      var res;
-      try {
-        res = JSON.parse(jsonResponse).hits;
-        for (hit of res) {
-          hit.apiUrl = config.apiUrl;
-        }
-      } catch (err) {
-        res = undefined;
-      }
-
-      return res;
+    return res;
   });
 
   handlebars.registerHelper('consolidateEnrichmentsUri', function() {
@@ -243,10 +243,15 @@ function addHandlebarsFunctions(handlebars, config) {
     return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate';
   });
 
-  handlebars.registerHelper('titleClic', function(fulltext, title) {
+  handlebars.registerHelper('titleClic', function(fulltext, title, language) {
+    var flags = '';
+    for (lang of language) {
+      if (config.flags.indexOf(lang) !== -1) flags += '<img src=\'img/flags/' + lang + '.png\' title="' + lang + '">';
+    }
+
     for (let ft of fulltext) {
       if (ft.mimetype == "application/pdf") {
-        return new handlebars.SafeString("<a href=\"" + ft.uri + "\" target=\"_blank\">" + title + "</a>");
+        return new handlebars.SafeString("<a href=\"" + ft.uri + "\" target=\"_blank\">" + flags + ' ' + title + "</a>");
       }
     }
     return title;
