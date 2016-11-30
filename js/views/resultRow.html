@@ -20,7 +20,7 @@
               {{#fulltext ~}}
               <a class="inline-push-down-1 inline-block {{#if quality}}ocr{{/if}}" href='{{uri}}' target='_blank'>
                 {{#if quality}}
-                  <i class="ocr-quality">{{fixQuality quality.rate}}</i>
+                  <i class="ocr-quality">{{fixQuality quality.rate}}%</i>
                 {{/if}}
                 <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
