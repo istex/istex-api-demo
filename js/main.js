@@ -281,7 +281,6 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
           ellipsis: '…',
           watch: "window"
         };
-      $tableResult.find("h4").dotdotdot(dotdotdotConfig);
 
       $tableResult
         .find(".abstract")

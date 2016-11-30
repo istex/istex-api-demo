@@ -1,17 +1,23 @@
-
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
 
 @darkblue: #184B63;
 @lightblue: lighten(@darkblue, 10%);
-html, button, input, select, textarea {
+html,
+button,
+input,
+select,
+textarea {
   color: #222;
 }
+
 html {
   font-size: 1em;
   line-height: 1.4;
 }
+
+
 /*
  * Allow only vertical resizing of textareas.
  */
@@ -19,6 +25,8 @@ html {
 textarea {
   resize: vertical;
 }
+
+
 /* ==========================================================================
    Browse Happy prompt
    ========================================================================== */
@@ -29,6 +37,7 @@ textarea {
   color: #000;
   padding: 0.2em 0;
 }
+
 .jumbotron.istex-header {
   padding-bottom: 0;
   padding-top: 1px;
@@ -39,65 +48,81 @@ textarea {
   background-repeat: no-repeat;
   background-position: center;
 }
+
 .jumbotron.istex-header h1 {
   font-weight: bold;
   text-align: center;
 }
+
 #logoIA {
   text-align: center;
 }
+
 .container {
   height: 100%;
 }
+
 .pager li {
   font-size: 20px;
 }
+
 #searchFieldRow {
   text-align: center;
 }
+
 #advancedSearchTitle {
   text-align: center;
 }
+
 #tableResult span.glyphicon {
   font-size: 20px;
 }
+
 #header {
   border-radius: 0px;
   margin-bottom: 0px;
 }
+
 #accordion .panel-heading {
   background-color: @lightblue;
-
   border-radius: 0px;
 }
+
 #accordion .panel {
   border-radius: 0px;
   border: 0px;
 }
+
 .loading {
   height: 16px;
 }
+
 .truncate {
   width: 42px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .truncate:hover {
   overflow: visible;
   white-space: normal;
 }
 
 .btn {
-  border:1px solid rgba(0,0,0,.25)
+  border: 1px solid rgba(0, 0, 0, .25)
 }
 
 #footer {
   text-align: center;
 }
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
   border: 1px solid gray;
 }
+
 .ui-slider .ui-slider-range {
   background: none repeat scroll 0 0 gray;
 }
@@ -109,51 +134,54 @@ textarea {
   overflow-x: hidden;
 }
 
-@import (reference)  "../vendor/bootstrap-3.3.6/less/variables.less";
-@import (reference)  "../vendor/bootstrap-3.3.6/less/mixins.less";
-@import (reference)  "../vendor/bootstrap-3.3.6/less/type.less";
-@import (reference)  "../vendor/bootstrap-3.3.6/less/glyphicons.less";
-@import (reference)  "../vendor/bootstrap-3.3.6/less/alerts.less";
-@import (reference)  "../vendor/bootstrap-3.3.6/less/wells.less";
-
+@import (reference) "../vendor/bootstrap-3.3.6/less/variables.less";
+@import (reference) "../vendor/bootstrap-3.3.6/less/mixins.less";
+@import (reference) "../vendor/bootstrap-3.3.6/less/type.less";
+@import (reference) "../vendor/bootstrap-3.3.6/less/glyphicons.less";
+@import (reference) "../vendor/bootstrap-3.3.6/less/alerts.less";
+@import (reference) "../vendor/bootstrap-3.3.6/less/wells.less";
 //
 // Variables
 // --------------------------------------------------
-
-
 //== New colors
 //
-
-@brand-istex-blue:          #458CA5;
-@brand-istex-green:         #C4D733;
-@brand-istex-orange:        #FFB465;
-@brand-istex-violet:        #5B59B7;
-@brand-istex-yellow:        #FFD965;
+@brand-istex-blue: #458CA5;
+@brand-istex-green: #C4D733;
+@brand-istex-orange: #FFB465;
+@brand-istex-violet: #5B59B7;
+@brand-istex-yellow: #FFD965;
 
 /* New colors */
-.text-istex-blue{
+
+.text-istex-blue {
   .text-emphasis-variant(@brand-istex-blue);
 }
-.text-istex-green{
+
+.text-istex-green {
   .text-emphasis-variant(@brand-istex-green);
 }
-.text-istex-orange{
+
+.text-istex-orange {
   .text-emphasis-variant(@brand-istex-orange);
 }
-.text-istex-violet{
+
+.text-istex-violet {
   .text-emphasis-variant(@brand-istex-violet);
 }
-.text-istex-yellow{
+
+.text-istex-yellow {
   .text-emphasis-variant(@brand-istex-yellow);
 }
 
-.bg-istex-blue{
+.bg-istex-blue {
   .bg-variant(@brand-istex-blue);
 }
+
 
 /* ==========================================================================
    Helpers
    ========================================================================== */
+
 .vertical-middle {
   vertical-align: middle;
 }
@@ -207,32 +235,35 @@ textarea {
 // Label
 .label-istex-documentation {
   background-color: #f1c40f;
-  background: linear-gradient(135deg, #EAA800 0%,#F1C40F 100%);
+  background: linear-gradient(135deg, #EAA800 0%, #F1C40F 100%);
   color: #333;
   text-shadow: #AAA 1px 1px 2px;
 }
 
 // Warning query syntax
-
 #search-warning {
   display: none;
-  margin-top:1.4em;
+  margin-top: 1.4em;
   .alert;
   .alert-danger;
 }
+
 
 /* ==========================================================================
    Tooltip
    @qtip
    ========================================================================== */
+
 .qtip {
-  .well; .well-sm;
+  .well;
+  .well-sm;
   max-width: none;
   border-radius: @border-radius-large;
   border: 2px solid @brand-primary;
   background-color: #EDEDED;
 }
-#request-tooltip{
+
+#request-tooltip {
   @media (min-width: @screen-sm-min) {
     max-width: @container-sm - (@grid-gutter-width + 22px);
   }
@@ -243,24 +274,26 @@ textarea {
     max-width: @container-lg - (@grid-gutter-width + 22px);
   }
 }
-#request-tooltip-content{
+
+#request-tooltip-content {
   font-family: "Lucida Console", Monaco, monospace;
   & > p > mark {
     padding: 0;
     white-space: nowrap;
   }
 }
+
 .qtip-content {
-  padding: 0; /* Surcharge padding de base */
+  padding: 0;
+  /* Surcharge padding de base */
 }
+
 .istex-tooltip {
   display: none; // Start hidden
   max-width: @font-size-base * 25;
-
   /* Reset de qtip */
   font-size: @font-size-base;
   line-height: @line-height-computed;
-
   & > h5 {
     display: inline-block;
     .h4;
@@ -269,9 +302,9 @@ textarea {
   & > p {
     font-size: @font-size-small;
   }
-  & > .references{
+  & > .references {
     .small;
-    &  > h6 {
+    & > h6 {
       margin-bottom: @line-height-computed / 4;
     }
   }
@@ -282,11 +315,13 @@ textarea {
   }
   .query-chunk {
     font-size: @font-size-large;
-    &:before,&:after {
+    &:before,
+    &:after {
       content: "...";
     }
-    & > mark{
-      &[data-ng-bind*="corpus"],bg-corpus {
+    & > mark {
+      &[data-ng-bind*="corpus"],
+      bg-corpus {
         .bg-corpus;
       }
       &[data-ng-bind*="pubDate"] {
@@ -309,7 +344,6 @@ textarea {
 }
 
 // New Contextual backgrounds
-
 .bg-searchKeys {
   background-color: lighten(@brand-istex-violet, 15%);
 }
@@ -391,31 +425,46 @@ textarea {
 }
 
 // Reset input copyrightDate
-.amount{
-  border:0;
-  padding-top:0;
-  padding-left:0;
+.amount {
+  border: 0;
+  padding-top: 0;
+  padding-left: 0;
 }
 
 // Ellpisis
 // @dotdotdot
-#tableResult > tr > td > h4 {
-  max-height: 1.13em;
+#tableResult > tr > td > div > h4 {
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  a {
+    white-space: nowrap;
+  }
 }
-.abstract{
-  &:hover{
+
+.title {
+  display: flex;
+  align-items: center;
+  background-color: #dff0d8;
+  max-height: 1.8em;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.abstract {
+  &:hover {
     background-color: darken(@table-bg-hover, 5%);
     cursor: zoom-out;
   }
-  &.ellipsed{
+  &.ellipsed {
     max-height: 5.6em;
-    &:hover{
+    &:hover {
       cursor: zoom-in;
     }
   }
 }
 
-.glyphicon-flip-horizontal{
+.glyphicon-flip-horizontal {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
   -webkit-transform: scale(-1, 1);
   -ms-transform: scale(-1, 1);
@@ -423,11 +472,11 @@ textarea {
 }
 
 // Enrichments
-
-.enrichment{
+.enrichment {
   position: relative;
 }
-.enrichment-type{
+
+.enrichment-type {
   position: absolute;
   left: 50%;
   margin-left: -65%;
@@ -444,32 +493,29 @@ textarea {
 }
 
 // Pager
-
-#topResultPager{
+#topResultPager {
   margin-bottom: 5px;
 }
 
-.page{
-  text-align:center; 
-  margin-top:5px;
+.page {
+  text-align: center;
+  margin-top: 5px;
 }
 
 // Réponse brute complète
-
-#jsonFromApi{
+#jsonFromApi {
   overflow-wrap: break-word;
 }
 
 // Résultats
-
 #totalResults {
-  border:0;
+  border: 0;
   text-align: center;
   width: 80px;
 }
 
 #totalms {
-  border:0;
+  border: 0;
   width: 30px;
   font-size: smaller;
 }
@@ -480,4 +526,8 @@ textarea {
 
 #sortMenu {
   width: 100%;
+}
+
+.flag {
+  margin-right: 10px
 }

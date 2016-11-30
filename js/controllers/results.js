@@ -243,15 +243,18 @@ function addHandlebarsFunctions(handlebars, config) {
     return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate';
   });
 
-  handlebars.registerHelper('titleClic', function(fulltext, title, language) {
+  handlebars.registerHelper('flags', function(language) {
     var flags = '';
     for (lang of language) {
-      if (config.flags.indexOf(lang) !== -1) flags += '<img src=\'img/flags/' + lang + '.png\' title="' + lang + '">';
+      if (config.flags.indexOf(lang) !== -1) flags += '<img class="flag" src=\'img/flags/' + lang + '.png\' title="' + lang + '">';
     }
+    return new handlebars.SafeString(flags);
+  });
 
+  handlebars.registerHelper('titleClic', function(fulltext, title) {
     for (let ft of fulltext) {
       if (ft.mimetype == "application/pdf") {
-        return new handlebars.SafeString("<a href=\"" + ft.uri + "\" target=\"_blank\">" + flags + ' ' + title + "</a>");
+        return new handlebars.SafeString("<a href=\"" + ft.uri + "\" target=\"_blank\">" + title + "</a>");
       }
     }
     return title;
