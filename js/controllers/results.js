@@ -259,6 +259,9 @@ function addHandlebarsFunctions(handlebars, config) {
     }
     return title;
   });
+  handlebars.registerHelper('fixQuality', function(rate){
+    return rate.toFixed(2);
+  })
 
   handlebars.registerHelper('quality', function(text, qi) {
     return (qi === " ") ? "" : new handlebars.SafeString("<div class='text-right'><b class='label label-info'>" + text + qi + "</b>");

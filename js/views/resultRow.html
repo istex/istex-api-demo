@@ -14,11 +14,14 @@
       <section class="download-links">
         <div class='row'>
           {{#if fulltext}}
-          <div class='col-xs-3'>
+          <div class='col-xs-4'>
             <div class="inline-block">
               <p class="h4 text-muted text-center">Fulltext</p>
               {{#fulltext ~}}
-              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+              <a class="inline-push-down-1 inline-block {{#if quality}}ocr{{/if}}" href='{{uri}}' target='_blank'>
+                {{#if quality}}
+                  <i class="ocr-quality">{{fixQuality quality.rate}}%</i>
+                {{/if}}
                 <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{~/fulltext}}

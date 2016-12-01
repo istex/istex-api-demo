@@ -11,6 +11,7 @@ define(["js/parameters.js"], function(parameters) {
       "application/tei+xml": "tei",
       "text/plain": "txt",
       "image/jpeg": "jpg",
+      "text/ocr": "ocr",
       "image/gif": "gif",
       "application/vnd.ms-powerpoint": "ppt",
       "application/msword": "doc",
