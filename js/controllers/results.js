@@ -205,7 +205,7 @@ function addHandlebarsFunctions(handlebars, config) {
     return new handlebars.SafeString(finalTemplate);
   });
 
-  handlebars.registerHelper('errata', function(fulltext, title) {
+  handlebars.registerHelper('errata', function(options) {
     let doiUrl = config.apiUrl + 'document/?q=';
     let first = true;
     for (let erratumDoi of this.erratumOf) {
@@ -231,8 +231,7 @@ function addHandlebarsFunctions(handlebars, config) {
     } catch (err) {
       res = undefined;
     }
-
-    return res;
+    return options.fn(res[0]);
   });
 
   handlebars.registerHelper('consolidateEnrichmentsUri', function() {
