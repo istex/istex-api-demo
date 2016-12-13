@@ -50,10 +50,11 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         data.aggregations.hostGenre = data.aggregations['host.genre'];
         data.aggregations.enrichTypes = data.aggregations['enrichments.type'];
 
-        var lang, wos, pubType, artType, obj;
+        var lang, wos, sciMetrix, pubType, artType, obj;
         var pubTypeList = [];
         var languageList = [];
         var wosList = [];
+        var sciMetrixList = [];
 
         var template = handlebars.compile(resultRowTemplate);
         $("#tableResult").html(template(data));
@@ -71,6 +72,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         $('#languages').val('');
         $('#nbLangResults').text('');
         $('#wosCategories').val('');
+        $('#sciMetrixCategories').val('');
         $('#nbWOSResults').text('');
 
         genresByPubTypes = {};
@@ -123,6 +125,17 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
           wosList.push(obj);
         }
         generateAutocompleteFacet($("#wosCategories"), wosList, $('#nbWOSFacet'), 'wos', data);
+
+        // SciMetrixFacet
+        for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
+          obj = {};
+          obj.value = sciMetrix.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20');
+          obj.desc = sciMetrix.docCount + ' documents';
+          obj.label = sciMetrix.key;
+          sciMetrixList.push(obj);
+        }
+        generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, $('#nbSciMetrixFacet'), 'categories.scienceMetrix', data);
+
 
         // Appel des displayRanges
         this.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');

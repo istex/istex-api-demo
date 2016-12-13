@@ -67,6 +67,7 @@ define(
       getField(searchPage.genre, 'articleType', 'genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);
       getField(searchPage.WOS, 'WOS', 'categories.wos.raw', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.sciMetrix, 'sciMetrix', 'categories.scienceMetrix.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.language, 'lang', 'language.raw', ctrlScope.helper, fields, 'array', false);
 
       // Facette qualité
@@ -91,7 +92,7 @@ define(
       query += qParameter;
 
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],pdfVersion[*],refBibsNative,wos[*],language[*],enrichments.type[*]";
+      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],pdfVersion[*],refBibsNative,wos[*],categories.scienceMetrix[*],language[*],enrichments.type[*]";
       if (searchPage.reaffine) {
         minPubdate = $("#slider-range-pubdate").slider("values", 0);
         maxPubdate = $("#slider-range-pubdate").slider("values", 1);

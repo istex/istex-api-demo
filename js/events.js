@@ -18,6 +18,7 @@ require(
     // Facettes autocomplétées
     autocompleteEvents($("#languages"), $("#resetLanguages"), 'language', 'language', searchPage, searchPageController);
     autocompleteEvents($("#wosCategories"), $("#resetWos"), 'WOS', 'categories.wos', searchPage, searchPageController);
+    autocompleteEvents($("#sciMetrixCategories"), $("#resetSciMetrix"), 'sciMetrix', 'categories.scienceMetrix', searchPage, searchPageController);
 
     // Facettes imbriquées
     imbricatedEvents(searchPageController);

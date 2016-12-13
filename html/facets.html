@@ -293,6 +293,64 @@
       </div>
     </div>
   </div>
+    <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
+    <div class="panel-heading" role="tab" id="headingSciMetrix">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseSciMetrix" aria-expanded="false" aria-controls="collapseSciMetrix">
+          Catégorie(s) Science-Metrix
+        </a>
+        <span id="nbSciMetrixFacet" class="badge pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseSciMetrix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSciMetrix">
+      <div class="panel-body">
+        <div id="facetSciMetrix">
+          <p class="small"><b>Entrez la catégorie Science-Metrix désirée :</b>
+            <br><i class="small">(ex : MEDICINE, GENERAL & INTERNAL...)</i>
+          </p>
+          <div class="raw">
+            <input type="text" class="form-control" style="text-align:center" id="sciMetrixCategories">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="istex-tooltip">
+      <h5>Catégorie(s) Science-Metrix</h5>
+      <p>Cette facette permet de préciser la <b class="text-primary">catégorie Science-Metrix</b> sur laquelle porte la requête.</p>
+      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
+      <div class="references">
+        <h6>
+          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
+        </h6>
+        <ul>
+          <li>
+            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
+              Facettes
+            </a>
+          </li>
+        </ul>
+        <h6>
+          <span class="label label-istex-documentation">
+            Liens externes:
+          </span>
+        </h6>
+        <ul>
+          <li>
+            <a class="link-external" target="_blank" href="http://www.science-metrix.com/fr/classification">
+              Site officiel de Science-Metrix
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div data-ng-if="helper.sciMetrix.query">
+        <hr>
+        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
+        <p class="query-chunk">
+          <mark data-ng-bind="helper.sciMetrix.query"></mark>
+        </p>
+      </div>
+    </div>
+  </div>
   <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
     <div class="panel-heading" role="tab" id="headingFour">
       <h4 class="panel-title">
