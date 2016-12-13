@@ -73,7 +73,8 @@
         <p>Cet erratum se réfère au(x) document(s) suivant(s) :</p>
         <ul>
           {{#errata}}
-          <li><a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a> ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
+          <li>
+            <a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a> ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
             <a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS"><img src='img/mimetypes/mods.png' title="MODS"></a>
             <a href="{{apiUrl}}document/{{id}}/fulltext/tei" title="version TEI"><img src='img/mimetypes/tei.png' title="TEI"></a>
             <a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF"><img src='img/mimetypes/pdf.png' title="PDF"></a>
