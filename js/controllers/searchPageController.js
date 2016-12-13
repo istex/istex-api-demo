@@ -229,19 +229,24 @@ define(
       var syntaxOK = true;
       var q = qParam.trim();
       // teste que le nb de double-quotes est pair
-      if (syntaxOK) syntaxOK = (q.match(/"/g) || []).length % 2 === 0;
+      if (syntaxOK) syntaxOK = nbChar(q,"\"") % 2 === 0;
       // teste que la requete ne finit pas par ':' ni '.'
       if (syntaxOK) syntaxOK = ":".indexOf(q[q.length - 1]) < 0;
       // teste qu'on a le même nb de '(' que de ')'
-      if (syntaxOK) syntaxOK = (q.match(/\(/g) || []).length === (q.match(/\)/g) || []).length;
-      // teste qu'on a le même nb de '(' que de ')'
-      if (syntaxOK) syntaxOK = (q.match(/\[/g) || []).length === (q.match(/\]/g) || []).length;
+      if (syntaxOK) syntaxOK = nbChar(q,"\\(") === nbChar(q,"\\)");
+      // teste qu'on a le même nb de '[' + '{' que de ']' + '}'
+      if (syntaxOK) syntaxOK = (nbChar(q,"\\[") + nbChar(q,"\\{")) === (nbChar(q,"\\]") + nbChar(q,"\\}"));
       callback(syntaxOK);
     };
 
     return searchPageController;
   }
 );
+
+function nbChar(q, regex) {
+  var r = new RegExp(regex, 'g');
+  return (q.match(r) || []).length;
+}
 
 function getField(field, scopeField, qFragment, ctrlScopeHelper, fields, type, quality) {
   if (field && field.length > 0) {

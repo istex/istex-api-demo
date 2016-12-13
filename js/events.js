@@ -211,7 +211,7 @@ function refineRoadClick(searchPageController) {
     $(this).nextAll().remove();
     searchPageHistory = searchPageHistory.slice(0, index);
     searchPageController.search(searchPage, searchPageHistory);
-  }
+  };
 }
 
 function onClickEvents(tag, field, name, searchPageController) {
@@ -252,7 +252,7 @@ function sliderEvents(tag, tagAmount, field, name, searchPage, searchPageControl
     searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
 
     searchPageToInsert[field] = [];
-    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
+    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "}";
     searchPageToInsert[field].push(value);
 
     $("#refineRoad").append('<li><a href="#">' + name + ':' + value + '</a></li>');
@@ -269,7 +269,7 @@ function autocompleteEvents(tag, resetTag, field, name, searchPage, searchPageCo
   tag.autocomplete({
     minLength: 0,
     focus: function(event, ui) {
-      tag.val(ui.item.label)
+      tag.val(ui.item.label);
     },
     select: function(event, ui) {
       tag.val(ui.item.label);
@@ -284,13 +284,13 @@ function autocompleteEvents(tag, resetTag, field, name, searchPage, searchPageCo
   });
 
   tag.on("click", function() {
-    if (tag.val() === "") tag.autocomplete("search", "")
+    if (tag.val() === "") tag.autocomplete("search", "");
   });
 
   resetTag.on("click", function() {
     searchPage[field] = [];
     tag.val("");
-    searchPageController.search(searchPage, searchPageHistory)
+    searchPageController.search(searchPage, searchPageHistory);
   });
 }
 
@@ -303,7 +303,7 @@ function imbricatedEvents(searchPageController) {
   $("#publicationTypes").autocomplete({
     minLength: 0,
     focus: function(event, ui) {
-      $("#publicationTypes").val(ui.item.label)
+      $("#publicationTypes").val(ui.item.label);
     },
     select: function(event, ui) {
 
@@ -317,7 +317,7 @@ function imbricatedEvents(searchPageController) {
       $("#articleTypes").autocomplete({
         minLength: 0,
         focus: function(event, ui2) {
-          $("#articleTypes").val(ui2.item.label)
+          $("#articleTypes").val(ui2.item.label);
         },
         select: function(event, ui2) {
           $("#articleTypes").val(ui2.item.label);
@@ -331,7 +331,7 @@ function imbricatedEvents(searchPageController) {
       });
 
       $("#articleTypes").on("click", function() {
-        if ($("#articleTypes").val() === "") $("#articleTypes").autocomplete("search", "")
+        if ($("#articleTypes").val() === "") $("#articleTypes").autocomplete("search", "");
       });
 
       // Mettre à jour la liste des possibilités de type de contenu
@@ -347,7 +347,7 @@ function imbricatedEvents(searchPageController) {
   });
 
   $("#publicationTypes").on("click", function() {
-    if ($("#publicationTypes").val() === "") $("#publicationTypes").autocomplete("search", "")
+    if ($("#publicationTypes").val() === "") $("#publicationTypes").autocomplete("search", "");
   });
 
 }
