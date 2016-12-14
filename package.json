@@ -20,7 +20,8 @@
   "description": "Démonstrateur Istex",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node ./js/postInstall.js"
+    "postinstall": "node ./js/postInstall.js",
+    "mapping": "node ./js/takeMapping.js"
   },
   "repository": {
     "url": "https://github.com/istex/istex-api-demo.git",

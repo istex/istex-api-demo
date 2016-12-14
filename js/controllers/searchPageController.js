@@ -178,7 +178,7 @@ define(
       var timeStampLocal = (new Date()).getTime();
       timeStamp = timeStampLocal;
       var request = {
-        url: url,
+        url: url + '&sid=istex-api-demo',
         dataType: "jsonp",
         crossDomain: true,
         success: function(data) {

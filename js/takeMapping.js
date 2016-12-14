@@ -8,7 +8,7 @@ var apiUrl = 'https://api.istex.fr';
 
 // En cas de non récupération du mapping, on garde un minimum
 var finalMapping = {
-  'corpusName': 'string',
+  'corpusName': 'select',
   'title': 'string',
   'author.name': 'string',
   'subject.value': 'string'
@@ -27,14 +27,16 @@ try {
   function recursiveMapping(raw, road, finalMapping) {
     var keys = Object.keys(raw);
     for (var i = 0; i < keys.length; i++) {
-      if (typeof raw[keys[i]] === 'object') {
-        recursiveMapping(raw[keys[i]], road + ((road !== '') ? '.' : '') + keys[i], finalMapping);
-      } else {
-        if (keys[i] === 'raw') finalMapping[road + '.raw'] = raw[keys[i]];
-        finalMapping[road] = raw[keys[i]];
+      if (keys[i] !== 'corpusName') {
+        if (typeof raw[keys[i]] === 'object') {
+          recursiveMapping(raw[keys[i]], road + ((road !== '') ? '.' : '') + keys[i], finalMapping);
+        } else {
+          if (keys[i] === 'raw') finalMapping[road + '.raw'] = raw[keys[i]];
+          finalMapping[road] = raw[keys[i]];
+        }
       }
     }
-  };
+  }
 
   recursiveMapping(jsonMapping, '', finalMapping);
 

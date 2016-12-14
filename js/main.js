@@ -180,7 +180,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
     });
 
     var cacheClear = $.ajax({
-      url: config.apiUrl + 'properties',
+      url: config.apiUrl + 'properties&sid=istex-api-demo',
       success: function(data, status, xhr) {
         if (data.corpus.lastUpdate > localStorage['last-refresh']) {
           console.log('Le cache a été nettoyé...');
