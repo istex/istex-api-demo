@@ -18,7 +18,7 @@
             <div class="inline-block">
               <p class="h4 text-muted text-center">Fulltext</p>
               {{#fulltext ~}}
-              <a class="inline-push-down-1 inline-block {{#if quality}}ocr{{/if}}" href='{{uri}}' target='_blank'>
+              <a class="inline-push-down-1 inline-block {{#if quality}}ocr{{/if}}" href='{{uri}}&sid=istex-api-demo' target='_blank'>
                 {{#if quality}}
                   <i class="ocr-quality">{{fixQuality quality.rate}}%</i>
                 {{/if}}
@@ -32,7 +32,7 @@
             <div class="inline-block">
               <p class="h4 text-muted text-center">Metadata</p>
               {{#metadata ~}}
-              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+              <a class="inline-push-down-1 inline-block" href='{{uri}}&sid=istex-api-demo' target='_blank'>
                 <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{~/metadata}}
@@ -43,7 +43,7 @@
             <div class="inline-block">
               <p class="h4 text-muted text-center">Covers</p>
               {{#covers}}
-              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+              <a class="inline-push-down-1 inline-block" href='{{uri}}&sid=istex-api-demo' target='_blank'>
                 <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{/covers}}
@@ -54,7 +54,7 @@
             <div class="inline-block">
               <p class="h4 text-muted text-center">Annexes</p>
               {{#annexes}}
-              <a class="inline-push-down-1 inline-block" href='{{uri}}' target='_blank'>
+              <a class="inline-push-down-1 inline-block" href='{{uri}}&sid=istex-api-demo' target='_blank'>
                 <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{/annexes}}
@@ -74,10 +74,10 @@
         <ul>
           {{#errata}}
           <li>
-            <a href="{{apiUrl}}document/{{id}}" title="version JSON">{{title}}</a> ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
-            <a href="{{apiUrl}}document/{{id}}/metadata/mods" title="version MODS"><img src='img/mimetypes/mods.png' title="MODS"></a>
-            <a href="{{apiUrl}}document/{{id}}/fulltext/tei" title="version TEI"><img src='img/mimetypes/tei.png' title="TEI"></a>
-            <a href="{{apiUrl}}document/{{id}}/fulltext/pdf" title="version PDF"><img src='img/mimetypes/pdf.png' title="PDF"></a>
+            <a href="{{apiUrl}}document/{{id}}&sid=istex-api-demo" title="version JSON">{{title}}</a> ({{host.publicationDate}}, issue {{host.issue}}, vol. {{host.volume}}, p. {{host.pages.first}}-{{host.pages.last}})
+            <a href="{{apiUrl}}document/{{id}}/metadata/mods&sid=istex-api-demo" title="version MODS"><img src='img/mimetypes/mods.png' title="MODS"></a>
+            <a href="{{apiUrl}}document/{{id}}/fulltext/tei&sid=istex-api-demo" title="version TEI"><img src='img/mimetypes/tei.png' title="TEI"></a>
+            <a href="{{apiUrl}}document/{{id}}/fulltext/pdf&sid=istex-api-demo" title="version PDF"><img src='img/mimetypes/pdf.png' title="PDF"></a>
           </li>
           {{/errata}} {{^errata}}
           <li>Problème lors de l'identification du ou des documents ciblés</li>

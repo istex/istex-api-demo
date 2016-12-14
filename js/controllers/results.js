@@ -213,7 +213,7 @@ function addHandlebarsFunctions(handlebars, config) {
     var types = Object.keys(enrichments);
     for (let type of types) {
       finalTemplate += template;
-      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri);
+      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri +'&sid=istex-api-demo');
     }
     return new handlebars.SafeString(finalTemplate);
   });
@@ -252,7 +252,7 @@ function addHandlebarsFunctions(handlebars, config) {
     Object.keys(this.enrichments).forEach(function(type) {
       path.push(type);
     });
-    return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate';
+    return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate&sid=istex-api-demo';
   });
 
   handlebars.registerHelper('flags', function(language) {
@@ -266,7 +266,7 @@ function addHandlebarsFunctions(handlebars, config) {
   handlebars.registerHelper('titleClic', function(fulltext, title) {
     for (let ft of fulltext) {
       if (ft.mimetype == "application/pdf") {
-        return new handlebars.SafeString("<a href=\"" + ft.uri + "\" target=\"_blank\">" + title + "</a>");
+        return new handlebars.SafeString("<a href=\"" + ft.uri + "&sid=istex-api-demo\" target=\"_blank\">" + title + "</a>");
       }
     }
     return title;
