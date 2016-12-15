@@ -52,7 +52,7 @@ define(
 
       if (searchPage.searchField) {
         ctrlScope.helper.searchKeys.query = "q=" + searchPage.searchField;
-        fields.push(searchPage.searchField);
+        fields.push(encodeURIComponent(searchPage.searchField));
       } else {
         ctrlScope.helper.searchKeys.query = "q=*";
         fields.push('*');
@@ -254,13 +254,13 @@ function getField(field, scopeField, qFragment, ctrlScopeHelper, fields, type, q
     var contains;
     switch (type) {
       case 'array':
-        contains = '(\"' + field.join("\" OR \"") + '\")';
+        contains = '(\"' + encodeURIComponent(field.join("\" OR \"")) + '\")';
         break;
       case 'string':
-        contains = "\"" + field + "\"";
+        contains = "\"" + encodeURIComponent(field) + "\"";
         break;
       default:
-        contains = field;
+        contains = encodeURIComponent(field);
         break;
     }
     ctrlScopeHelper[scopeField].query = " AND " + qFragment + ":" + contains;
