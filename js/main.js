@@ -114,7 +114,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
 
   (function() {
     var err = $.ajax({
-      url: config.apiUrl + "corpus",
+      url: config.apiUrl + "corpus?sid=istex-api-demo",
       dataType: "jsonp",
       success: function(data, status, xhr) {
 
@@ -128,7 +128,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
           lang_code: 'fr'
         };
         var keys = Object.keys(mapping);
-        for (var i = 0; i < keys.length; i++) {
+        for (i = 0; i < keys.length; i++) {
 
           var filter = {
             id: keys[i],
@@ -171,16 +171,16 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
                 filter.default_value = '*';
               }
               break;
-          };
+          }
           jsonQueryBuilder.filters.push(filter);
-        };
+        }
 
         $('#builder').queryBuilder(jsonQueryBuilder);
       }
     });
 
     var cacheClear = $.ajax({
-      url: config.apiUrl + 'properties',
+      url: config.apiUrl + 'properties?sid=istex-api-demo',
       success: function(data, status, xhr) {
         if (data.corpus.lastUpdate > localStorage['last-refresh']) {
           console.log('Le cache a été nettoyé...');
