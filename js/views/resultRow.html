@@ -60,14 +60,14 @@
               {{/annexes}}
             </div>
           </div>
-          {{/if}} {{#if enrichments}}
+          {{/if}} {{#notEmpty enrichments}}
           <div class='col-xs-2'>
             <div class="inline-block">
               <p class="h4 text-muted text-center"><a href='{{consolidateEnrichmentsUri}}' target='_blank'>Enrichments</a></p>
               {{enrichmentsList enrichments}}
             </div>
           </div>
-          {{/if}}
+          {{/notEmpty}}
         </div>
         {{#if erratumOf}}
         <p>Cet erratum se réfère au(x) document(s) suivant(s) :</p>

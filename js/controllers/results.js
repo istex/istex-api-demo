@@ -192,6 +192,12 @@ function prevNextPageURI(tag, dataURI, jsTag) {
 
 function addHandlebarsFunctions(handlebars, config) {
 
+  handlebars.registerHelper('notEmpty', function(toVerify, options) {
+    if (Object.keys(toVerify).length !== 0) {
+      return options.fn(this);
+    }
+  });
+
   handlebars.registerHelper('abstr', function(abstract) {
     if (abstract === "") {
       return "Pas de résumé pour ce résultat.";
@@ -213,7 +219,7 @@ function addHandlebarsFunctions(handlebars, config) {
     var types = Object.keys(enrichments);
     for (let type of types) {
       finalTemplate += template;
-      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri +'?sid=istex-api-demo');
+      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri + '?sid=istex-api-demo');
     }
     return new handlebars.SafeString(finalTemplate);
   });
@@ -271,7 +277,7 @@ function addHandlebarsFunctions(handlebars, config) {
     }
     return title;
   });
-  handlebars.registerHelper('fixQuality', function(rate){
+  handlebars.registerHelper('fixQuality', function(rate) {
     return rate.toFixed(2);
   })
 
