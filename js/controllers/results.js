@@ -191,7 +191,7 @@ function prevNextPageURI(tag, dataURI, jsTag) {
 function addHandlebarsFunctions(handlebars, config) {
 
   handlebars.registerHelper('notEmpty', function(toVerify, options) {
-    if (Object.keys(toVerify).length !== 0) {
+    if (toVerify && Object.keys(toVerify).length !== 0) {
       return options.fn(this);
     }
   });
