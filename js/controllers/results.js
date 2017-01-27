@@ -119,7 +119,6 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         // WosFacet
         for (wos of data.aggregations.wos.buckets) {
           obj = {};
-          obj.value = wos.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20');
           obj.desc = wos.docCount + ' documents';
           obj.label = wos.key;
           wosList.push(obj);
@@ -129,7 +128,6 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         // SciMetrixFacet
         for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
           obj = {};
-          obj.value = sciMetrix.key.replace(/"/g, '%22').replace(/&/g, '%26').replace(/ /g, '%20');
           obj.desc = sciMetrix.docCount + ' documents';
           obj.label = sciMetrix.key;
           sciMetrixList.push(obj);
