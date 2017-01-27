@@ -1,7 +1,7 @@
 ISTEX-API-DEMO
 =============
-Changements depuis le tag v1.5.0
+Changements depuis le tag v1.5.1
 Correspond à l'API v.
 -------------
- correction bug facettes wos et science metrix
+ correction bug provoqué par certaines requetes (ex: cancer)
 
