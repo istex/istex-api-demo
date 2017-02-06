@@ -194,7 +194,7 @@ define(
                 throw e;
               }
             } finally {
-              results.displayResults(searchPage, data);
+              results.displayResults(searchPage, data, url);
               $(document).trigger("resultsLoaded");
             }
           }
@@ -213,7 +213,7 @@ define(
       setTimeout(function() {
         if (timeStamp === timeStampLocal) {
           if (localStorage && localStorage.getItem(url)) {
-            results.displayResults(searchPage, JSON.parse(localStorage.getItem(url)));
+            results.displayResults(searchPage, JSON.parse(localStorage.getItem(url)), url);
           } else {
             $.ajax(request);
           }

@@ -24,9 +24,17 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
       $(amount).val($(slider).slider("values", 0) +
         " à " + $(slider).slider("values", 1));
     },
-    displayResults: function(searchPage, data) {
+    displayResults: function(searchPage, data, url) {
 
-      $("#jsonViewButton").attr('data-whatever', JSON.stringify(data));
+      // Mise à jour du "Réponse brute complète"
+      $("#jsonViewButton").on('click', function(event) {
+        var win = window.open(url + '&sid=istex-api-demo', '_blank');
+        if (win) {
+          win.focus();
+        } else {
+          alert('La fenêtre pour afficher la réponse complète a été bloquée par votre navigateur. Merci d\'autoriser les popups pour ce site.');
+        }
+      });
 
       if (data.total > 0) {
         $("#accordeon").show();
@@ -133,7 +141,6 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
           sciMetrixList.push(obj);
         }
         generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, $('#nbSciMetrixFacet'), 'categories.scienceMetrix', data);
-
 
         // Appel des displayRanges
         this.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');

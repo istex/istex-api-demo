@@ -33,12 +33,6 @@ require(
       step: 0.3
     });
 
-    $("#completeResponse").on('show.bs.modal', function(event) {
-      $("#jsonFromApi").JSONView($("#jsonViewButton").data('whatever'), {
-        collapsed: true
-      });
-    });
-
     $("button.js-resetFacet").on("click", function(event, ui) {
       $("#refineRoad").contents().slice(2).remove();
       var searchPageToInsert = searchPageHistory[0];
