@@ -56,7 +56,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
 
         // Changement de host.genre en hostGenre pour handlebars
         data.aggregations.hostGenre = data.aggregations['host.genre'];
-        data.aggregations.enrichTypes = data.aggregations['enrichments.type'];
+        data.aggregations.enrichType = data.aggregations['enrichments.type'];
 
         var lang, wos, sciMetrix, pubType, artType, obj;
         var pubTypeList = [];
@@ -88,7 +88,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
 
         // Génération des facettes de type "terms"
         generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, handlebars);
-        generateTermsFacet('enrichTypes', '{{key}}', $('#facetEnrichTypes'), $('#nbEnrichTypesFacet'), data, handlebars);
+        generateTermsFacet('enrichType', '{{key}}', $('#facetEnrichTypes'), $('#nbEnrichTypesFacet'), data, handlebars);
         generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, handlebars);
         generateTermsFacet('refBibsNative', '{{presence key}}', $('#facetRefBibsNative'), null, data, handlebars);
 

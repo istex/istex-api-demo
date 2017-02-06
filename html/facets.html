@@ -38,6 +38,13 @@
           </li>
         </ul>
       </div>
+      <div>
+        <hr>
+        <h6 class="h5">Morceau de la requête générant la facette: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=corpusName[*]</mark>
+        </p>
+      </div>
       <div data-ng-if="helper.corpus.query">
         <hr>
         <h6 class="h5">Morceau de la requête généré par la facette: </h6>
@@ -90,7 +97,14 @@
           </li>
         </ul>
       </div>
-      <div data-ng-if="helper.publicationDate.query">
+      <div>
+        <hr>
+        <h6 class="h5">Morceau de la requête générant la facette: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=host.genre[*]>genre[*]</mark>
+        </p>
+      </div>
+      <div data-ng-if="helper.publicationType.query">
         <hr>
         <h6 class="h5">Morceau de la requête généré par la facette: </h6>
         <p class="query-chunk">
@@ -132,6 +146,13 @@
             </a>
           </li>
         </ul>
+      </div>
+      <div>
+        <hr>
+        <h6 class="h5">Morceau de la requête générant la facette: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=publicationDate</mark>
+        </p>
       </div>
       <div data-ng-if="helper.pubDate.query">
         <hr>
@@ -178,6 +199,13 @@
           </li>
         </ul>
       </div>
+      <div>
+        <hr>
+        <h6 class="h5">Morceau de la requête générant la facette: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=language[*]</mark>
+        </p>
+      </div>
       <div data-ng-if="helper.lang.query">
         <hr>
         <h6 class="h5">Morceau de la requête généré par la facette: </h6>
@@ -221,11 +249,18 @@
           </li>
         </ul>
       </div>
-      <div data-ng-if="helper.corpus.query">
+      <div>
+        <hr>
+        <h6 class="h5">Morceau de la requête générant la facette: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=enrichments.type[*]</mark>
+        </p>
+      </div>
+      <div data-ng-if="helper.enrichType.query">
         <hr>
         <h6 class="h5">Morceau de la requête généré par la facette: </h6>
         <p class="query-chunk">
-          <mark data-ng-bind="helper.corpus.query"></mark>
+          <mark data-ng-bind="helper.enrichType.query"></mark>
         </p>
       </div>
     </div>
@@ -284,6 +319,13 @@
           </li>
         </ul>
       </div>
+      <div>
+        <hr>
+        <h6 class="h5">Morceau de la requête générant la facette: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=wos[*]</mark>
+        </p>
+      </div>
       <div data-ng-if="helper.WOS.query">
         <hr>
         <h6 class="h5">Morceau de la requête généré par la facette: </h6>
@@ -341,6 +383,13 @@
             </a>
           </li>
         </ul>
+      </div>
+      <div>
+        <hr>
+        <h6 class="h5">Morceau de la requête générant la facette: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=categories.scienceMetrix[*]</mark>
+        </p>
       </div>
       <div data-ng-if="helper.sciMetrix.query">
         <hr>
@@ -417,7 +466,26 @@
           </li>
         </ul>
       </div>
-      <div data-ng-if="helper.score.query">
+      <div>
+        <hr>
+        <h6 class="h5">Morceaux de la requête générant la facette complète: </h6>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=score</mark>
+        </p>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=pdfWordCount</mark>
+        </p>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=pdfCharCount</mark>
+        </p>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=pdfVersion[*]</mark>
+        </p>
+        <p class="query-chunk">
+          <mark class="bg-facets">&facet=refBibsNative</mark>
+        </p>
+      </div>
+      <div data-ng-if="helper.quality.query">
         <hr>
         <h6 class="h5">Morceau de la requête généré par la facette: </h6>
         <p class="query-chunk">
