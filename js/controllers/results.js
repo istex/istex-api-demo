@@ -205,7 +205,7 @@ function addHandlebarsFunctions(handlebars, config) {
   });
 
   handlebars.registerHelper('abstr', function(abstract) {
-    if (abstract === "") {
+    if (abstract) {
       return "Pas de résumé pour ce résultat.";
     }
     return abstract;
