@@ -27,6 +27,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
     displayResults: function(searchPage, data, url) {
 
       // Mise à jour du "Réponse brute complète"
+      $("#jsonViewButton").off('click');
       $("#jsonViewButton").on('click', function(event) {
         var win = window.open(url + '&sid=istex-api-demo', '_blank');
         if (win) {
