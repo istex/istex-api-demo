@@ -81,7 +81,8 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
     size: {},
     enrichType: {},
     publicationType: {},
-    articleType: {}
+    articleType: {},
+    sort: {}
   };
 
   $scope.app = {

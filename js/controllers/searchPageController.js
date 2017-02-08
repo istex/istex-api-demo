@@ -62,6 +62,12 @@ define(
         getField(searchPage.editor, 'corpus', 'corpusName.raw', ctrlScope.helper, fields, 'array', false);
       }
 
+      if (searchPage.sortBy) {
+        ctrlScope.helper.sort.query = '&sortBy=' + searchPage.sortBy;
+      } else {
+        ctrlScope.helper.sort.query = undefined;
+      }
+
       getField(searchPage.enrichType, 'enrichType', 'enrichments.type.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.hostGenre, 'publicationType', 'host.genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.genre, 'articleType', 'genre.raw', ctrlScope.helper, fields, 'array', false);
