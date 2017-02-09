@@ -245,24 +245,18 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
 
     $(document).on("resultsLoaded", function(e) {
 
-      // Tooltip pour les icons des fichiers
-      $(".download-links").find('a').each(function() {
-        var $this = $(this),
-          $thisImg = $this.children("img"),
-          mimetype = $thisImg.attr("title");
-
-        $thisImg
-          .removeAttr("title")
-          .qtip({
+      // Tooltip sur les résultats
+      $.get('html/tooltips/objDoc.html', function(objDocHtml) {
+        $("table").find('tr').each(function() {
+          $(this).qtip({
             content: {
-              text: $("<h5><span class='label label-primary'>" + mimetype + " <span class='glyphicon glyphicon-file'></span></span></h5>" + "<p><b>" + $this.attr("href") + "</b></p>")
+              text: $(objDocHtml.replace(/{{apiUrl}}\//g, config.apiUrl))
             },
             show: {
               solo: true,
               delay: 382
             },
             hide: {
-              //            event: false,
               fixed: true,
               delay: 146
             },
@@ -274,7 +268,40 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
               def: false
             }
           });
-      });
+        });
+      }, 'html');
+
+      // Tooltip pour les icons des fichiers
+      $.get('html/tooltips/downloadLinks.html', function(dlLinksHtml) {
+        $(".download-links").find('a').each(function() {
+          var $this = $(this),
+            $thisImg = $this.children("img"),
+            mimetype = $thisImg.attr("title");
+
+          $thisImg
+            .removeAttr("title")
+            .qtip({
+              content: {
+                text: $(dlLinksHtml.replace(/{{apiUrl}}\//g, config.apiUrl).replace('$MIMETYPE', mimetype).replace('$HREF', $this.attr("href")))
+              },
+              show: {
+                solo: true,
+                delay: 382
+              },
+              hide: {
+                fixed: true,
+                delay: 146
+              },
+              position: {
+                my: "top left",
+                at: "bottom center"
+              },
+              style: {
+                def: false
+              }
+            });
+        });
+      }, 'html');
 
       /**
        * ellipse sur les abstracts et titles
