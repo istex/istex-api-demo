@@ -98,7 +98,7 @@ define(
       query += qParameter;
 
       // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],pdfVersion[*],refBibsNative,wos[*],categories.scienceMetrix[*],language[*],enrichments.type[*]";
+      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],qualityIndicators.pdfVersion[*],refBibsNative,categories.wos[*],categories.scienceMetrix[*],language[*],enrichments.type[*]";
       if (searchPage.reaffine) {
         minPubdate = $("#slider-range-pubdate").slider("values", 0);
         maxPubdate = $("#slider-range-pubdate").slider("values", 1);
@@ -133,7 +133,7 @@ define(
       }
 
       // Ajout des options non modifiable dans le demonstrateur
-      query += "&output=*&stats";
+      query += "&output=abstract,fulltext,metadata,annexes,covers,enrichments,title,corpusName,genre,language,qualityIndicators,publicationDate&stats";
 
       ctrlScope.safeApply();
 

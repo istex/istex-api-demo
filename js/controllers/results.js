@@ -90,7 +90,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         // Génération des facettes de type "terms"
         generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, handlebars);
         generateTermsFacet('enrichType', '{{key}}', $('#facetEnrichTypes'), $('#nbEnrichTypesFacet'), data, handlebars);
-        generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, handlebars);
+        generateTermsFacet('qualityIndicators.pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, handlebars);
         generateTermsFacet('refBibsNative', '{{presence key}}', $('#facetRefBibsNative'), null, data, handlebars);
 
         // PubTypeFacet et ArtTypeFacet
@@ -126,13 +126,13 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         generateAutocompleteFacet($("#languages"), languageList, $('#nbLangFacet'), 'language', data);
 
         // WosFacet
-        for (wos of data.aggregations.wos.buckets) {
+        for (wos of data.aggregations['categories.wos'].buckets) {
           obj = {};
           obj.desc = wos.docCount + ' documents';
           obj.label = wos.key;
           wosList.push(obj);
         }
-        generateAutocompleteFacet($("#wosCategories"), wosList, $('#nbWOSFacet'), 'wos', data);
+        generateAutocompleteFacet($("#wosCategories"), wosList, $('#nbWOSFacet'), 'categories.wos', data);
 
         // SciMetrixFacet
         for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
