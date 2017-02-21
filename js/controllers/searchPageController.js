@@ -97,24 +97,11 @@ define(
       var qParameter = fields.join(" AND ");
       query += qParameter;
 
-      // Facets (à compléter au fur et à mesure de l'ajout de fonctionnalités)
-      facetQuery = "&facet=corpusName[*],host.genre[*]>genre[*],qualityIndicators.pdfVersion[*],refBibsNative,categories.wos[*],categories.scienceMetrix[*],language[*],enrichments.type[*]";
-      if (searchPage.reaffine) {
-        minPubdate = $("#slider-range-pubdate").slider("values", 0);
-        maxPubdate = $("#slider-range-pubdate").slider("values", 1);
-        minWordCount = $("#slider-range-PDFWordCount").slider("values", 0);
-        maxWordCount = $("#slider-range-PDFWordCount").slider("values", 1);
-        minCharCount = $("#slider-range-PDFCharCount").slider("values", 0);
-        maxCharCount = $("#slider-range-PDFCharCount").slider("values", 1);
-        minScore = $("#slider-range-score").slider("values", 0);
-        maxScore = $("#slider-range-score").slider("values", 1);
-        facetQuery += ",publicationDate[" + minPubdate + "-" + maxPubdate + "]";
-        facetQuery += ",pdfWordCount[" + minWordCount + "-" + maxWordCount + "]";
-        facetQuery += ",pdfCharCount[" + minCharCount + "-" + maxCharCount + "]";
-        facetQuery += ",score[" + minScore + "-" + maxScore + "]";
-      } else {
-        facetQuery += ",publicationDate,pdfWordCount,pdfCharCount,score";
+      // Facette
+      if (!searchPage.facet) {
+        searchPage.facet = 'corpusName[*]';
       }
+      facetQuery = "&facet=" + searchPage.facet;
       query += facetQuery;
 
       // Ajout de l'option size
@@ -133,7 +120,7 @@ define(
       }
 
       // Ajout des options non modifiable dans le demonstrateur
-      query += "&output=abstract,fulltext,metadata,annexes,covers,enrichments,title,corpusName,genre,language,qualityIndicators,publicationDate&stats";
+      query += "&output=*&stats";
 
       ctrlScope.safeApply();
 
@@ -236,13 +223,13 @@ define(
       var syntaxOK = true;
       var q = qParam.trim();
       // teste que le nb de double-quotes est pair
-      if (syntaxOK) syntaxOK = nbChar(q,"\"") % 2 === 0;
+      if (syntaxOK) syntaxOK = nbChar(q, "\"") % 2 === 0;
       // teste que la requete ne finit pas par ':' ni '.'
       if (syntaxOK) syntaxOK = ":".indexOf(q[q.length - 1]) < 0;
       // teste qu'on a le même nb de '(' que de ')'
-      if (syntaxOK) syntaxOK = nbChar(q,"\\(") === nbChar(q,"\\)");
+      if (syntaxOK) syntaxOK = nbChar(q, "\\(") === nbChar(q, "\\)");
       // teste qu'on a le même nb de '[' + '{' que de ']' + '}'
-      if (syntaxOK) syntaxOK = (nbChar(q,"\\[") + nbChar(q,"\\{")) === (nbChar(q,"\\]") + nbChar(q,"\\}"));
+      if (syntaxOK) syntaxOK = (nbChar(q, "\\[") + nbChar(q, "\\{")) === (nbChar(q, "\\]") + nbChar(q, "\\}"));
       callback(syntaxOK);
     };
 

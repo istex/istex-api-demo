@@ -14,7 +14,7 @@
       <section class="download-links">
         <div class='row'>
           {{#if fulltext}}
-          <div class='col-xs-4'>
+          <div class='col-xs-3'>
             <div class="inline-block">
               <p class="h4 text-muted text-center">Fulltext</p>
               {{#fulltext ~}}
@@ -27,7 +27,7 @@
             </div>
           </div>
           {{/if}} {{#if metadata}}
-          <div class='col-xs-2'>
+          <div class='col-xs-3'>
             <div class="inline-block">
               <p class="h4 text-muted text-center">Metadata</p>
               {{#metadata ~}}
@@ -38,7 +38,7 @@
             </div>
           </div>
           {{/if}} {{#if covers}}
-          <div class='col-xs-2'>
+          <div class='col-xs-1'>
             <div class="inline-block">
               <p class="h4 text-muted text-center">Covers</p>
               {{#covers}}
@@ -49,7 +49,7 @@
             </div>
           </div>
           {{/if}} {{#if annexes}}
-          <div class='col-xs-3'>
+          <div class='col-xs-2'>
             <div class="inline-block">
               <p class="h4 text-muted text-center">Annexes</p>
               {{#annexes}}
@@ -60,7 +60,7 @@
             </div>
           </div>
           {{/if}} {{#notEmpty enrichments}}
-          <div class='col-xs-2'>
+          <div class='col-xs-3'>
             <div class="inline-block">
               <p class="h4 text-muted text-center"><a href='{{consolidateEnrichmentsUri}}' target='_blank'>Enrichments</a></p>
               {{enrichmentsList enrichments}}

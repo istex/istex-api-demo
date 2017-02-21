@@ -8,30 +8,7 @@ require(
     searchEvents(searchPage, searchPageController); // Barre de recherche
     paginationEvents(searchPageController); // Pagination
     sortEvents(searchPage, searchPageController); // Tris
-
-    // Facettes de type "liste de termes"
-    onClickEvents($("#facetCorpus"), 'editor', 'corpusName', searchPageController);
-    onClickEvents($("#facetEnrichTypes"), 'enrichType', 'enrichments.type', searchPageController);
-    onClickEvents($("#facetPDFVersion"), 'PDFVersion', 'qualityIndicators.pdfVersion', searchPageController);
-    onClickEvents($("#facetRefBibsNative"), 'refBibsNative', 'qualityIndicators.refBibsNative', searchPageController);
-
-    // Facettes autocomplétées
-    autocompleteEvents($("#languages"), $("#resetLanguages"), 'language', 'language', searchPage, searchPageController);
-    autocompleteEvents($("#wosCategories"), $("#resetWos"), 'WOS', 'categories.wos', searchPage, searchPageController);
-    autocompleteEvents($("#sciMetrixCategories"), $("#resetSciMetrix"), 'sciMetrix', 'categories.scienceMetrix', searchPage, searchPageController);
-
-    // Facettes imbriquées
-    imbricatedEvents(searchPageController);
-
-    // Facettes de type "slider"
-    sliderEvents($("#slider-range-pubdate"), $("#amountPubDate"), 'pubdate', 'publicationDate', searchPage, searchPageController);
-    sliderEvents($("#slider-range-PDFWordCount"), $("#amountPDFWordCount"), 'PDFWordCount', 'qualityIndicators.pdfWordCount', searchPage, searchPageController);
-    sliderEvents($("#slider-range-PDFCharCount"), $("#amountPDFCharCount"), 'PDFCharCount', 'qualityIndicators.pdfCharCount', searchPage, searchPageController);
-    sliderEvents($("#slider-range-score"), $("#amountScore"), 'score', 'qualityIndicators.score', searchPage, searchPageController);
-
-    $("#slider-range-score").slider({
-      step: 0.3
-    });
+    facetEvents(searchPage, searchPageController); // Facettes
 
     $("button.js-resetFacet").on("click", function(event, ui) {
       $("#refineRoad").contents().slice(2).remove();
@@ -199,6 +176,78 @@ function sortEvents(searchPage, searchPageController) {
   });
 }
 
+function facetEvents(searchPage, searchPageController) {
+
+  var searchPageToInsert, html, tooltips, typeOf, tag, field, name;
+
+  // Facettes de type "liste de termes"
+  onClickEvents($("#corpusBody"), 'editor', 'corpusName', searchPageController);
+  onClickEvents($("#typeEnrichBody"), 'enrichType', 'enrichments.type', searchPageController);
+  onClickEvents($("#facetPDFVersion"), 'PDFVersion', 'qualityIndicators.pdfVersion', searchPageController);
+  onClickEvents($("#facetRefBibsNative"), 'refBibsNative', 'qualityIndicators.refBibsNative', searchPageController);
+
+  // Facettes autocomplétées
+  autocompleteEvents($("#languages"), 'language', 'language', searchPage, searchPageController);
+  autocompleteEvents($("#wosCategories"), 'WOS', 'categories.wos', searchPage, searchPageController);
+  autocompleteEvents($("#sciMetrixCategories"), 'sciMetrix', 'categories.scienceMetrix', searchPage, searchPageController);
+
+  // Facettes imbriquées
+  imbricatedEvents(searchPageController);
+
+  // Facettes de type "slider"
+  sliderEvents($("#slider-range-pubdate"), $("#amountPubDate"), 'pubdate', 'publicationDate', searchPage, searchPageController);
+  sliderEvents($("#slider-range-PDFWordCount"), $("#amountPDFWordCount"), 'PDFWordCount', 'qualityIndicators.pdfWordCount', searchPage, searchPageController);
+  sliderEvents($("#slider-range-PDFCharCount"), $("#amountPDFCharCount"), 'PDFCharCount', 'qualityIndicators.pdfCharCount', searchPage, searchPageController);
+  sliderEvents($("#slider-range-score"), $("#amountScore"), 'score', 'qualityIndicators.score', searchPage, searchPageController);
+
+  $("#slider-range-score").slider({
+    step: 0.3
+  });
+
+  // Choix de la facette
+  $("#facetMenuChosen li a").click(function() {
+    $("#facetMenu:first-child").html($(this).text() + ' <span class="caret"></span>');
+    searchPageToInsert = searchPageHistory[searchPageHistory.length - 1];
+    searchPageHistory.pop();
+    $('#facetChosen > div').addClass('hidden');
+    switch ($(this).text()) {
+      case 'Corpus':
+        searchPageToInsert.facet = 'corpusName[*]';
+        $('#corpusFacet').removeClass('hidden');
+        break;
+      case 'Type de publication':
+        searchPageToInsert.facet = 'host.genre[*]>genre[*]';
+        $('#typePubliFacet').removeClass('hidden');
+        break;
+      case 'Date de publication':
+        searchPageToInsert.facet = 'publicationDate';
+        $('#datePubliFacet').removeClass('hidden');
+        break;
+      case 'Langue':
+        searchPageToInsert.facet = 'language[*]';
+        $('#langFacet').removeClass('hidden');
+        break;
+      case 'Types d\'enrichissement':
+        searchPageToInsert.facet = 'enrichments.type[*]';
+        $('#typeEnrichFacet').removeClass('hidden');
+        break;
+      case 'Catégorie WOS':
+        searchPageToInsert.facet = 'categories.wos[*]';
+        $('#catWosFacet').removeClass('hidden');
+        break;
+      case 'Catégorie Science-Metrix':
+        searchPageToInsert.facet = 'categories.scienceMetrix[*]';
+        $('#catSciFacet').removeClass('hidden');
+        break;
+      case 'Qualité':
+        searchPageToInsert.facet = 'pdfWordCount,pdfCharCount,score,qualityIndicators.pdfVersion[*],refBibsNative';
+        $('#qualityFacet').removeClass('hidden');
+        break;
+    }
+    searchPageController.search(searchPageToInsert, searchPageHistory);
+  });
+}
+
 function refineRoadClick(searchPageController) {
   return function() {
     var index = $(this).index();
@@ -257,7 +306,7 @@ function sliderEvents(tag, tagAmount, field, name, searchPage, searchPageControl
   });
 }
 
-function autocompleteEvents(tag, resetTag, field, name, searchPage, searchPageController) {
+function autocompleteEvents(tag, field, name, searchPage, searchPageController) {
 
   var searchPageToInsert;
 
@@ -280,12 +329,6 @@ function autocompleteEvents(tag, resetTag, field, name, searchPage, searchPageCo
 
   tag.on("click", function() {
     if (tag.val() === "") tag.autocomplete("search", "");
-  });
-
-  resetTag.on("click", function() {
-    searchPage[field] = [];
-    tag.val("");
-    searchPageController.search(searchPage, searchPageHistory);
   });
 }
 
@@ -344,5 +387,4 @@ function imbricatedEvents(searchPageController) {
   $("#publicationTypes").on("click", function() {
     if ($("#publicationTypes").val() === "") $("#publicationTypes").autocomplete("search", "");
   });
-
 }

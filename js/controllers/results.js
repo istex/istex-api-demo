@@ -1,6 +1,6 @@
 define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(config, handlebars, resultRowTemplate) {
   return {
-    displayRanges: function(data, field, slider, amount, nb, type) {
+    displayRanges: function(data, field, slider, amount, type) {
 
       var minDate, maxDate;
       if (type === 'integer') {
@@ -14,7 +14,6 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         maxDate = parseInt(data.aggregations[field].buckets[0].toAsString, 10);
       }
 
-      if (nb !== '') $(nb).text(data.aggregations[field].buckets[0].docCount);
       $(slider).slider({
         range: true,
         min: minDate,
@@ -55,10 +54,6 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         // Ajoute les fonctions nécessaires à data
         addHandlebarsFunctions(handlebars, config);
 
-        // Changement de host.genre en hostGenre pour handlebars
-        data.aggregations.hostGenre = data.aggregations['host.genre'];
-        data.aggregations.enrichType = data.aggregations['enrichments.type'];
-
         var lang, wos, sciMetrix, pubType, artType, obj;
         var pubTypeList = [];
         var languageList = [];
@@ -68,86 +63,90 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         var template = handlebars.compile(resultRowTemplate);
         $("#tableResult").html(template(data));
 
-        // Vidage des facets avant remplissage
-        $('#facetCorpus').empty();
-        $('#facetEnrichTypes').empty();
-        $('#facetPDFVersion').empty();
-        $('#facetRefBibsNative').empty();
+        $('#nbResFacet').text('');
 
-        $('#publicationTypes').val('');
-        $('#nbPubTypeFacet').text('');
-        $('#articleTypes').val('');
-        $('#nbArtTypeFacet').text('');
-        $('#languages').val('');
-        $('#nbLangResults').text('');
-        $('#wosCategories').val('');
-        $('#sciMetrixCategories').val('');
-        $('#nbWOSResults').text('');
-
-        genresByPubTypes = {};
-        $('#facetArticleType').addClass('hide');
-
-        // Génération des facettes de type "terms"
-        generateTermsFacet('corpusName', '{{key}}', $('#facetCorpus'), $('#nbCorpusFacet'), data, handlebars);
-        generateTermsFacet('enrichType', '{{key}}', $('#facetEnrichTypes'), $('#nbEnrichTypesFacet'), data, handlebars);
-        generateTermsFacet('qualityIndicators.pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, handlebars);
-        generateTermsFacet('refBibsNative', '{{presence key}}', $('#facetRefBibsNative'), null, data, handlebars);
-
-        // PubTypeFacet et ArtTypeFacet
-        for (pubType of data.aggregations['host.genre'].buckets) {
-          obj = {};
-          obj.value = pubType.key;
-          obj.desc = pubType.docCount + ' documents';
-          obj.label = pubType.key;
-          pubTypeList.push(obj);
-
-          genresByPubTypes[pubType.key] = [];
-          if (pubType.genre) {
-            for (artType of pubType['genre'].buckets) {
+        switch (searchPage.facet) {
+          case ('host.genre[*]>genre[*]'):
+            $('#publicationTypes').val('');
+            $('#articleTypes').val('');
+            genresByPubTypes = {};
+            $('#facetArticleType').addClass('hide');
+            for (pubType of data.aggregations['host.genre'].buckets) {
               obj = {};
-              obj.value = artType.key;
-              obj.desc = artType.docCount + ' documents';
-              obj.label = artType.key;
-              genresByPubTypes[pubType.key].push(obj);
+              obj.value = pubType.key;
+              obj.desc = pubType.docCount + ' documents';
+              obj.label = pubType.key;
+              pubTypeList.push(obj);
+
+              genresByPubTypes[pubType.key] = [];
+              if (pubType.genre) {
+                for (artType of pubType['genre'].buckets) {
+                  obj = {};
+                  obj.value = artType.key;
+                  obj.desc = artType.docCount + ' documents';
+                  obj.label = artType.key;
+                  genresByPubTypes[pubType.key].push(obj);
+                }
+              }
             }
-          }
+            generateAutocompleteFacet($("#publicationTypes"), pubTypeList, 'host.genre', data);
+            break;
+          case ('publicationDate'):
+            this.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", 'date');
+            break;
+          case ('enrichments.type[*]'):
+            $('#typeEnrichBody').empty();
+            data.aggregations.enrichType = data.aggregations['enrichments.type']; // Pour handlebars
+            generateTermsFacet('enrichType', '{{key}}', $('#typeEnrichBody'), $('#nbResFacet'), data, handlebars);
+            break;
+          case ('language[*]'):
+            $('#languages').val('');
+            for (lang of data.aggregations.language.buckets) {
+              obj = {};
+              obj.value = lang.key;
+              obj.desc = lang.docCount + ' documents';
+              obj.label = config.languageCorrespondance[lang.key];
+              if (obj.label === undefined) obj.label = obj.value;
+              languageList.push(obj);
+            }
+            generateAutocompleteFacet($("#languages"), languageList, 'language', data);
+            break;
+          case ('categories.wos[*]'):
+            $('#wosCategories').val('');
+            for (wos of data.aggregations['categories.wos'].buckets) {
+              obj = {};
+              obj.desc = wos.docCount + ' documents';
+              obj.label = wos.key;
+              wosList.push(obj);
+            }
+            generateAutocompleteFacet($("#wosCategories"), wosList, 'categories.wos', data);
+            break;
+          case ('categories.scienceMetrix[*]'):
+            $('#sciMetrixCategories').val('');
+            for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
+              obj = {};
+              obj.desc = sciMetrix.docCount + ' documents';
+              obj.label = sciMetrix.key;
+              sciMetrixList.push(obj);
+            }
+            generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, 'categories.scienceMetrix', data);
+            break;
+          case ('pdfWordCount,pdfCharCount,score,qualityIndicators.pdfVersion[*],refBibsNative'):
+            $('#facetPDFVersion').empty();
+            $('#facetRefBibsNative').empty();
+            data.aggregations.pdfVersion = data.aggregations['qualityIndicators.pdfVersion']; // Pour handlebars
+            generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, handlebars);
+            generateTermsFacet('refBibsNative', '{{presence key}}', $('#facetRefBibsNative'), null, data, handlebars);
+            this.displayRanges(data, "score", "#slider-range-score", "#amountScore", 'float');
+            this.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", 'integer');
+            this.displayRanges(data, "pdfCharCount", "#slider-range-PDFCharCount", "#amountPDFCharCount", 'integer');
+            break;
+          case ('corpusName[*]'):
+          default:
+            $('#corpusBody').empty();
+            generateTermsFacet('corpusName', '{{key}}', $('#corpusBody'), $('#nbResFacet'), data, handlebars);
+            break;
         }
-        generateAutocompleteFacet($("#publicationTypes"), pubTypeList, $('#nbPubTypeFacet'), 'host.genre', data);
-
-        // LanguageFacet
-        for (lang of data.aggregations.language.buckets) {
-          obj = {};
-          obj.value = lang.key;
-          obj.desc = lang.docCount + ' documents';
-          obj.label = config.languageCorrespondance[lang.key];
-          if (obj.label === undefined) obj.label = obj.value;
-          languageList.push(obj);
-        }
-        generateAutocompleteFacet($("#languages"), languageList, $('#nbLangFacet'), 'language', data);
-
-        // WosFacet
-        for (wos of data.aggregations['categories.wos'].buckets) {
-          obj = {};
-          obj.desc = wos.docCount + ' documents';
-          obj.label = wos.key;
-          wosList.push(obj);
-        }
-        generateAutocompleteFacet($("#wosCategories"), wosList, $('#nbWOSFacet'), 'categories.wos', data);
-
-        // SciMetrixFacet
-        for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
-          obj = {};
-          obj.desc = sciMetrix.docCount + ' documents';
-          obj.label = sciMetrix.key;
-          sciMetrixList.push(obj);
-        }
-        generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, $('#nbSciMetrixFacet'), 'categories.scienceMetrix', data);
-
-        // Appel des displayRanges
-        this.displayRanges(data, "score", "#slider-range-score", "#amountScore", '', 'float');
-        this.displayRanges(data, "publicationDate", "#slider-range-pubdate", "#amountPubDate", '#nbPublicationFacet', 'date');
-        this.displayRanges(data, "pdfWordCount", "#slider-range-PDFWordCount", "#amountPDFWordCount", '', 'integer');
-        this.displayRanges(data, "pdfCharCount", "#slider-range-PDFCharCount", "#amountPDFCharCount", '', 'integer');
 
       } else {
 
@@ -298,7 +297,6 @@ function addHandlebarsFunctions(handlebars, config) {
       return "Recherchées via GROBID";
     }
   });
-
 }
 
 function generateTermsFacet(facetName, keys, tag, nbTag, data, handlebars) {
@@ -314,14 +312,14 @@ function generateTermsFacet(facetName, keys, tag, nbTag, data, handlebars) {
   }
 }
 
-function generateAutocompleteFacet(tag, list, nbTag, facetName, data) {
+function generateAutocompleteFacet(tag, list, facetName, data) {
   tag.autocomplete("option", "source", list)
     .autocomplete('instance')._renderItem = function(ul, item) {
       return $('<li>')
         .append('<a>' + item.label + "<br><span style=\"font-size:10px;\">" + item.desc + '</span></a>')
         .appendTo(ul);
     };
-  nbTag.text(data.aggregations[facetName].buckets.length);
+  $("#nbResFacet").text(data.aggregations[facetName].buckets.length);
 }
 
 function setTotalTime(elasticTime, apiTime) {

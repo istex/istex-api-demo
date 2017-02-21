@@ -1,498 +1,59 @@
 <div class="panel-group" id="accordion-facets" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-primary" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Corpus </a>
-        <span id="nbCorpusFacet" class="badge pull-right"></span>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
-        <div id="facetCorpus">
-        </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Corpus</h5>
-      <p>Cette facette permet de préciser le <b class="text-primary">corpus éditeur</b> sur lequel porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#recherche-par-corpus">
-              Recherche par corpus
-            </a>
-          </li>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/corpus/">
-              Liste des éditeurs disponible via l'API
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceau de la requête générant la facette: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=corpusName[*]</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.corpus.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.corpus.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingPublication">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapsePublication" aria-expanded="false" aria-controls="collapsePublication"> Type de publication</a>
-        <span id="nbPubTypeFacet" class="badge pull-right"></span>
-      </h4>
-    </div>
-    <div id="collapsePublication" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPublication">
-      <div class="panel-body">
-        <div id="facetPublicationType">
-          <p class="small"><b>Entrez le type de publication désiré :</b>
-            <br><i class="small">(ex : Journal, Book, Database, Reference work...)</i>
-          </p>
-          <div class="raw">
-            <input type="text" class="form-control" style="text-align:center; margin-bottom: 10px" id="publicationTypes">
-          </div>
-          <div id="facetArticleType">
-            <p class="small"><b>Entrez le type de contenu désiré :</b>
-              <br><i class="small">(ex : research-article, review-article, article...)</i>
-            </p>
-            <div class="raw">
-              <input type="text" class="form-control" style="text-align:center" id="articleTypes">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Type de publication et de contenu</h5>
-      <p>Cette facette permet de préciser le <b class="text-primary">type de publication et/ou de contenu</b> sur lequel porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceau de la requête générant la facette: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=host.genre[*]>genre[*]</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.publicationType.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.publicationType.query"></mark>
-          <mark data-ng-bind="helper.articleType.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingThree">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Date de publication
+  <div class="panel panel-primary">
+    <div class="panel-heading" role="tab" id="headingFacet">
+      <h4 class="panel-title dropdown">
+        <a id="facetMenu" class="dropdown-toggle" type="button" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        Corpus
+        <span class="caret"></span>
         </a>
+        <ul id="facetMenuChosen" class="dropdown-menu">
+          <li><a href="#">Corpus</a></li>
+          <li><a href="#">Type de publication</a></li>
+          <li><a href="#">Date de publication</a></li>
+          <li><a href="#">Langue</a></li>
+          <li><a href="#">Types d'enrichissement</a></li>
+          <li><a href="#">Catégorie WOS</a></li>
+          <li><a href="#">Catégorie Science-Metrix</a></li>
+          <li><a href="#">Qualité</a></li>
+        </ul>
+        <span id="nbResFacet" class="badge pull-right"></span>
       </h4>
     </div>
-    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-      <div class="panel-body">
-        <div class="col-xs-12">
-          <label for="amountPubDate" class="col-xs-5">Entre :</label>
-          <input type="text" id="amountPubDate" readonly class="col-xs-7 amount">
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFacet">
+      <div id="facetChosen" class="panel-body">
+        <div id="corpusFacet" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="corpusBody"></div>
+          <div id="corpusTooltip" class="istex-tooltip" ng-include="'html/tooltips/corpusFacet.html'"></div>
         </div>
-        <div id="slider-range-pubdate" class="panel-collapse collapse in col-xs-12"></div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Date de publication</h5>
-      <p>Cette facette permet de préciser la <b class="text-primary">période de publication</b> sur laquelle porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceau de la requête générant la facette: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=publicationDate</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.pubDate.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.pubDate.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingSix">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-          Langue(s)
-        </a>
-        <span id="nbLangFacet" class="badge pull-right"></span>
-      </h4>
-    </div>
-    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
-      <div class="panel-body">
-        <div id="facetLang">
-          <p class="small"><b>Entrez la langue désirée :</b>
-            <br><i class="small">(ex : anglais, français...)</i></p>
-          <div class="raw">
-            <input type="text" class="form-control" style="text-align:center" id="languages">
-          </div>
+        <div id="typePubliFacet" class="hidden" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="typePubliBody" ng-include="'html/facetBody/typePubliFacet.html'"></div>
+          <div id="typePubliTooltip" class="istex-tooltip" ng-include="'html/tooltips/typePubliFacet.html'"></div>
         </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Langue(s)</h5>
-      <p>Cette facette permet de préciser la <b class="text-primary">langue du document</b> sur laquelle porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-          </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceau de la requête générant la facette: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=language[*]</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.lang.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.lang.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingEnrichTypes">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseEnrichTypes" aria-expanded="true" aria-controls="collapseEnrichTypes"> Types d'enrichissement </a>
-        <span id="nbEnrichTypesFacet" class="badge pull-right"></span>
-      </h4>
-    </div>
-    <div id="collapseEnrichTypes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEnrichTypes">
-      <div class="panel-body">
-        <div id="facetEnrichTypes">
+        <div id="datePubliFacet" class="hidden" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="datePubliBody" ng-include="'html/facetBody/datePubliFacet.html'"></div>
+          <div id="datePubliTooltip" class="istex-tooltip" ng-include="'html/tooltips/datePubliFacet.html'"></div>
         </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Types d'enrichissement</h5>
-      <p>Cette facette permet de préciser les <b class="text-primary">types d'enrichissement</b> présents dans les résultats sur lequel porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/corpus/">
-              Liste des éditeurs disponible via l'API
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceau de la requête générant la facette: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=enrichments.type[*]</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.enrichType.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.enrichType.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingFive">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-          Catégorie(s) WOS
-        </a>
-        <span id="nbWOSFacet" class="badge pull-right"></span>
-      </h4>
-    </div>
-    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
-      <div class="panel-body">
-        <div id="facetWos">
-          <p class="small"><b>Entrez la catégorie WOS désirée :</b>
-            <br><i class="small">(ex : medecine, general & internal...)</i>
-          </p>
-          <div class="raw">
-            <input type="text" class="form-control" style="text-align:center" id="wosCategories">
-          </div>
+        <div id="langFacet" class="hidden" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="langBody" ng-include="'html/facetBody/langFacet.html'"></div>
+          <div id="langTooltip" class="istex-tooltip" ng-include="'html/tooltips/langFacet.html'"></div>
         </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Catégorie(s) WOS</h5>
-      <p>Cette facette permet de préciser la <b class="text-primary">catégorie Web Of Science (WOS)</b> sur laquelle porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-        </ul>
-        <h6>
-          <span class="label label-istex-documentation">
-            Liens externes:
-          </span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="http://clarivate.com/scientific-and-academic-research/research-discovery/web-of-science/">
-              Site officiel du Web Of Science
-            </a>
-          </li>
-          <li>
-            <a class="link-external" target="_blank" href="https://fr.wikipedia.org/wiki/Web_of_Science">
-              Web Of Science sur Wikipédia
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceau de la requête générant la facette: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=wos[*]</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.WOS.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.WOS.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingSciMetrix">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseSciMetrix" aria-expanded="false" aria-controls="collapseSciMetrix" style="font-size:15px;">
-          Catégorie(s) Science-Metrix
-        </a>
-        <span id="nbSciMetrixFacet" class="badge pull-right"></span>
-      </h4>
-    </div>
-    <div id="collapseSciMetrix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSciMetrix">
-      <div class="panel-body">
-        <div id="facetSciMetrix">
-          <p class="small"><b>Entrez la catégorie Science-Metrix désirée :</b>
-            <br><i class="small">(ex : economic & social sciences...)</i>
-          </p>
-          <div class="raw">
-            <input type="text" class="form-control" style="text-align:center" id="sciMetrixCategories">
-          </div>
+        <div id="typeEnrichFacet" class="hidden" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="typeEnrichBody"></div>
+          <div id="typeEnrichTooltip" class="istex-tooltip" ng-include="'html/tooltips/typeEnrichFacet.html'"></div>
         </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Catégorie(s) Science-Metrix</h5>
-      <p>Cette facette permet de préciser la <b class="text-primary">catégorie Science-Metrix</b> sur laquelle porte la requête.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-        </ul>
-        <h6>
-          <span class="label label-istex-documentation">
-            Liens externes:
-          </span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="http://www.science-metrix.com/fr/classification">
-              Site officiel de Science-Metrix
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceau de la requête générant la facette: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=categories.scienceMetrix[*]</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.sciMetrix.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark data-ng-bind="helper.sciMetrix.query"></mark>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div data-toggle="istex-tooltip" class="panel panel-primary" data-content-text="div.istex-tooltip">
-    <div class="panel-heading" role="tab" id="headingFour">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-facets" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Qualité
-        </a>
-      </h4>
-    </div>
-    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-      <div class="panel-body">
-        <div class="panel panel-info">
-          <div class="panel-heading">Score</div>
-          <div class="panel-body">
-            <label for="amountScore" class="col-xs-5">Entre :</label>
-            <input type="text" id="amountScore" readonly class="col-xs-7 amount">
-            <div id="slider-range-score" class="panel-collapse collapse in col-xs-12"></div>
-          </div>
+        <div id="catWosFacet" class="hidden" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="catWosBody" ng-include="'html/facetBody/catWosFacet.html'"></div>
+          <div id="catWosTooltip" class="istex-tooltip" ng-include="'html/tooltips/catWosFacet.html'"></div>
         </div>
-        <div class="panel panel-info">
-          <div class="panel-heading">Nombre de mots</div>
-          <div class="panel-body">
-            <label for="amountPDFWordCount" class="col-xs-5">Entre :</label>
-            <input type="text" id="amountPDFWordCount" readonly class="col-xs-7 amount">
-            <div id="slider-range-PDFWordCount" class="panel-collapse collapse in col-xs-12"></div>
-          </div>
+        <div id="catSciFacet" class="hidden" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="catSciBody" ng-include="'html/facetBody/catSciFacet.html'"></div>
+          <div id="catSciTooltip" class="istex-tooltip" ng-include="'html/tooltips/catSciFacet.html'"></div>
         </div>
-        <div class="panel panel-info">
-          <div class="panel-heading">Nombre de caractères</div>
-          <div class="panel-body">
-            <label for="amountPDFCharCount" class="col-xs-5">Entre :</label>
-            <input type="text" id="amountPDFCharCount" readonly class="col-xs-7 amount">
-            <div id="slider-range-PDFCharCount" class="panel-collapse collapse in col-xs-12"></div>
-          </div>
+        <div id="qualityFacet" class="hidden" data-toggle="istex-tooltip" data-content-text="div.istex-tooltip">
+          <div id="qualityBody" ng-include="'html/facetBody/qualityFacet.html'"></div>
+          <div id="qualityTooltip" class="istex-tooltip" ng-include="'html/tooltips/qualityFacet.html'"></div>
         </div>
-        <div class="panel panel-info">
-          <div class="panel-heading">Version du PDF</div>
-          <div class="panel-body">
-            <div id="facetPDFVersion">
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-info">
-          <div class="panel-heading">Références bibliographiques</div>
-          <div class="panel-body" style="padding-left:0;font-size: x-small;">
-            <div id="facetRefBibsNative">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="istex-tooltip">
-      <h5>Qualité</h5>
-      <p>Cet ensemble de facettes permet de préciser la <b class="text-primary">qualité du document</b> souhaitée sur laquelle porte la requête. La qualité porte sur le nombre de mots et de caractères dans le texte, ou sur la version du PDF proposé par l'éditeur.</p>
-      <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
-      <div class="references">
-        <h6>
-          <span class="label label-istex-documentation">ISTEX API Documentation:</span>
-        </h6>
-        <ul>
-          <li>
-            <a class="link-external" target="_blank" href="{{ app.apiUrl}}/documentation/300-search.html#facettes">
-              Facettes
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr>
-        <h6 class="h5">Morceaux de la requête générant la facette complète: </h6>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=score</mark>
-        </p>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=pdfWordCount</mark>
-        </p>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=pdfCharCount</mark>
-        </p>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=pdfVersion[*]</mark>
-        </p>
-        <p class="query-chunk">
-          <mark class="bg-facets">&facet=refBibsNative</mark>
-        </p>
-      </div>
-      <div data-ng-if="helper.quality.query">
-        <hr>
-        <h6 class="h5">Morceau de la requête généré par la facette: </h6>
-        <p class="query-chunk">
-          <mark class="" data-ng-bind="helper.quality.query"></mark>
-        </p>
       </div>
     </div>
   </div>
 </div>
-<!--.panel-group-->
