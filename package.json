@@ -6,7 +6,7 @@
     "less": "^2.4.0"
   },
   "name": "istex-api-demo",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "keywords": [
     "Istex",
     "API"
