@@ -198,6 +198,15 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
 
   $(document).ready(function() {
 
+    if (localStorage['skipDemo']) {
+      $("#knowMore").attr('data-target', '#skipModal');
+      $("#skipModal").modal('show');
+    } else {
+      $("#knowMore").attr('data-target', '#welcomeModal');
+      $("#welcomeModal").modal('show');
+      localStorage.setItem('skipDemo', true);
+    };
+
     $("#pager-prototype").contents().appendTo(".pager-placeholder");
     $("#topResultPager a").addClass('btn-sm');
 

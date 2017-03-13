@@ -10,6 +10,10 @@ require(
     sortEvents(searchPage, searchPageController); // Tris
     facetEvents(searchPage, searchPageController); // Facettes
 
+    $(".noSkipButton").on("click", function() {
+      localStorage.removeItem('skipDemo');
+    });
+
     $("button.js-resetFacet").on("click", function(event, ui) {
       $("#refineRoad").contents().slice(2).remove();
       var searchPageToInsert = searchPageHistory[0];
