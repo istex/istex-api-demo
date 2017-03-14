@@ -204,7 +204,6 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
     } else {
       $("#knowMore").attr('data-target', '#welcomeModal');
       $("#welcomeModal").modal('show');
-      localStorage.setItem('skipDemo', true);
     };
 
     $("#pager-prototype").contents().appendTo(".pager-placeholder");
@@ -341,6 +340,24 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
         $("html, body").animate({
           scrollTop: 0
         }, 600);
+      }
+
+      // Démonstration
+      if (!localStorage['skipDemo']) {
+        $('#facetMenu').popover({
+          html: true,
+          title: 'Facettes<a class="close" href="#");">&times;</a>',
+          content: "Vous pouvez sélectionner une facette en cliquant sur Corpus ci-dessous.",
+          placement: 'top'
+        });
+
+        $('#facetMenu').popover('show');
+
+        $(document).on('click', '.popover', function() {
+          $(this).popover('destroy');
+        });
+
+        localStorage.setItem('skipDemo', true);
       }
     });
   });
