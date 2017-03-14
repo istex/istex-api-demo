@@ -337,6 +337,28 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
           scrollTop: 0
         }, 600);
       }
+
+      // Démonstration
+      if (!($('#facetMenu').attr('alreadyopen'))) {
+        $('#facetMenu').popover({
+          html: true,
+          title: 'Astuce <a class="close" href="#");">&times;</a>',
+          content: "Vous pouvez sélectionner une facette en cliquant sur Corpus ci-dessous.",
+          placement: 'top'
+        });
+
+        $('#facetMenu').popover('show');
+
+        $('#facetMenu').on('click', function() {
+          $(this).popover('destroy');
+        });
+
+        $(document).on('click', '.popover', function() {
+          $(this).popover('destroy');
+        });
+
+        $('#facetMenu').attr('alreadyopen', 'true');
+      }
     });
   });
 });
