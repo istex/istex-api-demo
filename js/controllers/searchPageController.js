@@ -215,6 +215,9 @@ define(
           $(document).trigger("resultsLoaded");
           $(".istex-pager").removeClass('hide');
           $(".pager").removeClass('hide');
+
+          $(".pageTips").attr('href', ctrlScope.app.apiUrl + '/documentation/results/#parametres-de-pagination');
+
         }
       }, 618);
     };
