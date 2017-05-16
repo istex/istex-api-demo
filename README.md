@@ -12,3 +12,6 @@ cd istex-api-demo/
 static .
 ```
 Ensuite visitez l'URL suivante http://127.0.0.1:8080/
+
+**Contribuer au projet**:
+[![Contribute](http://beta.codenvy.com/factory/resources/codenvy-contribute.svg)](http://beta.codenvy.com/f?id=xc7ga4dx6qrgb8ii)
