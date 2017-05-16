@@ -190,6 +190,7 @@ function facetEvents(searchPage, searchPageController) {
   autocompleteEvents($("#languages"), 'language', 'language', searchPage, searchPageController);
   autocompleteEvents($("#wosCategories"), 'WOS', 'categories.wos', searchPage, searchPageController);
   autocompleteEvents($("#sciMetrixCategories"), 'sciMetrix', 'categories.scienceMetrix', searchPage, searchPageController);
+  autocompleteEvents($("#inistCategories"), 'inist', 'categories.inist', searchPage, searchPageController);
 
   // Facettes imbriquées
   imbricatedEvents(searchPageController);
@@ -238,6 +239,10 @@ function facetEvents(searchPage, searchPageController) {
       case 'Catégorie Science-Metrix':
         searchPageToInsert.facet = 'categories.scienceMetrix[*]';
         $('#catSciFacet').removeClass('hidden');
+        break;
+      case 'Catégorie Inist':
+        searchPageToInsert.facet = 'categories.inist[*]';
+        $('#catIniFacet').removeClass('hidden');
         break;
       case 'Qualité':
         searchPageToInsert.facet = 'pdfWordCount,pdfCharCount,score,qualityIndicators.pdfVersion[*],refBibsNative';
