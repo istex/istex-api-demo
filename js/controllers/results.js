@@ -59,6 +59,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         var languageList = [];
         var wosList = [];
         var sciMetrixList = [];
+        var inistList = [];
 
         var template = handlebars.compile(resultRowTemplate);
         $("#tableResult").html(template(data));
@@ -130,6 +131,16 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
               sciMetrixList.push(obj);
             }
             generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, 'categories.scienceMetrix', data);
+            break;
+          case ('categories.inist[*]'):
+            $('#inistCategories').val('');
+            for (inist of data.aggregations['categories.inist'].buckets) {
+              obj = {};
+              obj.desc = inist.docCount + ' documents';
+              obj.label = inist.key;
+              inistList.push(obj);
+            }
+            generateAutocompleteFacet($("#inistCategories"), inistList, 'categories.inist', data);
             break;
           case ('pdfWordCount,pdfCharCount,score,qualityIndicators.pdfVersion[*],refBibsNative'):
             $('#facetPDFVersion').empty();
