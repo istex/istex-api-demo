@@ -302,7 +302,7 @@ function addHandlebarsFunctions(handlebars, config) {
   });
 
   handlebars.registerHelper('presence', function(refbib) {
-    if (refbib === 'T') {
+    if (refbib === 1) {
       return "Fournies par l'éditeur";
     } else {
       return "Recherchées via GROBID";
