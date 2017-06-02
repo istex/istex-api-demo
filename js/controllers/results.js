@@ -142,10 +142,15 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
             }
             generateAutocompleteFacet($("#inistCategories"), inistList, 'categories.inist', data);
             break;
-          case ('pdfWordCount,pdfCharCount,score,qualityIndicators.pdfVersion[*],refBibsNative'):
+          case ('qualityIndicators.pdfWordCount,qualityIndicators.pdfCharCount,qualityIndicators.score,qualityIndicators.pdfVersion[*],qualityIndicators.refBibsNative'):
             $('#facetPDFVersion').empty();
             $('#facetRefBibsNative').empty();
             data.aggregations.pdfVersion = data.aggregations['qualityIndicators.pdfVersion']; // Pour handlebars
+            data.aggregations.pdfWordCount = data.aggregations['qualityIndicators.pdfWordCount']; // Pour handlebars
+            data.aggregations.pdfCharCount = data.aggregations['qualityIndicators.pdfCharCount']; // Pour handlebars
+            data.aggregations.score = data.aggregations['qualityIndicators.score']; // Pour handlebars
+            data.aggregations.refBibsNative = data.aggregations['qualityIndicators.refBibsNative']; // Pour handlebars
+
             generateTermsFacet('pdfVersion', '{{key}}', $('#facetPDFVersion'), null, data, handlebars);
             generateTermsFacet('refBibsNative', '{{presence key}}', $('#facetRefBibsNative'), null, data, handlebars);
             this.displayRanges(data, "score", "#slider-range-score", "#amountScore", 'float');
@@ -311,6 +316,7 @@ function addHandlebarsFunctions(handlebars, config) {
 }
 
 function generateTermsFacet(facetName, keys, tag, nbTag, data, handlebars) {
+
   var template = handlebars.compile("{{#aggregations." + facetName + ".buckets}}<div class='col-xs-offset-1'>" +
     "<div class='checkbox'><label><input value=\'{{key}}\' type='checkbox'>" + keys + "</label>" +
     "<span class='badge pull-right'>{{docCount}}</span></div></div>{{/aggregations." + facetName + ".buckets}}");

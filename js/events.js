@@ -245,7 +245,7 @@ function facetEvents(searchPage, searchPageController) {
         $('#catIniFacet').removeClass('hidden');
         break;
       case 'Qualité':
-        searchPageToInsert.facet = 'pdfWordCount,pdfCharCount,score,qualityIndicators.pdfVersion[*],refBibsNative';
+        searchPageToInsert.facet = 'qualityIndicators.pdfWordCount,qualityIndicators.pdfCharCount,qualityIndicators.score,qualityIndicators.pdfVersion[*],qualityIndicators.refBibsNative';
         $('#qualityFacet').removeClass('hidden');
         break;
     }
