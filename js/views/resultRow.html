@@ -18,7 +18,7 @@
             <div class="inline-block">
               <p class="h4 text-muted text-center">Fulltext</p>
               {{#fulltext ~}}
-              <a class="inline-push-down-1 inline-block {{#if quality}}ocr{{/if}}" href='{{uri}}?sid=istex-api-demo' target='_blank'>
+              <a class="inline-push-down-1 inline-block {{#if quality}}ocr{{/if}}" href='{{uri}}?sid=istex-api-demo&auth=ldap' target='_blank'>
                 {{#if quality}}
                   <i class="ocr-quality">{{fixQuality quality.rate}}%</i>
                 {{/if}}
@@ -31,7 +31,7 @@
             <div class="inline-block">
               <p class="h4 text-muted text-center">Metadata</p>
               {{#metadata ~}}
-              <a class="inline-push-down-1 inline-block" href='{{uri}}?sid=istex-api-demo' target='_blank'>
+              <a class="inline-push-down-1 inline-block" href='{{uri}}?sid=istex-api-demo&auth=ldap' target='_blank'>
                 <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a>
               {{~/metadata}}

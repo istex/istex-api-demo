@@ -117,7 +117,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
 
   (function() {
     var err = $.ajax({
-      url: config.apiUrl + "corpus?sid=istex-api-demo",
+      url: config.apiUrl + "corpus?sid=istex-api-demo&auth=ldap",
       dataType: "jsonp",
       success: function(data, status, xhr) {
 
@@ -183,7 +183,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
     });
 
     var cacheClear = $.ajax({
-      url: config.apiUrl + 'properties?sid=istex-api-demo',
+      url: config.apiUrl + 'properties?sid=istex-api-demo&auth=ldap',
       success: function(data, status, xhr) {
         if (data.corpus.lastUpdate > localStorage['last-refresh']) {
           console.log('Le cache a été nettoyé...');

@@ -28,7 +28,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
       // Mise à jour du "Réponse brute complète"
       $("#jsonViewButton").off('click');
       $("#jsonViewButton").on('click', function(event) {
-        var win = window.open(url + '&sid=istex-api-demo', '_blank');
+        var win = window.open(url + '&sid=istex-api-demo&auth=ldap', '_blank');
         if (win) {
           win.focus();
         } else {
@@ -240,7 +240,7 @@ function addHandlebarsFunctions(handlebars, config) {
     var types = Object.keys(enrichments);
     for (let type of types) {
       finalTemplate += template;
-      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri + '?sid=istex-api-demo');
+      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri + '?sid=istex-api-demo&auth=ldap');
     }
     return new handlebars.SafeString(finalTemplate);
   });
@@ -279,7 +279,7 @@ function addHandlebarsFunctions(handlebars, config) {
     Object.keys(this.enrichments).forEach(function(type) {
       path.push(type);
     });
-    return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate&sid=istex-api-demo';
+    return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate&sid=istex-api-demo&auth=ldap';
   });
 
   handlebars.registerHelper('flags', function(language) {
@@ -293,7 +293,7 @@ function addHandlebarsFunctions(handlebars, config) {
   handlebars.registerHelper('titleClic', function(fulltext, title) {
     for (let ft of fulltext) {
       if (ft.mimetype == "application/pdf") {
-        return new handlebars.SafeString("<a href=\"" + ft.uri + "?sid=istex-api-demo\" target=\"_blank\">" + title + "</a>");
+        return new handlebars.SafeString("<a href=\"" + ft.uri + "?sid=istex-api-demo&auth=ldap\" target=\"_blank\">" + title + "</a>");
       }
     }
     return title;
