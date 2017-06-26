@@ -5,6 +5,7 @@
 /bower_components
 /css/main.min.css
 .idea
+**/*.bkp
 
 # Created by https://www.gitignore.io/api/osx,macos,intellij,node,linux,windows
 
@@ -180,3 +181,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+/js/mapping.json.bkp
