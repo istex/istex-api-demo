@@ -1,13 +1,10 @@
 ISTEX-API-DEMO
 =============
-Changements depuis le tag v1.6.3
-Correspond à l'API v.5.0.0
+Changements depuis le tag v1.7.0
+Correspond à l'API v.
 -------------
- Merge pull request #6 from istex/better-popin
-Merge pull request #7 from istex/cat_inist
-Add 'Catégorie inist' facet
-switch two pieces of text + istex@inist.fr should not be used anymore
-fix bad subdomain in piwik config
-fix bad idsite inside noscript element
-fix tracker piwik2
+ bugfix when one result have an enrichment with empty array value
+ignore *.bkp files
+Suppression des Alias pour les facettes(ex: WOS)
+Changement de comportement des booleans sur la v5
 
