@@ -239,8 +239,10 @@ function addHandlebarsFunctions(handlebars, config) {
     var finalTemplate = "";
     var types = Object.keys(enrichments);
     for (let type of types) {
-      finalTemplate += template;
-      finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri + '?sid=istex-api-demo');
+      if (enrichments[type].length > 0) {
+        finalTemplate += template;
+        finalTemplate = finalTemplate.replace('{{this}}', type).replace('{{uri}}', enrichments[type][0].uri + '?sid=istex-api-demo');
+      }
     }
     return new handlebars.SafeString(finalTemplate);
   });
