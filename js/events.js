@@ -188,9 +188,10 @@ function facetEvents(searchPage, searchPageController) {
 
   // Facettes autocomplétées
   autocompleteEvents($("#languages"), 'language', 'language', searchPage, searchPageController);
-  autocompleteEvents($("#wosCategories"), 'WOS', 'categories.wos', searchPage, searchPageController);
-  autocompleteEvents($("#sciMetrixCategories"), 'sciMetrix', 'categories.scienceMetrix', searchPage, searchPageController);
-  autocompleteEvents($("#inistCategories"), 'inist', 'categories.inist', searchPage, searchPageController);
+  autocompleteEvents($("#wosCategories"), 'WOS', 'categories.wos.label', searchPage, searchPageController);
+  autocompleteEvents($("#sciMetrixCategories"), 'sciMetrix', 'categories.scienceMetrix.label', searchPage, searchPageController);
+  autocompleteEvents($("#scopusCategories"), 'scopus', 'categories.scopus.label', searchPage, searchPageController);
+  autocompleteEvents($("#inistCategories"), 'inist', 'categories.inist.label', searchPage, searchPageController);
 
   // Facettes imbriquées
   imbricatedEvents(searchPageController);
@@ -233,15 +234,19 @@ function facetEvents(searchPage, searchPageController) {
         $('#typeEnrichFacet').removeClass('hidden');
         break;
       case 'Catégorie WOS':
-        searchPageToInsert.facet = 'categories.wos[*]';
+        searchPageToInsert.facet = 'categories.wos.label[*]';
         $('#catWosFacet').removeClass('hidden');
         break;
       case 'Catégorie Science-Metrix':
-        searchPageToInsert.facet = 'categories.scienceMetrix[*]';
+        searchPageToInsert.facet = 'categories.scienceMetrix.label[*]';
         $('#catSciFacet').removeClass('hidden');
         break;
+      case 'Catégorie Scopus':
+        searchPageToInsert.facet = 'categories.scopus.label[*]';
+        $('#catScoFacet').removeClass('hidden');
+        break;
       case 'Catégorie Inist':
-        searchPageToInsert.facet = 'categories.inist[*]';
+        searchPageToInsert.facet = 'categories.inist.label[*]';
         $('#catIniFacet').removeClass('hidden');
         break;
       case 'Qualité':

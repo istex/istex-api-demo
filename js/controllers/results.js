@@ -59,6 +59,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         var languageList = [];
         var wosList = [];
         var sciMetrixList = [];
+        var scopusList = [];
         var inistList = [];
 
         var template = handlebars.compile(resultRowTemplate);
@@ -112,35 +113,45 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
             }
             generateAutocompleteFacet($("#languages"), languageList, 'language', data);
             break;
-          case ('categories.wos[*]'):
+          case ('categories.wos.label[*]'):
             $('#wosCategories').val('');
-            for (wos of data.aggregations['categories.wos'].buckets) {
+            for (wos of data.aggregations['categories.wos.label'].buckets) {
               obj = {};
               obj.desc = wos.docCount + ' documents';
               obj.label = wos.key;
               wosList.push(obj);
             }
-            generateAutocompleteFacet($("#wosCategories"), wosList, 'categories.wos', data);
+            generateAutocompleteFacet($("#wosCategories"), wosList, 'categories.wos.label', data);
             break;
-          case ('categories.scienceMetrix[*]'):
+          case ('categories.scienceMetrix.label[*]'):
             $('#sciMetrixCategories').val('');
-            for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
+            for (sciMetrix of data.aggregations['categories.scienceMetrix.label'].buckets) {
               obj = {};
               obj.desc = sciMetrix.docCount + ' documents';
               obj.label = sciMetrix.key;
               sciMetrixList.push(obj);
             }
-            generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, 'categories.scienceMetrix', data);
+            generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, 'categories.scienceMetrix.label', data);
             break;
-          case ('categories.inist[*]'):
+          case ('categories.scopus.label[*]'):
+            $('#scopusCategories').val('');
+            for (scopus of data.aggregations['categories.scopus.label'].buckets) {
+              obj = {};
+              obj.desc = scopus.docCount + ' documents';
+              obj.label = scopus.key;
+              scopusList.push(obj);
+            }
+            generateAutocompleteFacet($("#scopusCategories"), scopusList, 'categories.scopus.label', data);
+            break;
+          case ('categories.inist.label[*]'):
             $('#inistCategories').val('');
-            for (inist of data.aggregations['categories.inist'].buckets) {
+            for (inist of data.aggregations['categories.inist.label'].buckets) {
               obj = {};
               obj.desc = inist.docCount + ' documents';
               obj.label = inist.key;
               inistList.push(obj);
             }
-            generateAutocompleteFacet($("#inistCategories"), inistList, 'categories.inist', data);
+            generateAutocompleteFacet($("#inistCategories"), inistList, 'categories.inist.label', data);
             break;
           case ('pdfWordCount,pdfCharCount,score,qualityIndicators.pdfVersion[*],refBibsNative'):
             $('#facetPDFVersion').empty();

@@ -72,9 +72,10 @@ define(
       getField(searchPage.hostGenre, 'publicationType', 'host.genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.genre, 'articleType', 'genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);
-      getField(searchPage.WOS, 'WOS', 'categories.wos.raw', ctrlScope.helper, fields, 'array', false);
-      getField(searchPage.sciMetrix, 'sciMetrix', 'categories.scienceMetrix.raw', ctrlScope.helper, fields, 'array', false);
-      getField(searchPage.inist, 'inist', 'categories.inist.raw', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.WOS, 'WOS', 'categories.wos.label', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.sciMetrix, 'sciMetrix', 'categories.scienceMetrix.label', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.scopus, 'scopus', 'categories.scopus.label', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.inist, 'inist', 'categories.inist.label', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.language, 'lang', 'language.raw', ctrlScope.helper, fields, 'array', false);
 
       // Facette qualité
