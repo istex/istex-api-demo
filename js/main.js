@@ -113,7 +113,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
   };
 });
 
-require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1.min", 'json!mapping.json'], function(config, events, queryBuilder, mapping) {
+require(["../../conf/config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1.min", 'json!../../conf/mapping.json'], function(config, events, queryBuilder, mapping) {
 
   (function() {
     var err = $.ajax({

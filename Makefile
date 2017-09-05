@@ -11,7 +11,7 @@ npm-install:
 	@ npm install
 
 mapping:
-	@ node ./js/takeMapping.js
+	@ node ./lib/takeMapping.js
 	@ echo "Mapping récupéré et transformé"
 
 install: ./package.json npm-install less-compilation mapping

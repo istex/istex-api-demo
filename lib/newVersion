@@ -26,12 +26,12 @@ if [ "$?" -ne 0 ]; then
 fi
 
 # Les deux test suivants servent à tester le bon formatage du package.json
-PKGAPPNAME=`jq -r '.name' 'package.json'`
+PKGAPPNAME=`jq -r '.name' '../package.json'`
 if [ "$?" -ne 0 ]; then
   echo -e "jq n'a pas réussi à déterminer le nom de l'application depuis le package.json.\n"
   exit 1
 fi
-CURRENTPKGVERSION=`jq -r '.version' 'package.json'`
+CURRENTPKGVERSION=`jq -r '.version' '../package.json'`
 if [ "$?" -ne 0 ]; then
   echo -e "jq n'a pas réussi à déterminer la version actuelle depuis le package.json.\n"
   exit 1
@@ -39,7 +39,7 @@ fi
 echo -e "$PKGAPPNAME est actuellement en version $CURRENTPKGVERSION.\n"
 
 # On remplace le numéro de version dans config.js
-cat js/config.js | sed s/"$CURRENTPKGVERSION"/"$NEWVERSION"/g > config.tmp && mv config.tmp js/config.js
+cat ../conf/config.js | sed s/"$CURRENTPKGVERSION"/"$NEWVERSION"/g > config.tmp && mv config.tmp ../conf/config.js
 
 # On récupère le nom du dernier tag
 LASTTAG=`git tag | tail -1`
@@ -48,18 +48,18 @@ echo -e "Voici le commit lié au tag $LASTTAG :\n"
 LASTTAGCOMMIT=`git show $LASTTAG | head -1 | cut -d' ' -f2`
 echo "$LASTTAGCOMMIT"
 CHANGELOG=`git log --pretty=format:%s $LASTTAGCOMMIT...HEAD`
-echo -e "ISTEX-API-DEMO\n=============\nChangements depuis le tag $LASTTAG\nCorrespond à l'API v.$APIVERSION\n-------------\n $CHANGELOG" > "changelog.md"
-echo '' >> "changelog.md"
+echo -e "ISTEX-API-DEMO\n=============\nChangements depuis le tag $LASTTAG\nCorrespond à l'API v.$APIVERSION\n-------------\n $CHANGELOG" > "../changelog.md"
+echo '' >> "../changelog.md"
 
 echo -e "Mise à jour du package.json en version $NEWVERSION\n"
 jq ".version = \"$NEWVERSION\"" 'package.json' 1>.tmppackage.json
 echo '' >> .tmppackage.json
 rm .package.json.bkp
 mv package.json .package.json.bkp
-mv .tmppackage.json package.json
-git add package.json
-git add js/config.js
-git add changelog.md
+mv .tmppackage.json ../package.json
+git add ../package.json
+git add ../conf/config.js
+git add ../changelog.md
 git commit -m "Passage en $NEWVERSION correspondant à l'API v.$APIVERSION"
 git push
 while true; do

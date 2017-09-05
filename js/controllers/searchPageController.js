@@ -4,7 +4,7 @@
 
 define(
   [
-    "config",
+    "../../conf/config",
     "vendor/handlebars",
     "controllers/results",
     "vendor/jsonview/jquery.jsonview-1.2.3",
