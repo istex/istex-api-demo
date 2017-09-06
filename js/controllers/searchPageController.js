@@ -6,7 +6,7 @@ define(
   [
     "../../conf/config",
     "vendor/handlebars",
-    "controllers/results",
+    "../results/results",
     "vendor/jsonview/jquery.jsonview-1.2.3",
     "polyfill"
   ],

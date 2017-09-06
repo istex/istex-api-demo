@@ -1,4 +1,4 @@
-define(["../../conf/config", "vendor/handlebars", "text!views/resultRow.html"], function(config, handlebars, resultRowTemplate) {
+define(["../../conf/config", "../vendor/handlebars", "text!./views/resultRow.html"], function(config, handlebars, resultRowTemplate) {
   return {
     displayRanges: function(data, field, slider, amount, type) {
 
