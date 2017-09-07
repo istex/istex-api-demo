@@ -1,4 +1,4 @@
-define(["../../conf/config", "../vendor/handlebars", "text!./views/resultRow.html"], function(config, handlebars, resultRowTemplate) {
+define(["../../conf/config", "../vendor/handlebars", "text!./views/resultTemplate.html"], function(config, handlebars, resultTemplate) {
   return {
     displayRanges: function(data, field, slider, amount, type) {
 
@@ -61,8 +61,8 @@ define(["../../conf/config", "../vendor/handlebars", "text!./views/resultRow.htm
         var sciMetrixList = [];
         var inistList = [];
 
-        var template = handlebars.compile(resultRowTemplate);
-        $("#tableResult").html(template(data));
+        var resultCompile = handlebars.compile(resultTemplate);
+        $("#tableResult").html(resultCompile(data));
 
         $('#nbResFacet').text('');
 
