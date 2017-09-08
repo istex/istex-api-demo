@@ -7,7 +7,6 @@ define(
     "../../conf/config",
     "vendor/handlebars",
     "../results/results",
-    "vendor/jsonview/jquery.jsonview-1.2.3",
     "polyfill"
   ],
   function(config, handlebars, results) {
