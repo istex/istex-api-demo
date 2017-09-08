@@ -1,5 +1,5 @@
 /*!
- * jQuery QueryBuilder 2.3.1
+ * jQuery QueryBuilder 2.4.3
  * Locale: French (fr)
  * Author: Damien "Mistic" Sorel, http://www.strangeplanet.fr
  * Licensed under MIT (http://opensource.org/licenses/MIT)
@@ -71,9 +71,10 @@ QueryBuilder.regional['fr'] = {
     "datetime_exceed_min": "Doit être après {0}",
     "datetime_exceed_max": "Doit être avant {0}",
     "boolean_not_valid": "N'est pas un booléen",
-    "operator_not_multiple": "L'opérateur {0} ne peut utiliser plusieurs valeurs"
+    "operator_not_multiple": "L'opérateur \"{1}\" ne peut utiliser plusieurs valeurs"
   },
-  "invert": "Inverser"
+  "invert": "Inverser",
+  "NOT": "NON"
 };
 
 QueryBuilder.defaults({ lang_code: 'fr' });

@@ -5,7 +5,7 @@
 define(
   [
     "../../conf/config",
-    "vendor/handlebars",
+    "vendor/handlebars-v4.0.10",
     "../results/results",
     "polyfill"
   ],

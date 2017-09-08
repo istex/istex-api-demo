@@ -1,4 +1,4 @@
-define(["../../conf/config", "../vendor/handlebars", "text!./views/inputTemplate.html", "text!./views/tooltipTemplate.html"],
+define(["../../conf/config", "../vendor/handlebars-v4.0.10", "text!./views/inputTemplate.html", "text!./views/tooltipTemplate.html"],
   function(config, handlebars, inputTemplate, tooltipTemplate) {
 
     return {

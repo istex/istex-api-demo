@@ -10,7 +10,7 @@ require.config({
   paths: {
     'text': '../bower_components/requirejs-text/text',
     'json': '../node_modules/requirejs-json/json',
-    'qTip': ['./vendor/jquery.qtip-2.2.1.min.js']
+    'qTip': ['./vendor/jquery.qtip-3.0.3.min.js']
   }
 });
 
@@ -113,7 +113,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
   };
 });
 
-require(["../../conf/config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1.min", 'json!../../conf/mapping.json', 'facets/facets'], function(config, events, queryBuilder, mapping, facets) {
+require(["../../conf/config", "events", "vendor/query-builder.standalone-2.4.3.min", 'json!../../conf/mapping.json', 'facets/facets'], function(config, events, queryBuilder, mapping, facets) {
 
   facets.generate();
 
