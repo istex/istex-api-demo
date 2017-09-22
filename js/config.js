@@ -5,6 +5,7 @@ define(["js/parameters.js"], function(parameters) {
     mimetypeIconNames: {
       "application/zip": "zip",
       "application/pdf": "pdf",
+      "application/json": "json",
       "image/tiff": "tiff",
       "application/xml": "xml",
       "application/mods+xml": "mods",
