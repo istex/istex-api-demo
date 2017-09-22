@@ -1,10 +1,8 @@
 ISTEX-API-DEMO
 =============
-Changements depuis le tag v1.7.0
+Changements depuis le tag v1.7.1
 Correspond à l'API v.
 -------------
- bugfix when one result have an enrichment with empty array value
-ignore *.bkp files
-Suppression des Alias pour les facettes(ex: WOS)
-Changement de comportement des booleans sur la v5
+ prise en compte de l'icone JSON
+ajout image mimetype JSON + template GIMP si besoin de nouveaux icones
 
