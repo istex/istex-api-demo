@@ -18,6 +18,7 @@ html {
 }
 
 
+
 /*
  * Allow only vertical resizing of textareas.
  */
@@ -25,6 +26,7 @@ html {
 textarea {
   resize: vertical;
 }
+
 
 
 /* ==========================================================================
@@ -151,6 +153,7 @@ textarea {
 @brand-istex-violet: #5B59B7;
 @brand-istex-yellow: #FFD965;
 
+
 /* New colors */
 
 .text-istex-blue {
@@ -178,6 +181,7 @@ textarea {
 }
 
 
+
 /* ==========================================================================
    Helpers
    ========================================================================== */
@@ -185,11 +189,13 @@ textarea {
 .vertical-middle {
   vertical-align: middle;
 }
-.inline-block{
+
+.inline-block {
   display: inline-block;
 }
-.generate-inline-push-left(@n, @i: 1) when (@i <= @n){
-  .inline-push-left-@{i}{
+
+.generate-inline-push-left(@n, @i: 1) when (@i <=@n) {
+  .inline-push-left-@{i} {
     margin-left: unit(@i, em);
   }
 
@@ -198,8 +204,8 @@ textarea {
 
 .generate-inline-push-left(4);
 
-.generate-inline-push-right(@n, @i: 1) when (@i <= @n){
-  .inline-push-right-@{i}{
+.generate-inline-push-right(@n, @i: 1) when (@i <=@n) {
+  .inline-push-right-@{i} {
     margin-right: unit(@i, em);
   }
 
@@ -208,8 +214,8 @@ textarea {
 
 .generate-inline-push-right(4);
 
-.generate-inline-push-down(@n, @i: 1) when (@i <= @n){
-  .inline-push-down-@{i}{
+.generate-inline-push-down(@n, @i: 1) when (@i <=@n) {
+  .inline-push-down-@{i} {
     margin-bottom: unit(@i, em);
   }
 
@@ -218,9 +224,10 @@ textarea {
 
 .generate-inline-push-down(4);
 
-.reset-box{
+.reset-box {
   padding: 0 !important;
-  width: auto !important; height: auto !important;
+  width: auto !important;
+  height: auto !important;
 }
 
 // link
@@ -247,6 +254,7 @@ textarea {
   .alert;
   .alert-danger;
 }
+
 
 
 /* ==========================================================================
@@ -277,7 +285,7 @@ textarea {
 
 #request-tooltip-content {
   font-family: "Lucida Console", Monaco, monospace;
-  & > p > mark {
+  &>p>mark {
     padding: 0;
     white-space: nowrap;
   }
@@ -294,17 +302,17 @@ textarea {
   /* Reset de qtip */
   font-size: @font-size-base;
   line-height: @line-height-computed;
-  & > h5 {
+  &>h5 {
     display: inline-block;
     .h4;
     .bg-primary;
   }
-  & > p {
+  &>p {
     font-size: @font-size-small;
   }
-  & > .references {
+  &>.references {
     .small;
-    & > h6 {
+    &>h6 {
       margin-bottom: @line-height-computed / 4;
     }
   }
@@ -319,7 +327,7 @@ textarea {
     &:after {
       content: "...";
     }
-    & > mark {
+    &>mark {
       &[data-ng-bind*="corpus"],
       bg-corpus {
         .bg-corpus;
@@ -433,7 +441,7 @@ textarea {
 
 // Ellpisis
 // @dotdotdot
-#tableResult > tr > td > div > h4 {
+#tableResult>tr>td>div>h4 {
   overflow: hidden !important;
   text-overflow: ellipsis;
   font-weight: bold;
@@ -474,7 +482,8 @@ textarea {
 }
 
 // Enrichments
-.enrichment,.ocr{
+.enrichment,
+.ocr {
   position: relative;
 }
 
@@ -493,7 +502,8 @@ textarea {
   -o-transform: rotate(17deg) scale(0.80) skew(1deg) translate(0px);
   -ms-transform: rotate(17deg) scale(0.80) skew(1deg) translate(0px);
 }
-.ocr-quality{
+
+.ocr-quality {
   .enrichment-type();
   left: auto;
   margin-left: auto;

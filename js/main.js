@@ -113,9 +113,9 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
   };
 });
 
-require(["../../conf/config", "events", "vendor/query-builder.standalone-2.4.3.min", 'json!../../conf/mapping.json', 'facets/facets'], function(config, events, queryBuilder, mapping, facets) {
+require(["../../conf/config", "events", "vendor/query-builder.standalone-2.4.3.min", 'json!../../conf/mapping.json', 'facets/main'], function(config, events, queryBuilder, mapping, facets) {
 
-  facets.generate();
+  facets.initialize();
 
   (function() {
     var err = $.ajax({
