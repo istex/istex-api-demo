@@ -7,14 +7,14 @@
       {{titleClic fulltext title}}
     </h4>
     </div>
-    <div class='col-xs-10'>
+    <div class='col-xs-9'>
       <p class='small abstract'>
         {{abstr abstract}}
       </p>
       <section class="download-links">
         <div class='row'>
           {{#if fulltext}}
-          <div class='col-xs-3'>
+          <div class='col-xs-offset-1 col-xs-2'>
             <div class="inline-block">
               <p class="h4 text-muted text-center">Fulltext</p>
               {{#fulltext ~}}
@@ -60,7 +60,7 @@
             </div>
           </div>
           {{/if}} {{#notEmpty enrichments}}
-          <div class='col-xs-3'>
+          <div class='col-xs-2'>
             <div class="inline-block">
               <p class="h4 text-muted text-center"><a href='{{consolidateEnrichmentsUri}}' target='_blank'>Enrichments</a></p>
               {{enrichmentsList enrichments}}
@@ -85,10 +85,11 @@
         {{/if}}
       </section>
     </div>
-    <div class='col-xs-2'>
+    <div class='col-xs-3'>
       <div class='text-right'>
         <b class='label label-primary'>{{corpusName}}</b>
         <b class='label label-primary'>{{genre}}</b>
+        <b class="label label-success">{{arkLink ark}}</b>
         <div>{{quality "Score : " qualityIndicators.score}}</div>
         <div>{{quality "Mots : " qualityIndicators.pdfWordCount}}</div>
         <div>{{quality "Publication : " publicationDate}}</div>
