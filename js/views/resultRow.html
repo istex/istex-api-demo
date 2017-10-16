@@ -89,7 +89,9 @@
       <div class='text-right'>
         <b class='label label-primary'>{{corpusName}}</b>
         <b class='label label-primary'>{{genre}}</b>
+        {{#if ark}}
         <b class="label label-success">{{arkLink ark}}</b>
+        {{/if}}
         <div>{{quality "Score : " qualityIndicators.score}}</div>
         <div>{{quality "Mots : " qualityIndicators.pdfWordCount}}</div>
         <div>{{quality "Publication : " publicationDate}}</div>
