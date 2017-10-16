@@ -1,8 +1,7 @@
 ISTEX-API-DEMO
 =============
-Changements depuis le tag v1.7.1
-Correspond à l'API v.
+Changements depuis le tag v1.7.2
+Correspond à l'API v.5.1.1
 -------------
- prise en compte de l'icone JSON
-ajout image mimetype JSON + template GIMP si besoin de nouveaux icones
+ Ajout de l'ark si disponible avec lien + mise en forme des résultats + zone requête non éditable
 

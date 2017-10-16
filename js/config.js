@@ -1,7 +1,7 @@
 define(["js/parameters.js"], function(parameters) {
   return {
     apiUrl: parameters[parameters.default_api_url],
-    version: "1.7.2",
+    version: "1.7.3",
     mimetypeIconNames: {
       "application/zip": "zip",
       "application/pdf": "pdf",
