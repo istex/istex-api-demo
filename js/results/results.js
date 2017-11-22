@@ -281,7 +281,7 @@ function addHandlebarsFunctions(handlebars, config) {
     Object.keys(this.enrichments).forEach(function(type) {
       path.push(type);
     });
-    return 'https://api.istex.fr/document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate&sid=istex-api-demo';
+    return config.apiUrl + 'document/' + this.id + '/enrichments/' + path.join(',') + '?consolidate&sid=istex-api-demo';
   });
 
   handlebars.registerHelper('flags', function(language) {
@@ -306,6 +306,10 @@ function addHandlebarsFunctions(handlebars, config) {
 
   handlebars.registerHelper('quality', function(text, qi) {
     return (qi === " ") ? "" : new handlebars.SafeString("<div class='text-right'><b class='label label-info'>" + text + qi + "</b>");
+  });
+
+  handlebars.registerHelper('arkLink', function(ark) {
+    return (ark === " ") ? "" : new handlebars.SafeString("<a style='color:white;' href='" + config.apiUrl + ark + "'>" + ark + "</a>");
   });
 
   handlebars.registerHelper('presence', function(refbib) {

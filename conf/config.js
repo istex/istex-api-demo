@@ -1,10 +1,11 @@
 define(["conf/parameters.js"], function(parameters) {
   return {
     apiUrl: parameters[parameters.default_api_url],
-    version: "1.7.1",
+    version: "1.7.4",
     mimetypeIconNames: {
       "application/zip": "zip",
       "application/pdf": "pdf",
+      "application/json": "json",
       "image/tiff": "tiff",
       "application/xml": "xml",
       "application/mods+xml": "mods",
