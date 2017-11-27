@@ -260,9 +260,22 @@ function getField(field, scopeField, qFragment, ctrlScopeHelper, fields, type, q
         break;
     }
     ctrlScopeHelper[scopeField].query = " AND " + qFragment + ":" + contains;
-    if (quality) ctrlScopeHelper.quality.query += ctrlScopeHelper[scopeField].query;
     fields.push(qFragment + ":" + contains);
+    
+    var htmlToAdd = '<mark>' + ctrlScopeHelper[scopeField].query + '</mark>';
+    // Ajout dans le chunkOut concerné
+    if (quality) {
+      ctrlScopeHelper.quality.query += ctrlScopeHelper[scopeField].query;
+      htmlToAdd = '<mark>' + ctrlScopeHelper.quality.query + '</mark>';
+      scopeField = 'quality';
+    }
+    if (scopeField === 'articleType') {
+      htmlToAdd += '<mark>' + ctrlScopeHelper['publicationType'].query + '</mark>';
+    }
+    $('#' + scopeField + 'ChunkOut p').html(htmlToAdd);
+    $('#' + scopeField + 'ChunkOut').removeClass('hidden');
   } else {
     ctrlScopeHelper[scopeField].query = null;
+    $('#' + scopeField + 'ChunkOut').addClass('hidden');
   }
 }

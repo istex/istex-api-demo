@@ -40,7 +40,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=wos[*]'],
-    chunkOut: ['helper.WOS.query']
+    chunkOut: ['WOSChunkOut']
   }));
 
   $("#corpusTooltip").html(tooltipCompile({
@@ -59,7 +59,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=corpusName[*]'],
-    chunkOut: ['helper.corpus.query']
+    chunkOut: ['corpusChunkOut']
   }));
 
   $("#datePubliTooltip").html(tooltipCompile({
@@ -72,7 +72,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=publicationDate'],
-    chunkOut: ['helper.pubDate.query']
+    chunkOut: ['pubDateChunkOut']
   }));
 
   $("#typePubliTooltip").html(tooltipCompile({
@@ -85,7 +85,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=host.genre[*]>genre[*]'],
-    chunkOut: ['helper.publicationType.query', 'helper.articleType.query']
+    chunkOut: ['articleTypeChunkOut']
   }));
 
   $("#catIniTooltip").html(tooltipCompile({
@@ -102,7 +102,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=categories.inist[*]'],
-    chunkOut: ['helper.sciMetrix.query']
+    chunkOut: ['inistChunkOut']
   }));
 
   $("#catSciTooltip").html(tooltipCompile({
@@ -119,7 +119,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=categories.scienceMetrix[*]'],
-    chunkOut: ['helper.sciMetrix.query']
+    chunkOut: ['sciMetrixChunkOut']
   }));
 
   $("#langTooltip").html(tooltipCompile({
@@ -132,7 +132,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=language[*]'],
-    chunkOut: ['helper.lang.query']
+    chunkOut: ['langChunkOut']
   }));
 
   $("#typeEnrichTooltip").html(tooltipCompile({
@@ -145,7 +145,7 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=enrichments.type[*]'],
-    chunkOut: ['helper.enrichType.query']
+    chunkOut: ['enrichTypeChunkOut']
   }));
 
   $("#qualityTooltip").html(tooltipCompile({
@@ -158,10 +158,6 @@ function tooltipGeneration(tooltipCompile, handlebars, config) {
       }]
     },
     chunkIn: ['&facet=score', '&facet=pdfWordCount', '&facet=pdfCharCount', '&facet=pdfVersion[*]', '&facet=refBibsNative'],
-    chunkOut: ['helper.quality.query']
+    chunkOut: ['qualityChunkOut']
   }));
-
-  // var ctrlScope = angular.element('[ng-controller=istexAppCtrl]').scope();
-  // ctrlScope.safeApply();
-
 }

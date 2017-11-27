@@ -19,6 +19,7 @@ html {
 
 
 
+
 /*
  * Allow only vertical resizing of textareas.
  */
@@ -26,6 +27,7 @@ html {
 textarea {
   resize: vertical;
 }
+
 
 
 
@@ -125,6 +127,18 @@ textarea {
   border: 1px solid gray;
 }
 
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+  border: 1px solid #ccc;
+  background: #ededed;
+  font-weight: normal;
+  color: #2b2b2b;
+}
+
 .ui-slider .ui-slider-range {
   background: none repeat scroll 0 0 gray;
 }
@@ -154,6 +168,7 @@ textarea {
 @brand-istex-yellow: #FFD965;
 
 
+
 /* New colors */
 
 .text-istex-blue {
@@ -179,6 +194,7 @@ textarea {
 .bg-istex-blue {
   .bg-variant(@brand-istex-blue);
 }
+
 
 
 
@@ -254,6 +270,7 @@ textarea {
   .alert;
   .alert-danger;
 }
+
 
 
 
