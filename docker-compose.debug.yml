@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+
+  istex-api-demo:
+    container_name: istex-api-demo
+    image: node:10.0.0
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - DEBUG=1
+      - HTTP_PROXY=${http_proxy}
+      - HTTPS_PROXY=${https_proxy}
+    command: npm run watch
+    ports :
+        -    target: 8080
+             published: 8080
+             protocol: tcp
+             mode: host

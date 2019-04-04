@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+
+  istex-api-demo:
+    container_name: istex-api-demo
+    build:
+            context: .
+            args:
+                - http_proxy
+                - https_proxy
+    environment:
+            - HTTP_PROXY=${http_proxy}
+            - HTTPS_PROXY=${https_proxy}
+            - DEBUG=1
+    ports:
+        - "8080:80"

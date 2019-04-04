@@ -1,10 +1,6 @@
 {
   "license": "ISC",
   "author": "Istex team",
-  "devDependencies": {
-    "less-plugin-clean-css": "^1.5.0",
-    "less": "^2.4.0"
-  },
   "name": "istex-api-demo",
   "version": "1.7.4",
   "keywords": [
@@ -14,18 +10,24 @@
   "main": "index.html",
   "dependencies": {
     "colors": "^1.1.2",
-    "lodash": "^3.9.3",
+    "lodash": "^4.17.11",
     "requirejs-json": "0.0.3"
   },
   "description": "Démonstrateur Istex",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node ./js/postInstall.js",
+    "watch": "serve -l tcp://0.0.0.0:8080",
+    "postversion": "git push && git push --tags",
+    "postinstall": "bower install --allow-root && npx lessc -x ./less/istex/main.less ./css/main.min.css && node ./js/postInstall.js",
     "mapping": "node ./js/takeMapping.js"
+  },
+  "devDependencies": {
+    "bower": "^1.8.8",
+    "less": "^3.9.0",
+    "serve": "^11.0.0"
   },
   "repository": {
     "url": "https://github.com/istex/istex-api-demo.git",
     "type": "git"
   }
 }
-
