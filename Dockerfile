@@ -5,7 +5,9 @@ COPY ./package.json /app/
 RUN npm install
 COPY . /app
 RUN npm install
-RUN npx bower install --allow-root
+RUN npm run build:config
+RUN npm run build:css
+RUN npm run install:bower --unsafe-perm
 
 # use the ngnix server to serve the built stuff
 FROM nginx:1.13.12

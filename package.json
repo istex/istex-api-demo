@@ -18,7 +18,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "serve -l tcp://0.0.0.0:8080",
     "postversion": "git push && git push --tags",
-    "postinstall": "bower install --allow-root && npx lessc -x ./less/istex/main.less ./css/main.min.css && node ./js/postInstall.js",
+    "install:bower": "bower install --allow-root",
+    "build:css": "npx lessc -x ./less/istex/main.less ./css/main.min.css",
+    "build:config": "node ./js/postInstall.js",
     "mapping": "node ./js/takeMapping.js"
   },
   "devDependencies": {
