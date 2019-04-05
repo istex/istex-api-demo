@@ -50,3 +50,4 @@ npm: ## npm wrapper. example: make npm install --save mongodb-querystring
 
 clean: ## remove node_modules
 	@rm -Rf ./node_modules/
+	@rm -Rf ./bower_components/
