@@ -26,7 +26,7 @@ COPY --from=build-deps /app/fonts /app/fonts
 
 RUN echo '{ \
   "httpPort": 80, \
-  "configPath": "/etc/nginx/nginx.conf", \
+  "configPath": "/app/js/parameters.js", \
   "configType": "text", \
   "dataPath":   "/app" \
 }' > /etc/ezmaster.json
