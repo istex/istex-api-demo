@@ -189,6 +189,7 @@ function facetEvents(searchPage, searchPageController) {
   // Facettes autocomplétées
   autocompleteEvents($("#languages"), 'language', 'language', searchPage, searchPageController);
   autocompleteEvents($("#wosCategories"), 'WOS', 'categories.wos', searchPage, searchPageController);
+  autocompleteEvents($("#scopusCategories"), 'scopus', 'categories.scopus', searchPage, searchPageController);
   autocompleteEvents($("#sciMetrixCategories"), 'sciMetrix', 'categories.scienceMetrix', searchPage, searchPageController);
   autocompleteEvents($("#inistCategories"), 'inist', 'categories.inist', searchPage, searchPageController);
 
@@ -239,6 +240,10 @@ function facetEvents(searchPage, searchPageController) {
       case 'Catégorie Science-Metrix':
         searchPageToInsert.facet = 'categories.scienceMetrix[*]';
         $('#catSciFacet').removeClass('hidden');
+        break;
+      case 'Catégorie Scopus':
+        searchPageToInsert.facet = 'categories.scopus[*]';
+        $('#catScoFacet').removeClass('hidden');
         break;
       case 'Catégorie Inist':
         searchPageToInsert.facet = 'categories.inist[*]';

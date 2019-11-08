@@ -73,6 +73,7 @@ define(
       getField(searchPage.genre, 'articleType', 'genre.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.pubdate, 'pubDate', 'publicationDate', ctrlScope.helper, fields, 'range', false);
       getField(searchPage.WOS, 'WOS', 'categories.wos.raw', ctrlScope.helper, fields, 'array', false);
+      getField(searchPage.scopus, 'scopus', 'categories.scopus.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.sciMetrix, 'sciMetrix', 'categories.scienceMetrix.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.inist, 'inist', 'categories.inist.raw', ctrlScope.helper, fields, 'array', false);
       getField(searchPage.language, 'lang', 'language.raw', ctrlScope.helper, fields, 'array', false);
@@ -137,6 +138,7 @@ define(
         "<mark class='bg-subject'>" + (ctrlScope.helper.subject.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-pubDate'>" + (ctrlScope.helper.pubDate.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-wos'>" + (ctrlScope.helper.WOS.query || '') + "</mark>" + softHyphen +
+        "<mark class='bg-scopus'>" + (ctrlScope.helper.scopus.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-lang'>" + (ctrlScope.helper.lang.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-score'>" + (ctrlScope.helper.score.query || '') + "</mark>" + softHyphen +
         "<mark class='bg-pdfWordCount'>" + (ctrlScope.helper.PDFWordCount.query || '') + "</mark>" + softHyphen +

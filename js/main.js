@@ -49,6 +49,7 @@ var search = function(searchPage, searchPageController) {
   searchPageToInsert.PDFVersion = [];
   searchPageToInsert.refBibsNative = [];
   searchPageToInsert.WOS = [];
+  searchPageToInsert.scopus = [];
   searchPageToInsert.sciMetrix = [];
   searchPageToInsert.inist = [];
   searchPageToInsert.language = [];
@@ -74,6 +75,7 @@ istexApp.controller("istexAppCtrl", function($scope, $sce) {
     PDFVersion: {},
     refBibsNative: {},
     WOS: {},
+    scopus: {},
     sciMetrix: {},
     inist: {},
     lang: {},

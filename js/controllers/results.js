@@ -54,11 +54,12 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         // Ajoute les fonctions nécessaires à data
         addHandlebarsFunctions(handlebars, config);
 
-        var lang, wos, sciMetrix, pubType, artType, obj;
+        var lang, wos, scopus, sciMetrix, pubType, artType, obj;
         var pubTypeList = [];
         var languageList = [];
         var wosList = [];
         var sciMetrixList = [];
+        var scopusList = [];
         var inistList = [];
 
         var template = handlebars.compile(resultRowTemplate);
@@ -122,17 +123,27 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
             }
             generateAutocompleteFacet($("#wosCategories"), wosList, 'categories.wos', data);
             break;
-          case ('categories.scienceMetrix[*]'):
-            $('#sciMetrixCategories').val('');
-            for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
-              obj = {};
-              obj.desc = sciMetrix.docCount + ' documents';
-              obj.label = sciMetrix.key;
-              sciMetrixList.push(obj);
-            }
-            generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, 'categories.scienceMetrix', data);
-            break;
-          case ('categories.inist[*]'):
+            case ('categories.scienceMetrix[*]'):
+              $('#sciMetrixCategories').val('');
+              for (sciMetrix of data.aggregations['categories.scienceMetrix'].buckets) {
+                obj = {};
+                obj.desc = sciMetrix.docCount + ' documents';
+                obj.label = sciMetrix.key;
+                sciMetrixList.push(obj);
+              }
+              generateAutocompleteFacet($("#sciMetrixCategories"), sciMetrixList, 'categories.scienceMetrix', data);
+              break;
+            case ('categories.scopus[*]'):
+              $('#scopusCategories').val('');
+              for (scopus of data.aggregations['categories.scopus'].buckets) {
+                obj = {};
+                obj.desc = scopus.docCount + ' documents';
+                obj.label = scopus.key;
+                scopusList.push(obj);
+              }
+              generateAutocompleteFacet($("#scopusCategories"), scopusList, 'categories.scopus', data);
+              break;
+            case ('categories.inist[*]'):
             $('#inistCategories').val('');
             for (inist of data.aggregations['categories.inist'].buckets) {
               obj = {};

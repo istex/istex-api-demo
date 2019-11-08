@@ -1,5 +1,5 @@
-<h5>Catégorie(s) Inist</h5>
-<p>Cette facette permet de préciser la <b class="text-primary">catégorie Inist</b> sur laquelle porte la requête.</p>
+<h5>Catégorie(s) Scopus</h5>
+<p>Cette facette permet de préciser la <b class="text-primary">catégorie Scopus</b> (Elsevier) sur laquelle porte la requête.</p>
 <p class="alert alert-info"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Les choix proposés par les facettes dépendent de vos critères de recherche et de recherche avancée</p>
 <div class="references">
   <h6>
@@ -24,8 +24,8 @@
         </h6>
   <ul>
     <li>
-      <a class="link-external" target="_blank" href="http://inist-category.lod.istex.fr">
-              Site officiel des catégories Inist
+      <a class="link-external" target="_blank" href="https://service.elsevier.com/app/answers/detail/a_id/15181/supporthub/scopus/">
+              Liste des catégories Scorpus sur le site officiel d'Elsevier
             </a>
     </li>
   </ul>
@@ -34,13 +34,13 @@
   <hr>
   <h6 class="h5">Morceau de la requête générant la facette: </h6>
   <p class="query-chunk">
-    <mark class="bg-facets">&facet=categories.inist[*]</mark>
+    <mark class="bg-facets">&facet=categories.scopus[100]</mark>
   </p>
 </div>
-<div data-ng-if="helper.inist.query">
+<div data-ng-if="helper.scopus.query">
   <hr>
   <h6 class="h5">Morceau de la requête généré par la facette: </h6>
   <p class="query-chunk">
-    <mark data-ng-bind="helper.inist.query"></mark>
+    <mark data-ng-bind="helper.scopus.query"></mark>
   </p>
 </div>
