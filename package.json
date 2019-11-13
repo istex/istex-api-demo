@@ -11,7 +11,8 @@
   "dependencies": {
     "colors": "^1.1.2",
     "lodash": "^4.17.11",
-    "requirejs-json": "0.0.3"
+    "requirejs-json": "0.0.3",
+    "requirejs-text": "^2.0.15"
   },
   "description": "Démonstrateur Istex",
   "scripts": {

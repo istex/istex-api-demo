@@ -8,7 +8,7 @@ var globalSearchPage = {},
 require.config({
   baseUrl: 'js/',
   paths: {
-    'text': '../bower_components/requirejs-text/text',
+    'text': '../node_modules/requirejs-text/text',
     'json': '../node_modules/requirejs-json/json',
     'qTip': ['./vendor/jquery.qtip-2.2.1.min.js']
   }
