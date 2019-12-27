@@ -202,6 +202,16 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
 
   $(document).ready(function() {
 
+    // Load the ISTEX web header
+
+    //if($ && $.browser && !$.browser.firefox){
+      var script    = document.createElement('script');
+      script.src    = '//web-header.delivery.istex.fr/bundle.js';
+      script.id = 'iwh_script';
+      script.type = 'text/javascript';
+
+      document.head.appendChild(script);
+    //}
     if (!localStorage['skipDemo']) {
       $("#welcomeModal").modal('show');
     }

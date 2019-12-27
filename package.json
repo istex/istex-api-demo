@@ -11,11 +11,13 @@
   "dependencies": {
     "colors": "^1.1.2",
     "lodash": "^4.17.13",
+    "node-static": "^0.7.11",
     "requirejs-json": "0.0.3",
     "requirejs-text": "^2.0.15"
   },
   "description": "Démonstrateur Istex",
   "scripts": {
+    "start": "npx static",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "serve -l tcp://0.0.0.0:8080",
     "postversion": "git push && git push --tags",

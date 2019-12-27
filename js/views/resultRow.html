@@ -89,6 +89,9 @@
       <div class='text-right'>
         <b class='label label-primary'>{{corpusName}}</b>
         <b class='label label-primary'>{{genre}}</b>
+        {{#if host.title}}
+        <b class="label label-primary">{{host.title}}</b>
+        {{/if}}
         {{#if ark}}
         <b class="label label-success">{{arkLink ark}}</b>
         {{/if}}
