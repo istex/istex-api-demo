@@ -86,11 +86,11 @@
       </section>
     </div>
     <div class='col-xs-3'>
-      <div class='text-right'>
+      <div class='text-right' style='overflow:hidden !important;text-overflow: ellipsis;color: #fff'>
         <b class='label label-primary'>{{corpusName}}</b>
         <b class='label label-primary'>{{genre}}</b>
         {{#if host.title}}
-        <b class="label label-primary">{{host.title}}</b>
+         <b class="label label-primary host-title" title="{{host.title}}" style="cursor:help">{{host.title}}</b>
         {{/if}}
         {{#if ark}}
         <b class="label label-success">{{arkLink ark}}</b>

@@ -322,7 +322,7 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
       }, 'html');
 
       /**
-       * ellipse sur les abstracts et titles
+       * ellipse sur les abstracts
        */
       var $tableResult = $("#tableResult"),
         dotdotdotConfig = {
