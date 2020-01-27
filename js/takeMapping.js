@@ -9,42 +9,48 @@ var _ = require('lodash');
 
 // En cas de non récupération du mapping, on garde un minimum
 var finalMapping = {
-  'corpusName': 'select',
-  'title': 'string',
-  'author.name': 'string',
+  'corpusName'   : 'select',
+  'title'        : 'string',
+  'author.name'  : 'string',
   'subject.value': 'string'
 };
 
 var fieldsToOmit = [
-'host.pmid',
-'host.sici',
-'host.subject.lang',
-'serie.eisbn',
-'serie.isbn',
-'serie.issue.raw',
-'serie.journalId',
-'serie.pages.first',
-'serie.pages.last',
-'serie.pages.total',
-'serie.pii',
-'serie.pmid',
-'serie.sici',
-'serie.subject.lang',
-'serie.subject.value',
-'serie.volume',
-'refBibs.issn',
-'refBibs.isbn',
-'refBibs.issue',
-'refBibs.volume',
-'refBibs.host.author.affiliations',
-'refBibs.host.doi',
-'refBibs.serie.doi',
-'refBibs.serie.isbn',
-'refBibs.serie.issn',
-'refBibs.serie.issue',
-'refBibs.serie.pages.first',
-'refBibs.serie.pages.last',
-'refBibs.serie.volume'
+  'enrichments.nerd.mimetype',
+  'enrichments.nerd.orginal',
+  'namedEntities.nerd',
+  'namedEntities.unitex',
+  'eissn',
+  'eisbn',
+  'host.pmid',
+  'host.sici',
+  'host.subject.lang',
+  'serie.eisbn',
+  'serie.isbn',
+  'serie.issue.raw',
+  'serie.journalId',
+  'serie.pages.first',
+  'serie.pages.last',
+  'serie.pages.total',
+  'serie.pii',
+  'serie.pmid',
+  'serie.sici',
+  'serie.subject.lang',
+  'serie.subject.value',
+  'serie.volume',
+  'refBibs.issn',
+  'refBibs.isbn',
+  'refBibs.issue',
+  'refBibs.volume',
+  'refBibs.host.author.affiliations',
+  'refBibs.host.doi',
+  'refBibs.serie.doi',
+  'refBibs.serie.isbn',
+  'refBibs.serie.issn',
+  'refBibs.serie.issue',
+  'refBibs.serie.pages.first',
+  'refBibs.serie.pages.last',
+  'refBibs.serie.volume'
 ];
 
 console.log('Récupération du mapping...');
@@ -54,9 +60,9 @@ var raw = cp.execSync('curl -XGET ' + apiUrl + '/mapping', {
 console.log('Mapping récupéré...');
 try {
 
-  var jsonMapping = _.omit(JSON.parse(raw),fieldsToOmit);
+  var jsonMapping = _.omit(JSON.parse(raw), fieldsToOmit);
 
-  function recursiveMapping(raw, road, finalMapping) {
+  function recursiveMapping (raw, road, finalMapping) {
     var keys = Object.keys(raw);
     for (var i = 0; i < keys.length; i++) {
       if (keys[i] !== 'corpusName') {
