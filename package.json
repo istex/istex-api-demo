@@ -2,7 +2,7 @@
   "license": "CeCILL",
   "author": "Istex team",
   "name": "istex-api-demo",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "keywords": [
     "Istex",
     "API"
@@ -36,4 +36,3 @@
     "type": "git"
   }
 }
-
