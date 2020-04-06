@@ -31,11 +31,12 @@ define(["js/parameters.js"], function(parameters) {
       "arm": "arménien",
       "bel": "biélorusse",
       "ber": "berbères, langues",
+      "bul": "bulgare",
       "cat": "catalan; valencien",
       "chi": "chinois",
       "cze": "tchèque",
       "dan": "danois",
-      "deu": "allemand",
+      "ger": "allemand",
       "dut": "néerlandais; flamand",
       "egy": "égyptien",
       "eng": "anglais",
@@ -123,6 +124,6 @@ define(["js/parameters.js"], function(parameters) {
       "zul": "zoulou",
       "zxx": "pas d'information linguistique"
     },
-    flags: ['chi', 'cze', 'deu', 'dut', 'eng', 'fin', 'fre', 'gle', 'gre', 'hun', 'ita', 'jpn', 'per', 'pol', 'por', 'rus', 'sco', 'spa', 'wel']
+    flags: ['chi', 'cze', 'ger', 'dut', 'eng', 'fin', 'fre', 'gle', 'gre', 'hun', 'ita', 'jpn', 'per', 'pol', 'por', 'rus', 'sco', 'spa', 'wel', 'lit', 'swe', 'nor', 'dan','tur','bul','est','lav','rum']
   };
 });
