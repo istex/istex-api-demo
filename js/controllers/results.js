@@ -304,12 +304,13 @@ function addHandlebarsFunctions(handlebars, config) {
   });
 
   handlebars.registerHelper('titleClic', function(fulltext, title) {
+    const titleString = (title && title !== '') ? title : "Document sans titre";
     for (let ft of fulltext) {
       if (ft.mimetype == "application/pdf") {
-        return new handlebars.SafeString("<a href=\"" + ft.uri + "?sid=istex-api-demo\" target=\"_blank\">" + title + "</a>");
+        return new handlebars.SafeString("<a href=\"" + ft.uri + "?sid=istex-api-demo\" target=\"_blank\">" + titleString + "</a>");
       }
     }
-    return title;
+    return titleString;
   });
   handlebars.registerHelper('fixQuality', function(rate) {
     return rate.toFixed(2);
