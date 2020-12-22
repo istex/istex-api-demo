@@ -13,13 +13,14 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         minDate = parseInt(data.aggregations[field].buckets[0].fromAsString, 10);
         maxDate = parseInt(data.aggregations[field].buckets[0].toAsString, 10);
       }
-
-      $(slider).slider({
+      let sliderOptions = {
         range: true,
         min: minDate,
         max: maxDate,
         values: [minDate, maxDate]
-      });
+      };
+      if (type === 'float') sliderOptions.step = Math.max(0.001,(maxDate-minDate)/100);
+      $(slider).slider(sliderOptions);
       $(amount).val($(slider).slider("values", 0) +
         " à " + $(slider).slider("values", 1));
     },

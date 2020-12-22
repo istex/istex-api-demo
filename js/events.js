@@ -91,7 +91,7 @@ function recursiveConstructor(condition, rules) {
           queryPart += beginWith + ':(*' + qp.value + endWith;
           break;
         case 'greater':
-          queryPart += qp.id + ':[' + qp.value + ' TO *] ' + condition + ' ';
+          queryPart += qp.id + ':[' + qp.value + '  *] ' + condition + ' ';
           break;
         case 'less':
           queryPart += qp.id + ':[* TO ' + qp.value + '] ' + condition + ' ';
@@ -306,7 +306,7 @@ function sliderEvents(tag, tagAmount, field, name, searchPage, searchPageControl
     searchPageToInsert = $.extend(true, {}, searchPageHistory[searchPageHistory.length - 1]);
 
     searchPageToInsert[field] = [];
-    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "}";
+    var value = "[" + ui.values[0] + " TO " + ui.values[1] + "]";
     searchPageToInsert[field].push(value);
 
     $("#refineRoad").append('<li><a href="#">' + name + ':' + value + '</a></li>');
