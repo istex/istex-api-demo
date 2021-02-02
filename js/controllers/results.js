@@ -19,7 +19,7 @@ define(["config", "vendor/handlebars", "text!views/resultRow.html"], function(co
         max: maxDate,
         values: [minDate, maxDate]
       };
-      if (type === 'float') sliderOptions.step = Math.max(0.001,(maxDate-minDate)/100);
+      if (type === 'float') sliderOptions.step = 0.001;
       $(slider).slider(sliderOptions);
       $(amount).val($(slider).slider("values", 0) +
         " à " + $(slider).slider("values", 1));
