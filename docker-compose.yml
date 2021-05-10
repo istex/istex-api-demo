@@ -4,7 +4,7 @@ services:
 
   istex-api-demo:
     container_name: istex-api-demo
-    image: istex/istex-api-demo:1.8.5
+    image: istex/istex-api-demo:1.9.0
     build:
             context: .
             args:
