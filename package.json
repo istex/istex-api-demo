@@ -10,7 +10,7 @@
   "main": "index.html",
   "dependencies": {
     "colors": "^1.1.2",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.21",
     "node-static": "^0.7.11",
     "requirejs-json": "0.0.3",
     "requirejs-text": "^2.0.15"
