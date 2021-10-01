@@ -193,11 +193,6 @@ require(["config", "events", "vendor/queryBuilder/query-builder.standalone-2.3.1
         }
       }
     });
-
-    window.setTimeout(function() {
-      console.log('/corpus : ' + JSON.stringify(err));
-      console.log('/properties : ' + JSON.stringify(cacheClear));
-    }, 60000);
   }());
 
   $(document).ready(function() {
