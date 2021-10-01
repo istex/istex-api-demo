@@ -332,6 +332,8 @@ function addHandlebarsFunctions(handlebars, config) {
       return "Recherchées via GROBID";
     }
   });
+
+  handlebars.registerHelper('ifEquals', (v1, v2, options) => (v1 === v2) ? options.fn(this) : options.inverse(this));
 }
 
 function generateTermsFacet(facetName, keys, tag, nbTag, data, handlebars) {
