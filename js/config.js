@@ -11,7 +11,7 @@ define(["js/parameters.js"], function(parameters) {
       "application/mods+xml": "mods",
       "application/tei+xml": "tei",
       "text/plain": "txt",
-      "text/cleaned": "cleaned",
+      "text/cleaned": "txt",
       "image/jpeg": "jpg",
       "text/ocr": "ocr",
       "image/gif": "gif",

@@ -22,6 +22,9 @@
                 {{#if quality}}
                   <i class="ocr-quality">{{fixQuality quality.rate}}%</i>
                 {{/if}}
+                {{#ifEquals mimetype "text/cleaned"}}
+                  <i class="cleaned">cleaned</i>
+                {{/ifEquals}}
                 <img src='img/mimetypes/{{mimetypeIconName mimetype}}.png' title="{{mimetype}}">
               </a> {{~/fulltext}}
             </div>
