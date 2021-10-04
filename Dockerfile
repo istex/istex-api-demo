@@ -7,6 +7,7 @@ COPY . /app
 RUN npm install
 RUN npm run build:config
 RUN npm run build:css
+RUN npm run mapping
 RUN npm run install:bower --unsafe-perm
 
 # use the ngnix server to serve the built stuff
